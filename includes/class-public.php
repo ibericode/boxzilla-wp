@@ -6,8 +6,15 @@ if( ! defined( 'STB::VERSION' ) ) {
 }
 
 class STB_Public {
+
+	/**
+	 * @var array
+	 */
 	private $matched_box_ids = array();
 
+	/**
+	 * Constructor
+	 */
 	public function __construct() {
 		add_action( 'wp', array( $this, 'filter_boxes' ) );
 		add_action( 'init', array( $this, 'register_scripts' ) );
@@ -80,6 +87,14 @@ class STB_Public {
 				}
 			}
 
+			/**
+			 * @filter stb_show_box
+			 * @expects bool
+			 * @param int $box_id
+			 *
+			 * Use to run some custom logic whether to show a box or not.
+			 * Return true if box should be shown.
+			 */
 			$matched = apply_filters('stb_show_box', $matched, $box_id);
 
 			// if matched, box should be loaded on this page
@@ -96,13 +111,13 @@ class STB_Public {
 	*/
 	public function register_scripts() {
 
-		$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '.js' : '.min.js';
+		$pre_suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 		// stylesheets
-		wp_register_style( 'scroll-triggered-boxes', STB::$url . 'assets/css/styles.css', array(), STB::VERSION );
+		wp_register_style( 'scroll-triggered-boxes', STB::$url . 'assets/css/styles' . $pre_suffix . '.css', array(), STB::VERSION );
 
 		// scripts
-		wp_register_script( 'scroll-triggered-boxes', STB::$url . 'assets/js/script' . $suffix , array( 'jquery' ), STB::VERSION, true );
+		wp_register_script( 'scroll-triggered-boxes', STB::$url . 'assets/js/script' . $pre_suffix . '.js' , array( 'jquery' ), STB::VERSION, true );
 	}
 
 	/**

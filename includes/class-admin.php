@@ -17,8 +17,6 @@ class STB_Admin {
 		$this->plugin_file = plugin_basename( STB::FILE );
 
 		// action hooks
-		add_action( 'init', array( $this, 'load_textdomain' ) );
-
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'load_assets' ) );
 
@@ -33,12 +31,7 @@ class STB_Admin {
 		add_filter( 'tiny_mce_before_init', array($this, 'tinymce_init') );
 	}
 
-	/**
-	 * Load the plugin textdomain
-	 */
-	public function load_textdomain() {
-		load_plugin_textdomain( 'scroll-triggered-boxes', false, STB::$dir . '/languages/' );
-	}
+
 	
 	public function tinymce_init($args) {
 
@@ -52,15 +45,19 @@ class STB_Admin {
 	}
 
 	public function load_assets() {
+
+		// only load on "edit box" pages
 		if ( get_post_type() !== 'scroll-triggered-box' ) {
 			return;
 		}
 
+		$pre_suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+
 		// load stylesheets
-		wp_enqueue_style( 'scroll-triggered-boxes', STB::$url . 'assets/css/admin-styles.css', array( 'wp-color-picker' ), STB::VERSION );
+		wp_enqueue_style( 'scroll-triggered-boxes', STB::$url . 'assets/css/admin-styles' . $pre_suffix . '.css', array( 'wp-color-picker' ), STB::VERSION );
 
 		// load scripts
-		wp_enqueue_script( 'scroll-triggered-boxes', STB::$url . 'assets/js/admin-script.js', array( 'jquery', 'wp-color-picker' ), STB::VERSION, true );
+		wp_enqueue_script( 'scroll-triggered-boxes', STB::$url . 'assets/js/admin-script' . $pre_suffix . '.js', array( 'jquery', 'wp-color-picker' ), STB::VERSION, true );
 	}
 
 	public function add_meta_boxes() {
