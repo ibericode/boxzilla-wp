@@ -4,7 +4,7 @@ Donate link: http://dannyvankooten.com/donate/
 Tags: scroll triggered box, cta, social, newsletter, call to action, mailchimp, contact form 7, social media
 Requires at least: 3.7
 Tested up to: 3.9.1
-Stable tag: 1.2.2
+Stable tag: 1.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -58,6 +58,7 @@ If you have created your own language pack (or have an update of an existing one
 
 - More information about the [Scroll Triggered Boxes plugin for WordPress](http://dannyvankooten.com/wordpress-plugins/scroll-triggered-boxes/)
 - Have a look at some other [WordPress plugins](http://dannyvankooten.com/wordpress-plugins/) by [Danny van Kooten](http://dannyvankooten.com/).
+- Contribute to the [Scroll Triggered Boxes plugin on GitHub](https://github.com/dannyvankooten/scroll-triggered-boxes-for-wordpress).
 
 == Frequently Asked Questions ==
 
@@ -171,6 +172,18 @@ Have a look at the [frequently asked questions](http://wordpress.org/plugins/scr
 Some more screenshots can be found at the [Scroll Triggered Boxes plugin page on my website](http://dannyvankooten.com/wordpress-plugins/scroll-triggered-boxes/).
 
 == Changelog ==
+
+= 1.3 - July 30, 2014 =
+
+**Improvements**
+
+- Various code improvements
+- Minified all assets (scripts and styles)
+- You can now contribute to the [Scroll Triggered Boxes plugin on GitHub](https://github.com/dannyvankooten/scroll-triggered-boxes-for-wordpress).
+
+**Additions**
+
+- Add "bottom center" and "top center" position options
 
 = 1.2.2 - July 7, 2014 =
 
