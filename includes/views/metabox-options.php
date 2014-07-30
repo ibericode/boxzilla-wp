@@ -6,6 +6,35 @@ if( ! defined( 'STB::VERSION' ) ) {
 } ?>
 <h2 class="no-top-margin"><?php _e( 'Scroll Triggered Box Options', 'scroll-triggered-boxes' ); ?></h2>
 
+<h3 class="stb-title"><?php _e( 'Appearance', 'scroll-triggered-boxes' ); ?></h3>
+<table class="form-table">
+	<tr valign="top">
+		<td>
+			<label class="stb-label" for="stb-background-color"><?php _e( 'Background color', 'scroll-triggered-boxes' ); ?></label>
+			<input id="stb-background-color" name="stb[css][background_color]" type="text" class="stb-color-field" value="<?php echo esc_attr($opts['css']['background_color']); ?>" />
+		</td>
+		<td>
+			<label class="stb-label" for="stb-color"><?php _e( 'Text color', 'scroll-triggered-boxes' ); ?></label>
+			<input id="stb-color" name="stb[css][color]" type="text" class="stb-color-field" value="<?php echo esc_attr($opts['css']['color']); ?>" />
+		</td>
+		<td>
+			<label class="stb-label" for="stb-width"><?php _e( 'Box width', 'scroll-triggered-boxes' ); ?></label>
+			<input id="stb-width" name="stb[css][width]" id="stb-box-width" type="number" min="0" max="1600" value="<?php echo esc_attr($opts['css']['width']); ?>" />
+		</td>
+	</tr>
+	<tr valign="top">
+		<td>
+			<label class="stb-label" for="stb-border-color"><?php _e( 'Border color', 'scroll-triggered-boxes' ); ?></label>
+			<input name="stb[css][border_color]" id="stb-border-color" type="text" class="stb-color-field" value="<?php echo esc_attr($opts['css']['border_color']); ?>" />
+		</td>
+		<td>
+			<label class="stb-label" for="stb-border-width"><?php _e( 'Border width', 'scroll-triggered-boxes' ); ?></label>
+			<input name="stb[css][border_width]" id="stb-border-width" type="number" min="0" max="25" value="<?php echo esc_attr($opts['css']['border_width']); ?>" />
+		</td>
+		<td></td>
+	</tr>
+</table>
+
 <h3 class="stb-title"><?php _e( 'Display Options', 'scroll-triggered-boxes' ); ?></h3>
 <table class="form-table">
 	<?php 
@@ -28,7 +57,7 @@ if( ! defined( 'STB::VERSION' ) ) {
 				</select>
 			</td>
 			<td>
-				<input class="stb-rule-value widefat" name="stb[rules][<?php echo $key; ?>][value]" type="text" value="<?php echo esc_attr($rule['value']); ?>" placeholder="<?php _e( 'Leave empty for any or enter (comma-separated) names or ID\'s', 'scroll-triggered-boxes' ); ?>" <?php if($rule['condition'] == 'everywhere') { echo 'style="display: none;"'; } ?> />
+				<input class="stb-rule-value widefat" name="stb[rules][<?php echo $key; ?>][value]" type="text" value="<?php echo esc_attr($rule['value']); ?>" placeholder="<?php _e( 'Leave empty for any or enter (comma-separated) names or ID\'s', 'scroll-triggered-boxes' ); ?>" <?php if( $rule['condition'] == 'everywhere' ) { echo 'style="display: none;"'; } ?> />
 			</td>
 			<td class="stb-xsm" width="1"><span class="stb-close stb-remove-rule">×</span></td>
 		</tr>
@@ -46,8 +75,10 @@ if( ! defined( 'STB::VERSION' ) ) {
 		<td>
 			<select id="stb_position" name="stb[css][position]" class="widefat">
 				<option value="top-left" <?php selected($opts['css']['position'], 'top-left'); ?>><?php _e( 'Top Left', 'scroll-triggered-boxes' ); ?></option>
+				<option value="top-center" <?php selected($opts['css']['position'], 'top-center'); ?>><?php _e( 'Top Center', 'scroll-triggered-boxes' ); ?></option>
 				<option value="top-right" <?php selected($opts['css']['position'], 'top-right'); ?>><?php _e( 'Top Right', 'scroll-triggered-boxes' ); ?></option>
 				<option value="bottom-left" <?php selected($opts['css']['position'], 'bottom-left'); ?>><?php _e( 'Bottom Left', 'scroll-triggered-boxes' ); ?></option>
+				<option value="bottom-center" <?php selected($opts['css']['position'], 'bottom-center'); ?>><?php _e( 'Bottom Center', 'scroll-triggered-boxes' ); ?></option>
 				<option value="bottom-right" <?php selected($opts['css']['position'], 'bottom-right'); ?>><?php _e( 'Bottom Right', 'scroll-triggered-boxes' ); ?></option>
 			</select>
 		</td>
@@ -105,33 +136,6 @@ if( ! defined( 'STB::VERSION' ) ) {
 	</tr>
 </table>
 
-<h3 class="stb-title"><?php _e( 'Appearance', 'scroll-triggered-boxes' ); ?></h3>
-<table class="form-table">
-	<tr valign="top">
-		<td>
-			<label class="stb-label" for="stb-background-color"><?php _e( 'Background color', 'scroll-triggered-boxes' ); ?></label>
-			<input id="stb-background-color" name="stb[css][background_color]" type="text" class="stb-color-field" value="<?php echo esc_attr($opts['css']['background_color']); ?>" />
-		</td>
-		<td>
-			<label class="stb-label" for="stb-color"><?php _e( 'Text color', 'scroll-triggered-boxes' ); ?></label>
-			<input id="stb-color" name="stb[css][color]" type="text" class="stb-color-field" value="<?php echo esc_attr($opts['css']['color']); ?>" />
-		</td>
-		<td>
-			<label class="stb-label" for="stb-width"><?php _e( 'Box width', 'scroll-triggered-boxes' ); ?></label>
-			<input id="stb-width" name="stb[css][width]" id="stb-box-width" type="number" min="0" max="1600" value="<?php echo esc_attr($opts['css']['width']); ?>" />
-		</td>
-	</tr>
-	<tr valign="top">
-		<td>
-			<label class="stb-label" for="stb-border-color"><?php _e( 'Border color', 'scroll-triggered-boxes' ); ?></label>
-			<input name="stb[css][border_color]" id="stb-border-color" type="text" class="stb-color-field" value="<?php echo esc_attr($opts['css']['border_color']); ?>" />
-		</td>
-		<td>
-			<label class="stb-label" for="stb-border-width"><?php _e( 'Border width', 'scroll-triggered-boxes' ); ?></label>
-			<input name="stb[css][border_width]" id="stb-border-width" type="number" min="0" max="25" value="<?php echo esc_attr($opts['css']['border_width']); ?>" />
-		</td>
-		<td></td>
-	</tr>
-</table>
+
 
 <?php wp_nonce_field( 'stb_options', 'stb_options_nonce' ); ?>

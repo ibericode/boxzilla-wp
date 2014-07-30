@@ -2,8 +2,7 @@ STB = (function($) {
 	// prevent jumping of body
 	$("body").css('overflow-y', 'scroll');
 
-	// remove postbox classes and make sure options are visible
-	$("#stb-options").removeClass('postbox closed').find('.handlediv, .hndle').remove();
+	// make sure options are visible
 	$("#stb-options .inside").show();
 
 	// events

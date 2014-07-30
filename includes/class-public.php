@@ -34,9 +34,12 @@ class STB_Public {
 	* @uses `wp` hook
 	*/
 	public function filter_boxes() {
-		$rules = get_option( 'stb_rules' );
 
-		if ( !$rules ) { return; }
+		$rules = get_option( 'stb_rules', false );
+
+		if ( ! is_array( $rules ) ) {
+			return;
+		}
 
 		foreach ( $rules as $box_id => $box_rules ) {
 
@@ -153,13 +156,21 @@ class STB_Public {
 
 			// run filters
 			$content = apply_filters( 'stb_content', $content, $box );
+
+			/**
+			 * @filter stb_auto_hide_small_screens
+			 * @expects bool
+			 * @param int $box_id
+			 *
+			 * Use to set whether the box should auto-hide on devices with a width smaller than 480px
+			 */
 			$auto_hide_small_screens = apply_filters('stb_auto_hide_small_screens', true, $box->ID );
 ?>
 			<style type="text/css">
 				#stb-<?php echo $box->ID; ?> {
-					background: <?php echo ( !empty( $css['background_color'] ) ) ? $css['background_color'] : 'white'; ?>;
-					<?php if ( !empty( $css['color'] ) ) { ?>color: <?php echo $css['color']; ?>;<?php } ?>
-					<?php if ( !empty( $css['border_color'] ) && !empty( $css['border_width'] ) ) { ?>border: <?php echo $css['border_width'] . 'px' ?> solid <?php echo $css['border_color']; ?>;<?php } ?>
+					background: <?php echo ( ! empty( $css['background_color'] ) ) ? esc_html( $css['background_color'] ) : 'white'; ?>;
+					<?php if ( !empty( $css['color'] ) ) { ?>color: <?php echo esc_html( $css['color'] ); ?>;<?php } ?>
+					<?php if ( !empty( $css['border_color'] ) && ! empty( $css['border_width'] ) ) { ?>border: <?php echo esc_html( $css['border_width'] ) . 'px' ?> solid <?php echo esc_html( $css['border_color'] ); ?>;<?php } ?>
 					max-width: <?php echo ( !empty( $css['width'] ) ) ? absint( $css['width'] ) . 'px': 'auto'; ?>;
 				}
 
@@ -169,13 +180,15 @@ class STB_Public {
 					}
 				<?php } ?>
 			</style>
-			<div class="scroll-triggered-box stb stb-<?php echo esc_attr( $opts['css']['position'] ); ?>" id="stb-<?php echo $box->ID; ?>" style="display: none;" <?php
-			?> data-box-id="<?php echo esc_attr( $box->ID ); ?>" data-trigger="<?php echo esc_attr( $opts['trigger'] ); ?>"
-			 data-trigger-percentage="<?php echo esc_attr( absint( $opts['trigger_percentage'] ) ); ?>" data-trigger-element="<?php echo esc_attr( $opts['trigger_element'] ); ?>" 
-			 data-animation="<?php echo esc_attr($opts['animation']); ?>" data-cookie="<?php echo esc_attr( absint ( $opts['cookie'] ) ); ?>" data-test-mode="<?php echo esc_attr($opts['test_mode']); ?>" 
-			 data-auto-hide="<?php echo esc_attr($opts['auto_hide']); ?>">
-				<div class="stb-content"><?php echo $content; ?></div>
-				<span class="stb-close">&times;</span>
+			<div class="stb-container stb-<?php echo esc_attr( $opts['css']['position'] ); ?>-container">
+				<div class="scroll-triggered-box stb stb-<?php echo esc_attr( $opts['css']['position'] ); ?>" id="stb-<?php echo $box->ID; ?>" style="display: none;" <?php
+				?> data-box-id="<?php echo esc_attr( $box->ID ); ?>" data-trigger="<?php echo esc_attr( $opts['trigger'] ); ?>"
+				 data-trigger-percentage="<?php echo esc_attr( absint( $opts['trigger_percentage'] ) ); ?>" data-trigger-element="<?php echo esc_attr( $opts['trigger_element'] ); ?>"
+				 data-animation="<?php echo esc_attr($opts['animation']); ?>" data-cookie="<?php echo esc_attr( absint ( $opts['cookie'] ) ); ?>" data-test-mode="<?php echo esc_attr($opts['test_mode']); ?>"
+				 data-auto-hide="<?php echo esc_attr($opts['auto_hide']); ?>">
+					<div class="stb-content"><?php echo $content; ?></div>
+					<span class="stb-close">&times;</span>
+				</div>
 			</div>
 			<?php
 		}

@@ -116,7 +116,8 @@ class STB_Admin {
 	/**
 	* Saves box options and rules
 	*/
-	public function save_meta_options( $post_id ) {		
+	public function save_meta_options( $post_id ) {
+
 		// Verify that the nonce is set and valid.
 		if ( !isset( $_POST['stb_options_nonce'] ) || ! wp_verify_nonce( $_POST['stb_options_nonce'], 'stb_options' ) ) {
 			return $post_id;
@@ -127,14 +128,11 @@ class STB_Admin {
 			return $post_id;
 		}
 
-		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-        	return $post_id;
-		}
-
     	if ( defined( 'DOING_CRON' ) && DOING_CRON ) {
        	 	return $post_id;
     	}
 
+		// is this a revision save?
     	if ( wp_is_post_revision( $post_id ) ) {
         	return $post_id; 
     	}
@@ -144,9 +142,21 @@ class STB_Admin {
 			return $post_id;
 		}
 
-		$post = get_post( $post_id );
 		$opts = $_POST['stb'];
 		unset( $_POST['stb'] );
+
+		// sanitize rules
+		if( is_array( $opts['rules'] ) ) {
+			foreach( $opts['rules'] as $key => $rule ) {
+
+				// set value to 0 when condition is everywhere
+				if( $rule['condition'] === 'everywhere' ) {
+					$opts['rules'][$key]['value'] = '';
+					break;
+				}
+
+			}
+		}
 
 		// sanitize settings
 		$opts['css']['width'] = absint( sanitize_text_field( $opts['css']['width'] ) );

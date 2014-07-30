@@ -19,10 +19,14 @@ table .stb-rule-row:first-child .stb-close{ visibility: hidden; }
 }
 
 .stb-title{ 
-	margin-top:2em !important; padding-left: 0 !important;
+	margin-top:2em !important;
 }
 
-.stb-label{ display:block; font-weight: bold; margin-bottom:6px; }
+.stb-label{
+	display:block;
+	font-weight: bold;
+	margin-bottom:6px;
+}
 
 .stb-close{ 
 	padding: 0;
