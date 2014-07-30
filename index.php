@@ -46,7 +46,7 @@ final class STB
 		self::$dir = dirname( __FILE__ );
 		self::$url = plugins_url( '/' , __FILE__ );
 
-		add_action( 'init', array( __CLASS__, 'register_post_type' ) );
+		add_action( 'init', array( __CLASS__, 'init' ) );
 
 		if( ! is_admin() ) {
 
@@ -61,6 +61,39 @@ final class STB
 			new STB_Admin();
 
 		}
+	}
+
+	public static function init() {
+
+		// Load the plugin textdomain
+		load_plugin_textdomain( 'scroll-triggered-boxes', false, STB::$dir . '/languages/' );
+
+		// Register custom post type
+		$args = array(
+			'public' => false,
+			'labels'  =>  array(
+				'name'               => __( 'Scroll Triggered Boxes', 'scroll-triggered-boxes' ),
+				'singular_name'      => __( 'Scroll Triggered Box', 'scroll-triggered-boxes' ),
+				'add_new'            => __( 'Add New', 'scroll-triggered-boxes' ),
+				'add_new_item'       => __( 'Add New Box', 'scroll-triggered-boxes' ),
+				'edit_item'          => __( 'Edit Box', 'scroll-triggered-boxes' ),
+				'new_item'           => __( 'New Box', 'scroll-triggered-boxes' ),
+				'all_items'          => __( 'All Boxes', 'scroll-triggered-boxes' ),
+				'view_item'          => __( 'View Box', 'scroll-triggered-boxes' ),
+				'search_items'       => __( 'Search Boxes', 'scroll-triggered-boxes' ),
+				'not_found'          => __( 'No Boxes found', 'scroll-triggered-boxes' ),
+				'not_found_in_trash' => __( 'No Boxes found in Trash', 'scroll-triggered-boxes' ),
+				'parent_item_colon'  => '',
+				'menu_name'          => __( 'Scroll Triggered Boxes', 'scroll-triggered-boxes' )
+			),
+			'show_ui' => true,
+			'menu_position' => 108,
+			'menu_icon' => STB::$url . '/assets/img/menu-icon.png'
+		);
+
+		register_post_type( 'scroll-triggered-box', $args );
+
+
 	}
 
 	/**
@@ -96,38 +129,8 @@ final class STB
 		$opts = get_post_meta( $id, 'stb_options', true );
 
 		return wp_parse_args( $opts, $defaults );
-
 	}
 
-	/**
-	 * Registers the Scroll Triggered Boxes post type
-	 */
-	public static function register_post_type()
-	{
-		$args = array(
-			'public' => false,
-			'labels'  =>  array(
-				'name'               => 'Scroll Triggered Boxes',
-				'singular_name'      => 'Scroll Triggered Box',
-				'add_new'            => 'Add New',
-				'add_new_item'       => 'Add New Box',
-				'edit_item'          => 'Edit Box',
-				'new_item'           => 'New Box',
-				'all_items'          => 'All Boxes',
-				'view_item'          => 'View Box',
-				'search_items'       => 'Search Boxes',
-				'not_found'          => 'No Boxes found',
-				'not_found_in_trash' => 'No Boxes found in Trash',
-				'parent_item_colon'  => '',
-				'menu_name'          => 'Scroll Triggered Boxes'
-			),
-			'show_ui' => true,
-			'menu_position' => 108,
-			'menu_icon' => STB::$url . '/assets/img/menu-icon.png'
-		);
-
-		register_post_type( 'scroll-triggered-box', $args );
-	}
 }
 
 add_action( 'plugins_loaded', array( 'STB', 'bootstrap' ) );
