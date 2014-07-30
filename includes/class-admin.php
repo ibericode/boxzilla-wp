@@ -28,7 +28,7 @@ class STB_Admin {
 		add_filter( 'plugin_row_meta', array( $this, 'add_plugin_meta_links'), 10, 2 );
 
 		// filter hooks
-		add_filter( 'tiny_mce_before_init', array($this, 'tinymce_init') );
+		add_filter( 'tiny_mce_before_init', array( $this, 'tinymce_init' ) );
 	}
 
 
@@ -39,7 +39,7 @@ class STB_Admin {
 			return $args;
 		}
 
-		$args['setup'] = 'function(ed) { if(typeof STB === \'undefined\') { return; } ed.onInit.add(STB.onTinyMceInit); }';
+		$args['setup'] = 'function( editor ) { if(typeof STB === \'undefined\') { return; } editor.on("PreInit", STB.onTinyMceInit ); }';
 
 		return $args;
 	}
