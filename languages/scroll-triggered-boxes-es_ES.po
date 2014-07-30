@@ -1,0 +1,212 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Scroll Triggered Boxes\n"
+"POT-Creation-Date: 2014-04-18 12:14+0100\n"
+"PO-Revision-Date: 2014-06-23 01:46+0100\n"
+"Last-Translator: Danny <hi@dannyvankooten.com>\n"
+"Language-Team: Danny van Kooten <hi@dannyvankooten.com>\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.5\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../includes/class-admin.php:58
+msgid "Box Options"
+msgstr "Opciones de caja"
+
+#: ../includes/class-admin.php:67
+msgid "Need support?"
+msgstr "¿Necesitas soporte?"
+
+#: ../includes/class-admin.php:75
+msgid "Donate $10, $20 or $50"
+msgstr "Dona 10, 20 o 50 dólares"
+
+#: ../includes/class-admin.php:83
+msgid "About the developer"
+msgstr "Sobre el desarrollador"
+
+#: ../includes/views/metabox-options.php:7
+msgid "Scroll Triggered Box Options"
+msgstr "Opciones de Scroll Triggered Box"
+
+#: ../includes/views/metabox-options.php:9
+msgid "Display Options"
+msgstr "Opciones de visualización"
+
+#: ../includes/views/metabox-options.php:15
+msgid "Show this box"
+msgstr "Mostrar esta caja"
+
+#: ../includes/views/metabox-options.php:18
+msgid "Basic"
+msgstr "Básico"
+
+#: ../includes/views/metabox-options.php:19
+msgid "Everywhere"
+msgstr "En todas partes"
+
+#: ../includes/views/metabox-options.php:20
+msgid "if Post Type is"
+msgstr "Si la entrada es de tipo"
+
+#: ../includes/views/metabox-options.php:21
+msgid "if Page is"
+msgstr "Si la página es"
+
+#: ../includes/views/metabox-options.php:22
+msgid "if Page is not"
+msgstr "Si la página no es"
+
+#: ../includes/views/metabox-options.php:23
+msgid "if Post is"
+msgstr "Si la entrada es"
+
+#: ../includes/views/metabox-options.php:25
+msgid "Advanced"
+msgstr "Avanzado"
+
+#: ../includes/views/metabox-options.php:26
+msgid "Manual conditon"
+msgstr "Condicion manual"
+
+#: ../includes/views/metabox-options.php:31
+msgid "Leave empty for any or enter (comma-separated) names or ID's"
+msgstr ""
+"Dejar en blanco para cualquiera o introduzca (separado por comas) nombres o "
+"IDs"
+
+#: ../includes/views/metabox-options.php:39
+msgid "Add rule"
+msgstr "Añadir regla"
+
+#: ../includes/views/metabox-options.php:42
+#, php-format
+msgid ""
+"For using advanced (manual) rules, have a look at %sthe WordPress "
+"Conditional Tags Codex page%s."
+msgstr ""
+"Para el uso de reglas avanzadas (manuales) echar un vistazo a las "
+"%setiquetas condicionales de WordPress en el Codex%s"
+
+#: ../includes/views/metabox-options.php:45
+msgid "Box Position"
+msgstr "Posición de la caja"
+
+#: ../includes/views/metabox-options.php:48
+msgid "Top Left"
+msgstr "Arriba a la izquierda"
+
+#: ../includes/views/metabox-options.php:49
+msgid "Top Right"
+msgstr "Arriba a la derecha"
+
+#: ../includes/views/metabox-options.php:50
+msgid "Bottom Left"
+msgstr "Abajo a la izquierda"
+
+#: ../includes/views/metabox-options.php:51
+msgid "Bottom Right"
+msgstr "Abajo a la derecha"
+
+#: ../includes/views/metabox-options.php:57
+msgid "Trigger Point"
+msgstr "Punto de disparo"
+
+#: ../includes/views/metabox-options.php:61
+msgid "of page height"
+msgstr "de altura de la página"
+
+#: ../includes/views/metabox-options.php:64
+msgid "Element Selector"
+msgstr "Selecto de elementos"
+
+#: ../includes/views/metabox-options.php:70
+msgid "Example: #comments (element must exist or box won't be shown)"
+msgstr ""
+"Ejemplo: #Comentarios (el elemento debe existir o la caja no será mostrada)"
+
+#: ../includes/views/metabox-options.php:74
+msgid "Animation"
+msgstr "Animación"
+
+#: ../includes/views/metabox-options.php:76
+msgid "Fade In"
+msgstr "Fade In"
+
+#: ../includes/views/metabox-options.php:77
+msgid "Slide In"
+msgstr "Slide in"
+
+#: ../includes/views/metabox-options.php:78
+msgid "Which animation type should be used to show the box when triggered?"
+msgstr ""
+"¿Qué tipo de animación se debe utilizar cuando se activa el desencadenador "
+"de la caja?"
+
+#: ../includes/views/metabox-options.php:82
+msgid "Cookie expiration days"
+msgstr "Dias de vencimiento de la cookie"
+
+#: ../includes/views/metabox-options.php:85
+msgid "After closing the box, how many days should it stay hidden?"
+msgstr "Después de cerrar la caja, ¿cuantos días debería permanecer oculta?"
+
+#: ../includes/views/metabox-options.php:90
+msgid "Auto-hide?"
+msgstr "¿Auto-ocultar?"
+
+#: ../includes/views/metabox-options.php:92
+#: ../includes/views/metabox-options.php:101
+msgid "Yes"
+msgstr "Si"
+
+#: ../includes/views/metabox-options.php:93
+#: ../includes/views/metabox-options.php:102
+msgid "No"
+msgstr "No"
+
+#: ../includes/views/metabox-options.php:94
+msgid "Hide box again when visitors scroll back up?"
+msgstr "¿Ocultar la caja cuando los visitantes se desplacen hacia arriba?"
+
+#: ../includes/views/metabox-options.php:99
+msgid "Enable test mode?"
+msgstr "¿Activar el modo de prueba?"
+
+#: ../includes/views/metabox-options.php:103
+msgid ""
+"If test mode is enabled, the box will show up regardless of whether a cookie "
+"has been set."
+msgstr ""
+"Si el modo de pruebas está activo, la caja se mostrará independientemente de "
+"la configuración de cookie establecida."
+
+#: ../includes/views/metabox-options.php:108
+msgid "Appearance"
+msgstr "Apariencia"
+
+#: ../includes/views/metabox-options.php:112
+msgid "Background color"
+msgstr "Color de fondo"
+
+#: ../includes/views/metabox-options.php:116
+msgid "Text color"
+msgstr "Color del texto"
+
+#: ../includes/views/metabox-options.php:120
+msgid "Box width"
+msgstr "Ancho de la caja"
+
+#: ../includes/views/metabox-options.php:126
+msgid "Border color"
+msgstr "Color del borde"
+
+#: ../includes/views/metabox-options.php:130
+msgid "Border width"
+msgstr "Ancho del borde"

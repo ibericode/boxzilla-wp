@@ -1,0 +1,209 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Scroll Triggered Boxes\n"
+"POT-Creation-Date: 2014-04-18 12:14+0100\n"
+"PO-Revision-Date: 2014-04-18 12:16+0100\n"
+"Last-Translator: Danny <hi@dannyvankooten.com>\n"
+"Language-Team: Danny van Kooten <hi@dannyvankooten.com>\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.6.4\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../includes/class-admin.php:58
+msgid "Box Options"
+msgstr "Box Opties"
+
+#: ../includes/class-admin.php:67
+msgid "Need support?"
+msgstr "Support nodig?"
+
+#: ../includes/class-admin.php:75
+msgid "Donate $10, $20 or $50"
+msgstr "Doneer $10, $20 of $50"
+
+#: ../includes/class-admin.php:83
+msgid "About the developer"
+msgstr "Over de ontwikkelaar"
+
+#: ../includes/views/metabox-options.php:7
+msgid "Scroll Triggered Box Options"
+msgstr "Scroll Triggered Box Opties"
+
+#: ../includes/views/metabox-options.php:9
+msgid "Display Options"
+msgstr "Weergave Opties"
+
+#: ../includes/views/metabox-options.php:15
+msgid "Show this box"
+msgstr "Toon deze box"
+
+#: ../includes/views/metabox-options.php:18
+msgid "Basic"
+msgstr "Standaard"
+
+#: ../includes/views/metabox-options.php:19
+msgid "Everywhere"
+msgstr "Overal"
+
+#: ../includes/views/metabox-options.php:20
+msgid "if Post Type is"
+msgstr "Als \"post type\" ... is"
+
+#: ../includes/views/metabox-options.php:21
+msgid "if Page is"
+msgstr "Als \"page\" niet ... is"
+
+#: ../includes/views/metabox-options.php:22
+msgid "if Page is not"
+msgstr "Als \"page\" niet ... is"
+
+#: ../includes/views/metabox-options.php:23
+msgid "if Post is"
+msgstr "Als \"post\" niet ... is"
+
+#: ../includes/views/metabox-options.php:25
+msgid "Advanced"
+msgstr "Geavanceerd"
+
+#: ../includes/views/metabox-options.php:26
+msgid "Manual conditon"
+msgstr "Manuele Voorwaarde"
+
+#: ../includes/views/metabox-options.php:31
+msgid "Leave empty for any or enter (comma-separated) names or ID's"
+msgstr ""
+"Laat leeg voor alles of voer de namen of ID's in, gescheiden door een komma."
+
+#: ../includes/views/metabox-options.php:39
+msgid "Add rule"
+msgstr "Regel toevoegen"
+
+#: ../includes/views/metabox-options.php:42
+#, php-format
+msgid ""
+"For using advanced (manual) rules, have a look at %sthe WordPress "
+"Conditional Tags Codex page%s."
+msgstr ""
+"Voor het gebruken van geavanceerde manuele voorwaardes, bekijk de "
+"%sWordPress Conditional Tags Codex pagina%s"
+
+#: ../includes/views/metabox-options.php:45
+msgid "Box Position"
+msgstr "Box Positie"
+
+#: ../includes/views/metabox-options.php:48
+msgid "Top Left"
+msgstr "Linksboven"
+
+#: ../includes/views/metabox-options.php:49
+msgid "Top Right"
+msgstr "Rechtsboven"
+
+#: ../includes/views/metabox-options.php:50
+msgid "Bottom Left"
+msgstr "Linksonder"
+
+#: ../includes/views/metabox-options.php:51
+msgid "Bottom Right"
+msgstr "Rechtsonder"
+
+#: ../includes/views/metabox-options.php:57
+msgid "Trigger Point"
+msgstr "Triggerpunt"
+
+#: ../includes/views/metabox-options.php:61
+msgid "of page height"
+msgstr "van pagina hoogte"
+
+#: ../includes/views/metabox-options.php:64
+msgid "Element Selector"
+msgstr "Element selector"
+
+#: ../includes/views/metabox-options.php:70
+msgid "Example: #comments (element must exist or box won't be shown)"
+msgstr "Voorbeeld: #comments (element moet bestaan of de box blijft verborgen)"
+
+#: ../includes/views/metabox-options.php:74
+msgid "Animation"
+msgstr "Animatie"
+
+#: ../includes/views/metabox-options.php:76
+msgid "Fade In"
+msgstr "Fade In"
+
+#: ../includes/views/metabox-options.php:77
+msgid "Slide In"
+msgstr "Slide In"
+
+#: ../includes/views/metabox-options.php:78
+msgid "Which animation type should be used to show the box when triggered?"
+msgstr ""
+"Welk animatietype moet worden gebruikt wanneer de box wordt getriggert?"
+
+#: ../includes/views/metabox-options.php:82
+msgid "Cookie expiration days"
+msgstr "Cookie verloopt in ... dagen"
+
+#: ../includes/views/metabox-options.php:85
+msgid "After closing the box, how many days should it stay hidden?"
+msgstr "Hoelang moet de box verborgen blijven nadat iemand de box sluit?"
+
+#: ../includes/views/metabox-options.php:90
+msgid "Auto-hide?"
+msgstr "Automatisch verbergen?"
+
+#: ../includes/views/metabox-options.php:92
+#: ../includes/views/metabox-options.php:101
+msgid "Yes"
+msgstr "Ja"
+
+#: ../includes/views/metabox-options.php:93
+#: ../includes/views/metabox-options.php:102
+msgid "No"
+msgstr "Nee"
+
+#: ../includes/views/metabox-options.php:94
+msgid "Hide box again when visitors scroll back up?"
+msgstr "Verberg box wanneer bezoekers terug omhoog scrollen?"
+
+#: ../includes/views/metabox-options.php:99
+msgid "Enable test mode?"
+msgstr "Test modus activeren?"
+
+#: ../includes/views/metabox-options.php:103
+msgid ""
+"If test mode is enabled, the box will show up regardless of whether a cookie "
+"has been set."
+msgstr ""
+"Als test modus actief is zal de box altijd getoond worden, zelfs als er een "
+"cookie geplaatst is."
+
+#: ../includes/views/metabox-options.php:108
+msgid "Appearance"
+msgstr "Weergave"
+
+#: ../includes/views/metabox-options.php:112
+msgid "Background color"
+msgstr "Achtergrondkleur"
+
+#: ../includes/views/metabox-options.php:116
+msgid "Text color"
+msgstr "Tekstkleur"
+
+#: ../includes/views/metabox-options.php:120
+msgid "Box width"
+msgstr "Box breedte"
+
+#: ../includes/views/metabox-options.php:126
+msgid "Border color"
+msgstr "Border kleur"
+
+#: ../includes/views/metabox-options.php:130
+msgid "Border width"
+msgstr "Border breedte"
