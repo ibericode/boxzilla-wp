@@ -50,7 +50,7 @@ class STB_Public {
 				$condition = $rule['condition'];
 				$value = trim( $rule['value'] );
 
-				if ( $condition != 'manual' ) {
+				if ( $condition !== 'manual' ) {
 					$value = array_filter( array_map( 'trim', explode( ',', $value ) ) );
 				}
 

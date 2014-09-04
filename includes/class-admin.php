@@ -119,7 +119,7 @@ class STB_Admin {
 	public function save_meta_options( $post_id ) {
 
 		// Verify that the nonce is set and valid.
-		if ( !isset( $_POST['stb_options_nonce'] ) || ! wp_verify_nonce( $_POST['stb_options_nonce'], 'stb_options' ) ) {
+		if ( ! isset( $_POST['stb_options_nonce'] ) || ! wp_verify_nonce( $_POST['stb_options_nonce'], 'stb_options' ) ) {
 			return $post_id;
 		}
 
@@ -215,7 +215,8 @@ class STB_Admin {
 		$boxes = get_posts(
 			array(
 				'post_type' => 'scroll-triggered-box',
-				'post_status' => 'publish'
+				'post_status' => 'publish',
+				'numberposts' => -1
 			)
 		);
 
@@ -223,7 +224,7 @@ class STB_Admin {
 		$rules = array();
 
 		// fill rules array
-		if( $boxes && is_array( $boxes ) ) {
+		if( is_array( $boxes ) ) {
 
 			foreach( $boxes as $box ) {
 				// get box meta data
