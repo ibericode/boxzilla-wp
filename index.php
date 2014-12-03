@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: Scroll Triggered Boxes
-Version: 1.3.1
-Plugin URI: http://dannyvankooten.com/
+Version: 1.4.1
+Plugin URI: https://dannyvankooten.com/
 Description: Call-To-Action Boxes that display after visitors scroll down far enough. Highly conversing, not so annoying!
 Author: Danny van Kooten
-Author URI: http://dannyvankooten.com/
+Author URI: https://dannyvankooten.com/
 Text Domain: scroll-triggered-boxes
 Domain Path: /languages/
 License: GPL v3
@@ -35,7 +35,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 final class STB
 {
-	const VERSION = '1.3.1';
+	const VERSION = '1.4.1';
 	const FILE = __FILE__;
 
 	public static $dir = '';
@@ -123,7 +123,8 @@ final class STB
 			'trigger_element' => '',
 			'animation' => 'fade',
 			'test_mode' => 0,
-			'auto_hide' => 0
+			'auto_hide' => 0,
+			'hide_on_screen_size' => ''
 		);
 
 		$opts = get_post_meta( $id, 'stb_options', true );

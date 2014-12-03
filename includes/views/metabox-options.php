@@ -118,13 +118,20 @@ if( ! defined( 'STB::VERSION' ) ) {
 		
 	</tr>
 	<tr valign="top">
+		<th><label for="stb_hide_on_screen_size"><?php _e( 'Hide box on small screens?', 'scroll-triggered-boxes' ); ?></label></th>
+		<td colspan="3">
+			<p><?php printf( __( 'Hide on screens smaller than %s.', 'scroll-triggered-boxes' ), '<input type="number" min="0" name="stb[hide_on_screen_size]" value="' . esc_attr( $opts['hide_on_screen_size'] ) . '" placeholder="'. $opts['css']['width'] .'" style="max-width: 70px;" />px' ); ?></p>
+			<p class="help"><?php _e( 'Set to <code>0</code> if you do not want to disable the box on small screens.', 'scroll-triggered-boxes' ); ?></p>
+		</td>
+
+	</tr>
+	<tr valign="top">
 		<th><label for="stb_auto_hide"><?php _e( 'Auto-hide?', 'scroll-triggered-boxes' ); ?></label></th>
 		<td colspan="3">
 			<label><input type="radio" id="stb_auto_hide_1" name="stb[auto_hide]" value="1" <?php checked($opts['auto_hide'], 1); ?> /> <?php _e( 'Yes' ); ?></label> &nbsp;
 			<label><input type="radio" id="stb_auto_hide_0" name="stb[auto_hide]" value="0" <?php checked($opts['auto_hide'], 0); ?> /> <?php _e( 'No' ); ?></label> &nbsp;
 			<p class="help"><?php _e( 'Hide box again when visitors scroll back up?', 'scroll-triggered-boxes' ); ?></p>
 		</td>
-		
 	</tr>
 	<tr valign="top">
 		<th><label for="stb_test_mode"><?php _e( 'Enable test mode?', 'scroll-triggered-boxes' ); ?></label></th>

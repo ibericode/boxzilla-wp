@@ -58,6 +58,7 @@ jQuery(window).load(function() {
 			var testMode = (parseInt($box.data('test-mode')) === 1);
 			var id = $box.data('box-id');
 			var autoHide = (parseInt($box.data('auto-hide')) === 1);
+			var boxCookieTime = parseInt( $box.data('cookie') );
 
 			// add box to global boxes array
 			$boxes[id] = $box;
@@ -107,7 +108,7 @@ jQuery(window).load(function() {
 
 			// show box if cookie not set or if in test mode
 			var cookieSet = document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*" + 'stb_box_' + id + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1") === "true";
-			var addBoxListener = ( cookieSet === false );
+			var addBoxListener = ( cookieSet === false && boxCookieTime > 0 );
 
 			if ( true === isLoggedIn && true === testMode ) {
 				addBoxListener = true;
@@ -143,7 +144,6 @@ jQuery(window).load(function() {
 				$(window).unbind( 'scroll', checkBoxCriteria );
 
 				// set cookie
-				var boxCookieTime = parseInt( $box.data('cookie') );
 				if(boxCookieTime > 0) {
 					var expiryDate = new Date();
 					expiryDate.setDate( expiryDate.getDate() + boxCookieTime );

@@ -161,10 +161,20 @@ class STB_Public {
 			 * @filter stb_auto_hide_small_screens
 			 * @expects bool
 			 * @param int $box_id
+			 * @deprecated 4.0 Use the hide_on_screen_size option instead
 			 *
 			 * Use to set whether the box should auto-hide on devices with a width smaller than 480px
 			 */
 			$auto_hide_small_screens = apply_filters('stb_auto_hide_small_screens', true, $box->ID );
+
+			if( '' === $opts['hide_on_screen_size'] && $auto_hide_small_screens ) {
+				$hide_on_screen_size = absint( $css['width'] );
+			} elseif( $opts['hide_on_screen_size'] > 0 ) {
+				$hide_on_screen_size = absint( $opts['hide_on_screen_size'] );
+			} else {
+				$hide_on_screen_size = 0;
+			}
+
 ?>
 			<style type="text/css">
 				#stb-<?php echo $box->ID; ?> {
@@ -174,8 +184,8 @@ class STB_Public {
 					max-width: <?php echo ( !empty( $css['width'] ) ) ? absint( $css['width'] ) . 'px': 'auto'; ?>;
 				}
 
-				<?php if($auto_hide_small_screens) { ?>
-					@media only screen and (max-width: 480px) {
+				<?php if( $hide_on_screen_size > 0 ) { ?>
+					@media only screen and (max-width: <?php echo $hide_on_screen_size; ?>px) {
 						#stb-<?php echo $box->ID; ?> { display: none !important; }
 					}
 				<?php } ?>

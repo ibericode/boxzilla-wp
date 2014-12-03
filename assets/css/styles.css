@@ -1,7 +1,7 @@
 html, 
 body { 
-	min-height: 100% !important; 
-	height: auto !important; 
+	min-height: 100%;
+	height: auto;
 }
 
 .stb-bottom-center-container,
