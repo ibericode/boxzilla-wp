@@ -3,8 +3,8 @@ Contributors: DvanKooten
 Donate link: http://dannyvankooten.com/donate/
 Tags: scroll triggered box, cta, social, newsletter, call to action, mailchimp, contact form 7, social media
 Requires at least: 3.7
-Tested up to: 4.0
-Stable tag: 1.4.1
+Tested up to: 4.0.1
+Stable tag: 1.4.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -171,6 +171,12 @@ Have a look at the [frequently asked questions](http://wordpress.org/plugins/scr
 Some more screenshots can be found at the [Scroll Triggered Boxes plugin page on my website](http://dannyvankooten.com/wordpress-plugins/scroll-triggered-boxes/).
 
 == Changelog ==
+
+= 1.4.2 - December 4, 2014 =
+
+**Fixes**
+
+- Box not automatically appearing if cookie time was set, caused by yesterdays update.
 
 = 1.4.1 - December 3, 2014 =
 
@@ -339,11 +345,5 @@ Some more screenshots can be found at the [Scroll Triggered Boxes plugin page on
 
 == Upgrade Notice ==
 
-= 1.0.5 =
-Improvement to the script to check for the (box closed) cookie as well, to work with pages from browser cache.
-
-= 1.0.4 =
-Two important bugfixes for when using an element as the trigger point.
-
-= 1.0.3 =
-Fixed incorrect calculation of page height for some themes.
+= 1.4.2 =
+Fixes cookie issue with yesterdays update. Please update.

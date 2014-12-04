@@ -108,7 +108,7 @@ jQuery(window).load(function() {
 
 			// show box if cookie not set or if in test mode
 			var cookieSet = document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*" + 'stb_box_' + id + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1") === "true";
-			var addBoxListener = ( cookieSet === false && boxCookieTime > 0 );
+			var addBoxListener = ( cookieSet === false || boxCookieTime === 0 );
 
 			if ( true === isLoggedIn && true === testMode ) {
 				addBoxListener = true;
