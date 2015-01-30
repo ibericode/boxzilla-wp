@@ -1,9 +1,9 @@
 === Plugin Name ===
 Contributors: DvanKooten
-Donate link: http://dannyvankooten.com/donate/
+Donate link: https://dannyvankooten.com/donate/
 Tags: scroll triggered box, cta, social, newsletter, call to action, mailchimp, contact form 7, social media
 Requires at least: 3.7
-Tested up to: 4.0.1
+Tested up to: 4.1.1
 Stable tag: 1.4.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -43,12 +43,12 @@ Have a look at the [frequently asked questions](http://wordpress.org/plugins/scr
 
 **Demo**
 
-I'm using the plugin myself on [the website for one of my other plugins: MailChimp for WordPress](http://dannyvankooten.com/mailchimp-for-wordpress/). Scroll down to the bottom and you'll see a box slide in in the bottom right corner, asking you to sign-up to the plugin newsletter.
+I'm using the plugin myself on [the website for one of my other plugins: MailChimp for WordPress](https://mc4wp.com/). Scroll down to the bottom and you'll see a box slide in in the bottom right corner, asking you to sign-up to the plugin newsletter.
 
 **Translators**
 
-- English (en_US) - [Danny van Kooten](http://dannyvankooten.com/)
-- Dutch (nl_NL) - [Danny van Kooten](http://dannyvankooten.com/)
+- English (en_US) - [Danny van Kooten](https://dannyvankooten.com/)
+- Dutch (nl_NL) - [Danny van Kooten](https://dannyvankooten.com/)
 - Spanish (es_ES) - [Paul Benitez - Tecnofilos](http://www.tecnofilos.net/)
 
 If you have created your own language pack (or have an update of an existing one) you can send in your .PO and .MO files so we can bundle it into Scroll Triggered Boxes. You can [download the latest POT file](http://plugins.svn.wordpress.org/scroll-triggered-boxes/trunk/languages/scroll-triggered-boxes.po), and [PO files in each language](http://plugins.svn.wordpress.org/scroll-triggered-boxes/trunk/languages/).
@@ -56,8 +56,8 @@ If you have created your own language pack (or have an update of an existing one
 
 **Other Links**
 
-- Have a look at some other [WordPress plugins by Danny van Kooten](http://dannyvankooten.com/wordpress-plugins/).
-- Contribute to the [Scroll Triggered Boxes plugin on GitHub](https://github.com/dannyvankooten/scroll-triggered-boxes-for-wordpress).
+- Have a look at some other [WordPress plugins by Danny van Kooten](https://dannyvankooten.com/wordpress-plugins/).
+- Contribute to the [Scroll Triggered Boxes plugin on GitHub](https://github.com/dannyvankooten/wp-scroll-triggered-boxes).
 
 == Frequently Asked Questions ==
 
@@ -65,23 +65,23 @@ If you have created your own language pack (or have an update of an existing one
 
 The plugin is tested with the plugins below but will work with any plugin that uses shortcodes.
 
-- [MailChimp for WordPress](http://wordpress.org/plugins/mailchimp-for-wp/)
-- [Contact Form 7](http://wordpress.org/plugins/contact-form-7/)
-- [Newsletter Sign-Up](http://wordpress.org/plugins/newsletter-sign-up/)
+- [MailChimp for WordPress](https://wordpress.org/plugins/mailchimp-for-wp/)
+- [Contact Form 7](https://wordpress.org/plugins/contact-form-7/)
+- [Newsletter Sign-Up](https://wordpress.org/plugins/newsletter-sign-up/)
 
 = How to display sharing options in the box? =
 
 The plugin is tested with the plugins below but will work with any plugin that uses shortcodes.
 
-- [Social Sharing By Danny](http://wordpress.org/plugins/dvk-social-sharing/)
-- [Shareaholic](http://wordpress.org/plugins/shareaholic/)
-- [Social Media Feather](http://wordpress.org/plugins/social-media-feather/)
-- [WP Socializer](http://wordpress.org/plugins/wp-socializer/)
-- [Tweet, Like, Google +1 and Share](http://wordpress.org/plugins/only-tweet-like-share-and-google-1/)
+- [Social Sharing By Danny](https://wordpress.org/plugins/dvk-social-sharing/)
+- [Shareaholic](https://wordpress.org/plugins/shareaholic/)
+- [Social Media Feather](https://wordpress.org/plugins/social-media-feather/)
+- [WP Socializer](https://wordpress.org/plugins/wp-socializer/)
+- [Tweet, Like, Google +1 and Share](https://wordpress.org/plugins/only-tweet-like-share-and-google-1/)
 
 = How do I set more advanced rules for on which pages to show a box? =
 
-You can use [conditional tags](http://codex.wordpress.org/Conditional_Tags) to set super-customized rules.
+You can use [conditional tags](https://codex.wordpress.org/Conditional_Tags) to set super-customized rules.
 
 *Example: only show for posts in category 'cars'*
 `
@@ -168,9 +168,15 @@ Have a look at the [frequently asked questions](http://wordpress.org/plugins/scr
 3. A differently styled social triggered box.
 4. Configuring and customizing your boxes is easy.
 
-Some more screenshots can be found at the [Scroll Triggered Boxes plugin page on my website](http://dannyvankooten.com/wordpress-plugins/scroll-triggered-boxes/).
+Some more screenshots can be found at the [Scroll Triggered Boxes plugin page on my website](https://dannyvankooten.com/wordpress-plugins/scroll-triggered-boxes/).
 
 == Changelog ==
+
+= 1.4.3 - January 29, 2015 =
+
+**Improvements**
+
+- Performance improvements by only running the bare minimum amount of code.
 
 = 1.4.2 - December 4, 2014 =
 

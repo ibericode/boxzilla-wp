@@ -17,40 +17,75 @@ class STB_Admin {
 		$this->plugin_file = plugin_basename( STB::FILE );
 
 		// action hooks
-		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
-		add_action( 'admin_enqueue_scripts', array( $this, 'load_assets' ) );
+		add_action( 'init', array( $this, 'init' ) );
 
 		add_action( 'save_post', array( $this, 'save_meta_options' ), 20 );
 		add_action( 'trashed_post', array( $this, 'flush_rules') );
 		add_action( 'untrashed_post', array( $this, 'flush_rules') );
 
-		add_filter( 'plugin_action_links', array( $this, 'add_plugin_settings_link' ), 10, 2 );
-		add_filter( 'plugin_row_meta', array( $this, 'add_plugin_meta_links'), 10, 2 );
-
-		// filter hooks
-		add_filter( 'tiny_mce_before_init', array( $this, 'tinymce_init' ) );
 	}
 
+	/**
+	 * Are we currently editing a box?
+	 *
+	 * @return bool
+	 */
+	private function editing_box() {
+		global $pagenow, $post;
 
-	
-	public function tinymce_init($args) {
-
-		if( get_post_type() !== 'scroll-triggered-box') {
-			return $args;
+		if( ! in_array( $pagenow, array( 'post-new.php', 'post.php' ) ) ) {
+			return false;
 		}
 
-		$args['setup'] = 'function( editor ) { if(typeof STB === \'undefined\') { return; } editor.on("PreInit", STB.onTinyMceInit ); }';
+		if( isset( $_GET['post_type'] ) && $_GET['post_type'] === 'scroll-triggered-box' ) {
+			return true;
+		}
 
+		if( $post && $post instanceof WP_Post && $post->post_type === 'scroll-triggered-box' ) {
+			return true;
+		}
+
+		if( isset( $_GET['post'] ) && ( $post = get_post( $_GET['post'] ) ) && $post->post_type === 'scroll-triggered-box' ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Initialises the admin section
+	 */
+	public function init() {
+
+		global $pagenow;
+
+		if( $this->editing_box() ) {
+			add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
+			add_action( 'admin_enqueue_scripts', array( $this, 'load_assets' ) );
+			add_filter( 'tiny_mce_before_init', array( $this, 'tinymce_init' ) );
+		} elseif( $pagenow === 'plugins.php' ) {
+			add_filter( 'plugin_action_links', array( $this, 'add_plugin_settings_link' ), 10, 2 );
+			add_filter( 'plugin_row_meta', array( $this, 'add_plugin_meta_links'), 10, 2 );
+		}
+
+	}
+
+	/**
+	 * @param $args
+	 *
+	 * @return mixed
+	 */
+	public function tinymce_init($args) {
+		$args['setup'] = 'function( editor ) { if(typeof STB === \'undefined\') { return; } editor.on("PreInit", STB.onTinyMceInit ); }';
 		return $args;
 	}
 
+	/**
+	 * Load plugin assets
+	 */
 	public function load_assets() {
 
 		// only load on "edit box" pages
-		if ( get_post_type() !== 'scroll-triggered-box' ) {
-			return;
-		}
-
 		$pre_suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 		// load stylesheets
@@ -60,6 +95,9 @@ class STB_Admin {
 		wp_enqueue_script( 'scroll-triggered-boxes', STB::$url . 'assets/js/admin-script' . $pre_suffix . '.js', array( 'jquery', 'wp-color-picker' ), STB::VERSION, true );
 	}
 
+	/**
+	 * Register meta boxes
+	 */
 	public function add_meta_boxes() {
 		add_meta_box(
 			'stb-options',
@@ -200,7 +238,7 @@ class STB_Admin {
 			return $links;
 		}
 
-		$links[] = '<a href="http://wordpress.org/plugins/scroll-triggered-boxes/faq/">FAQ</a>';
+		$links[] = '<a href="https://wordpress.org/plugins/scroll-triggered-boxes/faq/">FAQ</a>';
 		return $links;
 	}
 

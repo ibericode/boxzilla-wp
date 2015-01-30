@@ -16,29 +16,41 @@ class STB_Public {
 	 * Constructor
 	 */
 	public function __construct() {
-		add_action( 'wp', array( $this, 'filter_boxes' ) );
-		add_action( 'init', array( $this, 'register_scripts' ) );
-		add_action( 'wp_enqueue_scripts', array( $this, 'load_styles' ) );
-		add_action( 'wp_footer', array( $this, 'load_boxes' ), 1 );
-
-		add_filter( 'stb_content', 'wptexturize') ;
-		add_filter( 'stb_content', 'convert_smilies' );
-		add_filter( 'stb_content', 'convert_chars' );
-		add_filter( 'stb_content', 'wpautop' );
-		add_filter( 'stb_content', 'shortcode_unautop' );
-		add_filter( 'stb_content', 'do_shortcode', 11 );
+		add_action( 'wp', array( $this, 'init' ) );
 	}
 
 	/**
-	* Filter box rules, decides if a box should be shown
-	* @uses `wp` hook
-	*/
-	public function filter_boxes() {
+	 * Initializes the plugin, runs on `wp` hook.
+	 */
+	public function init() {
+		$this->matched_box_ids = $this->filter_boxes();
 
+		// Only add other hooks if necessary
+		if( count( $this->matched_box_ids ) > 0 ) {
+			add_action( 'wp_enqueue_scripts', array( $this, 'load_styles' ) );
+			add_action( 'wp_footer', array( $this, 'output_boxes' ), 1 );
+
+			add_filter( 'stb_content', 'wptexturize') ;
+			add_filter( 'stb_content', 'convert_smilies' );
+			add_filter( 'stb_content', 'convert_chars' );
+			add_filter( 'stb_content', 'wpautop' );
+			add_filter( 'stb_content', 'shortcode_unautop' );
+			add_filter( 'stb_content', 'do_shortcode', 11 );
+		}
+	}
+
+	/**
+	 * Checks which boxes should be loaded for this request.
+	 *
+	 * @return array
+	 */
+	private function filter_boxes() {
+
+		$matched_box_ids = array();
 		$rules = get_option( 'stb_rules', false );
 
 		if ( ! is_array( $rules ) ) {
-			return;
+			return array();
 		}
 
 		foreach ( $rules as $box_id => $box_rules ) {
@@ -102,18 +114,18 @@ class STB_Public {
 
 			// if matched, box should be loaded on this page
 			if ( $matched ) {
-				$this->matched_box_ids[] = $box_id;
+				$matched_box_ids[] = $box_id;
 			}
 
 		}
 
+		return $matched_box_ids;
 	}
 
 	/**
-	* Register plugin scripts
+	* Load plugin styles
 	*/
-	public function register_scripts() {
-
+	public function load_styles() {
 		$pre_suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 		// stylesheets
@@ -121,24 +133,16 @@ class STB_Public {
 
 		// scripts
 		wp_register_script( 'scroll-triggered-boxes', STB::$url . 'assets/js/script' . $pre_suffix . '.js' , array( 'jquery' ), STB::VERSION, true );
-	}
 
-	/**
-	* Load plugin styles
-	*/
-	public function load_styles() {
+		// Finally, enqueue style.
 		wp_enqueue_style( 'scroll-triggered-boxes' );
+		wp_enqueue_script( 'scroll-triggered-boxes' );
 	}
 
 	/**
 	* Outputs the boxes in the footer
 	*/
-	public function load_boxes() {
-		if ( empty( $this->matched_box_ids ) ) {
-			return;
-		}
-
-		wp_enqueue_script( 'scroll-triggered-boxes' );
+	public function output_boxes() {
 		?><!-- Scroll Triggered Boxes v<?php echo STB::VERSION; ?> - http://wordpress.org/plugins/scroll-triggered-boxes/--><?php
 
 		foreach ( $this->matched_box_ids as $box_id ) {
