@@ -23,6 +23,7 @@ class STB_Public {
 	 * Initializes the plugin, runs on `wp` hook.
 	 */
 	public function init() {
+
 		$this->matched_box_ids = $this->filter_boxes();
 
 		// Only add other hooks if necessary
@@ -62,42 +63,42 @@ class STB_Public {
 				$condition = $rule['condition'];
 				$value = trim( $rule['value'] );
 
-				if ( $condition !== 'manual' ) {
+				if ( $condition !== 'manual' && $condition !== 'everywhere' ) {
 					$value = array_filter( array_map( 'trim', explode( ',', $value ) ) );
 				}
 
 				switch ( $condition ) {
-				case 'everywhere';
-					$matched = true;
-					break;
+					case 'everywhere';
+						$matched = true;
+						break;
 
-				case 'is_post_type':
-					$matched = in_array( get_post_type(), $value );
-					break;
+					case 'is_post_type':
+						$matched = in_array( get_post_type(), $value );
+						break;
 
-				case 'is_single':
-					$matched = is_single( $value );
-					break;
+					case 'is_single':
+						$matched = is_single( $value );
+						break;
 
-				case 'is_page':
-					$matched = is_page( $value );
-					break;
+					case 'is_page':
+						$matched = is_page( $value );
+						break;
 
-				case 'is_not_page':
-					$matched = !is_page( $value );
-					break;
+					case 'is_not_page':
+						$matched = !is_page( $value );
+						break;
 
-				case 'manual':
-					// eval for now...
-					$value = stripslashes(trim($value));
-					$matched = eval( "return (" . $value . ");" );
-					break;
+					case 'manual':
+						// eval for now...
+						$value = stripslashes(trim($value));
+						$matched = eval( "return (" . $value . ");" );
+						break;
 
 				}
 
 				// no need to run through the other rules
 				// if criteria has already been met by this rule
-				if( true === $matched ) {
+				if( $matched ) {
 					break;
 				}
 			}
@@ -143,7 +144,7 @@ class STB_Public {
 	* Outputs the boxes in the footer
 	*/
 	public function output_boxes() {
-		?><!-- Scroll Triggered Boxes v<?php echo STB::VERSION; ?> - http://wordpress.org/plugins/scroll-triggered-boxes/--><?php
+		?><!-- Scroll Triggered Boxes v<?php echo STB::VERSION; ?> - https://wordpress.org/plugins/scroll-triggered-boxes/--><?php
 
 		foreach ( $this->matched_box_ids as $box_id ) {
 

@@ -22,6 +22,26 @@ class STB_Admin {
 		add_action( 'save_post', array( $this, 'save_meta_options' ), 20 );
 		add_action( 'trashed_post', array( $this, 'flush_rules') );
 		add_action( 'untrashed_post', array( $this, 'flush_rules') );
+	}
+
+	/**
+	 * Initialises the admin section
+	 */
+	public function init() {
+
+		// Load the plugin textdomain
+		load_plugin_textdomain( 'scroll-triggered-boxes', false, STB::$dir . '/languages/' );
+
+		global $pagenow;
+
+		if( $this->editing_box() ) {
+			add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
+			add_action( 'admin_enqueue_scripts', array( $this, 'load_assets' ) );
+			add_filter( 'tiny_mce_before_init', array( $this, 'tinymce_init' ) );
+		} elseif( $pagenow === 'plugins.php' ) {
+			add_filter( 'plugin_action_links', array( $this, 'add_plugin_settings_link' ), 10, 2 );
+			add_filter( 'plugin_row_meta', array( $this, 'add_plugin_meta_links'), 10, 2 );
+		}
 
 	}
 
@@ -50,24 +70,6 @@ class STB_Admin {
 		}
 
 		return false;
-	}
-
-	/**
-	 * Initialises the admin section
-	 */
-	public function init() {
-
-		global $pagenow;
-
-		if( $this->editing_box() ) {
-			add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
-			add_action( 'admin_enqueue_scripts', array( $this, 'load_assets' ) );
-			add_filter( 'tiny_mce_before_init', array( $this, 'tinymce_init' ) );
-		} elseif( $pagenow === 'plugins.php' ) {
-			add_filter( 'plugin_action_links', array( $this, 'add_plugin_settings_link' ), 10, 2 );
-			add_filter( 'plugin_row_meta', array( $this, 'add_plugin_meta_links'), 10, 2 );
-		}
-
 	}
 
 	/**
