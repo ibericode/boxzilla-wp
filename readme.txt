@@ -4,7 +4,7 @@ Donate link: https://dannyvankooten.com/donate/
 Tags: scroll triggered box, cta, social, newsletter, call to action, mailchimp, contact form 7, social media
 Requires at least: 3.7
 Tested up to: 4.1.1
-Stable tag: 1.4.2
+Stable tag: 1.4.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -39,7 +39,7 @@ Really anything is possible, from social media sharing options to sign-up or con
 - Set the number of days a box should not be shown if a visitor closes it
 - Open a box right after loading a page or have it open when clicking a link or button
 
-Have a look at the [frequently asked questions](http://wordpress.org/plugins/scroll-triggered-boxes/faq/) as well, this plugin is really flexible.
+Have a look at the [frequently asked questions](https://wordpress.org/plugins/scroll-triggered-boxes/faq/) as well, this plugin is really flexible.
 
 **Demo**
 
@@ -51,7 +51,7 @@ I'm using the plugin myself on [the website for one of my other plugins: MailChi
 - Dutch (nl_NL) - [Danny van Kooten](https://dannyvankooten.com/)
 - Spanish (es_ES) - [Paul Benitez - Tecnofilos](http://www.tecnofilos.net/)
 
-If you have created your own language pack (or have an update of an existing one) you can send in your .PO and .MO files so we can bundle it into Scroll Triggered Boxes. You can [download the latest POT file](http://plugins.svn.wordpress.org/scroll-triggered-boxes/trunk/languages/scroll-triggered-boxes.po), and [PO files in each language](http://plugins.svn.wordpress.org/scroll-triggered-boxes/trunk/languages/).
+If you have created your own language pack (or have an update of an existing one) you can send in your .PO and .MO files so we can bundle it into Scroll Triggered Boxes. You can [download the latest POT file](https://plugins.svn.wordpress.org/scroll-triggered-boxes/trunk/languages/scroll-triggered-boxes.po), and [PO files in each language](https://plugins.svn.wordpress.org/scroll-triggered-boxes/trunk/languages/).
 
 
 **Other Links**
@@ -159,7 +159,7 @@ remove_filter( 'stb_content', 'shortcode_unautop' );
 
 = Additional Customization =
 
-Have a look at the [frequently asked questions](http://wordpress.org/plugins/scroll-triggered-boxes/faq/) section for some examples of additional customization.
+Have a look at the [frequently asked questions](https://wordpress.org/plugins/scroll-triggered-boxes/faq/) section for some examples of additional customization.
 
 == Screenshots ==
 
@@ -176,7 +176,8 @@ Some more screenshots can be found at the [Scroll Triggered Boxes plugin page on
 
 **Improvements**
 
-- Performance improvements by only running the bare minimum amount of code.
+- Various performance improvements
+- Updated all links to use `https` protocol
 
 = 1.4.2 - December 4, 2014 =
 
