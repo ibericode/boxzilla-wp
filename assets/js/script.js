@@ -209,7 +209,14 @@ module.exports = (function($) {
 	// "keyup" listener
 	function onKeyUp(e) {
 		if (e.keyCode == 27) {
-			hideAllBoxes();
+			disableAllBoxes();
+		}
+	}
+
+	// hide and disable all registered boxes
+	function disableAllBoxes() {
+		for( var boxId in boxes ) {
+			boxes[boxId].disable();
 		}
 	}
 
@@ -254,7 +261,8 @@ module.exports = (function($) {
 		showBox: function(id) { boxes[id].show(); },
 		hideBox: function(id) { boxes[id].hide(); },
 		toggleBox: function(id) { boxes[id].toggle(); },
-		hideAllBoxes: hideAllBoxes
+		hideAllBoxes: hideAllBoxes,
+		disableAllBoxes: disableAllBoxes
 	}
 
 })(window.jQuery);
