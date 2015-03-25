@@ -4,6 +4,7 @@ Scroll Triggered Boxes for WordPress
 ![Downloads](https://img.shields.io/wordpress/plugin/dt/scroll-triggered-boxes.svg)
 ![Rating](https://img.shields.io/wordpress/plugin/r/scroll-triggered-boxes.svg)
 [![License](https://poser.pugx.org/dannyvankooten/wp-scroll-triggered-boxes/license.svg)](https://packagist.org/packages/dannyvankooten/wp-scroll-triggered-boxes)
+[![Code Climate](https://codeclimate.com/github/dannyvankooten/wp-scroll-triggered-boxes/badges/gpa.svg)](https://codeclimate.com/github/dannyvankooten/wp-scroll-triggered-boxes)
 
 Here, you can browse the source of the [Scroll Triggered Boxes for WordPress plugin](https://wordpress.org/plugins/scroll-triggered-boxes/) project, find and discuss open issues or contribute code to the plugin yourself.
 
