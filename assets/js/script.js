@@ -21,6 +21,7 @@ module.exports = (function() {
 		this.animation 	= data.animation;
 		this.visible 	= false;
 		this.minimumScreenWidth = data.minimumScreenWidth;
+		this.overlay = document.getElementById('stb-overlay');
 
 		// calculate triggerHeight
 		this.triggerHeight = this.calculateTriggerHeight();
@@ -45,6 +46,7 @@ module.exports = (function() {
 		this.setCustomBoxStyling();
 	};
 
+	// set (calculate) custom box styling depending on box options
 	Box.prototype.setCustomBoxStyling = function() {
 		if( this.position === 'center' ) {
 			this.element.style.marginTop = ( ( window.innerHeight - this.$element.outerHeight() ) / 2 ) + "px";
@@ -54,6 +56,7 @@ module.exports = (function() {
 	// toggle visibility of the box
 	Box.prototype.toggle = function(show) {
 
+		// revert visibility if no explicit argument is given
 		if( typeof( show ) === "undefined" ) {
 			show = ! this.visible;
 		}
@@ -68,8 +71,12 @@ module.exports = (function() {
 			return false;
 		}
 
-		// show box
-		//this.element.parentNode.style.display = ( show ) ? 'block' : 'none';
+		// fadein / fadeout the overlay if position is "center"
+		if( this.position === 'center' ) {
+			$(this.overlay).fadeToggle( 'slow' );
+		}
+
+		// show or hide box using selected animation
 		if( this.animation === 'fade' ) {
 			this.$element.fadeToggle( 'slow' );
 		} else {
@@ -172,9 +179,12 @@ module.exports = (function($) {
 	var Box = require('./Box.js');
 
 	// Functions
+
+	// initialise & add event listeners
 	function init() {
 		$(".scroll-triggered-box").each(createBoxFromDOM);
 		$(window).bind('scroll.stb', onScroll);
+		$(document).keyup(onKeyUp);
 	}
 
 	// create a Box object from the DOM
@@ -187,13 +197,27 @@ module.exports = (function($) {
 		boxes[options.id] = new Box(options);
 	}
 
-	// schedule a check of all box criterias in 100ms
+	// "scroll" listener
 	function onScroll() {
 		if( scrollTimer ) {
 			window.clearTimeout(scrollTimer);
 		}
 
 		scrollTimer = window.setTimeout(checkBoxCriterias, 100);
+	}
+
+	// "keyup" listener
+	function onKeyUp(e) {
+		if (e.keyCode == 27) {
+			hideAllBoxes();
+		}
+	}
+
+	// hide all registered boxes
+	function hideAllBoxes() {
+		for( var boxId in boxes ) {
+			boxes[boxId].hide();
+		}
 	}
 
 	// check criteria for all registered boxes
@@ -229,7 +253,8 @@ module.exports = (function($) {
 		boxes: boxes,
 		showBox: function(id) { boxes[id].show(); },
 		hideBox: function(id) { boxes[id].hide(); },
-		toggleBox: function(id) { boxes[id].toggle(); }
+		toggleBox: function(id) { boxes[id].toggle(); },
+		hideAllBoxes: hideAllBoxes
 	}
 
 })(window.jQuery);

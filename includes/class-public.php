@@ -256,6 +256,7 @@ class STB_Public {
 			<?php
 		}
 
+			echo '<div id="stb-overlay"></div>';
 		?><!-- / Scroll Triggered Box --><?php
 	}
 

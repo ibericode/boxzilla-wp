@@ -9,9 +9,12 @@ module.exports = (function($) {
 	var Box = require('./Box.js');
 
 	// Functions
+
+	// initialise & add event listeners
 	function init() {
 		$(".scroll-triggered-box").each(createBoxFromDOM);
 		$(window).bind('scroll.stb', onScroll);
+		$(document).keyup(onKeyUp);
 	}
 
 	// create a Box object from the DOM
@@ -24,13 +27,27 @@ module.exports = (function($) {
 		boxes[options.id] = new Box(options);
 	}
 
-	// schedule a check of all box criterias in 100ms
+	// "scroll" listener
 	function onScroll() {
 		if( scrollTimer ) {
 			window.clearTimeout(scrollTimer);
 		}
 
 		scrollTimer = window.setTimeout(checkBoxCriterias, 100);
+	}
+
+	// "keyup" listener
+	function onKeyUp(e) {
+		if (e.keyCode == 27) {
+			hideAllBoxes();
+		}
+	}
+
+	// hide all registered boxes
+	function hideAllBoxes() {
+		for( var boxId in boxes ) {
+			boxes[boxId].hide();
+		}
 	}
 
 	// check criteria for all registered boxes
@@ -66,7 +83,8 @@ module.exports = (function($) {
 		boxes: boxes,
 		showBox: function(id) { boxes[id].show(); },
 		hideBox: function(id) { boxes[id].hide(); },
-		toggleBox: function(id) { boxes[id].toggle(); }
+		toggleBox: function(id) { boxes[id].toggle(); },
+		hideAllBoxes: hideAllBoxes
 	}
 
 })(window.jQuery);

@@ -20,6 +20,7 @@ module.exports = (function() {
 		this.animation 	= data.animation;
 		this.visible 	= false;
 		this.minimumScreenWidth = data.minimumScreenWidth;
+		this.overlay = document.getElementById('stb-overlay');
 
 		// calculate triggerHeight
 		this.triggerHeight = this.calculateTriggerHeight();
@@ -44,6 +45,7 @@ module.exports = (function() {
 		this.setCustomBoxStyling();
 	};
 
+	// set (calculate) custom box styling depending on box options
 	Box.prototype.setCustomBoxStyling = function() {
 		if( this.position === 'center' ) {
 			this.element.style.marginTop = ( ( window.innerHeight - this.$element.outerHeight() ) / 2 ) + "px";
@@ -53,6 +55,7 @@ module.exports = (function() {
 	// toggle visibility of the box
 	Box.prototype.toggle = function(show) {
 
+		// revert visibility if no explicit argument is given
 		if( typeof( show ) === "undefined" ) {
 			show = ! this.visible;
 		}
@@ -67,8 +70,12 @@ module.exports = (function() {
 			return false;
 		}
 
-		// show box
-		//this.element.parentNode.style.display = ( show ) ? 'block' : 'none';
+		// fadein / fadeout the overlay if position is "center"
+		if( this.position === 'center' ) {
+			$(this.overlay).fadeToggle( 'slow' );
+		}
+
+		// show or hide box using selected animation
 		if( this.animation === 'fade' ) {
 			this.$element.fadeToggle( 'slow' );
 		} else {
