@@ -24,12 +24,24 @@ module.exports = function(grunt) {
 
 		watch: {
 			js:  {
-				files: 'assets/js/*.js',
+				files: ['assets/js/*.js', '!assets/js/*.min.js'],
 				tasks: [ 'uglify' ]
 			},
+			browserify: {
+				files: 'assets/js/src/*.js',
+				tasks: ['browserify:client']
+			},
 			css: {
-				files: 'assets/css/*.css',
+				files: ['assets/css/*.css', '!assets/css/*.min.css'],
 				tasks: [ 'cssmin' ]
+			}
+		},
+
+		browserify: {
+
+			client: {
+				src: ['assets/js/src/*.js'],
+				dest: 'assets/js/script.js'
 			}
 		}
 	});
@@ -38,8 +50,10 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
+	grunt.loadNpmTasks('grunt-browserify');
+
 
 	// register at least this one task
-	grunt.registerTask('default', [ 'uglify', 'cssmin' ]);
+	grunt.registerTask('default', [ 'browserify:client', 'uglify', 'cssmin' ]);
 
 };

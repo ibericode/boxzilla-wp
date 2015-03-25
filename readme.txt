@@ -217,7 +217,7 @@ Some more screenshots can be found at the [Scroll Triggered Boxes plugin page on
 
 - Various code improvements
 - Minified all assets (scripts and styles)
-- You can now contribute to the [Scroll Triggered Boxes plugin on GitHub](https://github.com/dannyvankooten/scroll-triggered-boxes-for-wordpress).
+- You can now contribute to the [Scroll Triggered Boxes plugin on GitHub](https://github.com/dannyvankooten/wp-scroll-triggered-boxes).
 
 **Additions**
 
