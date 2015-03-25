@@ -138,6 +138,63 @@ class STB_Public {
 		// Finally, enqueue style.
 		wp_enqueue_style( 'scroll-triggered-boxes' );
 		wp_enqueue_script( 'scroll-triggered-boxes' );
+
+		$this->pass_box_options();
+	}
+
+	/**
+	 * @return array
+	 */
+	protected function get_matched_boxes() {
+		static $boxes;
+
+		if( ! $boxes ) {
+			foreach ( $this->matched_box_ids as $box_id ) {
+
+				$box = get_post( $box_id );
+
+				// has box with this id been found?
+				if ( ! $box instanceof WP_Post || $box->post_status !== 'publish' ) {
+					continue;
+				}
+
+				// add options property to box
+				$box->options = STB::get_box_options( $box->ID );
+
+				$boxes[] = $box;
+			}
+		}
+
+		return $boxes;
+	}
+
+	/**
+	 * Create array of Box options and pass it to JavaScript script.
+	 */
+	public function pass_box_options() {
+
+		$boxes_options = array();
+
+		foreach( $this->get_matched_boxes() as $box ) {
+
+			// create array with box options
+			$options = array(
+				'id' => $box->ID,
+				'trigger' => $box->options['trigger'],
+				'triggerPercentage' => absint( $box->options['trigger_percentage'] ),
+				'triggerElementSelector' => $box->options['trigger_element'],
+				'animation' => $box->options['animation'],
+				'cookeTime' => absint( $box->options['cookie'] ),
+				'testMode' => (bool) $box->options['test_mode'],
+				'autoHide' => (bool) $box->options['auto_hide'],
+				'position' => $box->options['css']['position'],
+				'minimumScreenWidth' => absint( $box->options['hide_on_screen_size'] )
+			);
+
+			$boxes_options[ $box->ID ] = $options;
+		}
+
+		wp_localize_script( 'scroll-triggered-boxes', 'STB_Options', $boxes_options );
 	}
 
 	/**
@@ -146,16 +203,9 @@ class STB_Public {
 	public function output_boxes() {
 		?><!-- Scroll Triggered Boxes v<?php echo STB::VERSION; ?> - https://wordpress.org/plugins/scroll-triggered-boxes/--><?php
 
-		foreach ( $this->matched_box_ids as $box_id ) {
+		foreach ( $this->get_matched_boxes() as $box ) {
 
-			$box = get_post( $box_id );
-
-			// has box with this id been found?
-			if ( ! $box instanceof WP_Post || $box->post_status !== 'publish' ) {
-				continue; 
-			}
-
-			$opts = STB::get_box_options( $box->ID );
+			$opts = $box->options;
 			$css = $opts['css'];
 			$content = $box->post_content;
 
@@ -196,11 +246,9 @@ class STB_Public {
 				<?php } ?>
 			</style>
 			<div class="stb-container stb-<?php echo esc_attr( $opts['css']['position'] ); ?>-container">
-				<div class="scroll-triggered-box stb stb-<?php echo esc_attr( $opts['css']['position'] ); ?>" id="stb-<?php echo $box->ID; ?>" style="display: none;" <?php
-				?> data-box-id="<?php echo esc_attr( $box->ID ); ?>" data-trigger="<?php echo esc_attr( $opts['trigger'] ); ?>"
-				 data-trigger-percentage="<?php echo esc_attr( absint( $opts['trigger_percentage'] ) ); ?>" data-trigger-element="<?php echo esc_attr( $opts['trigger_element'] ); ?>"
-				 data-animation="<?php echo esc_attr($opts['animation']); ?>" data-cookie="<?php echo esc_attr( absint ( $opts['cookie'] ) ); ?>" data-test-mode="<?php echo esc_attr($opts['test_mode']); ?>"
-				 data-auto-hide="<?php echo esc_attr($opts['auto_hide']); ?>">
+				<div class="scroll-triggered-box stb stb-<?php echo esc_attr( $opts['css']['position'] ); ?>"
+				     id="stb-<?php echo $box->ID; ?>"
+				     style="display: none;">
 					<div class="stb-content"><?php echo $content; ?></div>
 					<span class="stb-close">&times;</span>
 				</div>

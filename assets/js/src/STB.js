@@ -3,7 +3,7 @@ module.exports = (function($) {
 
 	// Global Variables
 	var boxes = {},
-		windowHeight = $(window).height(),
+		windowHeight = window.innerHeight,
 		scrollTimer = 0;
 
 	var Box = require('./Box.js');
@@ -16,21 +16,12 @@ module.exports = (function($) {
 
 	// create a Box object from the DOM
 	function createBoxFromDOM() {
-
 		var $box = $(this);
-		var boxData = {
-			element: this,
-			id: parseInt($box.data('box-id')),
-			position: '',
-			trigger: $box.data('trigger'),
-			cookie: parseInt( $box.data('cookie') ),
-			testMode: (parseInt($box.data('test-mode')) === 1),
-			autoHide: (parseInt($box.data('auto-hide')) === 1),
-			triggerElementSelector: $box.data('trigger-element'),
-			triggerPercentage: parseInt( $box.data('trigger-percentage'), 10 ),
-			animation: $box.data('animation')
-		};
-		boxes[boxData.id] = new Box(boxData);
+		var id = parseInt(this.id.substring(4));
+		var options = STB_Options[id];
+		options.element = this;
+		options.$element = $box;
+		boxes[options.id] = new Box(options);
 	}
 
 	// schedule a check of all box criterias in 100ms

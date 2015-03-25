@@ -74,6 +74,7 @@ if( ! defined( 'STB::VERSION' ) ) {
 		<th><label for="stb_position"><?php _e( 'Box Position', 'scroll-triggered-boxes' ); ?></label></th>
 		<td>
 			<select id="stb_position" name="stb[css][position]" class="widefat">
+				<option value="center" <?php selected($opts['css']['position'], 'center'); ?>><?php _e( 'Center', 'scroll-triggered-boxes' ); ?></option>
 				<option value="top-left" <?php selected($opts['css']['position'], 'top-left'); ?>><?php _e( 'Top Left', 'scroll-triggered-boxes' ); ?></option>
 				<option value="top-center" <?php selected($opts['css']['position'], 'top-center'); ?>><?php _e( 'Top Center', 'scroll-triggered-boxes' ); ?></option>
 				<option value="top-right" <?php selected($opts['css']['position'], 'top-right'); ?>><?php _e( 'Top Right', 'scroll-triggered-boxes' ); ?></option>
