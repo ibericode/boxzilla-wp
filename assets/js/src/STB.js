@@ -4,7 +4,9 @@ module.exports = (function($) {
 	// Global Variables
 	var boxes = {},
 		windowHeight = window.innerHeight,
-		scrollTimer = 0;
+		scrollTimer = 0,
+		resizeTimer = 0,
+		startTime = new Date().getTime();
 
 	var Box = require('./Box.js');
 
@@ -14,6 +16,7 @@ module.exports = (function($) {
 	function init() {
 		$(".scroll-triggered-box").each(createBoxFromDOM);
 		$(window).bind('scroll.stb', onScroll);
+		$(window).bind('resize.stb', onWindowResize);
 		$(document).keyup(onKeyUp);
 	}
 
@@ -27,12 +30,14 @@ module.exports = (function($) {
 		boxes[options.id] = new Box(options);
 	}
 
+	function onWindowResize() {
+		resizeTimer && clearTimeout(resizeTimer);
+		resizeTimer = window.setTimeout(recalculateHeights, 100);
+	}
+
 	// "scroll" listener
 	function onScroll() {
-		if( scrollTimer ) {
-			window.clearTimeout(scrollTimer);
-		}
-
+		scrollTimer && clearTimeout(scrollTimer);
 		scrollTimer = window.setTimeout(checkBoxCriterias, 100);
 	}
 
@@ -59,15 +64,11 @@ module.exports = (function($) {
 
 	// check criteria for all registered boxes
 	function checkBoxCriterias() {
+
 		var scrollY = $(window).scrollTop();
 		var scrollHeight = scrollY + windowHeight;
 
 		for( var boxId in boxes ) {
-
-			if( ! boxes.hasOwnProperty( boxId ) ) {
-				continue;
-			}
-
 			var box = boxes[boxId];
 
 			// don't show if box is disabled (by cookie)
@@ -80,6 +81,14 @@ module.exports = (function($) {
 			} else if( box.autoHide ) {
 				box.hide();
 			}
+		}
+	}
+
+	// recalculate heights and variables based on height
+	function recalculateHeights() {
+		for( var boxId in boxes ) {
+			var box = boxes[boxId];
+			box.setCustomBoxStyling();
 		}
 	}
 
