@@ -19,7 +19,8 @@ if( ! defined( 'STB::VERSION' ) ) {
 		</td>
 		<td>
 			<label class="stb-label" for="stb-width"><?php _e( 'Box width', 'scroll-triggered-boxes' ); ?></label>
-			<input id="stb-width" name="stb[css][width]" id="stb-box-width" type="number" min="0" max="1600" value="<?php echo esc_attr($opts['css']['width']); ?>" />
+			<input id="stb-width" name="stb[css][width]" id="stb-box-width" min="0" max="3200" type="number" step="1" value="<?php echo esc_attr($opts['css']['width']); ?>" />
+			<p class="help"><?php _e( 'Width in px', 'scroll-triggered-boxes' ); ?></p>
 		</td>
 	</tr>
 	<tr valign="top">
@@ -29,7 +30,8 @@ if( ! defined( 'STB::VERSION' ) ) {
 		</td>
 		<td>
 			<label class="stb-label" for="stb-border-width"><?php _e( 'Border width', 'scroll-triggered-boxes' ); ?></label>
-			<input name="stb[css][border_width]" id="stb-border-width" type="number" min="0" max="25" value="<?php echo esc_attr($opts['css']['border_width']); ?>" />
+			<input name="stb[css][border_width]" id="stb-border-width" type="number" min="0" max="25" step="1" value="<?php echo esc_attr($opts['css']['border_width']); ?>" />
+			<p class="help"><?php _e( 'Width in px', 'scroll-triggered-boxes' ); ?></p>
 		</td>
 		<td></td>
 	</tr>
