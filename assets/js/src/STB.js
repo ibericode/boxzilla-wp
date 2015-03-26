@@ -5,8 +5,7 @@ module.exports = (function($) {
 	var boxes = {},
 		windowHeight = window.innerHeight,
 		scrollTimer = 0,
-		resizeTimer = 0,
-		startTime = new Date().getTime();
+		resizeTimer = 0;
 
 	var Box = require('./Box.js');
 
@@ -66,7 +65,7 @@ module.exports = (function($) {
 	function checkBoxCriterias() {
 
 		var scrollY = $(window).scrollTop();
-		var scrollHeight = scrollY + windowHeight;
+		var scrollHeight = scrollY + ( windowHeight * 0.9 );
 
 		for( var boxId in boxes ) {
 			var box = boxes[boxId];
@@ -93,8 +92,9 @@ module.exports = (function($) {
 	}
 
 	// init on window.load
-	jQuery(window).load(init);
+	$(window).load(init);
 
+	// expose a simple API to control all registered boxes
 	return {
 		boxes: boxes,
 		showBox: function(id) { boxes[id].show(); },
