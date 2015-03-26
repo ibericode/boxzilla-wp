@@ -143,12 +143,16 @@ class STB_Public {
 	}
 
 	/**
+	 * Get an array of STB_Box objects. These are the boxes that will be loaded for the current request.
+	 *
 	 * @return array
 	 */
 	protected function get_matched_boxes() {
 		static $boxes;
 
-		if( ! $boxes ) {
+		if( is_null( $boxes ) ) {
+
+			$boxes = array();
 			foreach ( $this->matched_box_ids as $box_id ) {
 
 				$box = get_post( $box_id );
@@ -188,13 +192,40 @@ class STB_Public {
 				'testMode' => (bool) $box->options['test_mode'],
 				'autoHide' => (bool) $box->options['auto_hide'],
 				'position' => $box->options['css']['position'],
-				'minimumScreenWidth' => absint( $box->options['hide_on_screen_size'] )
+				'minimumScreenWidth' => $this->get_minimum_screen_size_for_box( $box )
 			);
 
 			$boxes_options[ $box->ID ] = $options;
 		}
 
 		wp_localize_script( 'scroll-triggered-boxes', 'STB_Options', $boxes_options );
+	}
+
+	/**
+	 * @param $box
+	 *
+	 * @return int
+	 */
+	protected function get_minimum_screen_size_for_box( $box ) {
+		/**
+		 * @filter stb_auto_hide_small_screens
+		 * @expects bool
+		 * @param int $box_id
+		 * @deprecated 4.0 Use the hide_on_screen_size option instead
+		 *
+		 * Use to set whether the box should auto-hide on devices with a width smaller than 480px
+		 */
+		$auto_hide_small_screens = apply_filters('stb_auto_hide_small_screens', true, $box->ID );
+
+		if( '' === $box->options['hide_on_screen_size'] && $auto_hide_small_screens ) {
+			$minimum_screen_size = absint( $box->options['css']['width'] );
+		} elseif( $box->options['hide_on_screen_size'] > 0 ) {
+			$minimum_screen_size = absint( $box->options['hide_on_screen_size'] );
+		} else {
+			$minimum_screen_size = 0;
+		}
+
+		return $minimum_screen_size;
 	}
 
 	/**
@@ -207,29 +238,11 @@ class STB_Public {
 
 			$opts = $box->options;
 			$css = $opts['css'];
-			$content = $box->post_content;
 
 			// run filters
-			$content = apply_filters( 'stb_content', $content, $box );
+			$content = apply_filters( 'stb_content', $box->post_content, $box );
 
-			/**
-			 * @filter stb_auto_hide_small_screens
-			 * @expects bool
-			 * @param int $box_id
-			 * @deprecated 4.0 Use the hide_on_screen_size option instead
-			 *
-			 * Use to set whether the box should auto-hide on devices with a width smaller than 480px
-			 */
-			$auto_hide_small_screens = apply_filters('stb_auto_hide_small_screens', true, $box->ID );
-
-			if( '' === $opts['hide_on_screen_size'] && $auto_hide_small_screens ) {
-				$hide_on_screen_size = absint( $css['width'] );
-			} elseif( $opts['hide_on_screen_size'] > 0 ) {
-				$hide_on_screen_size = absint( $opts['hide_on_screen_size'] );
-			} else {
-				$hide_on_screen_size = 0;
-			}
-
+			$minimum_screen_size = $this->get_minimum_screen_size_for_box( $box );
 ?>
 			<style type="text/css">
 				#stb-<?php echo $box->ID; ?> {
@@ -239,8 +252,8 @@ class STB_Public {
 					max-width: <?php echo ( !empty( $css['width'] ) ) ? absint( $css['width'] ) . 'px': 'auto'; ?>;
 				}
 
-				<?php if( $hide_on_screen_size > 0 ) { ?>
-					@media only screen and (max-width: <?php echo $hide_on_screen_size; ?>px) {
+				<?php if( $minimum_screen_size > 0 ) { ?>
+					@media (max-width: <?php echo $minimum_screen_size; ?>px) {
 						#stb-<?php echo $box->ID; ?> { display: none !important; }
 					}
 				<?php } ?>
@@ -251,11 +264,11 @@ class STB_Public {
 				     style="display: none;">
 					<div class="stb-content"><?php echo $content; ?></div>
 					<span class="stb-close">&times;</span>
-				</div>
-			</div>
+				</div></div>
 			<?php
 		}
 
+			// print overlay element, we only need this once (it's re-used for all boxes)
 			echo '<div id="stb-overlay"></div>';
 		?><!-- / Scroll Triggered Box --><?php
 	}
