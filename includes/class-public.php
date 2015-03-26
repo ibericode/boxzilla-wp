@@ -241,8 +241,8 @@ class STB_Public {
 
 			// run filters
 			$content = apply_filters( 'stb_content', $box->post_content, $box );
-
 			$minimum_screen_size = $this->get_minimum_screen_size_for_box( $box );
+			$close_icon = apply_filters( 'stb_box_close_icon', '&times;', $box );
 ?>
 			<style type="text/css">
 				#stb-<?php echo $box->ID; ?> {
@@ -257,13 +257,21 @@ class STB_Public {
 						#stb-<?php echo $box->ID; ?> { display: none !important; }
 					}
 				<?php } ?>
+
+				<?php do_action( 'stb_print_box_css', $box ); ?>
 			</style>
 			<div class="stb-container stb-<?php echo esc_attr( $opts['css']['position'] ); ?>-container">
 				<div class="scroll-triggered-box stb stb-<?php echo esc_attr( $opts['css']['position'] ); ?>"
 				     id="stb-<?php echo $box->ID; ?>"
 				     style="display: none;">
-					<div class="stb-content"><?php echo $content; ?></div>
-					<span class="stb-close">&times;</span>
+					<div class="stb-content">
+						<?php
+						do_action( 'stb_print_box_content_before', $box );
+						echo $content;
+						do_action( 'stb_print_box_content_after', $box );
+						?>
+					</div>
+					<span class="stb-close"><?php echo $close_icon; ?></span>
 				</div></div>
 			<?php
 		}
