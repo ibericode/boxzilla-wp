@@ -14,6 +14,7 @@ body {
 	height: 0;
 	text-align: center;
 	z-index: 999999;
+	line-height: 0;
 }
 
 .stb-bottom-center-container {
@@ -28,55 +29,81 @@ body {
 }
 
 .stb-bottom-center-container > div,
-.stb-top-center-container > div {
+.stb-top-center-container > div,
+.stb-center-container > div{
 	display: inline-block;
 	text-align: left;
 }
 
-.stb { 
+.stb {
 	position: fixed;
-	right: 10px; 
-	bottom: 10px; 
+	right: 0;
+	bottom: 0;
 	z-index: 999999;
 	-moz-box-shadow: 0 0 10px 1px #888;
 	-webkit-box-shadow: 0 0 10px 1px #888;
 	box-shadow: 0 0 10px 1px #888;
 	padding: 25px;
-	margin: 10px;
-}
+	margin: 0;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
 
-.stb.stb-top-left{ 
-	top: 0; left: 0; bottom: auto; right: auto;
+	/* reset line-height because of container line-height hack */
+	line-height: initial;
 }
 
 .stb.stb-top-center,
-.stb.stb-bottom-center {
+.stb.stb-bottom-center{
 	position: relative;
 	bottom: 0; top: 0; right: 0; left: 0;
 }
 
-.stb.stb-top-right{ 
+.stb.stb-top-center {
+	border-top: 0 !important;
+}
+
+.stb.stb-bottom-center {
+	border-bottom: 0 !important;
+}
+
+.stb.stb.stb-top-left{
+	top: 0; left: 0; bottom: auto; right: auto;
+	border-top: 0 !important;
+	border-left: 0 !important;
+}
+
+.stb.stb.stb-top-right{
 	top: 0; right: 0; bottom: auto; left: auto;
+	border-top: 0 !important;
+	border-right: 0 !important;
 }
 
-.stb.stb-bottom-left{ 
+.stb.stb.stb-bottom-left{
 	bottom: 0; left: 0; top: auto; right: auto;
+	border-bottom: 0 !important;
+	border-left: 0 !important;
 }
 
-.stb.stb-bottom-right{ 
+.stb.stb.stb-bottom-right{
 	bottom: 0; right: 0; top: auto; left: auto;
+	border-bottom: 0 !important;
+	border-right: 0 !important;
 }
 
-.stb.stb-center {
+.stb.stb.stb-center {
 	position: relative;
 	margin: 0 auto;
+	left: auto; top: auto; right: auto; bottom: auto;
 }
 
+/* remove top margin from first child element */
 .stb-content > *:first-child {
 	margin-top: 0 !important;
 	padding-top: 0 !important;
 }
 
+/* remove bottom margin from last child element */
 .stb-content > *:last-child {
 	margin-bottom:0 !important;
 	padding-bottom:0 !important;
