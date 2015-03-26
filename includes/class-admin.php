@@ -205,6 +205,18 @@ class STB_Admin {
 		$opts['trigger_percentage'] = absint( sanitize_text_field( $opts['trigger_percentage'] ) );
 		$opts['trigger_element'] = sanitize_text_field( $opts['trigger_element'] );
 
+		// make sure colors start with `#`
+		$color_keys = array( 'color', 'background_color', 'border_color' );
+		foreach( $color_keys as $key ) {
+			$color = sanitize_text_field( $opts['css'][$key] );
+
+			// make sure color starts with `#`
+			if( '' !== $color && $color[0] !== '#' ) {
+				$color = '#' . $color;
+			}
+			$opts['css'][$key] = $color;
+		}
+
 		// save box settings
 		update_post_meta( $post_id, 'stb_options', $opts );
 
