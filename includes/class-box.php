@@ -169,7 +169,7 @@ class STB_Box {
 				if ( '' !== $css['border_color'] && ! '' !== $css['border_width'] ) {
 					printf( 'border: %spx solid %s', esc_html( $css['border_width'] ), esc_html( $css['border_color'] ) );
 				}
-				if( '' !== $css['width'] ) {
+				if( ! empty( $css['width'] ) ) {
 					printf( 'max-width: %dpx', absint( $css['width'] ) );
 				}
 
