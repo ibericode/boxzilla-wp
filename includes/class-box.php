@@ -164,17 +164,17 @@ class STB_Box {
 					printf( 'background: %s;', esc_html( $css['background_color'] ) );
 				}
 				if ( '' !== $css['color'] ) {
-					printf( 'color: %s', esc_html( $css['color'] ) );
+					printf( 'color: %s;', esc_html( $css['color'] ) );
 				}
 				if ( '' !== $css['border_color'] && ! '' !== $css['border_width'] ) {
-					printf( 'border: %spx solid %s', esc_html( $css['border_width'] ), esc_html( $css['border_color'] ) );
+					printf( 'border: %spx solid %s;', esc_html( $css['border_width'] ), esc_html( $css['border_color'] ) );
 				}
 				if( ! empty( $css['width'] ) ) {
-					printf( 'max-width: %dpx', absint( $css['width'] ) );
+					printf( 'max-width: %dpx;', absint( $css['width'] ) );
 				}
 
 				if( $minimum_screen_size > 0 ) {
-					printf( '@media (max-width: %dpx { #stb-%d { display: none !important; } }', $minimum_screen_size, $this->ID );
+					printf( '@media ( max-width: %dpx ) { #stb-%d { display: none !important; } }', $minimum_screen_size, $this->ID );
 				}
 
 				// close wrapper
