@@ -45,6 +45,8 @@ class STB_Box {
 	}
 
 	/**
+	 * Get the options for this box
+	 *
 	 * @return array
 	 */
 	public function get_options() {
@@ -52,6 +54,8 @@ class STB_Box {
 	}
 
 	/**
+	 * Get the CSS classes which are added to the `class` attribute of the Box element
+	 *
 	 * @return string
 	 */
 	public function get_css_classes() {
@@ -71,6 +75,8 @@ class STB_Box {
 	}
 
 	/**
+	 * Get the close / hide icon for this box
+	 *
 	 * @return string
 	 */
 	public function get_close_icon() {
@@ -79,6 +85,8 @@ class STB_Box {
 	}
 
 	/**
+	 * Get the content of this box
+	 *
 	 * @return mixed|void
 	 */
 	public function get_content() {
@@ -87,6 +95,8 @@ class STB_Box {
 	}
 
 	/**
+	 * Get the minimum allowed screen size for this box
+	 *
 	 * @return int
 	 */
 	public function get_minimum_screen_size() {
@@ -116,28 +126,9 @@ class STB_Box {
 	 * Output HTML of this box
 	 */
 	public function output_html() {
-			$opts = $this->get_options();
-			$css = $opts['css'];
-
-			// run filters
-			$minimum_screen_size = $this->get_minimum_screen_size();
+			$opts = $this->options;
+			$this->output_css();
 			?>
-			<style type="text/css">
-				#stb-<?php echo $this->ID; ?> {
-					background: <?php echo ( ! empty( $css['background_color'] ) ) ? esc_html( $css['background_color'] ) : ''; ?>;
-					<?php if ( !empty( $css['color'] ) ) { ?>color: <?php echo esc_html( $css['color'] ); ?>;<?php } ?>
-					<?php if ( !empty( $css['border_color'] ) && ! empty( $css['border_width'] ) ) { ?>border: <?php echo esc_html( $css['border_width'] ) . 'px' ?> solid <?php echo esc_html( $css['border_color'] ); ?>;<?php } ?>
-					max-width: <?php echo ( !empty( $css['width'] ) ) ? absint( $css['width'] ) . 'px': 'auto'; ?>;
-				}
-
-				<?php if( $minimum_screen_size > 0 ) { ?>
-				@media (max-width: <?php echo $minimum_screen_size; ?>px) {
-					#stb-<?php echo $this->ID; ?> { display: none !important; }
-				}
-				<?php } ?>
-
-				<?php do_action( 'stb_print_box_css', $this ); ?>
-			</style>
 			<div class="stb-container stb-<?php echo esc_attr( $opts['css']['position'] ); ?>-container">
 				<div class="<?php echo esc_attr( $this->get_css_classes() ); ?>"
 				     id="stb-<?php echo $this->ID; ?>"
@@ -152,5 +143,44 @@ class STB_Box {
 					<span class="stb-close"><?php echo $this->get_close_icon(); ?></span>
 				</div></div>
 			<?php
+	}
+
+	/**
+	 * Output a <style> block, containing the custom styles for this box
+	 */
+	public function output_css() {
+		$css = $this->options['css'];
+
+		// run filters
+		$minimum_screen_size = $this->get_minimum_screen_size();
+		?>
+		<style type="text/css">
+			<?php
+				// open selector wrapper
+				printf( '#stb-%d {', $this->ID );
+
+				// print any rules which may have been set
+				if ( '' !== $css['background_color'] ) {
+					printf( 'background: %s;', esc_html( $css['background_color'] ) );
+				}
+				if ( '' !== $css['color'] ) {
+					printf( 'color: %s', esc_html( $css['color'] ) );
+				}
+				if ( '' !== $css['border_color'] && ! '' !== $css['border_width'] ) {
+					printf( 'border: %spx solid %s', esc_html( $css['border_width'] ), esc_html( $css['border_color'] ) );
+				}
+				if( '' !== $css['width'] ) {
+					printf( 'max-width: %dpx', absint( $css['width'] ) );
+				}
+
+				if( $minimum_screen_size > 0 ) {
+					printf( '@media (max-width: %dpx { #stb-%d { display: none !important; } }', $minimum_screen_size, $this->ID );
+				}
+
+				// close wrapper
+				echo '}';
+				do_action( 'stb_print_box_css', $this ); ?>
+		</style>
+		<?php
 	}
 }
