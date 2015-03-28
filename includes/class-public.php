@@ -19,6 +19,8 @@ class STB_Public {
 
 	/**
 	 * Constructor
+	 *
+	 * @param STB $plugin
 	 */
 	public function __construct( STB $plugin ) {
 		$this->plugin = $plugin;
@@ -163,9 +165,6 @@ class STB_Public {
 				return $boxes;
 			}
 
-			// include Box class
-			require_once dirname( STB::FILE ) . '/includes/class-box.php';
-
 			// query Box posts
 			$boxes = get_posts(
 				array(
@@ -177,7 +176,7 @@ class STB_Public {
 
 			// create `STB_Box` instances out of \WP_Post instances
 			foreach ( $boxes as $key => $box ) {
-				$boxes[ $key ] = new STB_Box( $box, $this->plugin->get_box_options( $box->ID ) );
+				$boxes[ $key ] = new STB_Box( $box );
 			}
 		}
 

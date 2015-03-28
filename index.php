@@ -94,20 +94,20 @@ final class STB {
 		// store the URL to the plugin directory
 		$this->url = plugins_url( '/' , __FILE__ );
 
+		// register autoloader
+		spl_autoload_register( array( $this, 'autoload' ) );
+
 		add_action( 'init', array( $this, 'register_box_post_type' ), 11 );
 
 		if( ! is_admin() ) {
 
 			// FRONTEND
-			require_once dirname( self::FILE ) . '/includes/class-public.php';
 			$this->public = new STB_Public( $this );
 
 		} elseif( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) {
 
 			// BACKEND (NOT AJAX)
-			require_once dirname( self::FILE ) . '/includes/class-admin.php';
 			$this->admin = new STB_Admin( $this );
-
 		}
 	}
 
@@ -143,46 +143,6 @@ final class STB {
 	}
 
 	/**
-	 * Get the box options for box with given ID.
-	 *
-	 * @param int $id
-	 *
-	 * @return array Array of box options
-	 */
-	public function get_box_options( $id ) {
-
-		static $defaults = array(
-			'css' => array(
-				'background_color' => '',
-				'color' => '',
-				'width' => '',
-				'border_color' => '',
-				'border_width' => '',
-				'position' => 'bottom-right'
-			),
-			'rules' => array(
-				array('condition' => '', 'value' => '')
-			),
-			'cookie' => 0,
-			'trigger' => 'percentage',
-			'trigger_percentage' => 65,
-			'trigger_element' => '',
-			'animation' => 'fade',
-			'test_mode' => 0,
-			'auto_hide' => 0,
-			'hide_on_screen_size' => ''
-		);
-
-		$opts = get_post_meta( $id, 'stb_options', true );
-
-		// merge with array of defaults
-		$opts = array_merge( $defaults, $opts );
-
-		// allow others to filter the final array of options
-		return apply_filters( 'stb_box_options', $opts, $id );
-	}
-
-	/**
 	 * @return STB_Public
 	 */
 	public function get_public() {
@@ -194,6 +154,30 @@ final class STB {
 	 */
 	public function get_admin() {
 		return $this->admin;
+	}
+
+	/**
+	 * @param $class_name
+	 *
+	 * @return bool
+	 */
+	public function autoload( $class_name ) {
+		static $classes;
+
+		if( is_null( $classes ) ) {
+			$classes = array(
+				'STB_Box' => 'class-box.php',
+				'STB_Public' => 'class-public.php',
+				'STB_Admin' => 'class-admin.php'
+			);
+		}
+
+		if( isset( $classes[ $class_name ] ) ) {
+			require_once dirname( __FILE__ ) . '/includes/' . $classes[ $class_name ];
+			return true;
+		}
+
+		return false;
 	}
 
 }

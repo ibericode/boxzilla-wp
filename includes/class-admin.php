@@ -147,39 +147,40 @@ class STB_Admin {
 	}
 
 	/**
-	 * @param WP_Post $box
+	 * @param WP_Post $post
 	 * @param $metabox
 	 */
-	public function show_meta_options( WP_Post $box, $metabox ) {
+	public function show_meta_options( WP_Post $post, $metabox ) {
 
 		// get box options
-		$opts = $this->plugin->get_box_options( $box->ID );
+		$box = new STB_Box( $post );
+		$opts = $box->get_options();
 
 		// include view
 		include dirname( STB::FILE ) . '/includes/views/metabox-options.php';
 	}
 
 	/**
-	 * @param WP_Post $box
+	 * @param WP_Post $post
 	 * @param         $metabox
 	 */
-	public function show_dvk_info_donate( WP_Post $box, $metabox ) {
+	public function show_dvk_info_donate( WP_Post $post, $metabox ) {
 		include dirname( STB::FILE ) . '/includes/views/metabox-dvk-donate.php';
 	}
 
 	/**
-	 * @param WP_Post $box
+	 * @param WP_Post $post
 	 * @param         $metabox
 	 */
-	public function show_dvk_info_support( WP_Post $box, $metabox ) {
+	public function show_dvk_info_support( WP_Post $post, $metabox ) {
 		include dirname( STB::FILE ) . '/includes/views/metabox-dvk-support.php';
 	}
 
 	/**
-	 * @param WP_Post $box
+	 * @param WP_Post $post
 	 * @param         $metabox
 	 */
-	public function show_dvk_info_links( WP_Post $box, $metabox ) {
+	public function show_dvk_info_links( WP_Post $post, $metabox ) {
 		include dirname( STB::FILE ) . '/includes/views/metabox-dvk-links.php';
 	}
 
@@ -239,10 +240,10 @@ class STB_Admin {
 		}
 
 		// sanitize settings
-		$opts['css']['width'] = absint( sanitize_text_field( $opts['css']['width'] ) );
-		$opts['css']['border_width'] = absint( sanitize_text_field( $opts['css']['border_width'] ) );
-		$opts['cookie'] = absint( sanitize_text_field( $opts['cookie'] ) );
-		$opts['trigger_percentage'] = absint( sanitize_text_field( $opts['trigger_percentage'] ) );
+		$opts['css']['width'] = absint( $opts['css']['width'] );
+		$opts['css']['border_width'] = absint( $opts['css']['border_width'] );
+		$opts['cookie'] = absint( $opts['cookie'] );
+		$opts['trigger_percentage'] = absint( $opts['trigger_percentage'] );
 		$opts['trigger_element'] = sanitize_text_field( $opts['trigger_element'] );
 
 		// make sure colors start with `#`

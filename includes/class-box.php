@@ -3,7 +3,7 @@
 class STB_Box {
 
 	/**
-	 * @param $post
+	 * @param \WP_Post $post
 	 */
 	public $post;
 
@@ -15,12 +15,17 @@ class STB_Box {
 	/**
 	 * @var array
 	 */
-	public $options;
+	public $options = array();
 
 	/**
 	 * @var string
 	 */
-	public $content;
+	public $title = '';
+
+	/**
+	 * @var string
+	 */
+	public $content = '';
 
 	/**
 	 * @var bool
@@ -28,13 +33,70 @@ class STB_Box {
 	public $enabled = false;
 
 	/**
-	 * @param \WP_Post $post
+	 * @param \WP_Post|int $post
 	 */
-	public function __construct( \WP_Post $post, $options ) {
+	public function __construct( $post ) {
+
+		// fetch post if it hasn't been fetched yet
+		if( is_int( $post ) ) {
+			$post = get_post( $post );
+		}
+
+		// store reference to post object in property
+		$this->post = $post;
+
+		// store ID in property for quick access
 		$this->ID = $post->ID;
+
+		// store title in property
+		$this->title = $post->post_title;
+
+		// store content in property
 		$this->content = $post->post_content;
-		$this->options = $options;
+
+		// is this box enabled?
 		$this->enabled = ( $post->post_status === 'publish' );
+
+		// load and store options in property
+		$this->options = $this->load_options();
+	}
+
+	/**
+	 * Get the options for this box.
+	 **
+	 * @return array Array of box options
+	 */
+	protected function load_options() {
+
+		static $defaults = array(
+			'css' => array(
+				'background_color' => '',
+				'color' => '',
+				'width' => '',
+				'border_color' => '',
+				'border_width' => '',
+				'position' => 'bottom-right'
+			),
+			'rules' => array(
+				array('condition' => '', 'value' => '')
+			),
+			'cookie' => 0,
+			'trigger' => 'percentage',
+			'trigger_percentage' => 65,
+			'trigger_element' => '',
+			'animation' => 'fade',
+			'test_mode' => 0,
+			'auto_hide' => 0,
+			'hide_on_screen_size' => ''
+		);
+
+		$opts = get_post_meta( $this->ID, 'stb_options', true );
+
+		// merge with array of defaults
+		$opts = array_merge( $defaults, $opts );
+
+		// allow others to filter the final array of options
+		return apply_filters( 'stb_box_options', $opts, $this );
 	}
 
 	/**
@@ -167,7 +229,7 @@ class STB_Box {
 					printf( 'color: %s;', esc_html( $css['color'] ) );
 				}
 				if ( '' !== $css['border_color'] && ! '' !== $css['border_width'] ) {
-					printf( 'border: %spx solid %s;', esc_html( $css['border_width'] ), esc_html( $css['border_color'] ) );
+					printf( 'border: %dpx solid %s;', absint( $css['border_width'] ), esc_html( $css['border_color'] ) );
 				}
 				if( ! empty( $css['width'] ) ) {
 					printf( 'max-width: %dpx;', absint( $css['width'] ) );
