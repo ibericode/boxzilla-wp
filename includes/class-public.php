@@ -8,6 +8,11 @@ if( ! defined( 'STB::VERSION' ) ) {
 class STB_Public {
 
 	/**
+	 * @var STB
+	 */
+	private $plugin;
+
+	/**
 	 * @var array
 	 */
 	private $matched_box_ids = array();
@@ -15,7 +20,8 @@ class STB_Public {
 	/**
 	 * Constructor
 	 */
-	public function __construct() {
+	public function __construct( STB $plugin ) {
+		$this->plugin = $plugin;
 		add_action( 'wp', array( $this, 'init' ) );
 	}
 
@@ -31,12 +37,12 @@ class STB_Public {
 			add_action( 'wp_enqueue_scripts', array( $this, 'load_styles' ) );
 			add_action( 'wp_footer', array( $this, 'output_boxes' ), 1 );
 
-			add_filter( 'stb_content', 'wptexturize') ;
-			add_filter( 'stb_content', 'convert_smilies' );
-			add_filter( 'stb_content', 'convert_chars' );
-			add_filter( 'stb_content', 'wpautop' );
-			add_filter( 'stb_content', 'shortcode_unautop' );
-			add_filter( 'stb_content', 'do_shortcode', 11 );
+			add_filter( 'stb_box_content', 'wptexturize') ;
+			add_filter( 'stb_box_content', 'convert_smilies' );
+			add_filter( 'stb_box_content', 'convert_chars' );
+			add_filter( 'stb_box_content', 'wpautop' );
+			add_filter( 'stb_box_content', 'shortcode_unautop' );
+			add_filter( 'stb_box_content', 'do_shortcode', 11 );
 		}
 	}
 
@@ -130,10 +136,10 @@ class STB_Public {
 		$pre_suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 		// stylesheets
-		wp_register_style( 'scroll-triggered-boxes', STB::$url . 'assets/css/styles' . $pre_suffix . '.css', array(), STB::VERSION );
+		wp_register_style( 'scroll-triggered-boxes', $this->plugin->url . 'assets/css/styles' . $pre_suffix . '.css', array(), STB::VERSION );
 
 		// scripts
-		wp_register_script( 'scroll-triggered-boxes', STB::$url . 'assets/js/script' . $pre_suffix . '.js' , array( 'jquery' ), STB::VERSION, true );
+		wp_register_script( 'scroll-triggered-boxes', $this->plugin->url . 'assets/js/script' . $pre_suffix . '.js' , array( 'jquery' ), STB::VERSION, true );
 
 		// Finally, enqueue style.
 		wp_enqueue_style( 'scroll-triggered-boxes' );
@@ -145,27 +151,33 @@ class STB_Public {
 	/**
 	 * Get an array of STB_Box objects. These are the boxes that will be loaded for the current request.
 	 *
-	 * @return array
+	 * @return array An array of `STB_Box` objects.
 	 */
-	protected function get_matched_boxes() {
+	public function get_matched_boxes() {
 		static $boxes;
 
 		if( is_null( $boxes ) ) {
 
-			$boxes = array();
-			foreach ( $this->matched_box_ids as $box_id ) {
+			if( count( $this->matched_box_ids ) === 0 ) {
+				$boxes = array();
+				return $boxes;
+			}
 
-				$box = get_post( $box_id );
+			// include Box class
+			require_once dirname( STB::FILE ) . '/includes/class-box.php';
 
-				// has box with this id been found?
-				if ( ! $box instanceof WP_Post || $box->post_status !== 'publish' ) {
-					continue;
-				}
+			// query Box posts
+			$boxes = get_posts(
+				array(
+					'post_type' => 'scroll-triggered-box',
+					'post_status' => 'publish',
+					'post__in'    => $this->matched_box_ids
+				)
+			);
 
-				// add options property to box
-				$box->options = STB::get_box_options( $box->ID );
-
-				$boxes[] = $box;
+			// create `STB_Box` instances out of \WP_Post instances
+			foreach ( $boxes as $key => $box ) {
+				$boxes[ $key ] = new STB_Box( $box, $this->plugin->get_box_options( $box->ID ) );
 			}
 		}
 
@@ -181,6 +193,8 @@ class STB_Public {
 
 		foreach( $this->get_matched_boxes() as $box ) {
 
+			/* @var $box STB_Box */
+
 			// create array with box options
 			$options = array(
 				'id' => $box->ID,
@@ -192,7 +206,7 @@ class STB_Public {
 				'testMode' => (bool) $box->options['test_mode'],
 				'autoHide' => (bool) $box->options['auto_hide'],
 				'position' => $box->options['css']['position'],
-				'minimumScreenWidth' => $this->get_minimum_screen_size_for_box( $box )
+				'minimumScreenWidth' => $box->get_minimum_screen_size()
 			);
 
 			$boxes_options[ $box->ID ] = $options;
@@ -202,78 +216,15 @@ class STB_Public {
 	}
 
 	/**
-	 * @param $box
-	 *
-	 * @return int
-	 */
-	protected function get_minimum_screen_size_for_box( $box ) {
-		/**
-		 * @filter stb_auto_hide_small_screens
-		 * @expects bool
-		 * @param int $box_id
-		 * @deprecated 4.0 Use the hide_on_screen_size option instead
-		 *
-		 * Use to set whether the box should auto-hide on devices with a width smaller than 480px
-		 */
-		$auto_hide_small_screens = apply_filters('stb_auto_hide_small_screens', true, $box->ID );
-
-		if( '' === $box->options['hide_on_screen_size'] && $auto_hide_small_screens ) {
-			$minimum_screen_size = absint( $box->options['css']['width'] );
-		} elseif( $box->options['hide_on_screen_size'] > 0 ) {
-			$minimum_screen_size = absint( $box->options['hide_on_screen_size'] );
-		} else {
-			$minimum_screen_size = 0;
-		}
-
-		return $minimum_screen_size;
-	}
-
-	/**
 	* Outputs the boxes in the footer
 	*/
 	public function output_boxes() {
 		?><!-- Scroll Triggered Boxes v<?php echo STB::VERSION; ?> - https://wordpress.org/plugins/scroll-triggered-boxes/--><?php
 
+		// print HTML for each of the boxes
 		foreach ( $this->get_matched_boxes() as $box ) {
-
-			$opts = $box->options;
-			$css = $opts['css'];
-
-			// run filters
-			$content = apply_filters( 'stb_content', $box->post_content, $box );
-			$minimum_screen_size = $this->get_minimum_screen_size_for_box( $box );
-			$close_icon = apply_filters( 'stb_box_close_icon', '&times;', $box );
-?>
-			<style type="text/css">
-				#stb-<?php echo $box->ID; ?> {
-					background: <?php echo ( ! empty( $css['background_color'] ) ) ? esc_html( $css['background_color'] ) : 'white'; ?>;
-					<?php if ( !empty( $css['color'] ) ) { ?>color: <?php echo esc_html( $css['color'] ); ?>;<?php } ?>
-					<?php if ( !empty( $css['border_color'] ) && ! empty( $css['border_width'] ) ) { ?>border: <?php echo esc_html( $css['border_width'] ) . 'px' ?> solid <?php echo esc_html( $css['border_color'] ); ?>;<?php } ?>
-					max-width: <?php echo ( !empty( $css['width'] ) ) ? absint( $css['width'] ) . 'px': 'auto'; ?>;
-				}
-
-				<?php if( $minimum_screen_size > 0 ) { ?>
-					@media (max-width: <?php echo $minimum_screen_size; ?>px) {
-						#stb-<?php echo $box->ID; ?> { display: none !important; }
-					}
-				<?php } ?>
-
-				<?php do_action( 'stb_print_box_css', $box ); ?>
-			</style>
-			<div class="stb-container stb-<?php echo esc_attr( $opts['css']['position'] ); ?>-container">
-				<div class="scroll-triggered-box stb stb-<?php echo esc_attr( $opts['css']['position'] ); ?>"
-				     id="stb-<?php echo $box->ID; ?>"
-				     style="display: none;">
-					<div class="stb-content">
-						<?php
-						do_action( 'stb_print_box_content_before', $box );
-						echo $content;
-						do_action( 'stb_print_box_content_after', $box );
-						?>
-					</div>
-					<span class="stb-close"><?php echo $close_icon; ?></span>
-				</div></div>
-			<?php
+			/* @var $box STB_Box */
+			$box->output_html();
 		}
 
 			// print overlay element, we only need this once (it's re-used for all boxes)

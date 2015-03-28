@@ -8,6 +8,7 @@ if( ! defined( 'STB::VERSION' ) ) {
 
 <h3 class="stb-title"><?php _e( 'Appearance', 'scroll-triggered-boxes' ); ?></h3>
 <table class="form-table">
+	<?php do_action( 'stb_appearance_options_before', $box, $opts ); ?>
 	<tr valign="top">
 		<td>
 			<label class="stb-label" for="stb-background-color"><?php _e( 'Background color', 'scroll-triggered-boxes' ); ?></label>
@@ -35,6 +36,7 @@ if( ! defined( 'STB::VERSION' ) ) {
 		</td>
 		<td></td>
 	</tr>
+	<?php do_action( 'stb_appearance_options_after', $box, $opts ); ?>
 </table>
 
 <h3 class="stb-title"><?php _e( 'Display Options', 'scroll-triggered-boxes' ); ?></h3>
@@ -123,7 +125,7 @@ if( ! defined( 'STB::VERSION' ) ) {
 	<tr valign="top">
 		<th><label for="stb_hide_on_screen_size"><?php _e( 'Hide box on small screens?', 'scroll-triggered-boxes' ); ?></label></th>
 		<td colspan="3">
-			<p><?php printf( __( 'Hide on screens smaller than %s.', 'scroll-triggered-boxes' ), '<input type="number" min="0" name="stb[hide_on_screen_size]" value="' . esc_attr( $opts['hide_on_screen_size'] ) . '" placeholder="'. $opts['css']['width'] .'" style="max-width: 70px;" />px' ); ?></p>
+			<p><?php printf( __( 'Hide on screens smaller than %s.', 'scroll-triggered-boxes' ), '<input type="number" min="0" name="stb[hide_on_screen_size]" value="' . esc_attr( $opts['hide_on_screen_size'] ) . '" placeholder="'. esc_attr( $opts['css']['width'] ) .'" style="max-width: 70px;" />px' ); ?></p>
 			<p class="help"><?php _e( 'Set to <code>0</code> if you do not want to disable the box on small screens.', 'scroll-triggered-boxes' ); ?></p>
 		</td>
 

@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Scroll Triggered Boxes
-Version: 1.4.3
+Version: 2.0
 Plugin URI: https://dannyvankooten.com/
 Description: Call-To-Action Boxes that display after visitors scroll down far enough. Highly conversing, not so annoying!
 Author: Danny van Kooten
@@ -33,32 +33,80 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-final class STB
-{
-	const VERSION = '1.4.3';
+final class STB {
+
+	/**
+	 * @const string
+	 */
+	const VERSION = '2.0';
+
+	/**
+	 * @const string
+	 */
 	const FILE = __FILE__;
 
-	public static $dir = '';
-	public static $url = '';
+	/**
+	 * @var STB
+	 */
+	public static $instance;
 
-	public static function bootstrap() {
+	/**
+	 * @var string
+	 */
+	public $url = '';
 
-		self::$dir = dirname( __FILE__ );
-		self::$url = plugins_url( '/' , __FILE__ );
+	/**
+	 * @var STB_Public
+	 */
+	protected $public;
 
-		add_action( 'init', array( __CLASS__, 'init' ), 11 );
+	/**
+	 * @var STB_Admin
+	 */
+	protected $admin;
+
+	/**
+	 * @return STB
+	 */
+	public static function instance() {
+		return self::$instance;
+	}
+
+	/**
+	 * Initialise the plugin
+	 *
+	 * @return STB
+	 */
+	public static function init() {
+
+		if( is_null( self::$instance ) ) {
+			self::$instance = new STB();
+		}
+
+		return self::$instance;
+	}
+
+	/**
+	 * Constructor
+	 */
+	private function __construct() {
+
+		// store the URL to the plugin directory
+		$this->url = plugins_url( '/' , __FILE__ );
+
+		add_action( 'init', array( $this, 'register_box_post_type' ), 11 );
 
 		if( ! is_admin() ) {
 
 			// FRONTEND
-			require_once self::$dir . '/includes/class-public.php';
-			new STB_Public();
+			require_once dirname( self::FILE ) . '/includes/class-public.php';
+			$this->public = new STB_Public( $this );
 
 		} elseif( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) {
 
 			// BACKEND (NOT AJAX)
-			require_once self::$dir . '/includes/class-admin.php';
-			new STB_Admin();
+			require_once dirname( self::FILE ) . '/includes/class-admin.php';
+			$this->admin = new STB_Admin( $this );
 
 		}
 	}
@@ -66,7 +114,7 @@ final class STB
 	/**
 	 * Initializes the plugin
 	 */
-	public static function init() {
+	public function register_box_post_type() {
 
 		// Register custom post type
 		$args = array(
@@ -88,7 +136,7 @@ final class STB
 			),
 			'show_ui' => true,
 			'menu_position' => 108,
-			'menu_icon' => STB::$url . '/assets/img/menu-icon.png'
+			'menu_icon' => $this->url . '/assets/img/menu-icon.png'
 		);
 
 		register_post_type( 'scroll-triggered-box', $args );
@@ -101,7 +149,7 @@ final class STB
 	 *
 	 * @return array Array of box options
 	 */
-	public static function get_box_options( $id ) {
+	public function get_box_options( $id ) {
 
 		static $defaults = array(
 			'css' => array(
@@ -127,9 +175,28 @@ final class STB
 
 		$opts = get_post_meta( $id, 'stb_options', true );
 
-		return wp_parse_args( $opts, $defaults );
+		// merge with array of defaults
+		$opts = array_merge( $defaults, $opts );
+
+		// allow others to filter the final array of options
+		return apply_filters( 'stb_box_options', $opts, $id );
+	}
+
+	/**
+	 * @return STB_Public
+	 */
+	public function get_public() {
+		return $this->public;
+	}
+
+	/**
+	 * @return STB_Admin
+	 */
+	public function get_admin() {
+		return $this->admin;
 	}
 
 }
 
-add_action( 'plugins_loaded', array( 'STB', 'bootstrap' ) );
+// store the one true instance in a global var
+$GLOBALS['ScrollTriggeredBoxes'] = STB::init();

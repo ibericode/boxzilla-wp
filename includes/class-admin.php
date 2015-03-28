@@ -12,25 +12,36 @@ class STB_Admin {
 	 */
 	private $plugin_file = '';
 
-	public function __construct() {
+	/**
+	 * @var STB $plugin
+	 */
+	private $plugin;
 
+	/**
+	 * @param STB $plugin
+	 */
+	public function __construct( STB $plugin ) {
+
+		// store path to plugin file in property
 		$this->plugin_file = plugin_basename( STB::FILE );
+
+		// store reference to plugin file
+		$this->plugin = $plugin;
+
+		// Load the plugin textdomain
+		load_plugin_textdomain( 'scroll-triggered-boxes', null, dirname( plugin_basename( STB::FILE ) ) . '/languages' );
 
 		// action hooks
 		add_action( 'init', array( $this, 'init' ) );
-
-		add_action( 'save_post', array( $this, 'save_meta_options' ), 20 );
-		add_action( 'trashed_post', array( $this, 'flush_rules') );
-		add_action( 'untrashed_post', array( $this, 'flush_rules') );
 	}
 
 	/**
 	 * Initialises the admin section
 	 */
 	public function init() {
-
-		// Load the plugin textdomain
-		load_plugin_textdomain( 'scroll-triggered-boxes', false, STB::$dir . '/languages/' );
+		add_action( 'save_post', array( $this, 'save_meta_options' ), 20 );
+		add_action( 'trashed_post', array( $this, 'flush_rules') );
+		add_action( 'untrashed_post', array( $this, 'flush_rules') );
 
 		global $pagenow;
 
@@ -91,10 +102,10 @@ class STB_Admin {
 		$pre_suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 		// load stylesheets
-		wp_enqueue_style( 'scroll-triggered-boxes', STB::$url . 'assets/css/admin-styles' . $pre_suffix . '.css', array( 'wp-color-picker' ), STB::VERSION );
+		wp_enqueue_style( 'scroll-triggered-boxes', $this->plugin->url . 'assets/css/admin-styles' . $pre_suffix . '.css', array( 'wp-color-picker' ), STB::VERSION );
 
 		// load scripts
-		wp_enqueue_script( 'scroll-triggered-boxes', STB::$url . 'assets/js/admin-script' . $pre_suffix . '.js', array( 'jquery', 'wp-color-picker' ), STB::VERSION, true );
+		wp_enqueue_script( 'scroll-triggered-boxes', $this->plugin->url . 'assets/js/admin-script' . $pre_suffix . '.js', array( 'jquery', 'wp-color-picker' ), STB::VERSION, true );
 	}
 
 	/**
@@ -135,58 +146,87 @@ class STB_Admin {
 		);
 	}
 
-	public function show_meta_options( $post, $metabox ) {
-		$opts = STB::get_box_options($post->ID);
-		include STB::$dir . '/includes/views/metabox-options.php';
+	/**
+	 * @param WP_Post $box
+	 * @param $metabox
+	 */
+	public function show_meta_options( WP_Post $box, $metabox ) {
+
+		// get box options
+		$opts = $this->plugin->get_box_options( $box->ID );
+
+		// include view
+		include dirname( STB::FILE ) . '/includes/views/metabox-options.php';
 	}
 
-	public function show_dvk_info_donate( $post, $metabox ) {
-		include STB::$dir . '/includes/views/metabox-dvk-donate.php';
+	/**
+	 * @param WP_Post $box
+	 * @param         $metabox
+	 */
+	public function show_dvk_info_donate( WP_Post $box, $metabox ) {
+		include dirname( STB::FILE ) . '/includes/views/metabox-dvk-donate.php';
 	}
 
-	public function show_dvk_info_support( $post, $metabox ) {
-		include STB::$dir . '/includes/views/metabox-dvk-support.php';
+	/**
+	 * @param WP_Post $box
+	 * @param         $metabox
+	 */
+	public function show_dvk_info_support( WP_Post $box, $metabox ) {
+		include dirname( STB::FILE ) . '/includes/views/metabox-dvk-support.php';
 	}
 
-	public function show_dvk_info_links( $post, $metabox ) {
-		include STB::$dir . '/includes/views/metabox-dvk-links.php';
+	/**
+	 * @param WP_Post $box
+	 * @param         $metabox
+	 */
+	public function show_dvk_info_links( WP_Post $box, $metabox ) {
+		include dirname( STB::FILE ) . '/includes/views/metabox-dvk-links.php';
 	}
 
 
 	/**
 	* Saves box options and rules
+	 *
+	 * @param int $box_id
+	 * @return bool
 	*/
-	public function save_meta_options( $post_id ) {
+	public function save_meta_options( $box_id ) {
 
 		// Verify that the nonce is set and valid.
 		if ( ! isset( $_POST['stb_options_nonce'] ) || ! wp_verify_nonce( $_POST['stb_options_nonce'], 'stb_options' ) ) {
-			return $post_id;
+			return false;
 		}
 
 		// If this is an autosave, our form has not been submitted, so we don't want to do anything.
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
-			return $post_id;
+			return false;
 		}
 
     	if ( defined( 'DOING_CRON' ) && DOING_CRON ) {
-       	 	return $post_id;
+       	 	return false;
     	}
 
 		// is this a revision save?
-    	if ( wp_is_post_revision( $post_id ) ) {
-        	return $post_id; 
+    	if ( wp_is_post_revision( $box_id ) ) {
+		    return false;
     	}
 
 		// can user edit this post?
-		if ( ! current_user_can( 'edit_post', $post_id ) ) {
-			return $post_id;
+		if ( ! current_user_can( 'edit_post', $box_id ) ) {
+			return false;
 		}
 
+		// make sure options array is set
+		if( ! isset( $_POST['stb'] ) || ! is_array( $_POST['stb'] ) ) {
+			return false;
+		}
+
+		// get new options from $_POST
 		$opts = $_POST['stb'];
 		unset( $_POST['stb'] );
 
 		// sanitize rules
-		if( is_array( $opts['rules'] ) ) {
+		if( isset( $opts['rules'] ) && is_array( $opts['rules'] ) ) {
 			foreach( $opts['rules'] as $key => $rule ) {
 
 				// set value to 0 when condition is everywhere
@@ -207,8 +247,8 @@ class STB_Admin {
 
 		// make sure colors start with `#`
 		$color_keys = array( 'color', 'background_color', 'border_color' );
-		foreach( $color_keys as $key ) {
-			$color = sanitize_text_field( $opts['css'][$key] );
+		foreach( $color_keys as $key => $value ) {
+			$color = sanitize_text_field( $value );
 
 			// make sure color starts with `#`
 			if( '' !== $color && $color[0] !== '#' ) {
@@ -217,10 +257,14 @@ class STB_Admin {
 			$opts['css'][$key] = $color;
 		}
 
+		// allow extensions to filter the saved options
+		$opts = apply_filters( 'stb_saved_options', $opts, $box_id );
+
 		// save box settings
-		update_post_meta( $post_id, 'stb_options', $opts );
+		update_post_meta( $box_id, 'stb_options', $opts );
 
 		$this->flush_rules();
+		return true;
 	}
 
 	/**
@@ -228,8 +272,7 @@ class STB_Admin {
 	 * @param array $links
 	 * @return array
 	 */
-	public function add_plugin_settings_link( $links, $file )
-	{
+	public function add_plugin_settings_link( $links, $file ) {
 		if( $file !== $this->plugin_file ) {
 			return $links;
 		}
