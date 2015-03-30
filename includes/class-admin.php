@@ -39,7 +39,7 @@ class STB_Admin {
 	 * Initialises the admin section
 	 */
 	public function init() {
-		add_action( 'save_post', array( $this, 'save_meta_options' ), 20 );
+		add_action( 'save_post', array( $this, 'save_box_options' ), 20 );
 		add_action( 'trashed_post', array( $this, 'flush_rules') );
 		add_action( 'untrashed_post', array( $this, 'flush_rules') );
 
@@ -191,26 +191,22 @@ class STB_Admin {
 	 * @param int $box_id
 	 * @return bool
 	*/
-	public function save_meta_options( $box_id ) {
+	public function save_box_options( $box_id ) {
 
 		// Verify that the nonce is set and valid.
 		if ( ! isset( $_POST['stb_options_nonce'] ) || ! wp_verify_nonce( $_POST['stb_options_nonce'], 'stb_options' ) ) {
 			return false;
 		}
 
-		// If this is an autosave, our form has not been submitted, so we don't want to do anything.
-		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
-			return false;
-		}
-
-    	if ( defined( 'DOING_CRON' ) && DOING_CRON ) {
-       	 	return false;
-    	}
-
 		// is this a revision save?
     	if ( wp_is_post_revision( $box_id ) ) {
 		    return false;
     	}
+
+		// If this is an autosave, our form has not been submitted, so we don't want to do anything.
+		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+			return false;
+		}
 
 		// can user edit this post?
 		if ( ! current_user_can( 'edit_post', $box_id ) ) {
@@ -223,8 +219,26 @@ class STB_Admin {
 		}
 
 		// get new options from $_POST
-		$opts = $_POST['stb'];
-		unset( $_POST['stb'] );
+		$opts = $this->sanitize_box_options( $_POST['stb'] );
+
+		// allow extensions to filter the saved options
+		$opts = apply_filters( 'stb_saved_options', $opts, $box_id );
+
+		// save box settings
+		update_post_meta( $box_id, 'stb_options', $opts );
+
+		$this->flush_rules();
+		return true;
+	}
+
+	/**
+	 * Sanitize the options for this box.
+	 *
+	 * @param array $opts
+	 *
+	 * @return array
+	 */
+	protected function sanitize_box_options( $opts ) {
 
 		// sanitize rules
 		if( isset( $opts['rules'] ) && is_array( $opts['rules'] ) ) {
@@ -258,14 +272,7 @@ class STB_Admin {
 			$opts['css'][$key] = $color;
 		}
 
-		// allow extensions to filter the saved options
-		$opts = apply_filters( 'stb_saved_options', $opts, $box_id );
-
-		// save box settings
-		update_post_meta( $box_id, 'stb_options', $opts );
-
-		$this->flush_rules();
-		return true;
+		return $opts;
 	}
 
 	/**
