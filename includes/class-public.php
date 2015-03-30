@@ -49,6 +49,65 @@ class STB_Public {
 	}
 
 	/**
+	 * Get global rules for all boxes
+	 *
+	 * @return array
+	 */
+	protected function get_filter_rules() {
+		$rules = get_option( 'stb_rules' );
+
+		if( ! is_array( $rules ) ) {
+			return array();
+		}
+
+		return $rules;
+	}
+
+	/**
+	 * Check if this rule passes (conditional matches expected value)
+	 *
+	 * @param $condition
+	 * @param $value
+	 *
+	 * @return bool|mixed
+	 */
+	protected function match_rule( $condition, $value ) {
+
+		$matched = false;
+
+		switch ( $condition ) {
+			case 'everywhere';
+				$matched = true;
+				break;
+
+			case 'is_post_type':
+				$matched = in_array( get_post_type(), $value );
+				break;
+
+			case 'is_single':
+				$matched = is_single( $value );
+				break;
+
+			case 'is_page':
+				$matched = is_page( $value );
+				break;
+
+			case 'is_not_page':
+				$matched = !is_page( $value );
+				break;
+
+			case 'manual':
+				// eval for now...
+				$value = stripslashes(trim($value));
+				$matched = eval( "return (" . $value . ");" );
+				break;
+
+		}
+
+		return $matched;
+	}
+
+	/**
 	 * Checks which boxes should be loaded for this request.
 	 *
 	 * @return array
@@ -56,56 +115,17 @@ class STB_Public {
 	private function filter_boxes() {
 
 		$matched_box_ids = array();
-		$rules = get_option( 'stb_rules', false );
-
-		if ( ! is_array( $rules ) ) {
-			return array();
-		}
+		$rules = $this->get_filter_rules();
 
 		foreach ( $rules as $box_id => $box_rules ) {
 
 			$matched = false;
 
+			// loop through all rules for all boxes
 			foreach ( $box_rules as $rule ) {
+				$matched = $this->match_rule( $rule['condition'], $rule['value'] );
 
-				$condition = $rule['condition'];
-				$value = trim( $rule['value'] );
-
-				if ( $condition !== 'manual' && $condition !== 'everywhere' ) {
-					$value = array_filter( array_map( 'trim', explode( ',', $value ) ) );
-				}
-
-				switch ( $condition ) {
-					case 'everywhere';
-						$matched = true;
-						break;
-
-					case 'is_post_type':
-						$matched = in_array( get_post_type(), $value );
-						break;
-
-					case 'is_single':
-						$matched = is_single( $value );
-						break;
-
-					case 'is_page':
-						$matched = is_page( $value );
-						break;
-
-					case 'is_not_page':
-						$matched = !is_page( $value );
-						break;
-
-					case 'manual':
-						// eval for now...
-						$value = stripslashes(trim($value));
-						$matched = eval( "return (" . $value . ");" );
-						break;
-
-				}
-
-				// no need to run through the other rules
-				// if criteria has already been met by this rule
+				// break out of loop if we've already matched
 				if( $matched ) {
 					break;
 				}
@@ -119,7 +139,7 @@ class STB_Public {
 			 * Use to run some custom logic whether to show a box or not.
 			 * Return true if box should be shown.
 			 */
-			$matched = apply_filters('stb_show_box', $matched, $box_id);
+			$matched = apply_filters( 'stb_show_box', $matched, $box_id );
 
 			// if matched, box should be loaded on this page
 			if ( $matched ) {
@@ -170,7 +190,8 @@ class STB_Public {
 				array(
 					'post_type' => 'scroll-triggered-box',
 					'post_status' => 'publish',
-					'post__in'    => $this->matched_box_ids
+					'post__in'    => $this->matched_box_ids,
+					'numberposts' => -1
 				)
 			);
 

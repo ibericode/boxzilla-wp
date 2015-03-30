@@ -244,7 +244,12 @@ class STB_Admin {
 		if( isset( $opts['rules'] ) && is_array( $opts['rules'] ) ) {
 			foreach( $opts['rules'] as $key => $rule ) {
 
-				// set value to 0 when condition is everywhere
+				// trim all whitespace in value field
+				if ( $rule['condition'] !== 'manual' ) {
+					$opts['rules'][$key]['value'] = implode( ',', array_map( 'trim', explode( ',', $rule['value'] ) ) );
+				}
+
+				// (re)set value to 0 when condition is everywhere
 				if( $rule['condition'] === 'everywhere' ) {
 					$opts['rules'][$key]['value'] = '';
 					break;
