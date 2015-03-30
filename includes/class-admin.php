@@ -102,10 +102,13 @@ class STB_Admin {
 		$pre_suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 		// load stylesheets
-		wp_enqueue_style( 'scroll-triggered-boxes', $this->plugin->url . 'assets/css/admin-styles' . $pre_suffix . '.css', array( 'wp-color-picker' ), STB::VERSION );
+		wp_enqueue_style( 'scroll-triggered-boxes-admin', $this->plugin->url . 'assets/css/admin-styles' . $pre_suffix . '.css', array( 'wp-color-picker' ), STB::VERSION );
 
 		// load scripts
-		wp_enqueue_script( 'scroll-triggered-boxes', $this->plugin->url . 'assets/js/admin-script' . $pre_suffix . '.js', array( 'jquery', 'wp-color-picker' ), STB::VERSION, true );
+		wp_enqueue_script( 'scroll-triggered-boxes-admin', $this->plugin->url . 'assets/js/admin-script' . $pre_suffix . '.js', array( 'jquery', 'wp-color-picker' ), STB::VERSION, true );
+
+		// allow add-ons to easily load their own scripts or stylesheets
+		do_action( 'stb_load_admin_assets' );
 	}
 
 	/**

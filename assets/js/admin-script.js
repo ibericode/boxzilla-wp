@@ -101,6 +101,9 @@ window.STBAdmin = (function($) {
 			'background': 'white'
 		});
 
+		// add global class
+		$innerEditor.addClass('stb').addClass('scroll-triggered-box');
+
 		// add padding
 		$innerEditor.get(0).style.cssText += ';padding: 25px !important;';
 
@@ -112,6 +115,8 @@ window.STBAdmin = (function($) {
 		});
 
 		applyStyles();
+
+		$(document).trigger('editorInit.stb');
 	}
 
 	function applyStyles() {
@@ -120,16 +125,14 @@ window.STBAdmin = (function($) {
 			'border-color': getColor($("#stb-border-color")),
 			'border-width': getPxValue($("#stb-border-width")),
 			'width': getPxValue($("#stb-width"), 'auto'),
-			'color': getColor($("#stb-color")),
+			'color': getColor($("#stb-color"))
 		});
 
 		// remove top & bottom margin of first and last child
 		$innerEditor.children().first().css({
-			'padding-top': 0,
 			'margin-top': 0
 		});
 		$innerEditor.children().last().css({
-			'padding-bottom': 0,
 			'margin-bottom': 0
 		});
 	}
