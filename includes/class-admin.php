@@ -89,7 +89,7 @@ class STB_Admin {
 	 * @return mixed
 	 */
 	public function tinymce_init($args) {
-		$args['setup'] = 'function( editor ) { if(typeof STB === \'undefined\') { return; } editor.on("PreInit", STB.onTinyMceInit ); }';
+		$args['setup'] = 'function( editor ) { if(typeof STBAdmin === \'undefined\') { return; } editor.on("PreInit", STBAdmin.onTinyMceInit ); }';
 		return $args;
 	}
 
