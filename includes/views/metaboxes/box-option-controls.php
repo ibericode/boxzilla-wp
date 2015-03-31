@@ -102,14 +102,6 @@ if( ! defined( 'STB::VERSION' ) ) {
 			<p class="help"><?php _e( 'Hide box again when visitors scroll back up?', 'scroll-triggered-boxes' ); ?></p>
 		</td>
 	</tr>
-	<tr valign="top">
-		<th><label for="stb_test_mode"><?php _e( 'Enable test mode?', 'scroll-triggered-boxes' ); ?></label></th>
-		<td colspan="3">
-			<label><input type="radio" id="stb_test_mode_1" name="stb[test_mode]" value="1" <?php checked($opts['test_mode'], 1); ?> /> <?php _e( 'Yes' ); ?></label> &nbsp;
-			<label><input type="radio" id="stb_test_mode_0" name="stb[test_mode]" value="0" <?php checked($opts['test_mode'], 0); ?> /> <?php _e( 'No' ); ?></label> &nbsp;
-			<p class="help"><?php _e( 'If test mode is enabled, the box will show up regardless of whether a cookie has been set.', 'scroll-triggered-boxes' ); ?></p>
-		</td>
-	</tr>
 </table>
 
 
