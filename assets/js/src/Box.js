@@ -11,31 +11,24 @@ module.exports = (function() {
 		this.id 		= config.id;
 		this.element 	= config.element;
 		this.$element 	= $(config.element);
+
+		// store config values
 		this.config = config;
 
-		this.position 	= config.position;
-		this.trigger 	= config.trigger;
-		this.animation 	= config.animation;
-		this.testMode 	= config.testMode;
+		// store ref to overlay
 		this.overlay = document.getElementById('stb-overlay');
 
-		this.autoHide = false;
-		this.autoShow = false;
+		// state
 		this.visible 	= false;
-
-		this.triggerElementSelector = '';
-		this.triggerPercentage = 0;
-		this.minimumScreenWidth = 0;
-		this.cookieTime = 0;
+		this.closed 	= false;
+		this.triggered 	= false;
 		this.triggerHeight = 0;
+		this.cookieSet = false;
 
-		// should this box be auto-shown?
-		if( this.trigger !== '' ) {
+		// if a trigger was given, calculate some values which might otherwise be expensive)
+		if( this.config.trigger !== '' ) {
 			this.triggerHeight = this.calculateTriggerHeight( config.triggerPercentage, config.triggerElementSelector );
-			this.autoShow = this.autoShowBox();
-			this.autoHide 	= config.autoHide;
-			this.cookieTime = config.cookieTime;
-			this.minimumScreenWidth = config.minimumScreenWidth;
+			this.cookieSet = this.isCookieSet();
 		}
 
 		// further initialise the box
@@ -78,7 +71,7 @@ module.exports = (function() {
 		}
 
 		// set new top margin for boxes which are centered
-		if( this.position === 'center' ) {
+		if( this.config.position === 'center' ) {
 			var newTopMargin = ( ( windowHeight - boxHeight ) / 2 );
 			if( newTopMargin < 20 ) newTopMargin = 20;
 			this.element.style.marginTop = newTopMargin + "px";
@@ -110,12 +103,12 @@ module.exports = (function() {
 		// fadein / fadeout the overlay if position is "center"
 		this.setCustomBoxStyling();
 
-		if( this.position === 'center' ) {
+		if( this.config.position === 'center' ) {
 			$(this.overlay).fadeToggle('slow');
 		}
 
 		// show or hide box using selected animation
-		if( this.animation === 'fade' ) {
+		if( this.config.animation === 'fade' ) {
 			this.$element.fadeToggle( 'slow' );
 		} else {
 			this.$element.slideToggle( 'slow' );
@@ -137,7 +130,7 @@ module.exports = (function() {
 	// calculate trigger height
 	Box.prototype.calculateTriggerHeight = function( triggerPercentage, triggerElementSelector ) {
 
-		if( this.trigger === 'element' ) {
+		if( this.config.trigger === 'element' ) {
 			var $triggerElement = $(triggerElementSelector).first();
 			if( $triggerElement.length > 0 ) {
 				// return top offset of element
@@ -154,7 +147,7 @@ module.exports = (function() {
 
 	// set cookie that disables automatically showing the box
 	Box.prototype.setCookie = function() {
-		if(this.cookieTime > 0) {
+		if(this.config.cookieTime > 0) {
 			var expiryDate = new Date();
 			expiryDate.setDate( expiryDate.getDate() + this.cookieTime );
 			document.cookie = 'stb_box_'+ this.id + '=true; expires='+ expiryDate.toUTCString() +'; path=/';
@@ -179,45 +172,71 @@ module.exports = (function() {
 	};
 
 	// is this box enabled?
-	Box.prototype.autoShowBox = function() {
+	Box.prototype.mayAutoShow = function() {
+
+		// don't show if box was closed before
+		if( this.closed ) {
+			return false;
+		}
+
+		// don't show if trigger is empty
+		if( this.config.trigger === '' ) {
+			return false;
+		}
 
 		// don't show if triggerHeight is 0 (element not found or percentage set to 0)
 		if( this.triggerHeight === 0 ) {
 			return false;
 		}
 
-		// check if box fits on width
-		if( this.minimumScreenWidth > 0 && window.innerWidth < this.minimumScreenWidth ) {
+		// check if box fits on given minimum screen width
+		if( this.config.minimumScreenWidth > 0 && window.innerWidth < this.config.minimumScreenWidth ) {
 			return false;
 		}
 
-		// always show on test mode
-		if( isLoggedIn && this.testMode ) {
-			console.log( 'Scroll Triggered Boxes: Test mode is enabled. Please disable test mode if you\'re done testing.' );
-			return true;
+		// don't show if page just loaded ( 500ms)
+		// todo: make an option out of this
+		var currentTime = new Date().getTime();
+		if( ( startTime + 500 ) > currentTime ) {
+			return false;
 		}
 
-		// don't show if page just loaded (2 seconds)
-		//// todo: make an option out of this
-		//var currentTime = new Date().getTime();
-		//if( ( startTime + 2000 ) > currentTime ) {
-		//	return false;
-		//}
+		// rely on cookie value (show if not set, don't show if set)
+		return ! this.cookieSet;
+	};
+
+	Box.prototype.mayAutoHide = function() {
+
+		// check if autoHide was allowed from config
+		if( ! this.config.autoHide ) {
+			return false;
+		}
+
+		// only allow autoHide when box has been autoshown (triggered)
+		return this.triggered;
+	};
+
+	Box.prototype.isCookieSet = function() {
+		// always show on test mode
+		if( isLoggedIn && this.config.testMode ) {
+			return false;
+		}
 
 		// check for cookie
-		if( this.cookieTime === 0 ) {
-			return true;
+		if( this.config.cookieTime === 0 ) {
+			return false;
 		}
 
-		var isDisabledByCookie = document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*" + 'stb_box_' + this.id + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1") === "true";
-		return ( ! isDisabledByCookie );
+		var cookieSet = document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*" + 'stb_box_' + this.id + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1") === "true";
+		return cookieSet;
+
 	};
 
 	// disable the box
 	Box.prototype.disable = function() {
 		this.hide();
-		this.autoShow = false;
 		this.setCookie();
+		this.closed = true;
 	};
 
 	return Box;

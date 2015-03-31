@@ -18,6 +18,10 @@ module.exports = (function($) {
 		$(window).bind('scroll.stb', onScroll);
 		$(window).bind('resize.stb', onWindowResize);
 		$(document).keyup(onKeyUp);
+
+		if( options.testMode ) {
+			console.log( 'Scroll Triggered Boxes: Test mode is enabled. Please disable test mode if you\'re done testing.' );
+		}
 	}
 
 	// create a Box object from the DOM
@@ -72,14 +76,19 @@ module.exports = (function($) {
 		for( var boxId in boxes ) {
 			var box = boxes[boxId];
 
-			if( ! box.autoShow ) {
+			if( ! box.mayAutoShow() ) {
 				continue;
 			}
 
 			if( scrollHeight > box.triggerHeight ) {
-				box.show();
-			} else if( box.autoHide ) {
-				box.hide();
+				if( ! box.visible ) {
+					box.show();
+					box.triggered = true;
+				}
+			} else if( box.mayAutoHide() ) {
+				if( box.visible ) {
+					box.hide();
+				}
 			}
 		}
 	}
