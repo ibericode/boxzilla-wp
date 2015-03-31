@@ -5,7 +5,6 @@ if( ! defined( 'STB::VERSION' ) ) {
 	exit;
 } ?>
 
-<h3 class="stb-title"><?php _e( 'Box Appearance', 'scroll-triggered-boxes' ); ?></h3>
 <table class="form-table">
 	<?php do_action( 'stb_appearance_options_before', $box, $opts ); ?>
 	<tr valign="top">

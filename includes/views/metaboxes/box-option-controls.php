@@ -4,7 +4,6 @@ if( ! defined( 'STB::VERSION' ) ) {
 	header( 'HTTP/1.1 403 Forbidden' );
 	exit;
 } ?>
-<h3 class="stb-title"><?php _e( 'Box Options', 'scroll-triggered-boxes' ); ?></h3>
 <table class="form-table">
 	<?php 
 	$key = 0;

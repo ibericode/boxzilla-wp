@@ -209,8 +209,16 @@ class STB_Public {
 	 */
 	public function pass_box_options() {
 
-		$boxes_options = array();
+		// create STB_Global_Options object
+		$plugin_options = $this->plugin->get_options();
+		$global_options = array(
+			'testMode' => (bool) $plugin_options['test_mode']
+		);
+		wp_localize_script( 'scroll-triggered-boxes', 'STB_Global_Options', $global_options );
 
+
+		// create STB_Box_Options object
+		$boxes_options = array();
 		foreach( $this->get_matched_boxes() as $box ) {
 
 			/* @var $box STB_Box */
@@ -222,8 +230,7 @@ class STB_Public {
 				'triggerPercentage' => absint( $box->options['trigger_percentage'] ),
 				'triggerElementSelector' => $box->options['trigger_element'],
 				'animation' => $box->options['animation'],
-				'cookeTime' => absint( $box->options['cookie'] ),
-				'testMode' => (bool) $box->options['test_mode'],
+				'cookieTime' => absint( $box->options['cookie'] ),
 				'autoHide' => (bool) $box->options['auto_hide'],
 				'position' => $box->options['css']['position'],
 				'minimumScreenWidth' => $box->get_minimum_screen_size()
@@ -232,7 +239,7 @@ class STB_Public {
 			$boxes_options[ $box->ID ] = $options;
 		}
 
-		wp_localize_script( 'scroll-triggered-boxes', 'STB_Options', $boxes_options );
+		wp_localize_script( 'scroll-triggered-boxes', 'STB_Box_Options', $boxes_options );
 	}
 
 	/**

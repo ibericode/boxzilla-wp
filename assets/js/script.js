@@ -14,7 +14,7 @@ module.exports = (function() {
 		this.$element 	= $(data.element);
 		this.position 	= data.position;
 		this.trigger 	= data.trigger;
-		this.cookieTime = data.cookie;
+		this.cookieTime = data.cookieTime;
 		this.testMode 	= data.testMode;
 		this.autoHide 	= data.autoHide;
 		this.triggerElementSelector = data.triggerElementSelector;
@@ -147,7 +147,7 @@ module.exports = (function() {
 		if(this.cookieTime > 0) {
 			var expiryDate = new Date();
 			expiryDate.setDate( expiryDate.getDate() + this.cookieTime );
-			document.cookie = 'stb_box_'+ id + '=true; expires='+ expiryDate.toUTCString() +'; path=/';
+			document.cookie = 'stb_box_'+ this.id + '=true; expires='+ expiryDate.toUTCString() +'; path=/';
 		}
 	};
 
@@ -220,7 +220,8 @@ module.exports = (function($) {
 	var boxes = {},
 		windowHeight = window.innerHeight,
 		scrollTimer = 0,
-		resizeTimer = 0;
+		resizeTimer = 0,
+		options = window.STB_Global_Options || {};
 
 	var Box = require('./Box.js');
 
@@ -238,10 +239,11 @@ module.exports = (function($) {
 	function createBoxFromDOM() {
 		var $box = $(this);
 		var id = parseInt(this.id.substring(4));
-		var options = STB_Options[id];
-		options.element = this;
-		options.$element = $box;
-		boxes[options.id] = new Box(options);
+		var boxOptions = STB_Box_Options[id];
+		boxOptions.element = this;
+		boxOptions.$element = $box;
+		boxOptions.testMode = options.testMode;
+		boxes[boxOptions.id] = new Box(boxOptions);
 	}
 
 	function onWindowResize() {

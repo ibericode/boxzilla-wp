@@ -13,7 +13,7 @@ module.exports = (function() {
 		this.$element 	= $(data.element);
 		this.position 	= data.position;
 		this.trigger 	= data.trigger;
-		this.cookieTime = data.cookie;
+		this.cookieTime = data.cookieTime;
 		this.testMode 	= data.testMode;
 		this.autoHide 	= data.autoHide;
 		this.triggerElementSelector = data.triggerElementSelector;
@@ -146,7 +146,7 @@ module.exports = (function() {
 		if(this.cookieTime > 0) {
 			var expiryDate = new Date();
 			expiryDate.setDate( expiryDate.getDate() + this.cookieTime );
-			document.cookie = 'stb_box_'+ id + '=true; expires='+ expiryDate.toUTCString() +'; path=/';
+			document.cookie = 'stb_box_'+ this.id + '=true; expires='+ expiryDate.toUTCString() +'; path=/';
 		}
 	};
 

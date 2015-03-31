@@ -5,7 +5,8 @@ module.exports = (function($) {
 	var boxes = {},
 		windowHeight = window.innerHeight,
 		scrollTimer = 0,
-		resizeTimer = 0;
+		resizeTimer = 0,
+		options = window.STB_Global_Options || {};
 
 	var Box = require('./Box.js');
 
@@ -23,10 +24,11 @@ module.exports = (function($) {
 	function createBoxFromDOM() {
 		var $box = $(this);
 		var id = parseInt(this.id.substring(4));
-		var options = STB_Options[id];
-		options.element = this;
-		options.$element = $box;
-		boxes[options.id] = new Box(options);
+		var boxOptions = STB_Box_Options[id];
+		boxOptions.element = this;
+		boxOptions.$element = $box;
+		boxOptions.testMode = options.testMode;
+		boxes[boxOptions.id] = new Box(boxOptions);
 	}
 
 	function onWindowResize() {

@@ -33,12 +33,15 @@ class STB_Admin {
 
 		// action hooks
 		add_action( 'init', array( $this, 'init' ) );
+		add_action( 'admin_init', array( $this, 'register_settings' ) );
+		add_action( 'admin_menu', array( $this, 'menu' ) );
 	}
 
 	/**
 	 * Initialises the admin section
 	 */
 	public function init() {
+
 		add_action( 'save_post', array( $this, 'save_box_options' ), 20 );
 		add_action( 'trashed_post', array( $this, 'flush_rules') );
 		add_action( 'untrashed_post', array( $this, 'flush_rules') );
@@ -53,7 +56,45 @@ class STB_Admin {
 			add_filter( 'plugin_action_links', array( $this, 'add_plugin_settings_link' ), 10, 2 );
 			add_filter( 'plugin_row_meta', array( $this, 'add_plugin_meta_links'), 10, 2 );
 		}
+	}
 
+	/**
+	 * Register settings
+	 */
+	public function register_settings() {
+		register_setting( 'stb_settings', 'stb_settings', array( $this, 'sanitize_settings' ) );
+	}
+
+	/**
+	 * Renders the STB Menu items
+	 */
+	public function menu() {
+
+		$menu_items = array(
+			array( __( 'Settings', 'scroll-triggered-boxes' ), __( 'Settings', 'scroll-triggered-boxes' ), 'stb-settings', array( $this, 'show_settings_page' ) ),
+			array( __( 'Extensions', 'scroll-triggered-boxes' ), '<span style="color: orange">'. __( 'Extensions', 'scroll-triggered-boxes' ) .'</span>', 'stb-extensions', array( $this, 'show_extensions_page' ) )
+		);
+
+		$menu_items = apply_filters( 'stb_admin_menu_items', $menu_items );
+
+		foreach( $menu_items as $item ) {
+			add_submenu_page( 'edit.php?post_type=scroll-triggered-box', $item[0] . '- Scroll Triggered Boxes', $item[1], 'manage_options', $item[2], $item[3] );
+		}
+	}
+
+	/**
+	 * Shows the settings page
+	 */
+	public function show_settings_page() {
+		$opts = $this->plugin->get_options();
+		include dirname( STB::FILE ) . '/includes/views/settings.php';
+	}
+
+	/**
+	 * Shows the extensions page
+	 */
+	public function show_extensions_page() {
+		include dirname( STB::FILE ) . '/includes/views/extensions.php';
 	}
 
 	/**
@@ -169,7 +210,7 @@ class STB_Admin {
 		$opts = $box->get_options();
 
 		// include view
-		include dirname( STB::FILE ) . '/includes/views/metabox-box-appearance-controls.php';
+		include dirname( STB::FILE ) . '/includes/views/metaboxes/box-appearance-controls.php';
 	}
 
 	/**
@@ -183,7 +224,7 @@ class STB_Admin {
 		$opts = $box->get_options();
 
 		// include view
-		include dirname( STB::FILE ) . '/includes/views/metabox-box-option-controls.php';
+		include dirname( STB::FILE ) . '/includes/views/metaboxes/box-option-controls.php';
 	}
 
 	/**
@@ -191,7 +232,7 @@ class STB_Admin {
 	 * @param         $metabox
 	 */
 	public function show_dvk_info_donate( WP_Post $post, $metabox ) {
-		include dirname( STB::FILE ) . '/includes/views/metabox-dvk-donate.php';
+		include dirname( STB::FILE ) . '/includes/views/metaboxes/dvk-donate.php';
 	}
 
 	/**
@@ -199,7 +240,7 @@ class STB_Admin {
 	 * @param         $metabox
 	 */
 	public function show_dvk_info_support( WP_Post $post, $metabox ) {
-		include dirname( STB::FILE ) . '/includes/views/metabox-dvk-support.php';
+		include dirname( STB::FILE ) . '/includes/views/metaboxes/dvk-support.php';
 	}
 
 	/**
@@ -207,7 +248,7 @@ class STB_Admin {
 	 * @param         $metabox
 	 */
 	public function show_dvk_info_links( WP_Post $post, $metabox ) {
-		include dirname( STB::FILE ) . '/includes/views/metabox-dvk-links.php';
+		include dirname( STB::FILE ) . '/includes/views/metaboxes/dvk-links.php';
 	}
 
 
@@ -258,6 +299,15 @@ class STB_Admin {
 	}
 
 	/**
+	 * @param array $opts
+	 *
+	 * @return array
+	 */
+	public function sanitize_settings( $opts ) {
+		return $opts;
+	}
+
+	/**
 	 * Sanitize the options for this box.
 	 *
 	 * @param array $opts
@@ -267,22 +317,25 @@ class STB_Admin {
 	protected function sanitize_box_options( $opts ) {
 
 		// sanitize rules
+		$sanitized_rules = array();
 		if( isset( $opts['rules'] ) && is_array( $opts['rules'] ) ) {
 			foreach( $opts['rules'] as $key => $rule ) {
 
 				// trim all whitespace in value field
 				if ( $rule['condition'] !== 'manual' ) {
-					$opts['rules'][$key]['value'] = implode( ',', array_map( 'trim', explode( ',', $rule['value'] ) ) );
+					$rule['value'] = implode( ',', array_map( 'trim', explode( ',', $rule['value'] ) ) );
 				}
 
 				// (re)set value to 0 when condition is everywhere
 				if( $rule['condition'] === 'everywhere' ) {
-					$opts['rules'][$key]['value'] = '';
-					break;
+					$rule['value'] = '';
 				}
 
+				$sanitized_rules[] = $rule;
 			}
 		}
+
+		$opts['rules'] = $sanitized_rules;
 
 		// sanitize settings
 		if( '' !== $opts['css']['width'] ) {

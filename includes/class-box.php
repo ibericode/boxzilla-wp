@@ -80,30 +80,27 @@ class STB_Box {
 				'manual' => ''
 			),
 			'rules' => array(
-				array('condition' => '', 'value' => '')
+				0 => array('condition' => '', 'value' => '')
 			),
 			'cookie' => 0,
 			'trigger' => 'percentage',
 			'trigger_percentage' => 65,
 			'trigger_element' => '',
 			'animation' => 'fade',
-			'test_mode' => 0,
 			'auto_hide' => 0,
 			'hide_on_screen_size' => ''
 		);
 
 		$opts = get_post_meta( $this->ID, 'stb_options', true );
 
-		// merge with array of defaults
-		foreach( $defaults as $key => $value ) {
-			if( ! isset( $opts[$key] ) ) {
-				$opts[ $key ] = $defaults[ $key ];
-			} else {
-				if( is_array( $value ) ) {
-					$opts[$key] = array_merge( $defaults[$key], $opts[$key]);
-				}
-			}
+		// merge CSS options
+		if( ! isset( $opts['css'] ) ) {
+			$opts['css'] = $defaults['css'];
+		} else {
+			$opts['css'] = array_merge( $defaults['css'], $opts['css'] );
 		}
+
+		// merge rest
 		$opts = array_merge( $defaults, $opts );
 
 		// allow others to filter the final array of options

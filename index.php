@@ -143,6 +143,27 @@ final class STB {
 	}
 
 	/**
+	 * Get the plugin options
+	 *
+	 * @return array
+	 */
+	public function get_options() {
+		static $options = null;
+
+		if( is_null( $options ) ) {
+			$defaults = array(
+				'test_mode' => 0
+			);
+
+			$options = (array) get_option( 'stb_settings', $defaults );
+
+			$options = array_merge( $defaults, $options );
+		}
+
+		return $options;
+	}
+
+	/**
 	 * @return STB_Public
 	 */
 	public function get_public() {
