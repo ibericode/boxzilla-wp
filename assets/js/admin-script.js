@@ -9,9 +9,11 @@ window.STBAdmin = (function($) {
 	$optionControls.on('click', ".stb-add-rule", addRuleFields);
 	$optionControls.on('click', ".stb-remove-rule", removeRule);
 	$optionControls.on('change', ".stb-rule-condition", setContextualHelpers);
-	$("#stb_trigger").change(function() {
-		$(this).parents('tr').find('input').hide().end().find('input.stb-trigger-' + $(this).val()).show();
-	});
+	$optionControls.find('.stb-auto-show-trigger').on('change', toggleTriggerOptions );
+
+	function toggleTriggerOptions() {
+		$optionControls.find('.stb-trigger-options').toggle( this.value !== '' );
+	}
 
 	function removeRule() {
 		$(this).parents('tr').remove();

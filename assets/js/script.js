@@ -8,25 +8,36 @@ module.exports = (function() {
 		startTime = new Date().getTime();
 
 	// Box Object
-	var Box = function( data ) {
-		this.id 		= data.id;
-		this.element 	= data.element;
-		this.$element 	= $(data.element);
-		this.position 	= data.position;
-		this.trigger 	= data.trigger;
-		this.cookieTime = data.cookieTime;
-		this.testMode 	= data.testMode;
-		this.autoHide 	= data.autoHide;
-		this.triggerElementSelector = data.triggerElementSelector;
-		this.triggerPercentage = data.triggerPercentage;
-		this.animation 	= data.animation;
-		this.visible 	= false;
-		this.minimumScreenWidth = data.minimumScreenWidth;
+	var Box = function( config ) {
+		this.id 		= config.id;
+		this.element 	= config.element;
+		this.$element 	= $(config.element);
+		this.config = config;
+
+		this.position 	= config.position;
+		this.trigger 	= config.trigger;
+		this.animation 	= config.animation;
+		this.testMode 	= config.testMode;
 		this.overlay = document.getElementById('stb-overlay');
 
-		// calculate triggerHeight
-		this.triggerHeight = this.calculateTriggerHeight();
-		this.enabled = 	this.isBoxEnabled();
+		this.autoHide = false;
+		this.autoShow = false;
+		this.visible 	= false;
+
+		this.triggerElementSelector = '';
+		this.triggerPercentage = 0;
+		this.minimumScreenWidth = 0;
+		this.cookieTime = 0;
+		this.triggerHeight = 0;
+
+		// should this box be auto-shown?
+		if( this.trigger !== '' ) {
+			this.triggerHeight = this.calculateTriggerHeight( config.triggerPercentage, config.triggerElementSelector );
+			this.autoShow = this.autoShowBox();
+			this.autoHide 	= config.autoHide;
+			this.cookieTime = config.cookieTime;
+			this.minimumScreenWidth = config.minimumScreenWidth;
+		}
 
 		// further initialise the box
 		this.init();
@@ -41,7 +52,7 @@ module.exports = (function() {
 		$('a[href="#' + this.$element.attr('id') +'"]').click(function() { this.toggle(); return false;}.bind(this));
 
 		// auto-show the box if box is referenced from URL
-		if( this.enabled && this.locationHashRefersBox() ) {
+		if( this.locationHashRefersBox() ) {
 			window.setTimeout(this.show.bind(this), 300);
 		}
 	};
@@ -125,10 +136,10 @@ module.exports = (function() {
 	};
 
 	// calculate trigger height
-	Box.prototype.calculateTriggerHeight = function() {
+	Box.prototype.calculateTriggerHeight = function( triggerPercentage, triggerElementSelector ) {
 
 		if( this.trigger === 'element' ) {
-			var $triggerElement = $(this.triggerElementSelector).first();
+			var $triggerElement = $(triggerElementSelector).first();
 			if( $triggerElement.length > 0 ) {
 				// return top offset of element
 				return $triggerElement.offset().top;
@@ -139,7 +150,7 @@ module.exports = (function() {
 		}
 
 		// calcate % of page height
-		return ( this.triggerPercentage / 100 * $(document).height() );
+		return ( triggerPercentage / 100 * $(document).height() );
 	};
 
 	// set cookie that disables automatically showing the box
@@ -169,7 +180,7 @@ module.exports = (function() {
 	};
 
 	// is this box enabled?
-	Box.prototype.isBoxEnabled = function() {
+	Box.prototype.autoShowBox = function() {
 
 		// don't show if triggerHeight is 0 (element not found or percentage set to 0)
 		if( this.triggerHeight === 0 ) {
@@ -183,7 +194,7 @@ module.exports = (function() {
 
 		// always show on test mode
 		if( isLoggedIn && this.testMode ) {
-			console.log( 'Scroll Triggered Boxes: Test mode is enabled for box #'+ this.id +'. Please disable test mode if you\'re done testing.' );
+			console.log( 'Scroll Triggered Boxes: Test mode is enabled. Please disable test mode if you\'re done testing.' );
 			return true;
 		}
 
@@ -206,7 +217,7 @@ module.exports = (function() {
 	// disable the box
 	Box.prototype.disable = function() {
 		this.hide();
-		this.enabled = false;
+		this.autoShow = false;
 		this.setCookie();
 	};
 
@@ -287,8 +298,7 @@ module.exports = (function($) {
 		for( var boxId in boxes ) {
 			var box = boxes[boxId];
 
-			// don't show if box is disabled (by cookie)
-			if( ! box.enabled ) {
+			if( ! box.autoShow ) {
 				continue;
 			}
 

@@ -54,30 +54,22 @@ if( ! defined( 'STB::VERSION' ) ) {
 		<td colspan="2"></td>
 	</tr>
 	<tr valign="top">
-		<th><label for="stb_trigger"><?php _e( 'Trigger Point', 'scroll-triggered-boxes' ); ?></label></th>
-		<td class="stb-sm">
-			<select id="stb_trigger" name="stb[trigger]" class="widefat">
-				<optgroup label="Basic">
-					<option value="percentage" <?php selected($opts['trigger'], 'percentage'); ?>>% <?php _e( 'of page height', 'scroll-triggered-boxes' ); ?></option>
-				</optgroup>
-				<optgroup label="Advanced">
-					<option value="element" <?php selected($opts['trigger'], 'element'); ?>><?php _e( 'Element Selector', 'scroll-triggered-boxes' ); ?></option>
-				</optgroup>
-			</select>
-		</td>
-		<td>
-			<input type="number" class="stb-trigger-percentage" name="stb[trigger_percentage]" min="0" max="100" value="<?php echo esc_attr($opts['trigger_percentage']); ?>" <?php if($opts['trigger'] != 'percentage') {  echo 'style="display: none;"'; } ?> />
-			<input type="text" class="stb-trigger-element widefat" name="stb[trigger_element]" value="<?php echo esc_attr($opts['trigger_element']); ?>" placeholder="<?php _e('Example: #comments (element must exist or box won\'t be shown)', 'scroll-triggered-boxes'); ?>" <?php if($opts['trigger'] != 'element') { echo 'style="display: none;"'; } ?> />
-		</td>
-	</tr>
-	<tr valign="top">
-	<th><label><?php _e( 'Animation', 'scroll-triggered-boxes' ); ?></label></th>
+		<th><label><?php _e( 'Animation', 'scroll-triggered-boxes' ); ?></label></th>
 		<td colspan="3">
 			<label><input type="radio" name="stb[animation]" value="fade" <?php checked($opts['animation'], 'fade'); ?> /> <?php _e( 'Fade In', 'scroll-triggered-boxes' ); ?></label> &nbsp;
 			<label><input type="radio" name="stb[animation]" value="slide" <?php checked($opts['animation'], 'slide'); ?> /> <?php _e( 'Slide In', 'scroll-triggered-boxes' ); ?></label>
 			<p class="help"><?php _e( 'Which animation type should be used to show the box when triggered?', 'scroll-triggered-boxes' ); ?></p>
 		</td>
 	</tr>
+	<tr valign="top">
+		<th><label for="stb_trigger"><?php _e( 'Auto-show box?', 'scroll-triggered-boxes' ); ?></label></th>
+		<td colspan="3">
+			<label><input type="radio" class="stb-auto-show-trigger" name="stb[trigger]" value="" <?php checked( $opts['trigger'], '' ); ?> /> <?php _e( 'Never', 'scroll-triggered-boxes' ); ?></label><br />
+			<label><input type="radio" class="stb-auto-show-trigger" name="stb[trigger]" value="percentage" <?php checked( $opts['trigger'], 'percentage' ); ?> /> <?php printf( __( 'When at %s of page height', 'scroll-triggered-boxes' ), '<input type="number" name="stb[trigger_percentage]" min="0" max="100" value="' . esc_attr( $opts['trigger_percentage'] ) . '" />%' ); ?></label><br />
+			<label><input type="radio" class="stb-auto-show-trigger" name="stb[trigger]" value="element" <?php checked( $opts['trigger'], 'element' ); ?> /> <?php printf( __( 'When at element %s', 'scroll-triggered-boxes' ), '<input type="text" name="stb[trigger_element]" value="' . esc_attr( $opts['trigger_element'] ) . '" placeholder="' . __( 'Example: #comments', 'scroll-triggered-boxes') .'" />' ); ?></label>
+		</td>
+	</tr>
+	<tbody class="stb-trigger-options" style="display: <?php echo ( $opts['trigger'] === '' ) ? 'none' : 'table-row-group'; ?>;">
 	<tr valign="top">
 		<th><label for="stb_cookie"><?php _e( 'Cookie expiration days', 'scroll-triggered-boxes' ); ?></label></th>
 		<td colspan="3">
@@ -87,10 +79,10 @@ if( ! defined( 'STB::VERSION' ) ) {
 		
 	</tr>
 	<tr valign="top">
-		<th><label for="stb_hide_on_screen_size"><?php _e( 'Hide box on small screens?', 'scroll-triggered-boxes' ); ?></label></th>
+		<th><label for="stb_hide_on_screen_size"><?php _e( 'Do not auto-show box on small screens?', 'scroll-triggered-boxes' ); ?></label></th>
 		<td colspan="3">
-			<p><?php printf( __( 'Hide on screens smaller than %s.', 'scroll-triggered-boxes' ), '<input type="number" min="0" name="stb[hide_on_screen_size]" value="' . esc_attr( $opts['hide_on_screen_size'] ) . '" placeholder="'. esc_attr( $opts['css']['width'] ) .'" style="max-width: 70px;" />px' ); ?></p>
-			<p class="help"><?php _e( 'Set to <code>0</code> if you do not want to disable the box on small screens.', 'scroll-triggered-boxes' ); ?></p>
+			<p><?php printf( __( 'Do not auto-show on screens smaller than %s.', 'scroll-triggered-boxes' ), '<input type="number" min="0" name="stb[hide_on_screen_size]" value="' . esc_attr( $opts['hide_on_screen_size'] ) . '" placeholder="'. esc_attr( $opts['css']['width'] ) .'" style="max-width: 70px;" />px' ); ?></p>
+			<p class="help"><?php _e( 'Set to <code>0</code> if you <strong>do</strong> want to auto-show the box on small screens.', 'scroll-triggered-boxes' ); ?></p>
 		</td>
 
 	</tr>
@@ -102,6 +94,7 @@ if( ! defined( 'STB::VERSION' ) ) {
 			<p class="help"><?php _e( 'Hide box again when visitors scroll back up?', 'scroll-triggered-boxes' ); ?></p>
 		</td>
 	</tr>
+	</tbody>
 </table>
 
 

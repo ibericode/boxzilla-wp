@@ -72,8 +72,7 @@ module.exports = (function($) {
 		for( var boxId in boxes ) {
 			var box = boxes[boxId];
 
-			// don't show if box is disabled (by cookie)
-			if( ! box.enabled ) {
+			if( ! box.autoShow ) {
 				continue;
 			}
 
