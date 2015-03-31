@@ -116,9 +116,18 @@ class STB_Admin {
 	 */
 	public function add_meta_boxes() {
 		add_meta_box(
-			'stb-options',
+			'stb-box-appearance',
+			__( 'Box Appearance', 'scroll-triggered-boxes' ),
+			array( $this, 'show_box_appearance_controls' ),
+			'scroll-triggered-box',
+			'normal',
+			'core'
+		);
+
+		add_meta_box(
+			'stb-box-options',
 			__( 'Box Options', 'scroll-triggered-boxes' ),
-			array( $this, 'show_meta_options' ),
+			array( $this, 'show_box_option_controls' ),
 			'scroll-triggered-box',
 			'normal',
 			'core'
@@ -153,14 +162,28 @@ class STB_Admin {
 	 * @param WP_Post $post
 	 * @param $metabox
 	 */
-	public function show_meta_options( WP_Post $post, $metabox ) {
+	public function show_box_appearance_controls( WP_Post $post, $metabox ) {
 
 		// get box options
 		$box = new STB_Box( $post );
 		$opts = $box->get_options();
 
 		// include view
-		include dirname( STB::FILE ) . '/includes/views/metabox-options.php';
+		include dirname( STB::FILE ) . '/includes/views/metabox-box-appearance-controls.php';
+	}
+
+	/**
+	 * @param WP_Post $post
+	 * @param $metabox
+	 */
+	public function show_box_option_controls( WP_Post $post, $metabox ) {
+
+		// get box options
+		$box = new STB_Box( $post );
+		$opts = $box->get_options();
+
+		// include view
+		include dirname( STB::FILE ) . '/includes/views/metabox-box-option-controls.php';
 	}
 
 	/**
@@ -262,8 +285,14 @@ class STB_Admin {
 		}
 
 		// sanitize settings
-		$opts['css']['width'] = absint( $opts['css']['width'] );
-		$opts['css']['border_width'] = absint( $opts['css']['border_width'] );
+		if( '' !== $opts['css']['width'] ) {
+			$opts['css']['width'] = absint( $opts['css']['width'] );
+		}
+
+		if( '' !== $opts['css']['border_width'] ) {
+			$opts['css']['border_width'] = absint( $opts['css']['border_width'] );
+		}
+
 		$opts['cookie'] = absint( $opts['cookie'] );
 		$opts['trigger_percentage'] = absint( $opts['trigger_percentage'] );
 		$opts['trigger_element'] = sanitize_text_field( $opts['trigger_element'] );

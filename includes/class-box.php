@@ -75,7 +75,9 @@ class STB_Box {
 				'width' => '',
 				'border_color' => '',
 				'border_width' => '',
-				'position' => 'bottom-right'
+				'border_style' => '',
+				'position' => 'bottom-right',
+				'manual' => ''
 			),
 			'rules' => array(
 				array('condition' => '', 'value' => '')
@@ -93,6 +95,15 @@ class STB_Box {
 		$opts = get_post_meta( $this->ID, 'stb_options', true );
 
 		// merge with array of defaults
+		foreach( $defaults as $key => $value ) {
+			if( ! isset( $opts[$key] ) ) {
+				$opts[ $key ] = $defaults[ $key ];
+			} else {
+				if( is_array( $value ) ) {
+					$opts[$key] = array_merge( $defaults[$key], $opts[$key]);
+				}
+			}
+		}
 		$opts = array_merge( $defaults, $opts );
 
 		// allow others to filter the final array of options
@@ -228,9 +239,14 @@ class STB_Box {
 				if ( '' !== $css['color'] ) {
 					printf( 'color: %s;', esc_html( $css['color'] ) );
 				}
-				if ( '' !== $css['border_color'] && ! '' !== $css['border_width'] ) {
-					printf( 'border: %dpx solid %s;', absint( $css['border_width'] ), esc_html( $css['border_color'] ) );
+				if ( '' !== $css['border_color'] ) {
+					printf( 'border-color: %s;', esc_html( $css['border_color'] ) );
 				}
+
+				if( '' !== $css['border_width'] ) {
+					printf( 'border-width: %dpx;', absint( $css['border_width'] ) );
+				}
+
 				if( ! empty( $css['width'] ) ) {
 					printf( 'max-width: %dpx;', absint( $css['width'] ) );
 				}

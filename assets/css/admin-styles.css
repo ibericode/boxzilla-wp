@@ -1,13 +1,12 @@
-#stb-options .no-top-margin{ 
-	margin-top:0 !important; 
-}
-
-#stb-options .wp-picker-clear, #stb-options div.wp-picker-holder, #stb-options .wp-picker-input-wrap { 
+#stb-box-appearance .wp-picker-clear,
+#stb-box-appearance .wp-picker-holder,
+#stb-box-appearance .wp-picker-input-wrap {
 	background:white; 
 	z-index: 999 !important; 
 	position: absolute !important; 
 }
 
+/* first row can't be deleted */
 table .stb-rule-row:first-child .stb-close{ visibility: hidden; }
 
 .stb-sm { 
@@ -50,6 +49,6 @@ table .stb-rule-row:first-child .stb-close{ visibility: hidden; }
 	filter: alpha(opacity=60);
 }
 
-#stb-options .form-table{ table-layout:fixed; }
-#stb-options .form-table th{ width:150px; }
-#stb-options .wp-picker-container{ white-space: nowrap; }
+.post-type-scroll-triggered-box .form-table{ table-layout:fixed; }
+.post-type-scroll-triggered-box .form-table th{ width:150px; }
+.post-type-scroll-triggered-box .wp-picker-container{ white-space: nowrap; }

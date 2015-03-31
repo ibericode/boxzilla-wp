@@ -53,6 +53,8 @@ body {
 
 	/* reset line-height because of container line-height hack */
 	line-height: initial;
+
+	border: 0px solid black;
 }
 
 .stb.stb-top-center,
@@ -101,14 +103,12 @@ body {
 
 /* remove top margin from first child element */
 .stb-content > *:first-child {
-	margin-top: 0 !important;
-	padding-top: 0 !important;
+	margin-top: 0
 }
 
 /* remove bottom margin from last child element */
 .stb-content > *:last-child {
-	margin-bottom:0 !important;
-	padding-bottom:0 !important;
+	margin-bottom: 0;
 }
 
 .stb-close{ 
@@ -124,8 +124,7 @@ body {
 	font-size: 24px;
 	font-weight: bold;
 	line-height: 20px;
-	text-shadow: 0 1px 0 #fff;
-	opacity: .3;
+	opacity: .4;
 	filter: alpha(opacity=33);
 }
 

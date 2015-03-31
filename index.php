@@ -135,7 +135,7 @@ final class STB {
 				'menu_name'          => __( 'Scroll Triggered Boxes', 'scroll-triggered-boxes' )
 			),
 			'show_ui' => true,
-			'menu_position' => 108,
+			'menu_position' => '108.1337133',
 			'menu_icon' => $this->url . '/assets/img/menu-icon.png'
 		);
 

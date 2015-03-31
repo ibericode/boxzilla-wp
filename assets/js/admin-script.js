@@ -1,22 +1,14 @@
 window.STBAdmin = (function($) {
 	'use strict';
 
-	var $context = $("#stb-options"),
-		$manualTip = $context.find('.stb-manual-tip'),
-		$editor, $innerEditor;
-
-	// prevent jumping of body
-	$(document.body).css('overflow-y', 'scroll');
-
-	// make sure options are visible
-	$context.find(".inside").show();
+	var $appearanceControls = $("#stb-box-appearance"),
+		$optionControls = $("#stb-box-options"),
+		$manualTip = $optionControls.find('.stb-manual-tip');
 
 	// events
-	$context.find('input.stb-color-field').wpColorPicker({ change: applyStyles, clear: applyStyles });
-	$context.find(":input").not(".stb-color-field").change(applyStyles);
-	$context.on('click', ".stb-add-rule", addRuleFields);
-	$context.on('click', ".stb-remove-rule", removeRule);
-	$context.on('change', ".stb-rule-condition", setContextualHelpers);
+	$optionControls.on('click', ".stb-add-rule", addRuleFields);
+	$optionControls.on('click', ".stb-remove-rule", removeRule);
+	$optionControls.on('change', ".stb-rule-condition", setContextualHelpers);
 	$("#stb_trigger").change(function() {
 		$(this).parents('tr').find('input').hide().end().find('input.stb-trigger-' + $(this).val()).show();
 	});
@@ -63,7 +55,7 @@ window.STBAdmin = (function($) {
 	}
 
 	function addRuleFields() {
-		var $row = $context.find(".stb-rule-row").last();
+		var $row = $optionControls.find(".stb-rule-row").last();
 		var $newRow = $row.clone();
 		$newRow.find('th > label').text("Or");
 		$newRow.insertAfter($row).find(":input").val('').each(function(){
@@ -75,70 +67,98 @@ window.STBAdmin = (function($) {
 	}
 
 	// functions
-	function getPxValue($el, retval) {
-		if($el.val()) {
-			return parseInt($el.val());
-		} else {
-			return (retval !== undefined) ? retval + "px" : 0;
-		}
-	}
 
-	function getColor($el, retval) {
-		if($el.val().length > 0) {
-			return $el.wpColorPicker('color');
-		} else {
-			return (retval !== undefined) ? retval : '';
-		}
-	}
+	// Designer
+	var Designer = {};
+	Designer.init = function() {
 
-	function initTinyMCE() {
-		// find tinymce elements
-		$editor = $("#content_ifr").contents().find('html');
-		$innerEditor = $editor.find('#tinymce');
+		var boxID = document.getElementById('post_ID').value || 0;
+
+		// cache tinymce elements
+		Designer.$editor = $("#content_ifr").contents().find('html');
+		Designer.$innerEditor = Designer.$editor.find('#tinymce');
 
 		// make sure we're showing on a white background
-		$editor.css({
+		Designer.$editor.css({
 			'background': 'white'
 		});
 
 		// add global class
-		$innerEditor.addClass('stb').addClass('scroll-triggered-box');
+		Designer.$innerEditor.addClass('stb').addClass('scroll-triggered-box').addClass('stb-' + boxID);
 
 		// add padding
-		$innerEditor.get(0).style.cssText += ';padding: 25px !important;';
+		Designer.$innerEditor.get(0).style.cssText += ';padding: 25px !important;';
 
-		$innerEditor.css({
-			'border-style': 'solid',
+		Designer.$innerEditor.css({
 			'display': "inline-block",
 			'height': 'auto',
 			'min-width': '200px'
 		});
 
-		applyStyles();
+		// create <style> element in <head>
+		Designer.styleEl = document.createElement('style');
+		Designer.styleEl.id = 'stb-manual-css';
+		$(Designer.styleEl).appendTo(Designer.$editor.find('head'));
 
+		// apply styles
+		Designer.applyStyles();
 		$(document).trigger('editorInit.stb');
-	}
+	};
+	Designer.fields = {
+		borderColor: document.getElementById('stb-border-color'),
+		borderWidth: document.getElementById('stb-border-width'),
+		borderStyle: document.getElementById('stb-border-style'),
+		backgroundColor: document.getElementById('stb-background-color'),
+		width: document.getElementById('stb-width'),
+		color: document.getElementById('stb-color'),
+		manualCSS: document.getElementById('stb-manual-css')
+	};
+	Designer.getColor = function( field, fallbackValue ) {
+		if( Designer.fields[field].value.length > 0 ) {
+			return $(Designer.fields[field]).wpColorPicker('color');
+		}
 
-	function applyStyles() {
-		$innerEditor.css({
-			'background-color': getColor($("#stb-background-color")),
-			'border-color': getColor($("#stb-border-color")),
-			'border-width': getPxValue($("#stb-border-width")),
-			'width': getPxValue($("#stb-width"), 'auto'),
-			'color': getColor($("#stb-color"))
+		return (typeof(fallbackValue) !== "undefined") ? fallbackValue : '';
+	};
+	Designer.getPxValue = function( field, fallbackValue ) {
+		if( Designer.fields[field].value.length > 0 ) {
+			return parseInt( Designer.fields[field].value ) + "px";
+		}
+
+		return (typeof(fallbackValue) !== "undefined") ? fallbackValue : 0;
+	};
+	Designer.getValue = function( field, fallbackValue ) {
+		if( Designer.fields[field].value.length > 0 ) {
+			return Designer.fields[field].value;
+		}
+
+		return (typeof(fallbackValue) !== "undefined") ? fallbackValue : '';
+	};
+	Designer.applyStyles = function() {
+
+		// add manual CSS to <head>
+		Designer.styleEl.innerHTML = Designer.fields['manualCSS'].value;
+
+
+		Designer.$innerEditor.css({
+			'border-color': Designer.getColor( 'borderColor', 'initial' ),
+			'border-width': Designer.getPxValue( 'borderWidth', '' ),
+			'border-style': Designer.getValue( 'borderStyle', '' ),
+			'background-color': Designer.getColor( 'backgroundColor', 'inherit '),
+			'width': Designer.getPxValue( 'width', 'auto' ),
+			'color': Designer.getColor( 'color', 'inherit ')
 		});
 
-		// remove top & bottom margin of first and last child
-		$innerEditor.children().first().css({
-			'margin-top': 0
-		});
-		$innerEditor.children().last().css({
-			'margin-bottom': 0
-		});
-	}
+		$(document).trigger('applyBoxStyles.stb');
+	};
+
+	// event binders
+	$appearanceControls.find('input.stb-color-field').wpColorPicker({ change: Designer.applyStyles, clear: Designer.applyStyles });
+	$appearanceControls.find(":input").not(".stb-color-field").change(Designer.applyStyles);
+
 
 	return {
-		onTinyMceInit: initTinyMCE
+		onTinyMceInit: Designer.init
 	}
 
 
