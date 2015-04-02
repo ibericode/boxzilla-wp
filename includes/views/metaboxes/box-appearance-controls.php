@@ -5,6 +5,8 @@ if( ! defined( 'STB::VERSION' ) ) {
 	exit;
 } ?>
 
+<div id="notice-notinymce" class="error" style="display: none;"><p><?php _e( 'For the best experience when styling your box, please use the default WordPress visual editor.', 'scroll-triggered-boxes' ); ?></p></div>
+
 <table class="form-table">
 	<?php do_action( 'stb_appearance_options_before', $box, $opts ); ?>
 	<tr valign="top">
@@ -52,3 +54,5 @@ if( ! defined( 'STB::VERSION' ) ) {
 	</tr>
 	<?php do_action( 'stb_appearance_options_after', $box, $opts ); ?>
 </table>
+
+<p><?php printf( __( '<a href="%s">Click here to reset all styling settings</a>.', 'scroll-triggered-boxes' ), 'javascript:STB_Admin.Designer.resetStyles();' ); ?></p>

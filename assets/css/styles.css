@@ -54,7 +54,9 @@ body {
 	/* reset line-height because of container line-height hack */
 	line-height: initial;
 
-	border: 0px solid black;
+	border-width: 0;
+	border-style: solid;
+	border-color: black;
 }
 
 .stb.stb-top-center,
@@ -63,51 +65,35 @@ body {
 	bottom: 0; top: 0; right: 0; left: 0;
 }
 
-.stb.stb-top-center {
-	border-top: 0 !important;
-}
-
-.stb.stb-bottom-center {
-	border-bottom: 0 !important;
-}
-
-.stb.stb.stb-top-left{
+.stb.stb-top-left{
 	top: 0; left: 0; bottom: auto; right: auto;
-	border-top: 0 !important;
-	border-left: 0 !important;
 }
 
-.stb.stb.stb-top-right{
+.stb.stb-top-right{
 	top: 0; right: 0; bottom: auto; left: auto;
-	border-top: 0 !important;
-	border-right: 0 !important;
 }
 
-.stb.stb.stb-bottom-left{
+.stb.stb-bottom-left{
 	bottom: 0; left: 0; top: auto; right: auto;
-	border-bottom: 0 !important;
-	border-left: 0 !important;
 }
 
-.stb.stb.stb-bottom-right{
+.stb.stb-bottom-right{
 	bottom: 0; right: 0; top: auto; left: auto;
-	border-bottom: 0 !important;
-	border-right: 0 !important;
 }
 
-.stb.stb.stb-center {
+.stb.stb-center {
 	position: relative;
 	margin: 0 auto;
 	left: auto; top: auto; right: auto; bottom: auto;
 }
 
 /* remove top margin from first child element */
-.stb-content > *:first-child {
+.stb > *:first-child {
 	margin-top: 0
 }
 
 /* remove bottom margin from last child element */
-.stb-content > *:last-child {
+.stb > *:last-child {
 	margin-bottom: 0;
 }
 

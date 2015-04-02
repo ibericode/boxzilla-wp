@@ -1,4 +1,4 @@
-window.STBAdmin = (function($) {
+window.STB_Admin = (function($) {
 	'use strict';
 
 	var $appearanceControls = $("#stb-box-appearance-controls"),
@@ -10,6 +10,11 @@ window.STBAdmin = (function($) {
 	$optionControls.on('click', ".stb-remove-rule", removeRule);
 	$optionControls.on('change', ".stb-rule-condition", setContextualHelpers);
 	$optionControls.find('.stb-auto-show-trigger').on('change', toggleTriggerOptions );
+	$(window).load(function() {
+		if( typeof(window.tinyMCE) === "undefined" ) {
+			document.getElementById('notice-notinymce').style.display = 'block';
+		}
+	});
 
 	function toggleTriggerOptions() {
 		$optionControls.find('.stb-trigger-options').toggle( this.value !== '' );
@@ -98,7 +103,7 @@ window.STBAdmin = (function($) {
 			});
 
 			// add global class
-			$innerEditor.addClass('stb').addClass('scroll-triggered-box').addClass('stb-' + boxID);
+			$innerEditor.addClass('stb scroll-triggered-box stb-content stb-' + boxID);
 
 			// add padding
 			$innerEditor.get(0).style.cssText += ';padding: 25px !important;';
@@ -108,7 +113,6 @@ window.STBAdmin = (function($) {
 				'height': 'auto',
 				'min-width': '200px'
 			});
-
 
 			// create <style> element in <head>
 			manualStyleEl = document.createElement('style');
@@ -164,6 +168,18 @@ window.STBAdmin = (function($) {
 			$(document).trigger('applyBoxStyles.stb');
 		}
 
+		function resetStyles() {
+			optionElements.borderColor.value = '';
+			optionElements.borderStyle.value = '';
+			optionElements.borderWidth.value = '';
+			optionElements.backgroundColor.value = '';
+			optionElements.color.value = '';
+			optionElements.manualCSS.value = '';
+			applyStyles();
+
+			$(document).trigger('resetBoxStyles.stb');
+		}
+
 		// init
 
 		// event binders
@@ -171,14 +187,17 @@ window.STBAdmin = (function($) {
 		$appearanceControls.find(":input").not(".stb-color-field").change(applyStyles);
 
 		return {
-			init: init
+			init: init,
+			resetStyles: resetStyles
 		};
 
 	})();
 
 	return {
-		onTinyMceInit: Designer.init
+		'Designer': Designer
 	}
+
+
 
 
 })(window.jQuery);

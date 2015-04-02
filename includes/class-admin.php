@@ -130,7 +130,7 @@ class STB_Admin {
 	 * @return mixed
 	 */
 	public function tinymce_init($args) {
-		$args['setup'] = 'function( editor ) { if(typeof STBAdmin === \'undefined\') { return; } editor.on("PreInit", STBAdmin.onTinyMceInit ); }';
+		$args['setup'] = 'function( editor ) { if(typeof(window.STB_Admin) === \'undefined\') { return; } editor.on("PreInit", window.STB_Admin.Designer.init ); }';
 		return $args;
 	}
 
@@ -159,7 +159,7 @@ class STB_Admin {
 		add_meta_box(
 			'stb-box-appearance-controls',
 			__( 'Box Appearance', 'scroll-triggered-boxes' ),
-			array( $this, 'show_box_appearance_controls' ),
+			array( $this, 'metabox_box_appearance_controls' ),
 			'scroll-triggered-box',
 			'normal',
 			'core'
@@ -168,32 +168,32 @@ class STB_Admin {
 		add_meta_box(
 			'stb-box-options-controls',
 			__( 'Box Options', 'scroll-triggered-boxes' ),
-			array( $this, 'show_box_option_controls' ),
+			array( $this, 'metabox_box_option_controls' ),
 			'scroll-triggered-box',
 			'normal',
 			'core'
 		);
 
 		add_meta_box(
-			'stb-dvk-info-support',
+			'stb-support',
 			__( 'Need support?', 'scroll-triggered-boxes' ),
-			array( $this, 'show_dvk_info_support' ),
+			array( $this, 'metabox_support' ),
 			'scroll-triggered-box',
 			'side'
 		);
 
 		add_meta_box(
-			'stb-dvk-info-donate',
-			__( 'Donate $10, $20 or $50', 'scroll-triggered-boxes' ),
-			array( $this, 'show_dvk_info_donate' ),
+			'stb-available-add-ons',
+			__( 'Available add-ons.', 'scroll-triggered-boxes' ),
+			array( $this, 'metabox_available_add_ons' ),
 			'scroll-triggered-box',
 			'side'
 		);
 
 		add_meta_box(
-			'stb-dvk-info-links',
-			__( 'About the developer', 'scroll-triggered-boxes' ),
-			array( $this, 'show_dvk_info_links' ),
+			'stb-show-appreciation',
+			__( 'Show your appreciation!', 'scroll-triggered-boxes' ),
+			array( $this, 'metabox_appreciation_options' ),
 			'scroll-triggered-box',
 			'side'
 		);
@@ -203,7 +203,7 @@ class STB_Admin {
 	 * @param WP_Post $post
 	 * @param $metabox
 	 */
-	public function show_box_appearance_controls( WP_Post $post, $metabox ) {
+	public function metabox_box_appearance_controls( WP_Post $post, $metabox ) {
 
 		// get box options
 		$box = new STB_Box( $post );
@@ -217,7 +217,7 @@ class STB_Admin {
 	 * @param WP_Post $post
 	 * @param $metabox
 	 */
-	public function show_box_option_controls( WP_Post $post, $metabox ) {
+	public function metabox_box_option_controls( WP_Post $post, $metabox ) {
 
 		// get box options
 		$box = new STB_Box( $post );
@@ -231,24 +231,24 @@ class STB_Admin {
 	 * @param WP_Post $post
 	 * @param         $metabox
 	 */
-	public function show_dvk_info_donate( WP_Post $post, $metabox ) {
-		include dirname( STB::FILE ) . '/includes/views/metaboxes/dvk-donate.php';
+	public function metabox_appreciation_options( WP_Post $post, $metabox ) {
+		include dirname( STB::FILE ) . '/includes/views/metaboxes/show-appreciation.php';
 	}
 
 	/**
 	 * @param WP_Post $post
 	 * @param         $metabox
 	 */
-	public function show_dvk_info_support( WP_Post $post, $metabox ) {
-		include dirname( STB::FILE ) . '/includes/views/metaboxes/dvk-support.php';
+	public function metabox_available_add_ons( WP_Post $post, $metabox ) {
+		include dirname( STB::FILE ) . '/includes/views/metaboxes/available-add-ons.php';
 	}
 
 	/**
 	 * @param WP_Post $post
 	 * @param         $metabox
 	 */
-	public function show_dvk_info_links( WP_Post $post, $metabox ) {
-		include dirname( STB::FILE ) . '/includes/views/metaboxes/dvk-links.php';
+	public function metabox_support( WP_Post $post, $metabox ) {
+		include dirname( STB::FILE ) . '/includes/views/metaboxes/need-support.php';
 	}
 
 
