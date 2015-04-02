@@ -41,7 +41,7 @@ module.exports = (function() {
 		this.$element.find('.stb-close').click(this.disable.bind(this));
 
 		// attach event to all links referring #stb-{box_id}
-		$('a[href="#' + this.$element.attr('id') +'"]').click(function() { this.toggle(); return false;}.bind(this));
+		$('a[href="#' + this.$element.attr('id') +'"]').click(function() { this.toggle(); return false; }.bind(this));
 
 		// auto-show the box if box is referenced from URL
 		if( this.locationHashRefersBox() ) {

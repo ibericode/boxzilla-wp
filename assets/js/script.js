@@ -42,7 +42,7 @@ module.exports = (function() {
 		this.$element.find('.stb-close').click(this.disable.bind(this));
 
 		// attach event to all links referring #stb-{box_id}
-		$('a[href="#' + this.$element.attr('id') +'"]').click(function() { this.toggle(); return false;}.bind(this));
+		$('a[href="#' + this.$element.attr('id') +'"]').click(function() { this.toggle(); return false; }.bind(this));
 
 		// auto-show the box if box is referenced from URL
 		if( this.locationHashRefersBox() ) {
@@ -251,6 +251,7 @@ module.exports = (function($) {
 		windowHeight = window.innerHeight,
 		scrollTimer = 0,
 		resizeTimer = 0,
+		overlay = document.getElementById('stb-overlay'),
 		options = window.STB_Global_Options || {};
 
 	var Box = require('./Box.js');
@@ -263,6 +264,7 @@ module.exports = (function($) {
 		$(window).bind('scroll.stb', onScroll);
 		$(window).bind('resize.stb', onWindowResize);
 		$(document).keyup(onKeyUp);
+		$(overlay).click(disableAllBoxes);
 
 		if( options.testMode ) {
 			console.log( 'Scroll Triggered Boxes: Test mode is enabled. Please disable test mode if you\'re done testing.' );
@@ -301,14 +303,18 @@ module.exports = (function($) {
 	// hide and disable all registered boxes
 	function disableAllBoxes() {
 		for( var boxId in boxes ) {
-			boxes[boxId].disable();
+			if( boxes[boxId].visible ) {
+				boxes[boxId].disable();
+			}
 		}
 	}
 
 	// hide all registered boxes
 	function hideAllBoxes() {
 		for( var boxId in boxes ) {
-			boxes[boxId].hide();
+			if( boxes[boxId].visible ) {
+				boxes[boxId].hide();
+			}
 		}
 	}
 

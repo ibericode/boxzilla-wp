@@ -1,8 +1,8 @@
 window.STBAdmin = (function($) {
 	'use strict';
 
-	var $appearanceControls = $("#stb-box-appearance"),
-		$optionControls = $("#stb-box-options"),
+	var $appearanceControls = $("#stb-box-appearance-controls"),
+		$optionControls = $("#stb-box-options-controls"),
 		$manualTip = $optionControls.find('.stb-manual-tip');
 
 	// events
@@ -70,94 +70,111 @@ window.STBAdmin = (function($) {
 
 	// functions
 
-	// Designer
-	var Designer = {};
-	Designer.init = function() {
+	var Designer = (function() {
 
-		var boxID = document.getElementById('post_ID').value || 0;
+		// vars
+		var boxID = document.getElementById('post_ID').value || 0,
+			$editor,
+			$innerEditor,
+			optionElements = {
+				borderColor: document.getElementById('stb-border-color'),
+				borderWidth: document.getElementById('stb-border-width'),
+				borderStyle: document.getElementById('stb-border-style'),
+				backgroundColor: document.getElementById('stb-background-color'),
+				width: document.getElementById('stb-width'),
+				color: document.getElementById('stb-color'),
+				manualCSS: document.getElementById('stb-manual-css')
+			},
+			manualStyleEl;
 
-		// cache tinymce elements
-		Designer.$editor = $("#content_ifr").contents().find('html');
-		Designer.$innerEditor = Designer.$editor.find('#tinymce');
+		// functions
+		function init() {
+			$editor = $("#content_ifr").contents().find('html');
+			$innerEditor = $editor.find('#tinymce');
 
-		// make sure we're showing on a white background
-		Designer.$editor.css({
-			'background': 'white'
-		});
+			// make sure we're showing on a white background
+			$editor.css({
+				'background': 'white'
+			});
 
-		// add global class
-		Designer.$innerEditor.addClass('stb').addClass('scroll-triggered-box').addClass('stb-' + boxID);
+			// add global class
+			$innerEditor.addClass('stb').addClass('scroll-triggered-box').addClass('stb-' + boxID);
 
-		// add padding
-		Designer.$innerEditor.get(0).style.cssText += ';padding: 25px !important;';
+			// add padding
+			$innerEditor.get(0).style.cssText += ';padding: 25px !important;';
 
-		Designer.$innerEditor.css({
-			'display': "inline-block",
-			'height': 'auto',
-			'min-width': '200px'
-		});
+			$innerEditor.css({
+				'display': "inline-block",
+				'height': 'auto',
+				'min-width': '200px'
+			});
 
-		// create <style> element in <head>
-		Designer.styleEl = document.createElement('style');
-		Designer.styleEl.id = 'stb-manual-css';
-		$(Designer.styleEl).appendTo(Designer.$editor.find('head'));
 
-		// apply styles
-		Designer.applyStyles();
-		$(document).trigger('editorInit.stb');
-	};
-	Designer.fields = {
-		borderColor: document.getElementById('stb-border-color'),
-		borderWidth: document.getElementById('stb-border-width'),
-		borderStyle: document.getElementById('stb-border-style'),
-		backgroundColor: document.getElementById('stb-background-color'),
-		width: document.getElementById('stb-width'),
-		color: document.getElementById('stb-color'),
-		manualCSS: document.getElementById('stb-manual-css')
-	};
-	Designer.getColor = function( field, fallbackValue ) {
-		if( Designer.fields[field].value.length > 0 ) {
-			return $(Designer.fields[field]).wpColorPicker('color');
+			// create <style> element in <head>
+			manualStyleEl = document.createElement('style');
+			manualStyleEl.setAttribute('type','text/css');
+			manualStyleEl.id = 'stb-manual-css';
+			$(manualStyleEl).appendTo($editor.find('head'));
+
+			applyStyles();
+			$(document).trigger('editorInit.stb');
 		}
 
-		return (typeof(fallbackValue) !== "undefined") ? fallbackValue : '';
-	};
-	Designer.getPxValue = function( field, fallbackValue ) {
-		if( Designer.fields[field].value.length > 0 ) {
-			return parseInt( Designer.fields[field].value ) + "px";
+		function getColorValue(option,fallbackValue) {
+			if( optionElements[option].value.length > 0 ) {
+				return $(optionElements[option]).wpColorPicker('color');
+			}
+
+			return (typeof(fallbackValue) !== "undefined") ? fallbackValue : '';
 		}
 
-		return (typeof(fallbackValue) !== "undefined") ? fallbackValue : 0;
-	};
-	Designer.getValue = function( field, fallbackValue ) {
-		if( Designer.fields[field].value.length > 0 ) {
-			return Designer.fields[field].value;
+		function getPxValue(option, fallbackValue) {
+			if( optionElements[option].value.length > 0 ) {
+				return parseInt( optionElements[option].value ) + "px";
+			}
+
+			return (typeof(fallbackValue) !== "undefined") ? fallbackValue : 0;
 		}
 
-		return (typeof(fallbackValue) !== "undefined") ? fallbackValue : '';
-	};
-	Designer.applyStyles = function() {
+		function getValue( option ) {
+			if( optionElements[option].value.length > 0 ) {
+				return optionElements[option].value;
+			}
 
-		// add manual CSS to <head>
-		Designer.styleEl.innerHTML = Designer.fields['manualCSS'].value;
+			return (typeof(fallbackValue) !== "undefined") ? fallbackValue : '';
+		}
 
+		/**
+		 * Applies the styles from the options to the TinyMCE Editor
+		 */
+		function applyStyles() {
+			// add manual CSS to <head>
+			manualStyleEl.innerHTML = optionElements.manualCSS.value;
 
-		Designer.$innerEditor.css({
-			'border-color': Designer.getColor( 'borderColor', 'initial' ),
-			'border-width': Designer.getPxValue( 'borderWidth', '' ),
-			'border-style': Designer.getValue( 'borderStyle', '' ),
-			'background-color': Designer.getColor( 'backgroundColor', 'inherit '),
-			'width': Designer.getPxValue( 'width', 'auto' ),
-			'color': Designer.getColor( 'color', 'inherit ')
-		});
+			// apply styles from CSS editor
+			$innerEditor.css({
+				'border-color': getColorValue( 'borderColor', '' ),
+				'border-width': getPxValue( 'borderWidth', '' ),
+				'border-style': getValue( 'borderStyle', '' ),
+				'background-color': getColorValue( 'backgroundColor', ''),
+				'width': getPxValue( 'width', 'auto' ),
+				'color': getColorValue( 'color', '' )
+			});
 
-		$(document).trigger('applyBoxStyles.stb');
-	};
+			$(document).trigger('applyBoxStyles.stb');
+		}
 
-	// event binders
-	$appearanceControls.find('input.stb-color-field').wpColorPicker({ change: Designer.applyStyles, clear: Designer.applyStyles });
-	$appearanceControls.find(":input").not(".stb-color-field").change(Designer.applyStyles);
+		// init
 
+		// event binders
+		$appearanceControls.find('input.stb-color-field').wpColorPicker({ change: applyStyles, clear: applyStyles });
+		$appearanceControls.find(":input").not(".stb-color-field").change(applyStyles);
+
+		return {
+			init: init
+		};
+
+	})();
 
 	return {
 		onTinyMceInit: Designer.init

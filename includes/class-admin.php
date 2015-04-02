@@ -157,7 +157,7 @@ class STB_Admin {
 	 */
 	public function add_meta_boxes() {
 		add_meta_box(
-			'stb-box-appearance',
+			'stb-box-appearance-controls',
 			__( 'Box Appearance', 'scroll-triggered-boxes' ),
 			array( $this, 'show_box_appearance_controls' ),
 			'scroll-triggered-box',
@@ -166,7 +166,7 @@ class STB_Admin {
 		);
 
 		add_meta_box(
-			'stb-box-options',
+			'stb-box-options-controls',
 			__( 'Box Options', 'scroll-triggered-boxes' ),
 			array( $this, 'show_box_option_controls' ),
 			'scroll-triggered-box',

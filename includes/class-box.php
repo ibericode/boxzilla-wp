@@ -134,6 +134,7 @@ class STB_Box {
 		$classes = array(
 			'scroll-triggered-box',
 			'stb',
+			'stb-' . $this->ID,
 			'stb-' . $this->options['css']['position']
 		);
 
@@ -227,21 +228,25 @@ class STB_Box {
 		<style type="text/css">
 			<?php
 				// open selector wrapper
-				printf( '#stb-%d {', $this->ID );
+				printf( '.stb-%d {', $this->ID );
 
 				// print any rules which may have been set
 				if ( '' !== $css['background_color'] ) {
-					printf( 'background: %s;', esc_html( $css['background_color'] ) );
+					printf( 'background: %s;', strip_tags( $css['background_color'] ) );
 				}
 				if ( '' !== $css['color'] ) {
-					printf( 'color: %s;', esc_html( $css['color'] ) );
+					printf( 'color: %s;', strip_tags( $css['color'] ) );
 				}
 				if ( '' !== $css['border_color'] ) {
-					printf( 'border-color: %s;', esc_html( $css['border_color'] ) );
+					printf( 'border-color: %s;', strip_tags( $css['border_color'] ) );
 				}
 
 				if( '' !== $css['border_width'] ) {
 					printf( 'border-width: %dpx;', absint( $css['border_width'] ) );
+				}
+
+				if( '' !== $css['border_style'] ) {
+					printf( 'border-style: %s;', strip_tags( $css['border_style'] ) );
 				}
 
 				if( ! empty( $css['width'] ) ) {
@@ -254,7 +259,14 @@ class STB_Box {
 
 				// close wrapper
 				echo '}';
-				do_action( 'stb_print_box_css', $this ); ?>
+
+
+				// print manual css
+				if( '' !== $css['manual'] ) {
+					echo strip_tags( $css['manual'] );
+				}
+
+				do_action( 'stb_box_print_css', $this ); ?>
 		</style>
 		<?php
 	}
