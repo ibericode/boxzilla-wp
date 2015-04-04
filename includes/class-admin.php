@@ -32,6 +32,13 @@ class STB_Admin {
 		// Load the plugin textdomain
 		load_plugin_textdomain( 'scroll-triggered-boxes', false, STB::$dir . '/languages/' );
 
+		// if PHP is lower than 5.3, show a notice and disable update checks.
+		// this in preparation for the upcoming 2.0 release
+		if( version_compare( PHP_VERSION, '5.3', '<' ) ) {
+			add_filter( 'site_transient_update_plugins', array( $this, 'disable_update_check' ) );
+			add_filter( 'admin_notices', array( $this, 'show_php_requirement_notice' ) );
+		}
+
 		global $pagenow;
 
 		if( $this->editing_box() ) {
@@ -43,6 +50,38 @@ class STB_Admin {
 			add_filter( 'plugin_row_meta', array( $this, 'add_plugin_meta_links'), 10, 2 );
 		}
 
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function show_php_requirement_notice() {
+
+		if( isset( $_GET['stb-dismiss-php-notice' ] ) ) {
+			update_option( 'stb_dismissed_php_notice', 1 );
+			return false;
+		}
+
+		if( 1 === (int) get_option( 'stb_dismissed_php_notice', 0 ) ) {
+			return false;
+		}
+
+		print '<div class="updated"><p>';
+		printf ('<strong>Scroll Triggered Boxes</strong> is not checking for plugin updates since new versions of the plugin require <strong>PHP version 5.3 or higher</strong>, while your server is running PHP v%s. <a href="%s">Updating your PHP version</a> makes your site faster, more secure and should be easy for your host.', PHP_VERSION, 'http://www.wpupdatephp.com/update/' );
+		print ' &nbsp; ';
+		printf( '<a class="button" href="%s">Got it</a>', add_query_arg( array( 'stb-dismiss-php-notice' => 1 ) ) );
+		print '</p></div>';
+		return true;
+	}
+
+	/**
+	 * Disables update checks, is added when PHP is lower than v5.3
+	 */
+	public function disable_update_check( $data ) {
+		if( isset( $data->response[ $this->plugin_file ] ) ) {
+			unset( $data->response[ $this->plugin_file ]);
+		}
+		return $data;
 	}
 
 	/**

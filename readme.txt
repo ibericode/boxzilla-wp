@@ -1,10 +1,10 @@
 === Plugin Name ===
 Contributors: DvanKooten
 Donate link: https://dannyvankooten.com/donate/
-Tags: scroll triggered box, cta, social, newsletter, call to action, mailchimp, contact form 7, social media
+Tags: scroll triggered box, cta, social, pop-up, newsletter, call to action, mailchimp, contact form 7, social media
 Requires at least: 3.7
-Tested up to: 4.1.1
-Stable tag: 1.4.3
+Tested up to: 4.2
+Stable tag: 1.4.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -57,7 +57,8 @@ If you have created your own language pack (or have an update of an existing one
 **Other Links**
 
 - Have a look at some other [WordPress plugins by Danny van Kooten](https://dannyvankooten.com/wordpress-plugins/).
-- Contribute to the [Scroll Triggered Boxes plugin on GitHub](https://github.com/dannyvankooten/wp-scroll-triggered-boxes).
+- Contribute to the [Scroll Triggered Boxes plugin on GitHub](https://github.com/dannyvankooten/scroll-triggered-boxes).
+- The [Scroll Triggered Boxes site](https://scrolltriggeredboxes.com/)
 
 == Frequently Asked Questions ==
 
@@ -171,6 +172,12 @@ Have a look at the [frequently asked questions](https://wordpress.org/plugins/sc
 Some more screenshots can be found at the [Scroll Triggered Boxes plugin page on my website](https://dannyvankooten.com/wordpress-plugins/scroll-triggered-boxes/).
 
 == Changelog ==
+
+= 1.4.4 - April 4, 2015 =
+
+**Additions**
+
+- Added a PHP version check in preparation for the upcoming [Scroll Triggered Boxes v2.0](https://scrolltriggeredboxes.com/a-new-site/) release.
 
 = 1.4.3 - January 29, 2015 =
 
