@@ -1,9 +1,4 @@
-<?php 
-if( ! defined( 'STB::VERSION' ) ) {
-	header( 'Status: 403 Forbidden' );
-	header( 'HTTP/1.1 403 Forbidden' );
-	exit;
-} ?>
+<?php defined( 'ABSPATH' ) or exit; ?>
 <p><?php printf( __( 'Scroll Triggered Boxes comes with <a href="%s">some very cool add-ons</a>.', 'scroll-triggered-boxes' ), 'https://scrolltriggeredboxes.com/add-ons/' ); ?></p>
 <ul class="ul-square">
 	<li><a href="https://scrolltriggeredboxes.com/add-ons/theme-pack/">STB: Theme Pack</a></li>

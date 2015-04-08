@@ -1,9 +1,4 @@
-<?php
-if( ! defined( 'STB::VERSION' ) ) {
-	header( 'Status: 403 Forbidden' );
-	header( 'HTTP/1.1 403 Forbidden' );
-	exit;
-} ?>
+<?php defined( 'ABSPATH' ) or exit; ?>
 <p><?php _e( 'If you like this plugin, please consider showing a token of your appreciation.', 'scroll-triggered-boxes' ); ?></p>
 <ul class="ul-square">
 	<li><a href="https://wordpress.org/support/view/plugin-reviews/scroll-triggered-boxes?rate=5#postform" target="_blank"><?php printf( __( 'Leave a %s review on WordPress.org', 'scroll-triggered-boxes' ), '&#9733;&#9733;&#9733;&#9733;&#9733;' ); ?></a></li>

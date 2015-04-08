@@ -1,6 +1,8 @@
 <?php
 
-class STB_Box {
+namespace ScrollTriggeredBoxes;
+
+class Box {
 
 	/**
 	 * @param \WP_Post $post

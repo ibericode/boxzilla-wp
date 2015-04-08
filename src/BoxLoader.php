@@ -1,14 +1,11 @@
 <?php
-if( ! defined( 'STB::VERSION' ) ) {
-	header( 'Status: 403 Forbidden' );
-	header( 'HTTP/1.1 403 Forbidden' );
-	exit;
-}
 
-class STB_Public {
+namespace ScrollTriggeredBoxes;
+
+class BoxLoader {
 
 	/**
-	 * @var STB
+	 * @var Plugin
 	 */
 	private $plugin;
 
@@ -20,9 +17,9 @@ class STB_Public {
 	/**
 	 * Constructor
 	 *
-	 * @param STB $plugin
+	 * @param Plugin $plugin
 	 */
-	public function __construct( STB $plugin ) {
+	public function __construct( Plugin $plugin ) {
 		$this->plugin = $plugin;
 		add_action( 'wp', array( $this, 'init' ) );
 	}
@@ -156,12 +153,13 @@ class STB_Public {
 	*/
 	public function load_styles() {
 		$pre_suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+		$asset_url = plugins_url( '/assets', Plugin::FILE );
 
 		// stylesheets
-		wp_register_style( 'scroll-triggered-boxes', $this->plugin->url . 'assets/css/styles' . $pre_suffix . '.css', array(), STB::VERSION );
+		wp_register_style( 'scroll-triggered-boxes', $asset_url . '/css/styles' . $pre_suffix . '.css', array(), Plugin::VERSION );
 
 		// scripts
-		wp_register_script( 'scroll-triggered-boxes', $this->plugin->url . 'assets/js/script' . $pre_suffix . '.js' , array( 'jquery' ), STB::VERSION, true );
+		wp_register_script( 'scroll-triggered-boxes', $asset_url . '/js/script' . $pre_suffix . '.js' , array( 'jquery' ), Plugin::VERSION, true );
 
 		// Finally, enqueue style.
 		wp_enqueue_style( 'scroll-triggered-boxes' );
@@ -171,9 +169,9 @@ class STB_Public {
 	}
 
 	/**
-	 * Get an array of STB_Box objects. These are the boxes that will be loaded for the current request.
+	 * Get an array of Box objects. These are the boxes that will be loaded for the current request.
 	 *
-	 * @return array An array of `STB_Box` objects.
+	 * @return array An array of `Box` objects.
 	 */
 	public function get_matched_boxes() {
 		static $boxes;
@@ -195,9 +193,9 @@ class STB_Public {
 				)
 			);
 
-			// create `STB_Box` instances out of \WP_Post instances
+			// create `Box` instances out of \WP_Post instances
 			foreach ( $boxes as $key => $box ) {
-				$boxes[ $key ] = new STB_Box( $box );
+				$boxes[ $key ] = new Box( $box );
 			}
 		}
 
@@ -221,7 +219,7 @@ class STB_Public {
 		$boxes_options = array();
 		foreach( $this->get_matched_boxes() as $box ) {
 
-			/* @var $box STB_Box */
+			/* @var $box Box */
 
 			// create array with box options
 			$options = array(
@@ -246,11 +244,11 @@ class STB_Public {
 	* Outputs the boxes in the footer
 	*/
 	public function output_boxes() {
-		?><!-- Scroll Triggered Boxes v<?php echo STB::VERSION; ?> - https://wordpress.org/plugins/scroll-triggered-boxes/--><?php
+		?><!-- Scroll Triggered Boxes v<?php echo Plugin::VERSION; ?> - https://wordpress.org/plugins/scroll-triggered-boxes/--><?php
 
 		// print HTML for each of the boxes
 		foreach ( $this->get_matched_boxes() as $box ) {
-			/* @var $box STB_Box */
+			/* @var $box Box */
 			$box->output_html();
 		}
 

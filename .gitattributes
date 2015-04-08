@@ -4,4 +4,5 @@
 /.gitignore         export-ignore
 /Gruntfile.js       export-ignore
 /package.json       export-ignore
+/composer.json		export-ignore
 /tests              export-ignore

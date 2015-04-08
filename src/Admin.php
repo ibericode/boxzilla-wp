@@ -1,11 +1,8 @@
 <?php
-if( ! defined( 'STB::VERSION' ) ) {
-	header( 'Status: 403 Forbidden' );
-	header( 'HTTP/1.1 403 Forbidden' );
-	exit;
-}
 
-class STB_Admin {
+namespace ScrollTriggeredBoxes;
+
+class Admin {
 
 	/**
 	 * @var string
@@ -13,23 +10,23 @@ class STB_Admin {
 	private $plugin_file = '';
 
 	/**
-	 * @var STB $plugin
+	 * @var Plugin $plugin
 	 */
 	private $plugin;
 
 	/**
-	 * @param STB $plugin
+	 * @param Plugin $plugin
 	 */
-	public function __construct( STB $plugin ) {
+	public function __construct( Plugin $plugin ) {
 
 		// store path to plugin file in property
-		$this->plugin_file = plugin_basename( STB::FILE );
+		$this->plugin_file = plugin_basename( Plugin::FILE );
 
 		// store reference to plugin file
 		$this->plugin = $plugin;
 
 		// Load the plugin textdomain
-		load_plugin_textdomain( 'scroll-triggered-boxes', null, dirname( plugin_basename( STB::FILE ) ) . '/languages' );
+		load_plugin_textdomain( 'scroll-triggered-boxes', null, dirname( plugin_basename( Plugin::FILE ) ) . '/languages' );
 
 		// action hooks
 		add_action( 'init', array( $this, 'init' ) );
@@ -45,7 +42,7 @@ class STB_Admin {
 		add_action( 'save_post', array( $this, 'save_box_options' ), 20 );
 		add_action( 'trashed_post', array( $this, 'flush_rules') );
 		add_action( 'untrashed_post', array( $this, 'flush_rules') );
-		
+
 		global $pagenow;
 
 		if( $this->editing_box() ) {
@@ -87,14 +84,14 @@ class STB_Admin {
 	 */
 	public function show_settings_page() {
 		$opts = $this->plugin->get_options();
-		include dirname( STB::FILE ) . '/includes/views/settings.php';
+		include dirname( Plugin::FILE ) . '/views/settings.php';
 	}
 
 	/**
 	 * Shows the extensions page
 	 */
 	public function show_extensions_page() {
-		include dirname( STB::FILE ) . '/includes/views/extensions.php';
+		include dirname( Plugin::FILE ) . '/views/extensions.php';
 	}
 
 	/**
@@ -113,7 +110,7 @@ class STB_Admin {
 			return true;
 		}
 
-		if( $post && $post instanceof WP_Post && $post->post_type === 'scroll-triggered-box' ) {
+		if( $post && $post instanceof \WP_Post && $post->post_type === 'scroll-triggered-box' ) {
 			return true;
 		}
 
@@ -141,12 +138,13 @@ class STB_Admin {
 
 		// only load on "edit box" pages
 		$pre_suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+		$assets_url = plugins_url( '/assets', Plugin::FILE );
 
 		// load stylesheets
-		wp_enqueue_style( 'scroll-triggered-boxes-admin', $this->plugin->url . 'assets/css/admin-styles' . $pre_suffix . '.css', array( 'wp-color-picker' ), STB::VERSION );
+		wp_enqueue_style( 'scroll-triggered-boxes-admin', $assets_url .' /css/admin-styles' . $pre_suffix . '.css', array( 'wp-color-picker' ), Plugin::VERSION );
 
 		// load scripts
-		wp_enqueue_script( 'scroll-triggered-boxes-admin', $this->plugin->url . 'assets/js/admin-script' . $pre_suffix . '.js', array( 'jquery', 'wp-color-picker' ), STB::VERSION, true );
+		wp_enqueue_script( 'scroll-triggered-boxes-admin', $assets_url .' /js/admin-script' . $pre_suffix . '.js', array( 'jquery', 'wp-color-picker' ), Plugin::VERSION, true );
 
 		// allow add-ons to easily load their own scripts or stylesheets
 		do_action( 'stb_load_admin_assets' );
@@ -200,55 +198,55 @@ class STB_Admin {
 	}
 
 	/**
-	 * @param WP_Post $post
+	 * @param \WP_Post $post
 	 * @param $metabox
 	 */
-	public function metabox_box_appearance_controls( WP_Post $post, $metabox ) {
+	public function metabox_box_appearance_controls( \WP_Post $post, $metabox ) {
 
 		// get box options
-		$box = new STB_Box( $post );
+		$box = new Box( $post );
 		$opts = $box->get_options();
 
 		// include view
-		include dirname( STB::FILE ) . '/includes/views/metaboxes/box-appearance-controls.php';
+		include dirname( Plugin::FILE ) . '/views/metaboxes/box-appearance-controls.php';
 	}
 
 	/**
-	 * @param WP_Post $post
+	 * @param \WP_Post $post
 	 * @param $metabox
 	 */
-	public function metabox_box_option_controls( WP_Post $post, $metabox ) {
+	public function metabox_box_option_controls( \WP_Post $post, $metabox ) {
 
 		// get box options
-		$box = new STB_Box( $post );
+		$box = new Box( $post );
 		$opts = $box->get_options();
 
 		// include view
-		include dirname( STB::FILE ) . '/includes/views/metaboxes/box-option-controls.php';
+		include dirname( Plugin::FILE ) . '/views/metaboxes/box-option-controls.php';
 	}
 
 	/**
-	 * @param WP_Post $post
+	 * @param \WP_Post $post
 	 * @param         $metabox
 	 */
-	public function metabox_appreciation_options( WP_Post $post, $metabox ) {
-		include dirname( STB::FILE ) . '/includes/views/metaboxes/show-appreciation.php';
+	public function metabox_appreciation_options( \WP_Post $post, $metabox ) {
+		include dirname( Plugin::FILE ) . '/views/metaboxes/show-appreciation.php';
 	}
 
 	/**
-	 * @param WP_Post $post
+	 * @param \WP_Post $post
 	 * @param         $metabox
 	 */
-	public function metabox_available_add_ons( WP_Post $post, $metabox ) {
-		include dirname( STB::FILE ) . '/includes/views/metaboxes/available-add-ons.php';
+	public function metabox_available_add_ons( \WP_Post $post, $metabox ) {
+		include dirname( Plugin::FILE ) . '/views/metaboxes/available-add-ons.php';
 	}
 
 	/**
-	 * @param WP_Post $post
+	 * @param \WP_Post $post
 	 * @param         $metabox
 	 */
-	public function metabox_support( WP_Post $post, $metabox ) {
-		include dirname( STB::FILE ) . '/includes/views/metaboxes/need-support.php';
+	public function metabox_support( \WP_Post $post, $metabox ) {
+		include dirname( Plugin::FILE ) . '/views/metaboxes/need-support.php';
 	}
 
 

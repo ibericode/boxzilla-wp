@@ -1,3 +1,7 @@
 node_modules
+/vendor/*
+!/vendor/composer
+!/vendor/autoload.php
 .sass-cache
 .DS_STORE
+composer.lock

@@ -1,10 +1,4 @@
-<?php
-if( ! defined( 'STB::VERSION' ) ) {
-	header( 'Status: 403 Forbidden' );
-	header( 'HTTP/1.1 403 Forbidden' );
-	exit;
-} ?>
-
+<?php defined( 'ABSPATH' ) or exit; ?>
 <div id="notice-notinymce" class="error" style="display: none;"><p><?php _e( 'For the best experience when styling your box, please use the default WordPress visual editor.', 'scroll-triggered-boxes' ); ?></p></div>
 
 <table class="form-table">
