@@ -1,6 +1,8 @@
 <?php
 
-namespace ScrollTriggeredBoxes;
+namespace ScrollTriggeredBoxes\Admin;
+
+use ScrollTriggeredBoxes\Plugin;
 
 class Admin {
 
@@ -32,6 +34,8 @@ class Admin {
 		add_action( 'init', array( $this, 'init' ) );
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
 		add_action( 'admin_menu', array( $this, 'menu' ) );
+
+		$this->licenseManager = new LicenseManager( $plugin->get_activated_extensions() );
 	}
 
 	/**
@@ -39,15 +43,16 @@ class Admin {
 	 */
 	public function init() {
 
+		global $pagenow;
+
 		add_action( 'save_post', array( $this, 'save_box_options' ), 20 );
 		add_action( 'trashed_post', array( $this, 'flush_rules') );
 		add_action( 'untrashed_post', array( $this, 'flush_rules') );
 
-		global $pagenow;
+		add_action( 'admin_enqueue_scripts', array( $this, 'load_assets' ) );
 
 		if( $this->editing_box() ) {
 			add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
-			add_action( 'admin_enqueue_scripts', array( $this, 'load_assets' ) );
 			add_filter( 'tiny_mce_before_init', array( $this, 'tinymce_init' ) );
 		} elseif( $pagenow === 'plugins.php' ) {
 			add_filter( 'plugin_action_links', array( $this, 'add_plugin_settings_link' ), 10, 2 );
@@ -84,14 +89,14 @@ class Admin {
 	 */
 	public function show_settings_page() {
 		$opts = $this->plugin->get_options();
-		include dirname( Plugin::FILE ) . '/views/settings.php';
+		require dirname( Plugin::FILE ) . '/views/settings.php';
 	}
 
 	/**
 	 * Shows the extensions page
 	 */
 	public function show_extensions_page() {
-		include dirname( Plugin::FILE ) . '/views/extensions.php';
+		require dirname( Plugin::FILE ) . '/views/extensions.php';
 	}
 
 	/**
@@ -136,15 +141,26 @@ class Admin {
 	 */
 	public function load_assets() {
 
+		if( ! $this->editing_box()
+			&& ( ! isset( $_GET['page'] ) || $_GET['page'] !== 'stb-settings' ) ) {
+			return false;
+		}
+
 		// only load on "edit box" pages
 		$pre_suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 		$assets_url = plugins_url( '/assets', Plugin::FILE );
 
-		// load stylesheets
-		wp_enqueue_style( 'scroll-triggered-boxes-admin', $assets_url .' /css/admin-styles' . $pre_suffix . '.css', array( 'wp-color-picker' ), Plugin::VERSION );
+		// load the following only when editing a box
+		if( $this->editing_box() ) {
+			wp_enqueue_style( 'wp-color-picker' );
 
-		// load scripts
-		wp_enqueue_script( 'scroll-triggered-boxes-admin', $assets_url .' /js/admin-script' . $pre_suffix . '.js', array( 'jquery', 'wp-color-picker' ), Plugin::VERSION, true );
+			// load scripts
+			wp_enqueue_script( 'scroll-triggered-boxes-admin', $assets_url .' /js/admin-script' . $pre_suffix . '.js', array( 'jquery', 'wp-color-picker' ), Plugin::VERSION, true );
+		}
+
+		// load stylesheets
+		wp_enqueue_style( 'scroll-triggered-boxes-admin', $assets_url .' /css/admin-styles' . $pre_suffix . '.css', array(), Plugin::VERSION );
+
 
 		// allow add-ons to easily load their own scripts or stylesheets
 		do_action( 'stb_load_admin_assets' );

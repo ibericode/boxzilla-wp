@@ -40,6 +40,7 @@ if( version_compare( PHP_VERSION, '5.3', '>=' ) ) {
 
 	// we need this constant later on
 	define( 'STB_PLUGIN_FILE', __FILE__ );
+	define( 'STB_PLUGIN_DIR', dirname( __FILE__ ) );
 
 	// instantiate plugin class in The One True Global
 	$GLOBALS['ScrollTriggeredBoxes'] = call_user_func( array( 'ScrollTriggeredBoxes\\Plugin', 'bootstrap' ) );

@@ -6,8 +6,12 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'ScrollTriggeredBoxes\\Admin' => $baseDir . '/src/Admin.php',
+    'ScrollTriggeredBoxes\\Admin\\API' => $baseDir . '/src/admin/API.php',
+    'ScrollTriggeredBoxes\\Admin\\Admin' => $baseDir . '/src/admin/Admin.php',
+    'ScrollTriggeredBoxes\\Admin\\License' => $baseDir . '/src/admin/License.php',
+    'ScrollTriggeredBoxes\\Admin\\LicenseManager' => $baseDir . '/src/admin/LicenseManager.php',
     'ScrollTriggeredBoxes\\Box' => $baseDir . '/src/Box.php',
     'ScrollTriggeredBoxes\\BoxLoader' => $baseDir . '/src/BoxLoader.php',
     'ScrollTriggeredBoxes\\Plugin' => $baseDir . '/src/Plugin.php',
+    'ScrollTriggeredBoxes\\iPlugin' => $baseDir . '/src/iPlugin.php',
 );

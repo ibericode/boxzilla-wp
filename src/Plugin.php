@@ -2,6 +2,8 @@
 
 namespace ScrollTriggeredBoxes;
 
+use ScrollTriggeredBoxes\Admin\Admin;
+
 final class Plugin {
 
 	/**
@@ -17,7 +19,7 @@ final class Plugin {
 	/**
 	 * @const Base plugin directory
 	 */
-	const DIR = __DIR__;
+	const DIR = STB_PLUGIN_DIR;
 
 	/**
 	 * @var Plugin
@@ -59,7 +61,13 @@ final class Plugin {
 	 * Constructor
 	 */
 	private function __construct() {
+		add_action( 'plugins_loaded', array( $this, 'load' ), 20 );
+	}
 
+	/**
+	 * Start loading classes on `plugins_loaded`, priority 20.
+	 */
+	public function load() {
 		add_action( 'init', array( $this, 'init' ), 11 );
 
 		if( ! is_admin() ) {
@@ -140,4 +148,12 @@ final class Plugin {
 		return $this->admin;
 	}
 
+	/**
+	 * Return an array of activated extensions
+	 *
+	 * @return array of plugins, with iPlugin interface
+	 */
+	public function get_activated_extensions() {
+		return (array) apply_filters( 'stb_extensions', array() );
+	}
 }
