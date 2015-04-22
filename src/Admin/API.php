@@ -21,14 +21,17 @@ class API {
 	 */
 	public function __construct( License $license ) {
 		$this->license = $license;
+		add_action( 'shutdown', array( $this->license, 'save' ) );
 	}
 
 	/**
+	 * Activate a single plugin
+	 *
 	 * @param iPlugin $plugin
 	 *
 	 * @return bool
 	 */
-	public function activate_license( iPlugin $plugin ) {
+	public function activate_plugin( iPlugin $plugin ) {
 
 		$args = array(
 			'method' => 'POST',
@@ -43,11 +46,13 @@ class API {
 	}
 
 	/**
+	 * Deactivate a single plugin for this site
+	 *
 	 * @param iPlugin $plugin
 	 *
 	 * @return bool
 	 */
-	public function deactivate_license( iPlugin $plugin) {
+	public function deactivate_plugin( iPlugin $plugin) {
 
 		$endpoint = sprintf( '/licenses/%s/activations/%d' , $this->license->key, $plugin->id() );
 		$args = array(
@@ -58,6 +63,24 @@ class API {
 			)
 		);
 
+		$result = $this->call( $endpoint, $args );
+		return $result && $result->success;
+	}
+
+	/**
+	 * Deactivates all plugins for this site
+	 *
+	 * @return bool
+	 */
+	public function deactivate_all() {
+		$endpoint = sprintf( '/licenses/%s/activations' , $this->license->key );
+		$args = array(
+			'method' => 'POST',
+			'body' => array(
+				'url' => $this->license->site,
+				'_method' => 'DELETE'
+			)
+		);
 		$result = $this->call( $endpoint, $args );
 		return $result && $result->success;
 	}

@@ -154,6 +154,7 @@ final class Plugin {
 	 * @return array of plugins, with iPlugin interface
 	 */
 	public function get_activated_extensions() {
-		return (array) apply_filters( 'stb_extensions', array() );
+		$plugins = (array) apply_filters( 'stb_extensions', array() );
+		return new PluginCollection( $plugins );
 	}
 }

@@ -2,7 +2,8 @@
 
 namespace ScrollTriggeredBoxes\Admin;
 
-use ScrollTriggeredBoxes\Plugin;
+use ScrollTriggeredBoxes\Plugin,
+	ScrollTriggeredBoxes\PluginCollection;
 
 class LicenseManager {
 
@@ -17,9 +18,9 @@ class LicenseManager {
 	protected $license;
 
 	/**
-	 * @param array $extensions
+	 * @param PluginCollection $extensions
 	 */
-	public function __construct( array $extensions ) {
+	public function __construct( PluginCollection $extensions ) {
 		$this->extensions = $extensions;
 
 		// register license activation form
@@ -45,7 +46,7 @@ class LicenseManager {
 		$this->license = new License( 'stb_license' );
 
 		// register license key form
-		add_action( 'stb_after_settings_rows', array( $this, 'show_license_form' ) );
+		add_action( 'stb_after_settings', array( $this, 'show_license_form' ) );
 
 		// listen for activation / deactivation requests
 		$this->listen();
@@ -69,25 +70,32 @@ class LicenseManager {
 		if( $_POST['license_key'] !== $this->license->key ) {
 
 			// key changed, let's deactivate old key (if it was activated)
-			if( $this->license->activated ) {
-				foreach( $this->extensions as $plugin ) {
-					$this->license->deactivate( $plugin );
-				}
-			}
+			$this->license->deactivate_all();
 
 			// now, let's save new key in database
 			$this->license->key = sanitize_text_field( $_POST['license_key'] );
-			$this->license->save();
+		}
 
-			// if new key isn't empty, activate it
-			if( ! empty( $this->license->key ) ) {
-				foreach( $this->extensions as $plugin ) {
+		// if key isn't empty and activations have changed
+		$new_activations = ( isset( $_POST['license_activations'] ) ) ? $_POST['license_activations'] : array();
+
+		if( ! empty( $this->license->key )
+			&& $new_activations !== $this->license->activations ) {
+
+			// start by deactivating all
+			$this->license->deactivate_all();
+
+			foreach( $new_activations as $plugin_id ) {
+
+				// get plugin
+				$plugin = $this->extensions->find( $plugin_id );
+				if( $plugin ) {
 					$this->license->activate( $plugin );
 				}
 			}
-
-
 		}
+
+		$this->license->save();
 
 		return false;
 	}

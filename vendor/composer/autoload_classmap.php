@@ -12,6 +12,8 @@ return array(
     'ScrollTriggeredBoxes\\Admin\\LicenseManager' => $baseDir . '/src/admin/LicenseManager.php',
     'ScrollTriggeredBoxes\\Box' => $baseDir . '/src/Box.php',
     'ScrollTriggeredBoxes\\BoxLoader' => $baseDir . '/src/BoxLoader.php',
+    'ScrollTriggeredBoxes\\Collection' => $baseDir . '/src/Collection.php',
     'ScrollTriggeredBoxes\\Plugin' => $baseDir . '/src/Plugin.php',
+    'ScrollTriggeredBoxes\\PluginCollection' => $baseDir . '/src/PluginCollection.php',
     'ScrollTriggeredBoxes\\iPlugin' => $baseDir . '/src/iPlugin.php',
 );

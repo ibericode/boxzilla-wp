@@ -76,3 +76,12 @@ table .stb-rule-row:first-child .stb-close{ visibility: hidden; }
 #stb-admin .status.negative {
 	background: #c3c3c3;
 }
+
+/* Radio Switches */
+.radio-label {
+	font-weight: normal;
+}
+
+.radio-label > input {
+	margin-top: 0 !important;
+}
