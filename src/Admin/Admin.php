@@ -2,7 +2,8 @@
 
 namespace ScrollTriggeredBoxes\Admin;
 
-use ScrollTriggeredBoxes\Plugin;
+use ScrollTriggeredBoxes\Plugin,
+	ScrollTriggeredBoxes\Box;
 
 class Admin {
 

@@ -208,7 +208,7 @@ class BoxLoader {
 	public function pass_box_options() {
 
 		// create STB_Global_Options object
-		$plugin_options = $this->plugin->get_options();
+		$plugin_options = $this->plugin['options'];
 		$global_options = array(
 			'testMode' => (bool) $plugin_options['test_mode']
 		);
