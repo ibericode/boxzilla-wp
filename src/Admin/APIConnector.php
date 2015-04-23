@@ -19,7 +19,7 @@ class APIConnector {
 	/**
 	 * @var string
 	 */
-	protected $api_url = 'http://local.stb.com/api';
+	protected $api_url = '';
 
 	/**
 	 * @var int
@@ -53,12 +53,9 @@ class APIConnector {
 	 * @return bool
 	 */
 	public function activate( License $license ) {
-		$endpoint = sprintf( '/licenses/%s/activations' , $license->key );
+		$endpoint = '/login';
 		$args = array(
-			'method' => 'POST',
-			'body' => array(
-				'url' => $license->site,
-			)
+			'method' => 'POST'
 		);
 		$result = $this->call( $endpoint, $args );
 		return $result && $result->success;
@@ -72,60 +69,8 @@ class APIConnector {
 	 * @return bool
 	 */
 	public function deactivate( License $license ) {
-		$endpoint = sprintf( '/licenses/%s/activations' , $license->key );
-		$args = array(
-			'method' => 'POST',
-			'body' => array(
-				'url' => $license->site,
-				'_method' => 'DELETE'
-			)
-		);
-		$result = $this->call( $endpoint, $args );
-		return $result && $result->success;
-	}
-
-	/**
-	 * Activate a single plugin
-	 *
-	 * @param License $license
-	 * @param iPlugin $plugin
-	 *
-	 * @return bool
-	 */
-	public function activate_plugin( License $license, iPlugin $plugin ) {
-
-		$args = array(
-			'method' => 'POST',
-			'body' => array(
-				'url' => $license->site
-			)
-		);
-
-		$endpoint = sprintf( '/licenses/%s/activations/%d' , $license->key, $plugin->id() );
-		$result = $this->call( $endpoint, $args );
-		return $result && $result->success;
-	}
-
-	/**
-	 * Deactivate a single plugin for this site
-	 *
-	 * @param License $license
-	 * @param iPlugin $plugin
-	 *
-	 * @return bool
-	 */
-	public function deactivate_plugin( License $license, iPlugin $plugin) {
-
-		$endpoint = sprintf( '/licenses/%s/activations/%d' , $license->key, $plugin->id() );
-		$args = array(
-			'method' => 'POST',
-			'body' => array(
-				'url' => $license->site,
-				'_method' => 'DELETE'
-			)
-		);
-
-		$result = $this->call( $endpoint, $args );
+		$endpoint = '/logout';
+		$result = $this->call( $endpoint );
 		return $result && $result->success;
 	}
 
