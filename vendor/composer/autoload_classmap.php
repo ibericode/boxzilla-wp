@@ -6,9 +6,10 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'ScrollTriggeredBoxes\\Admin\\APIAuthenticator' => $baseDir . '/src/Admin/APIAuthenticator.php',
+    'ScrollTriggeredBoxes\\Admin\\APIConnector' => $baseDir . '/src/Admin/APIConnector.php',
     'ScrollTriggeredBoxes\\Admin\\Admin' => $baseDir . '/src/Admin/Admin.php',
     'ScrollTriggeredBoxes\\Admin\\License' => $baseDir . '/src/Admin/License.php',
-    'ScrollTriggeredBoxes\\Admin\\LicenseAPI' => $baseDir . '/src/Admin/LicenseAPI.php',
     'ScrollTriggeredBoxes\\Admin\\LicenseManager' => $baseDir . '/src/Admin/LicenseManager.php',
     'ScrollTriggeredBoxes\\Admin\\Notices' => $baseDir . '/src/Admin/Notices.php',
     'ScrollTriggeredBoxes\\Admin\\UpdateManager' => $baseDir . '/src/Admin/UpdateManager.php',

@@ -3,9 +3,8 @@
 namespace ScrollTriggeredBoxes\Admin;
 
 use ScrollTriggeredBoxes\iPlugin;
-use ScrollTriggeredBoxes\Admin\Notices;
 
-class LicenseAPI {
+class APIConnector {
 
 	/**
 	 * @var License
@@ -38,9 +37,11 @@ class LicenseAPI {
 	protected $last_response;
 
 	/**
+	 * @param string $api_url
 	 * @param Notices $notices
 	 */
-	public function __construct( Notices $notices ) {
+	public function __construct( $api_url, Notices $notices ) {
+		$this->api_url = $api_url;
 		$this->notices = $notices;
 	}
 

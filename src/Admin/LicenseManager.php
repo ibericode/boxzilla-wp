@@ -106,12 +106,12 @@ class LicenseManager {
 		require Plugin::DIR . '/views/parts/license-form.php';
 	}
 
+	/**
+	 * @return APIConnector
+	 */
 	protected function api() {
-		if( is_null( $this->api ) ) {
-			$this->api = new LicenseAPI( $this->notices );
-		}
-
-		return $this->api;
+		$plugin = Plugin::instance();
+		return $plugin['api_connector'];
 	}
 
 }

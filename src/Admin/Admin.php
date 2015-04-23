@@ -37,13 +37,26 @@ class Admin {
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
 		add_action( 'admin_menu', array( $this, 'menu' ) );
 
-		$this->licenseManager = new LicenseManager( $plugin['plugins'], $plugin['notices'] );
-		$this->updateManager = new UpdateManager( $plugin['plugins'], $plugin['notices'] );
+		$this->api_authenticator = new APIAuthenticator( $plugin['api_url'], $plugin['license'] );
+		$this->license_manager = new LicenseManager( $plugin['plugins'], $plugin['notices'], $plugin['license'] );
+		$this->update_manager = new UpdateManager( $plugin['plugins'], $plugin['notices'], $plugin['license'] );
 	}
 
 	protected function register_services() {
 		$this->plugin['notices'] = function( $app ) {
 			return new Notices();
+		};
+
+		$this->plugin['api_url'] = function( $app ) {
+			return 'http://local.stb.com/api';
+		};
+
+		$this->plugin['license'] = function( $app ) {
+			return new License( 'stb_license' );
+		};
+
+		$this->plugin['api_connector'] = function( $app ) {
+			return new APIConnector( $app['api_url'], $app['notices'] );
 		};
 	}
 
