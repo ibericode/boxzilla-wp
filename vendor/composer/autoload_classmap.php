@@ -6,15 +6,17 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'ScrollTriggeredBoxes\\Admin\\Admin' => $baseDir . '/src/admin/Admin.php',
-    'ScrollTriggeredBoxes\\Admin\\License' => $baseDir . '/src/admin/License.php',
-    'ScrollTriggeredBoxes\\Admin\\LicenseAPI' => $baseDir . '/src/admin/LicenseAPI.php',
-    'ScrollTriggeredBoxes\\Admin\\LicenseManager' => $baseDir . '/src/admin/LicenseManager.php',
-    'ScrollTriggeredBoxes\\Admin\\Notices' => $baseDir . '/src/admin/Notices.php',
-    'ScrollTriggeredBoxes\\Admin\\UpdateManager' => $baseDir . '/src/admin/UpdateManager.php',
+    'ScrollTriggeredBoxes\\Admin\\Admin' => $baseDir . '/src/Admin/Admin.php',
+    'ScrollTriggeredBoxes\\Admin\\License' => $baseDir . '/src/Admin/License.php',
+    'ScrollTriggeredBoxes\\Admin\\LicenseAPI' => $baseDir . '/src/Admin/LicenseAPI.php',
+    'ScrollTriggeredBoxes\\Admin\\LicenseManager' => $baseDir . '/src/Admin/LicenseManager.php',
+    'ScrollTriggeredBoxes\\Admin\\Notices' => $baseDir . '/src/Admin/Notices.php',
+    'ScrollTriggeredBoxes\\Admin\\UpdateManager' => $baseDir . '/src/Admin/UpdateManager.php',
     'ScrollTriggeredBoxes\\Box' => $baseDir . '/src/Box.php',
     'ScrollTriggeredBoxes\\BoxLoader' => $baseDir . '/src/BoxLoader.php',
     'ScrollTriggeredBoxes\\Collection' => $baseDir . '/src/Collection.php',
+    'ScrollTriggeredBoxes\\DI\\Container' => $baseDir . '/src/DI/Container.php',
+    'ScrollTriggeredBoxes\\DI\\ServiceProviderInterface' => $baseDir . '/src/DI/ServiceProviderInterface.php',
     'ScrollTriggeredBoxes\\Plugin' => $baseDir . '/src/Plugin.php',
     'ScrollTriggeredBoxes\\iPlugin' => $baseDir . '/src/iPlugin.php',
 );

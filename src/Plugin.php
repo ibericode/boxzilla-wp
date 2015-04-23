@@ -3,9 +3,7 @@
 namespace ScrollTriggeredBoxes;
 
 use ScrollTriggeredBoxes\Admin\Admin;
-use ScrollTriggeredBoxes\Admin\License;
-use ScrollTriggeredBoxes\Admin\LicenseAPI;
-use Pimple\Container;
+use ScrollTriggeredBoxes\DI\Container;
 
 final class Plugin extends Container {
 
