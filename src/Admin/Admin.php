@@ -27,6 +27,8 @@ class Admin {
 		// store reference to plugin file
 		$this->plugin = $plugin;
 
+		$this->register_services();
+
 		// Load the plugin textdomain
 		load_plugin_textdomain( 'scroll-triggered-boxes', null, dirname( plugin_basename( Plugin::FILE ) ) . '/languages' );
 
@@ -35,7 +37,14 @@ class Admin {
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
 		add_action( 'admin_menu', array( $this, 'menu' ) );
 
-		$this->licenseManager = new LicenseManager( $plugin->get_activated_extensions() );
+		$this->licenseManager = new LicenseManager( $plugin['plugins'], $plugin['notices'] );
+		$this->updateManager = new UpdateManager( $plugin['plugins'], $plugin['notices'] );
+	}
+
+	protected function register_services() {
+		$this->plugin['notices'] = function( $app ) {
+			return new Notices();
+		};
 	}
 
 	/**
@@ -44,7 +53,6 @@ class Admin {
 	public function init() {
 
 		global $pagenow;
-
 		add_action( 'save_post', array( $this, 'save_box_options' ), 20 );
 		add_action( 'trashed_post', array( $this, 'flush_rules') );
 		add_action( 'untrashed_post', array( $this, 'flush_rules') );
@@ -88,7 +96,7 @@ class Admin {
 	 * Shows the settings page
 	 */
 	public function show_settings_page() {
-		$opts = $this->plugin->get_options();
+		$opts = $this->plugin['options'];
 		require dirname( Plugin::FILE ) . '/views/settings.php';
 	}
 

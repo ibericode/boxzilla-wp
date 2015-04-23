@@ -3,7 +3,8 @@
 namespace ScrollTriggeredBoxes\Admin;
 
 use ScrollTriggeredBoxes\Plugin,
-	ScrollTriggeredBoxes\PluginCollection;
+	ScrollTriggeredBoxes\Collection,
+	Pimple\Container;
 
 class LicenseManager {
 
@@ -18,10 +19,21 @@ class LicenseManager {
 	protected $license;
 
 	/**
-	 * @param PluginCollection $extensions
+	 * @var Notices
 	 */
-	public function __construct( PluginCollection $extensions ) {
+	protected $notices;
+
+	/**
+	 * @var LicenseAPI
+	 */
+	protected $api;
+
+	/**
+	 * @param Collection $extensions
+	 */
+	public function __construct( Collection $extensions, Notices $notices ) {
 		$this->extensions = $extensions;
+		$this->notices = $notices;
 
 		// register license activation form
 		add_action( 'admin_init', array( $this, 'init' ) );
@@ -44,6 +56,7 @@ class LicenseManager {
 
 		// load license
 		$this->license = new License( 'stb_license' );
+		$this->license->load();
 
 		// register license key form
 		add_action( 'stb_after_settings', array( $this, 'show_license_form' ) );
@@ -67,36 +80,22 @@ class LicenseManager {
 		}
 
 		// the form was submitted, let's see..
-		if( $_POST['license_key'] !== $this->license->key ) {
-
-			// key changed, let's deactivate old key (if it was activated)
-			$this->license->deactivate_all();
-
-			// now, let's save new key in database
-			$this->license->key = sanitize_text_field( $_POST['license_key'] );
+		if( $_POST['action'] === 'deactivate' ) {
+			if( $this->api()->deactivate( $this->license ) ) {
+				$this->license->deactivate();
+			}
 		}
 
-		// if key isn't empty and activations have changed
-		$new_activations = ( isset( $_POST['license_activations'] ) ) ? $_POST['license_activations'] : array();
-
-		if( ! empty( $this->license->key )
-			&& $new_activations !== $this->license->activations ) {
-
-			// start by deactivating all
-			$this->license->deactivate_all();
-
-			foreach( $new_activations as $plugin_id ) {
-
-				// get plugin
-				$plugin = $this->extensions->find( $plugin_id );
-				if( $plugin ) {
-					$this->license->activate( $plugin );
-				}
+		// did key change or was "activate" button pressed?
+		$new_license_key = sanitize_text_field( $_POST['license_key'] );
+		if( ! empty( $new_license_key ) && ( $_POST['action'] === 'activate' || $new_license_key !== $this->license->key ) ) {
+			$this->license->key = $new_license_key;
+			if( $this->api()->activate( $this->license ) ) {
+				$this->license->activate();
 			}
 		}
 
 		$this->license->save();
-
 		return false;
 	}
 
@@ -105,6 +104,14 @@ class LicenseManager {
 	 */
 	public function show_license_form() {
 		require Plugin::DIR . '/views/parts/license-form.php';
+	}
+
+	protected function api() {
+		if( is_null( $this->api ) ) {
+			$this->api = new LicenseAPI( $this->notices );
+		}
+
+		return $this->api;
 	}
 
 }

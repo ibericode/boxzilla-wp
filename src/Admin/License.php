@@ -3,6 +3,7 @@
 namespace ScrollTriggeredBoxes\Admin;
 
 use ScrollTriggeredBoxes\iPlugin;
+use Closure;
 
 class License {
 
@@ -38,11 +39,8 @@ class License {
 	protected $option_name = '';
 
 	/**
-	 * @var API
+	 * @var array
 	 */
-	protected $api;
-
-
 	protected $default_data = array(
 		'key' => '',
 		'activations' => array(),
@@ -59,7 +57,6 @@ class License {
 	 */
 	public function __construct( $option_key ) {
 		$this->option_key = $option_key;
-		$this->load();
 	}
 
 	/**
@@ -84,8 +81,13 @@ class License {
 		return null;
 	}
 
-	public function __isset($name) {
-		return isset($this->$name);
+	/**
+	 * @param $name
+	 *
+	 * @return bool
+	 */
+	public function __isset( $name ) {
+		return isset( $this->$name );
 	}
 
 	/**
@@ -130,7 +132,6 @@ class License {
 	 * @return array
 	 */
 	public function toArray() {
-
 		$data = array(
 			'key' => $this->key,
 			'expires_at' => $this->expires_at,
@@ -141,44 +142,19 @@ class License {
 	}
 
 	/**
-	 * @param iPlugin $plugin
 	 *
-	 * @return bool
 	 */
-	public function activate( iPlugin $plugin ) {
-		$success = $this->api()->activate_plugin( $plugin );
-		if( $success ) {
-			$this->activations[ $plugin->id() ] = $plugin->id();
-			$this->dirty = true;
-		}
-		return $success;
-	}
-
-	/**
-	 * @param iPlugin $plugin
-	 *
-	 * @return bool
-	 */
-	public function deactivate( iPlugin $plugin ) {
-		$success = $this->api()->deactivate_plugin( $plugin );
-		if( $success ) {
-			unset( $this->activations[ $plugin->id() ] );
-			$this->dirty = true;
-		}
-
-		return $success;
+	public function activate() {
+		$this->activations = array( -1 );
+		$this->dirty = true;
 	}
 
 	/**
 	 *
 	 */
-	public function deactivate_all() {
-		$success = $this->api()->deactivate_all();
-		if( $success ) {
-			$this->activations = array();
-			$this->dirty = true;
-		}
-		return $success;
+	public function deactivate() {
+		$this->activations = array();
+		$this->dirty = true;
 	}
 
 	/**
@@ -190,14 +166,30 @@ class License {
 	}
 
 	/**
-	 * @return API
+	 * @param iPlugin $plugin
+	 *
+	 * @return bool
 	 */
-	protected function api() {
-
-		if( is_null( $this->api ) ) {
-			$this->api = new API( $this );
-		}
-
-		return $this->api;
+	public function activate_plugin( iPlugin $plugin ) {
+		$this->activations[ $plugin->id() ] = $plugin->id();
+		$this->dirty = true;
 	}
+
+	/**
+	 * @param iPlugin $plugin
+	 *
+	 * @return bool
+	 */
+	public function deactivate_plugin( iPlugin $plugin ) {
+		unset( $this->activations[ $plugin->id() ] );
+		$this->dirty = true;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function is_activated() {
+		return count( $this->activations ) > 0;
+	}
+
 }

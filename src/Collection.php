@@ -17,7 +17,7 @@ class Collection implements \Iterator {
 	}
 
 	function current() {
-		return $this->elements[$this->position];
+		return $this->elements[ $this->position ];
 	}
 
 	function key() {
@@ -29,7 +29,38 @@ class Collection implements \Iterator {
 	}
 
 	function valid() {
-		return isset($this->elements[$this->position]);
+		return isset( $this->elements[ $this->position ] );
+	}
+
+	/**
+	 * @param $callback
+	 *
+	 * @return array
+	 */
+	function map($callback) {
+		$result = array();
+
+		foreach( $this->elements as $element ) {
+			$result[] = $callback( $element );
+		}
+
+		return $result;
+	}
+
+	/**
+	 * @param $callback
+	 *
+	 * @return null
+	 */
+	function find($callback) {
+
+		foreach( $this->elements as $element ) {
+			if( $callback( $element ) ) {
+				return $element;
+			}
+		}
+
+		return null;
 	}
 
 }
