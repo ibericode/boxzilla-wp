@@ -55,7 +55,7 @@ final class Plugin extends Container {
 	public function __construct() {
 		parent::__construct();
 
-		// register services early
+		// register services early since some add-ons need 'm
 		$this->register_services();
 
 		// load rest of classes on a later hook
@@ -80,6 +80,14 @@ final class Plugin extends Container {
 			$plugins = (array) apply_filters( 'stb_extensions', array() );
 			return new Collection( $plugins );
 		};
+
+		$this['box_loader'] = function( $app ) {
+			return new BoxLoader( $app );
+		};
+
+		$this['admin'] = function( $app ) {
+			return new Admin( $app );
+		};
 	}
 
 	/**
@@ -89,14 +97,9 @@ final class Plugin extends Container {
 		add_action( 'init', array( $this, 'register_post_type' ), 11 );
 
 		if( ! is_admin() ) {
-
-			// FRONTEND
-			$this['box_loader'] = new BoxLoader( $this );
-
+			$this['box_loader'];
 		} elseif( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) {
-
-			// BACKEND (NOT AJAX)
-			$this['admin'] = new Admin( $this );
+			$this['admin'];
 		}
 	}
 
