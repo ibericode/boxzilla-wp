@@ -36,7 +36,7 @@ class Notices {
 	 */
 	public function show() {
 		foreach( $this->notices as $notice ) {
-			echo sprintf( '<div class="%s"><p>%s</p></div>', $notice['type'], $notice['message'] );
+			echo sprintf( '<div class="notice notice-%s"><p>%s</p></div>', $notice['type'], $notice['message'] );
 		}
 	}
 }

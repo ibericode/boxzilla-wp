@@ -45,7 +45,7 @@ class APIAuthenticator {
 			$args['headers'] = array();
 		}
 
-		$args['headers']['Authorization'] = 'Basic ' . base64_encode( $this->license->key . ':' . $this->license->site );
+		$args['headers']['Authorization'] = 'Basic ' . base64_encode( urlencode( $this->license->site ) . ':' . urlencode( $this->license->key ) );
 		return $args;
 	}
 }

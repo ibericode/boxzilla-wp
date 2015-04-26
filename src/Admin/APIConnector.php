@@ -58,7 +58,7 @@ class APIConnector {
 			'method' => 'POST'
 		);
 		$result = $this->call( $endpoint, $args );
-		return $result && $result->success;
+		return is_object( $result ) && $result->success;
 	}
 
 	/**
@@ -71,7 +71,7 @@ class APIConnector {
 	public function deactivate( License $license ) {
 		$endpoint = '/logout';
 		$result = $this->call( $endpoint );
-		return $result && $result->success;
+		return is_object( $result ) && $result->success;
 	}
 
 	/**
@@ -80,7 +80,13 @@ class APIConnector {
 	 */
 	public function get_plugin_info( iPlugin $plugin ) {
 		$endpoint = sprintf( '/plugins/%d', $plugin->id() );
-		return $this->call( $endpoint );
+		$result = $this->call( $endpoint );
+
+		if( is_object( $result ) && $result->success ) {
+			return $result->data;
+		}
+
+		return null;
 	}
 
 	/**
@@ -94,7 +100,6 @@ class APIConnector {
 
 		// test for wp errors
 		if( is_wp_error( $response ) ) {
-			$this->error_code = $response->get_error_code();
 			$this->notices->add( $response->get_error_message(), 'error' ); ;
 			return false;
 		}
@@ -103,12 +108,12 @@ class APIConnector {
 		$body = wp_remote_retrieve_body( $response );
 		$data = json_decode( $body );
 		if( ! is_object( $data ) ) {
-			$this->error_message = "No valid JSON object was returned.";
+			$this->notices->add( "Scroll Triggered Boxes failed to check for updates because no valid JSON object was returned.", 'error' );
 			return false;
 		}
 
 		if( isset( $data->message ) ) {
-			$this->notices->add( $data->message, ( $data->success ) ? 'updated' : 'error' );
+			$this->notices->add( $data->message, ( $data->success ) ? 'success' : 'info' );
 		}
 
 		// store response

@@ -30,7 +30,7 @@ class UpdateManager {
 
 		if( count( $this->extensions ) > 0 ) {
 			$this->license->load();
-			add_filter( 'site_transient_update_plugins', array( $this, 'add_updates' ) );
+			add_filter( 'pre_set_site_transient_update_plugins', array( $this, 'add_updates' ) );
 			add_filter('plugins_api', array($this, 'add_plugin_info'), 20, 3 );
 		}
 

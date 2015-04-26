@@ -49,7 +49,7 @@ class Admin {
 		};
 
 		$this->plugin['api_url'] = function( $app ) {
-			return 'http://local.stb.com/api';
+			return 'http://local.scrolltriggeredboxes.com/api';
 		};
 
 		$this->plugin['license'] = function( $app ) {
