@@ -101,7 +101,7 @@ class UpdateManager {
 			$this->license->load();
 
 			// add some notices if license is inactive
-			if( ! $this->license->is_activated() ) {
+			if( ! $this->license->activated ) {
 				$data->upgrade_notice = sprintf( 'You will need to <a href="%s">activate your license</a> to install this plugin update.', admin_url( 'edit.php?post_type=scroll-triggered-box&page=stb-settings' ) );
 				$data->sections->changelog = '<p>' . sprintf( 'You will need to <a href="%s" target="_top">activate your license</a> to install this plugin update.', admin_url( 'edit.php?post_type=scroll-triggered-box&page=stb-settings' ) ) . '</p>' . $data->sections->changelog;
 				$data->package = null;

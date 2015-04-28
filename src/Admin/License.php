@@ -20,11 +20,11 @@ class License {
 	protected $expires_at;
 
 	/**
-	 * Plugins this license is activated for
+	 * Is license activated?
 	 *
-	 * @var array
+	 * @var bool
 	 */
-	protected $activations = array();
+	protected $activated = false;
 
 	/**
 	 * The site this license is used on
@@ -44,7 +44,7 @@ class License {
 	 */
 	protected $default_data = array(
 		'key' => '',
-		'activations' => array(),
+		'activated' => false,
 		'expires_at' => ''
 	);
 
@@ -109,7 +109,7 @@ class License {
 			if( ! empty( $data ) ) {
 				$data = array_merge( $this->default_data, $data );
 				$this->key = (string) $data['key'];
-				$this->activations = (array) $data['activations'];
+				$this->activations = (bool) $data['activated'];
 				$this->expires_at = (string) $data['expires_at'];
 			}
 
@@ -156,7 +156,7 @@ class License {
 		$data = array(
 			'key' => $this->key,
 			'expires_at' => $this->expires_at,
-			'activations' => $this->activations
+			'activated' => $this->activated
 		);
 
 		return $data;
@@ -166,7 +166,7 @@ class License {
 	 *
 	 */
 	public function activate() {
-		$this->activations = array( -1 );
+		$this->activated = true;
 		$this->dirty = true;
 	}
 
@@ -174,43 +174,8 @@ class License {
 	 *
 	 */
 	public function deactivate() {
-		$this->activations = array();
+		$this->activated = false;
 		$this->dirty = true;
-	}
-
-	/**
-	 * @param iPlugin $plugin
-	 * @return bool
-	 */
-	public function is_plugin_activated( iPlugin $plugin ) {
-		return in_array( $plugin->id(), $this->activations );
-	}
-
-	/**
-	 * @param iPlugin $plugin
-	 *
-	 * @return bool
-	 */
-	public function activate_plugin( iPlugin $plugin ) {
-		$this->activations[ $plugin->id() ] = $plugin->id();
-		$this->dirty = true;
-	}
-
-	/**
-	 * @param iPlugin $plugin
-	 *
-	 * @return bool
-	 */
-	public function deactivate_plugin( iPlugin $plugin ) {
-		unset( $this->activations[ $plugin->id() ] );
-		$this->dirty = true;
-	}
-
-	/**
-	 * @return int
-	 */
-	public function is_activated() {
-		return count( $this->activations ) > 0;
 	}
 
 }

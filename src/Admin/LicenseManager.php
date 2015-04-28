@@ -95,7 +95,7 @@ class LicenseManager {
 		}
 
 		if( ! empty( $new_license_key )
-		    && ! $this->license->is_activated()
+		    && ! $this->license->activated
 		    && ( $_POST['action'] === 'activate' || $key_changed ) ) {
 			// let's try to activate it
 			if( $this->api()->login() ) {
