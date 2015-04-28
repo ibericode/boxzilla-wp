@@ -38,18 +38,20 @@ class Admin {
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
 		add_action( 'admin_menu', array( $this, 'menu' ) );
 
-		$this->api_authenticator = new APIAuthenticator( $plugin['api_url'], $plugin['license'] );
 		$this->license_manager = new LicenseManager( $plugin['plugins'], $plugin['notices'], $plugin['license'] );
 		$this->update_manager = new UpdateManager( $plugin['plugins'], $plugin['notices'], $plugin['license'] );
 	}
 
+	/**
+	 * Registers services into the Service Container
+	 */
 	protected function register_services() {
 		$this->plugin['notices'] = function( $app ) {
 			return new Notices();
 		};
 
 		$this->plugin['api_url'] = function( $app ) {
-			return 'http://local.scrolltriggeredboxes.com/api';
+			return 'https://scrolltriggeredboxes.com/api';
 		};
 
 		$this->plugin['license'] = function( $app ) {
@@ -57,7 +59,7 @@ class Admin {
 		};
 
 		$this->plugin['api_connector'] = function( $app ) {
-			return new APIConnector( $app['api_url'], $app['notices'] );
+			return new APIConnector( $app['api_url'], $app['notices'], $app['license'] );
 		};
 	}
 

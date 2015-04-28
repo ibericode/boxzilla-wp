@@ -31,9 +31,10 @@ class LicenseManager {
 	/**
 	 * @param Collection $extensions
 	 */
-	public function __construct( Collection $extensions, Notices $notices ) {
+	public function __construct( Collection $extensions, Notices $notices, License $license ) {
 		$this->extensions = $extensions;
 		$this->notices = $notices;
+		$this->license = $license;
 
 		// register license activation form
 		add_action( 'admin_init', array( $this, 'init' ) );
@@ -55,7 +56,6 @@ class LicenseManager {
 		}
 
 		// load license
-		$this->license = new License( 'stb_license' );
 		$this->license->load();
 
 		// register license key form
@@ -79,18 +79,26 @@ class LicenseManager {
 			return false;
 		}
 
+		$key_changed = false;
+
 		// the form was submitted, let's see..
 		if( $_POST['action'] === 'deactivate' ) {
-			if( $this->api()->deactivate( $this->license ) ) {
-				$this->license->deactivate();
-			}
+			$this->license->deactivate();
+			$this->api()->logout();
 		}
 
 		// did key change or was "activate" button pressed?
 		$new_license_key = sanitize_text_field( $_POST['license_key'] );
-		if( ! empty( $new_license_key ) && ( $_POST['action'] === 'activate' || $new_license_key !== $this->license->key ) ) {
+		if( $new_license_key !== $this->license->key ) {
 			$this->license->key = $new_license_key;
-			if( $this->api()->activate( $this->license ) ) {
+			$key_changed = true;
+		}
+
+		if( ! empty( $new_license_key )
+		    && ! $this->license->is_activated()
+		    && ( $_POST['action'] === 'activate' || $key_changed ) ) {
+			// let's try to activate it
+			if( $this->api()->login() ) {
 				$this->license->activate();
 			}
 		}

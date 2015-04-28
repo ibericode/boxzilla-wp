@@ -40,19 +40,18 @@ class APIConnector {
 	 * @param string $api_url
 	 * @param Notices $notices
 	 */
-	public function __construct( $api_url, Notices $notices ) {
+	public function __construct( $api_url, Notices $notices, License $license ) {
 		$this->api_url = $api_url;
 		$this->notices = $notices;
+		$this->license = $license;
 	}
 
 	/**
-	 * Active the license for the current site
-	 *
-	 * @param License $license
+	 * Logs the current site in to the remote API
 	 *
 	 * @return bool
 	 */
-	public function activate( License $license ) {
+	public function login() {
 		$endpoint = '/login';
 		$args = array(
 			'method' => 'POST'
@@ -62,13 +61,11 @@ class APIConnector {
 	}
 
 	/**
-	 * Deactivate the license for this site
-	 *
-	 * @param License $license
+	 * Logs the current site out of the remote API
 	 *
 	 * @return bool
 	 */
-	public function deactivate( License $license ) {
+	public function logout() {
 		$endpoint = '/logout';
 		$result = $this->call( $endpoint );
 		return is_object( $result ) && $result->success;
@@ -96,6 +93,13 @@ class APIConnector {
 	 */
 	public function call( $endpoint,$args = array() ) {
 
+		// add license key to request
+		if( ! isset( $args['headers'] ) ) {
+			$args['headers'] = array();
+		}
+
+		$args['headers']['Authorization'] = 'Basic ' . base64_encode( urlencode( $this->license->site ) . ':' . urlencode( $this->license->key ) );
+
 		$response = wp_remote_request( $this->api_url . $endpoint, $args );
 
 		// test for wp errors
@@ -108,7 +112,7 @@ class APIConnector {
 		$body = wp_remote_retrieve_body( $response );
 		$data = json_decode( $body );
 		if( ! is_object( $data ) ) {
-			$this->notices->add( "Scroll Triggered Boxes failed to check for updates because no valid JSON object was returned.", 'error' );
+			$this->notices->add( __( "The Scroll Triggered Boxes server returned an invalid response.", 'scroll-triggered-boxes' ), 'error' );
 			return false;
 		}
 
@@ -122,6 +126,9 @@ class APIConnector {
 		return $data;
 	}
 
+	/**
+	 * @return object|null
+	 */
 	public function get_last_response() {
 		return $this->last_response;
 	}

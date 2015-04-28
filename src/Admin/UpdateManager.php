@@ -29,9 +29,8 @@ class UpdateManager {
 		$this->license = $license;
 
 		if( count( $this->extensions ) > 0 ) {
-			$this->license->load();
 			add_filter( 'pre_set_site_transient_update_plugins', array( $this, 'add_updates' ) );
-			add_filter('plugins_api', array($this, 'add_plugin_info'), 20, 3 );
+			add_filter( 'plugins_api', array( $this, 'add_plugin_info' ), 20, 3 );
 		}
 
 	}
@@ -97,6 +96,9 @@ class UpdateManager {
 				$this->responses[ $plugin->slug() ] = null;
 				return null;
 			}
+
+			// load license
+			$this->license->load();
 
 			// add some notices if license is inactive
 			if( ! $this->license->is_activated() ) {

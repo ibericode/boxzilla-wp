@@ -38,6 +38,7 @@ class License {
 	 */
 	protected $option_name = '';
 
+
 	/**
 	 * @var array
 	 */
@@ -46,6 +47,11 @@ class License {
 		'activations' => array(),
 		'expires_at' => ''
 	);
+
+	/**
+	 * @var bool Loaded?
+	 */
+	protected $loaded = false;
 
 	/**
 	 * @var bool Any changes?
@@ -96,19 +102,33 @@ class License {
 	 * @return License
 	 */
 	public function load() {
-		$data = (array) get_option( $this->option_key, array() );
 
-		if( ! empty( $data ) ) {
-			$data = array_merge( $this->default_data, $data );
-			$this->key = (string) $data['key'];
-			$this->activations = (array) $data['activations'];
-			$this->expires_at = (string) $data['expires_at'];
+		if( ! $this->loaded ) {
+			$data = (array) get_option( $this->option_key, array() );
+
+			if( ! empty( $data ) ) {
+				$data = array_merge( $this->default_data, $data );
+				$this->key = (string) $data['key'];
+				$this->activations = (array) $data['activations'];
+				$this->expires_at = (string) $data['expires_at'];
+			}
+
+			// always fill site
+			$this->site = get_option( 'siteurl' );
+			$this->loaded = true;
 		}
 
-		// always fill site
-		$this->site = get_option( 'siteurl' );
-
 		return $this;
+	}
+
+	/**
+	 * Reload the license data from DB
+	 *
+	 * @return License
+	 */
+	public function reload() {
+		$this->loaded = false;
+		return $this->load();
 	}
 
 	/**
@@ -121,6 +141,7 @@ class License {
 		if( $this->dirty ) {
 			$data = $this->toArray();
 			update_option( $this->option_key, $data );
+			$this->dirty = false;
 		}
 
 		return $this;
