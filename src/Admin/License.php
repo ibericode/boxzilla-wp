@@ -109,7 +109,7 @@ class License {
 			if( ! empty( $data ) ) {
 				$data = array_merge( $this->default_data, $data );
 				$this->key = (string) $data['key'];
-				$this->activations = (bool) $data['activated'];
+				$this->activated = (bool) $data['activated'];
 				$this->expires_at = (string) $data['expires_at'];
 			}
 
