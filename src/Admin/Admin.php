@@ -2,15 +2,11 @@
 
 namespace ScrollTriggeredBoxes\Admin;
 
-use ScrollTriggeredBoxes\Plugin,
+use ScrollTriggeredBoxes\Licensing\LicenseServiceProvider,
+	ScrollTriggeredBoxes\Plugin,
 	ScrollTriggeredBoxes\Box;
 
 class Admin {
-
-	/**
-	 * @var string
-	 */
-	private $plugin_file = '';
 
 	/**
 	 * @var Plugin $plugin
@@ -22,24 +18,22 @@ class Admin {
 	 */
 	public function __construct( Plugin $plugin ) {
 
-		// store path to plugin file in property
-		$this->plugin_file = plugin_basename( Plugin::FILE );
-
 		// store reference to plugin file
 		$this->plugin = $plugin;
-
 		$this->register_services();
 
 		// Load the plugin textdomain
-		load_plugin_textdomain( 'scroll-triggered-boxes', null, dirname( plugin_basename( Plugin::FILE ) ) . '/languages' );
+		load_plugin_textdomain( 'scroll-triggered-boxes', null, $this->plugin->dir() . '/languages' );
 
 		// action hooks
-		add_action( 'init', array( $this, 'init' ) );
-		add_action( 'admin_init', array( $this, 'register_settings' ) );
-		add_action( 'admin_menu', array( $this, 'menu' ) );
+		$this->add_hooks();
 
-		$this->license_manager = new LicenseManager( $plugin['plugins'], $plugin['notices'], $plugin['license'] );
-		$this->update_manager = new UpdateManager( $plugin['plugins'], $plugin['notices'], $plugin['license'] );
+		// if a premium add-on is installed, instantiate dependencies
+		if( count( $plugin['plugins'] ) > 0 ) {
+			$plugin['license_manager']->add_hooks();
+			$plugin['update_manager']->add_hooks();
+			$plugin['api_authenticator']->add_hooks();
+		}
 	}
 
 	/**
@@ -50,17 +44,19 @@ class Admin {
 			return new Notices();
 		};
 
-		$this->plugin['api_url'] = function( $app ) {
-			return 'https://scrolltriggeredboxes.com/api';
-		};
+		// register other services
+		$provider = new LicenseServiceProvider();
+		$provider->register( $this->plugin );
 
-		$this->plugin['license'] = function( $app ) {
-			return new License( 'stb_license' );
-		};
+	}
 
-		$this->plugin['api_connector'] = function( $app ) {
-			return new APIConnector( $app['api_url'], $app['notices'], $app['license'] );
-		};
+	/**
+	 * Add necessary hooks
+	 */
+	protected function add_hooks() {
+		add_action( 'init', array( $this, 'init' ) );
+		add_action( 'admin_init', array( $this, 'register' ) );
+		add_action( 'admin_menu', array( $this, 'menu' ) );
 	}
 
 	/**
@@ -85,10 +81,20 @@ class Admin {
 	}
 
 	/**
-	 * Register settings
+	 * Register stuffs
 	 */
-	public function register_settings() {
+	public function register() {
+
+		// register settings
 		register_setting( 'stb_settings', 'stb_settings', array( $this, 'sanitize_settings' ) );
+
+		// register scripts
+		$pre_suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+
+		wp_register_script( 'scroll-triggered-boxes-admin', $this->plugin->url( '/assets/js/admin-script' . $pre_suffix . '.js' ), array( 'jquery', 'wp-color-picker' ), $this->plugin->version(), true );
+
+		// load stylesheets
+		wp_register_style( 'scroll-triggered-boxes-admin', $this->plugin->url( '/assets/css/admin-styles' . $pre_suffix . '.css' ), array(), $this->plugin->version() );
 	}
 
 	/**
@@ -113,14 +119,14 @@ class Admin {
 	 */
 	public function show_settings_page() {
 		$opts = $this->plugin['options'];
-		require dirname( Plugin::FILE ) . '/views/settings.php';
+		require $this->plugin->dir() . '/views/settings.php';
 	}
 
 	/**
 	 * Shows the extensions page
 	 */
 	public function show_extensions_page() {
-		require dirname( Plugin::FILE ) . '/views/extensions.php';
+		require $this->plugin->dir() . '/views/extensions.php';
 	}
 
 	/**
@@ -170,20 +176,16 @@ class Admin {
 			return false;
 		}
 
-		// only load on "edit box" pages
-		$pre_suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-		$assets_url = plugins_url( '/assets', Plugin::FILE );
-
 		// load the following only when editing a box
 		if( $this->editing_box() ) {
 			wp_enqueue_style( 'wp-color-picker' );
 
 			// load scripts
-			wp_enqueue_script( 'scroll-triggered-boxes-admin', $assets_url .' /js/admin-script' . $pre_suffix . '.js', array( 'jquery', 'wp-color-picker' ), Plugin::VERSION, true );
+			wp_enqueue_script( 'scroll-triggered-boxes-admin' );
 		}
 
 		// load stylesheets
-		wp_enqueue_style( 'scroll-triggered-boxes-admin', $assets_url .' /css/admin-styles' . $pre_suffix . '.css', array(), Plugin::VERSION );
+		wp_enqueue_style( 'scroll-triggered-boxes-admin' );
 
 
 		// allow add-ons to easily load their own scripts or stylesheets
@@ -248,7 +250,7 @@ class Admin {
 		$opts = $box->get_options();
 
 		// include view
-		include dirname( Plugin::FILE ) . '/views/metaboxes/box-appearance-controls.php';
+		include $this->plugin->dir() . '/views/metaboxes/box-appearance-controls.php';
 	}
 
 	/**
@@ -262,7 +264,7 @@ class Admin {
 		$opts = $box->get_options();
 
 		// include view
-		include dirname( Plugin::FILE ) . '/views/metaboxes/box-option-controls.php';
+		include $this->plugin->dir() . '/views/metaboxes/box-option-controls.php';
 	}
 
 	/**
@@ -270,7 +272,7 @@ class Admin {
 	 * @param         $metabox
 	 */
 	public function metabox_appreciation_options( \WP_Post $post, $metabox ) {
-		include dirname( Plugin::FILE ) . '/views/metaboxes/show-appreciation.php';
+		include $this->plugin->dir() . '/views/metaboxes/show-appreciation.php';
 	}
 
 	/**
@@ -278,7 +280,7 @@ class Admin {
 	 * @param         $metabox
 	 */
 	public function metabox_available_add_ons( \WP_Post $post, $metabox ) {
-		include dirname( Plugin::FILE ) . '/views/metaboxes/available-add-ons.php';
+		include $this->plugin->dir() . '/views/metaboxes/available-add-ons.php';
 	}
 
 	/**
@@ -286,7 +288,7 @@ class Admin {
 	 * @param         $metabox
 	 */
 	public function metabox_support( \WP_Post $post, $metabox ) {
-		include dirname( Plugin::FILE ) . '/views/metaboxes/need-support.php';
+		include $this->plugin->dir() . '/views/metaboxes/need-support.php';
 	}
 
 
@@ -407,10 +409,11 @@ class Admin {
 	/**
 	 * Add the settings link to the Plugins overview
 	 * @param array $links
+	 * @param string $slug
 	 * @return array
 	 */
-	public function add_plugin_settings_link( $links, $file ) {
-		if( $file !== $this->plugin_file ) {
+	public function add_plugin_settings_link( $links, $slug ) {
+		if( $slug !== $this->plugin->slug() ) {
 			return $links;
 		}
 
@@ -423,12 +426,12 @@ class Admin {
 	 * Adds meta links to the plugin in the WP Admin > Plugins screen
 	 *
 	 * @param array $links
-	 * @param string $file
+	 * @param string $slug
 	 *
 	 * @return array
 	 */
-	public function add_plugin_meta_links( $links, $file ) {
-		if( $file !== $this->plugin_file ) {
+	public function add_plugin_meta_links( $links, $slug ) {
+		if( $slug !== $this->plugin->slug() ) {
 			return $links;
 		}
 

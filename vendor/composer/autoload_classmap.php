@@ -6,18 +6,19 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'ScrollTriggeredBoxes\\Admin\\APIAuthenticator' => $baseDir . '/src/Admin/APIAuthenticator.php',
-    'ScrollTriggeredBoxes\\Admin\\APIConnector' => $baseDir . '/src/Admin/APIConnector.php',
     'ScrollTriggeredBoxes\\Admin\\Admin' => $baseDir . '/src/Admin/Admin.php',
-    'ScrollTriggeredBoxes\\Admin\\License' => $baseDir . '/src/Admin/License.php',
-    'ScrollTriggeredBoxes\\Admin\\LicenseManager' => $baseDir . '/src/Admin/LicenseManager.php',
     'ScrollTriggeredBoxes\\Admin\\Notices' => $baseDir . '/src/Admin/Notices.php',
-    'ScrollTriggeredBoxes\\Admin\\UpdateManager' => $baseDir . '/src/Admin/UpdateManager.php',
     'ScrollTriggeredBoxes\\Box' => $baseDir . '/src/Box.php',
     'ScrollTriggeredBoxes\\BoxLoader' => $baseDir . '/src/BoxLoader.php',
     'ScrollTriggeredBoxes\\Collection' => $baseDir . '/src/Collection.php',
     'ScrollTriggeredBoxes\\DI\\Container' => $baseDir . '/src/DI/Container.php',
     'ScrollTriggeredBoxes\\DI\\ServiceProviderInterface' => $baseDir . '/src/DI/ServiceProviderInterface.php',
+    'ScrollTriggeredBoxes\\Licensing\\API' => $baseDir . '/src/Licensing/API.php',
+    'ScrollTriggeredBoxes\\Licensing\\Authenticator' => $baseDir . '/src/Licensing/Authenticator.php',
+    'ScrollTriggeredBoxes\\Licensing\\License' => $baseDir . '/src/Licensing/License.php',
+    'ScrollTriggeredBoxes\\Licensing\\LicenseManager' => $baseDir . '/src/Licensing/LicenseManager.php',
+    'ScrollTriggeredBoxes\\Licensing\\LicenseServiceProvider' => $baseDir . '/src/Licensing/LicenseServiceProvider.php',
+    'ScrollTriggeredBoxes\\Licensing\\UpdateManager' => $baseDir . '/src/Licensing/UpdateManager.php',
     'ScrollTriggeredBoxes\\Plugin' => $baseDir . '/src/Plugin.php',
     'ScrollTriggeredBoxes\\iPlugin' => $baseDir . '/src/iPlugin.php',
 );

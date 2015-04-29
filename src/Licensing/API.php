@@ -1,10 +1,12 @@
 <?php
 
-namespace ScrollTriggeredBoxes\Admin;
+namespace ScrollTriggeredBoxes\Licensing;
 
+use ScrollTriggeredBoxes\Admin\Notices;
+use ScrollTriggeredBoxes\Collection;
 use ScrollTriggeredBoxes\iPlugin;
 
-class APIConnector {
+class API {
 
 	/**
 	 * @var License
@@ -37,13 +39,12 @@ class APIConnector {
 	protected $last_response;
 
 	/**
-	 * @param string $api_url
-	 * @param Notices $notices
+	 * @param string        $api_url
+	 * @param Notices       $notices
 	 */
-	public function __construct( $api_url, Notices $notices, License $license ) {
+	public function __construct( $api_url, Notices $notices ) {
 		$this->api_url = $api_url;
 		$this->notices = $notices;
-		$this->license = $license;
 	}
 
 	/**
@@ -75,8 +76,26 @@ class APIConnector {
 	 * @param iPlugin $plugin
 	 * @return object
 	 */
-	public function get_plugin_info( iPlugin $plugin ) {
+	public function get_plugin( iPlugin $plugin ) {
 		$endpoint = sprintf( '/plugins/%d', $plugin->id() );
+		$result = $this->call( $endpoint );
+
+		if( is_object( $result ) && $result->success ) {
+			return $result->data;
+		}
+
+		return null;
+	}
+
+	/**
+	 * @param Collection $plugins
+	 * @return object
+	 */
+	public function get_plugins( Collection $plugins ) {
+		$plugins = $plugins->map(
+			function( $p ) { return $p->id(); }
+		);
+		$endpoint = add_query_arg( array( 'plugins' => $plugins ), '/plugins' );
 		$result = $this->call( $endpoint );
 
 		if( is_object( $result ) && $result->success ) {
@@ -92,13 +111,6 @@ class APIConnector {
 	 * @return object
 	 */
 	public function call( $endpoint,$args = array() ) {
-
-		// add license key to request
-		if( ! isset( $args['headers'] ) ) {
-			$args['headers'] = array();
-		}
-
-		$args['headers']['Authorization'] = 'Basic ' . base64_encode( urlencode( $this->license->site ) . ':' . urlencode( $this->license->key ) );
 
 		$response = wp_remote_request( $this->api_url . $endpoint, $args );
 

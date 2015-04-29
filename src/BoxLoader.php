@@ -153,13 +153,12 @@ class BoxLoader {
 	*/
 	public function load_styles() {
 		$pre_suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-		$asset_url = plugins_url( '/assets', Plugin::FILE );
 
 		// stylesheets
-		wp_register_style( 'scroll-triggered-boxes', $asset_url . '/css/styles' . $pre_suffix . '.css', array(), Plugin::VERSION );
+		wp_register_style( 'scroll-triggered-boxes', $this->plugin->url( '/assets/css/styles' . $pre_suffix . '.css' ), array(), $this->plugin->version() );
 
 		// scripts
-		wp_register_script( 'scroll-triggered-boxes', $asset_url . '/js/script' . $pre_suffix . '.js' , array( 'jquery' ), Plugin::VERSION, true );
+		wp_register_script( 'scroll-triggered-boxes',$this->plugin->url( '/assets/js/script' . $pre_suffix . '.js' ), array( 'jquery' ), $this->plugin->version(), true );
 
 		// Finally, enqueue style.
 		wp_enqueue_style( 'scroll-triggered-boxes' );
@@ -244,7 +243,7 @@ class BoxLoader {
 	* Outputs the boxes in the footer
 	*/
 	public function output_boxes() {
-		?><!-- Scroll Triggered Boxes v<?php echo Plugin::VERSION; ?> - https://wordpress.org/plugins/scroll-triggered-boxes/--><?php
+		?><!-- Scroll Triggered Boxes v<?php echo $this->plugin->version(); ?> - https://wordpress.org/plugins/scroll-triggered-boxes/--><?php
 
 		// print HTML for each of the boxes
 		foreach ( $this->get_matched_boxes() as $box ) {

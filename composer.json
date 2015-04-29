@@ -19,7 +19,8 @@
       "classmap": [
         "src/",
         "src/Admin",
-        "src/DI"
+        "src/DI",
+        "src/Licensing"
       ]
     }
 }

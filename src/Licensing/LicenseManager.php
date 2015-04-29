@@ -1,10 +1,8 @@
 <?php
 
-namespace ScrollTriggeredBoxes\Admin;
+namespace ScrollTriggeredBoxes\Licensing;
 
-use ScrollTriggeredBoxes\Plugin,
-	ScrollTriggeredBoxes\Collection,
-	Pimple\Container;
+use ScrollTriggeredBoxes\Collection;
 
 class LicenseManager {
 
@@ -19,26 +17,27 @@ class LicenseManager {
 	protected $license;
 
 	/**
-	 * @var Notices
-	 */
-	protected $notices;
-
-	/**
-	 * @var LicenseAPI
+	 * @var API
 	 */
 	protected $api;
 
 	/**
 	 * @param Collection $extensions
 	 */
-	public function __construct( Collection $extensions, Notices $notices, License $license ) {
+	public function __construct( Collection $extensions, API $api, License $license ) {
 		$this->extensions = $extensions;
-		$this->notices = $notices;
 		$this->license = $license;
+		$this->api = $api;
+	}
 
+	/**
+	 * Initialise the awesome
+	 */
+	public function add_hooks() {
 		// register license activation form
 		add_action( 'admin_init', array( $this, 'init' ) );
 	}
+
 
 	/**
 	 * @return bool
@@ -47,11 +46,6 @@ class LicenseManager {
 
 		// do nothing if not authenticated
 		if( ! current_user_can( 'manage_options' ) ) {
-			return false;
-		}
-
-		// do nothing if no registered extensions
-		if( count( $this->extensions ) === 0 ) {
 			return false;
 		}
 
@@ -84,7 +78,7 @@ class LicenseManager {
 		// the form was submitted, let's see..
 		if( $_POST['action'] === 'deactivate' ) {
 			$this->license->deactivate();
-			$this->api()->logout();
+			$this->api->logout();
 		}
 
 		// did key change or was "activate" button pressed?
@@ -98,7 +92,7 @@ class LicenseManager {
 		    && ! $this->license->activated
 		    && ( $_POST['action'] === 'activate' || $key_changed ) ) {
 			// let's try to activate it
-			if( $this->api()->login() ) {
+			if( $this->api->login() ) {
 				$this->license->activate();
 			}
 		}
@@ -111,15 +105,7 @@ class LicenseManager {
 	 * Shows the license form
 	 */
 	public function show_license_form() {
-		require Plugin::DIR . '/views/parts/license-form.php';
-	}
-
-	/**
-	 * @return APIConnector
-	 */
-	protected function api() {
-		$plugin = Plugin::instance();
-		return $plugin['api_connector'];
+		require __DIR__ . '/views/license-form.php';
 	}
 
 }

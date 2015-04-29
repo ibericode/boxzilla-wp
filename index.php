@@ -39,11 +39,21 @@ if( version_compare( PHP_VERSION, '5.3', '>=' ) ) {
 	require dirname( __FILE__ ) . '/vendor/autoload.php';
 
 	// we need this constant later on
-	define( 'STB_PLUGIN_FILE', __FILE__ );
-	define( 'STB_PLUGIN_DIR', dirname( __FILE__ ) );
+	$id = 1;
+	$file = __FILE__;
+	$dir = dirname( __FILE__ );
+	$name = 'Scroll Triggered Boxes';
+	$version = '2.0';
 
-	// instantiate plugin class in The One True Global
-	$GLOBALS['ScrollTriggeredBoxes'] = call_user_func( array( 'ScrollTriggeredBoxes\\Plugin', 'bootstrap' ) );
+	$reflect  = new ReflectionClass( 'ScrollTriggeredBoxes\\Plugin' );
+	$GLOBALS['ScrollTriggeredBoxes'] = $reflect->newInstanceArgs( array(
+			$id,
+			$name,
+			$version,
+			$file,
+			$dir
+		)
+	);
 
 } else {
 

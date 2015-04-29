@@ -5,7 +5,7 @@ namespace ScrollTriggeredBoxes;
 use ScrollTriggeredBoxes\Admin\Admin;
 use ScrollTriggeredBoxes\DI\Container;
 
-final class Plugin extends Container {
+final class Plugin extends Container implements iPlugin {
 
 	/**
 	 * @const Current plugin version
@@ -13,19 +13,39 @@ final class Plugin extends Container {
 	const VERSION = '2.0';
 
 	/**
-	 * @const Base plugin file
-	 */
-	const FILE = STB_PLUGIN_FILE;
-
-	/**
-	 * @const Base plugin directory
-	 */
-	const DIR = STB_PLUGIN_DIR;
-
-	/**
 	 * @var Plugin The One True Plugin Instance
 	 */
 	public static $instance;
+
+	/**
+	 * @var string The current version of the plugin
+	 */
+	protected $version = '1.0';
+
+	/**
+	 * @var string
+	 */
+	protected $file = __FILE__;
+
+	/**
+	 * @var string
+	 */
+	protected $dir = __DIR__;
+
+	/**
+	 * @var string
+	 */
+	protected $name = '';
+
+	/**
+	 * @var string
+	 */
+	protected $slug = '';
+
+	/**
+	 * @var int
+	 */
+	protected $id = 0;
 
 
 	/**
@@ -35,24 +55,24 @@ final class Plugin extends Container {
 		return self::$instance;
 	}
 
-	/**
-	 * Initialise the plugin
-	 *
-	 * @return Plugin
-	 */
-	public static function bootstrap() {
-
-		if( is_null( self::$instance ) ) {
-			self::$instance = new Plugin();
-		}
-
-		return self::$instance;
-	}
 
 	/**
 	 * Constructor
+	 *
+	 * @param $id
+	 * @param $name
+	 * @param $version
+	 * @param $file
+	 * @param $dir
 	 */
-	public function __construct() {
+	public function __construct( $id, $name, $version, $file, $dir ) {
+		$this->id = $id;
+		$this->name = $name;
+		$this->version = $version;
+		$this->file = $file;
+		$this->dir = $dir;
+		$this->slug = plugin_basename( $file );
+
 		parent::__construct();
 
 		// register services early since some add-ons need 'm
@@ -60,6 +80,9 @@ final class Plugin extends Container {
 
 		// load rest of classes on a later hook
 		add_action( 'plugins_loaded', array( $this, 'load' ), 20 );
+
+		// store instance
+		self::$instance = $this;
 	}
 
 	/**
@@ -103,6 +126,9 @@ final class Plugin extends Container {
 		}
 	}
 
+	/**
+	 * Register the box post type
+	 */
 	public function register_post_type() {
 		// Register custom post type
 		$args = array(
@@ -124,12 +150,62 @@ final class Plugin extends Container {
 			),
 			'show_ui' => true,
 			'menu_position' => '108.1337133',
-			'menu_icon' => plugins_url( '/assets/img/menu-icon.png', self::FILE )
+			'menu_icon' => $this->url( '/assets/img/menu-icon.png' )
 		);
 
 		register_post_type( 'scroll-triggered-box', $args );
 	}
 
+	/**
+	 * @return int
+	 */
+	public function id() {
+		return 0;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function slug() {
+		return $this->slug;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function name() {
+		return $this->name;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function version() {
+		return $this->version;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function file() {
+		return $this->file;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function dir() {
+		return $this->dir;
+	}
+
+	/**
+	 * @param string $path
+	 *
+	 * @return mixed
+	 */
+	public function url( $path = '' ) {
+		return plugins_url( $path, $this->file() );
+	}
 }
 
 /**

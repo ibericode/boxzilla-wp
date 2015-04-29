@@ -1,9 +1,6 @@
 <?php
 
-namespace ScrollTriggeredBoxes\Admin;
-
-use ScrollTriggeredBoxes\iPlugin;
-use Closure;
+namespace ScrollTriggeredBoxes\Licensing;
 
 class License {
 
