@@ -67,9 +67,9 @@ class UpdateManager {
 			return dirname( $p->slug() ) == $args->slug;
 		});
 
+		// was it a plugin of ours?
 		if( $plugin ) {
-			$update_info = $this->get_update_info( $plugin );
-			return $update_info;
+			return $this->get_update_info( $plugin );
 		}
 
 		return $result;
@@ -87,11 +87,11 @@ class UpdateManager {
 			return $updates;
 		}
 
+		// fetch available updates
 		$available_updates = $this->fetch_updates();
 
-		// any other updates?
+		// merge with other updates
 		$updates->response = array_merge( $updates->response, $available_updates );
-
 
 		return $updates;
 	}
@@ -118,6 +118,21 @@ class UpdateManager {
 			return $this->available_updates;
 		}
 
+		// filter remote plugins, we only want the ones with an update available
+		$this->available_updates = $this->filter_remote_plugins( $remote_plugins );
+
+		return $this->available_updates;
+
+	}
+
+	/**
+	 * @param $remote_plugins
+	 * @return array
+	 */
+	protected function filter_remote_plugins( $remote_plugins ) {
+
+		$available_updates = array();
+
 		// find new versions
 		foreach( $remote_plugins as $remote_plugin ) {
 
@@ -128,17 +143,16 @@ class UpdateManager {
 				}
 			);
 
-			// check versions
+			// plugin found and local plugin version not same as remote version?
 			if( ! $plugin || version_compare( $plugin->version(), $remote_plugin->version, '>=' ) ) {
 				continue;
 			}
 
 			// add some dynamic data
-			$this->available_updates[ $plugin->slug() ] = $this->format_response( $plugin, $remote_plugin );
+			$available_updates[ $plugin->slug() ] = $this->format_response( $plugin, $remote_plugin );
 		}
 
-		return $this->available_updates;
-
+		return $available_updates;
 	}
 
 	/**
@@ -167,18 +181,19 @@ class UpdateManager {
 		$response->slug = dirname( $plugin->slug() );
 		$response->plugin = $plugin->slug();
 
-		$response->sections = get_object_vars( $response->sections );
-		$response->banners = get_object_vars( $response->banners );
-
 		// load license
 		$this->license->load();
 
 		// add some notices if license is inactive
 		if( ! $this->license->activated ) {
 			$response->upgrade_notice = sprintf( 'You will need to <a href="%s">activate your license</a> to install this plugin update.', admin_url( 'edit.php?post_type=scroll-triggered-box&page=stb-settings' ) );
-			$response->sections->changelog = '<p>' . sprintf( 'You will need to <a href="%s" target="_top">activate your license</a> to install this plugin update.', admin_url( 'edit.php?post_type=scroll-triggered-box&page=stb-settings' ) ) . '</p>' . $data->sections->changelog;
+			$response->sections->changelog = '<p>' . sprintf( 'You will need to <a href="%s" target="_top">activate your license</a> to install this plugin update.', admin_url( 'edit.php?post_type=scroll-triggered-box&page=stb-settings' ) ) . '</p>' . $response->sections->changelog;
 			$response->package = null;
 		}
+
+		// cast subkey objects to array as that is what WP expects
+		$response->sections = get_object_vars( $response->sections );
+		$response->banners = get_object_vars( $response->banners );
 
 		return $response;
 	}
