@@ -1,6 +1,8 @@
 <?php defined( 'ABSPATH' ) or exit; ?>
 <table class="form-table">
-	<?php 
+	<?php
+	do_action( 'stb_before_box_option_controls', $box, $opts );
+
 	$key = 0;
 	foreach($opts['rules'] as $rule) { ?>
 		<tr valign="top" class="stb-rule-row">
@@ -60,8 +62,8 @@
 		<th><label for="stb_trigger"><?php _e( 'Auto-show box?', 'scroll-triggered-boxes' ); ?></label></th>
 		<td colspan="3">
 			<label><input type="radio" class="stb-auto-show-trigger" name="stb[trigger]" value="" <?php checked( $opts['trigger'], '' ); ?> /> <?php _e( 'Never', 'scroll-triggered-boxes' ); ?></label><br />
-			<label><input type="radio" class="stb-auto-show-trigger" name="stb[trigger]" value="percentage" <?php checked( $opts['trigger'], 'percentage' ); ?> /> <?php printf( __( 'When at %s of page height', 'scroll-triggered-boxes' ), '<input type="number" name="stb[trigger_percentage]" min="0" max="100" value="' . esc_attr( $opts['trigger_percentage'] ) . '" />%' ); ?></label><br />
-			<label><input type="radio" class="stb-auto-show-trigger" name="stb[trigger]" value="element" <?php checked( $opts['trigger'], 'element' ); ?> /> <?php printf( __( 'When at element %s', 'scroll-triggered-boxes' ), '<input type="text" name="stb[trigger_element]" value="' . esc_attr( $opts['trigger_element'] ) . '" placeholder="' . __( 'Example: #comments', 'scroll-triggered-boxes') .'" />' ); ?></label>
+			<label><input type="radio" class="stb-auto-show-trigger" name="stb[trigger]" value="percentage" <?php checked( $opts['trigger'], 'percentage' ); ?> /> <?php printf( __( 'Yes, when at %s of page height', 'scroll-triggered-boxes' ), '<input type="number" name="stb[trigger_percentage]" min="0" max="100" value="' . esc_attr( $opts['trigger_percentage'] ) . '" />%' ); ?></label><br />
+			<label><input type="radio" class="stb-auto-show-trigger" name="stb[trigger]" value="element" <?php checked( $opts['trigger'], 'element' ); ?> /> <?php printf( __( 'Yes, when at element %s', 'scroll-triggered-boxes' ), '<input type="text" name="stb[trigger_element]" value="' . esc_attr( $opts['trigger_element'] ) . '" placeholder="' . __( 'Example: #comments', 'scroll-triggered-boxes') .'" />' ); ?></label>
 		</td>
 	</tr>
 	<tbody class="stb-trigger-options" style="display: <?php echo ( $opts['trigger'] === '' ) ? 'none' : 'table-row-group'; ?>;">
@@ -71,7 +73,6 @@
 			<input type="number" id="stb_cookie" name="stb[cookie]" min="0" step="1" value="<?php echo esc_attr($opts['cookie']); ?>" />
 			<p class="help"><?php _e( 'After closing the box, how many days should it stay hidden?', 'scroll-triggered-boxes' ); ?></p>
 		</td>
-		
 	</tr>
 	<tr valign="top">
 		<th><label for="stb_hide_on_screen_size"><?php _e( 'Do not auto-show box on small screens?', 'scroll-triggered-boxes' ); ?></label></th>
@@ -84,14 +85,11 @@
 	<tr valign="top">
 		<th><label for="stb_auto_hide"><?php _e( 'Auto-hide?', 'scroll-triggered-boxes' ); ?></label></th>
 		<td colspan="3">
-			<label><input type="radio" id="stb_auto_hide_1" name="stb[auto_hide]" value="1" <?php checked($opts['auto_hide'], 1); ?> /> <?php _e( 'Yes' ); ?></label> &nbsp;
-			<label><input type="radio" id="stb_auto_hide_0" name="stb[auto_hide]" value="0" <?php checked($opts['auto_hide'], 0); ?> /> <?php _e( 'No' ); ?></label> &nbsp;
+			<label><input type="radio" name="stb[auto_hide]" value="1" <?php checked( $opts['auto_hide'], 1 ); ?> /> <?php _e( 'Yes' ); ?></label> &nbsp;
+			<label><input type="radio" name="stb[auto_hide]" value="0" <?php checked( $opts['auto_hide'], 0 ); ?> /> <?php _e( 'No' ); ?></label> &nbsp;
 			<p class="help"><?php _e( 'Hide box again when visitors scroll back up?', 'scroll-triggered-boxes' ); ?></p>
 		</td>
 	</tr>
+	<?php do_action( 'stb_after_box_option_controls', $box, $opts ); ?>
 	</tbody>
 </table>
-
-
-
-<?php wp_nonce_field( 'stb_options', 'stb_options_nonce' ); ?>

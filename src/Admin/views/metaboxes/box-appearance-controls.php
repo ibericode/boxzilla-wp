@@ -2,7 +2,7 @@
 <div id="notice-notinymce" class="error" style="display: none;"><p><?php _e( 'For the best experience when styling your box, please use the default WordPress visual editor.', 'scroll-triggered-boxes' ); ?></p></div>
 
 <table class="form-table">
-	<?php do_action( 'stb_appearance_options_before', $box, $opts ); ?>
+	<?php do_action( 'stb_before_box_appearance_controls', $box, $opts ); ?>
 	<tr valign="top">
 		<td>
 			<label class="stb-label" for="stb-background-color"><?php _e( 'Background color', 'scroll-triggered-boxes' ); ?></label>
@@ -46,7 +46,7 @@
 			<textarea id="stb-manual-css" class="widefat" rows="5" placeholder=".stb-<?php echo $box->ID; ?> { ... }"><?php esc_textarea( $opts['css']['manual'] ); ?></textarea>
 		</td>
 	</tr>
-	<?php do_action( 'stb_appearance_options_after', $box, $opts ); ?>
+	<?php do_action( 'stb_after_box_appearance_controls', $box, $opts ); ?>
 </table>
 
 <p><?php printf( __( '<a href="%s">Click here to reset all styling settings</a>.', 'scroll-triggered-boxes' ), 'javascript:STB_Admin.Designer.resetStyles();' ); ?></p>

@@ -105,6 +105,9 @@ class Box {
 		// merge rest
 		$opts = array_merge( $defaults, $opts );
 
+		// set value of auto_show
+		$opts['auto_show'] = ! empty( $opts['trigger'] );
+
 		// allow others to filter the final array of options
 		return apply_filters( 'stb_box_options', $opts, $this );
 	}

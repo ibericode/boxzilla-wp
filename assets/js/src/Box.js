@@ -26,7 +26,7 @@ module.exports = (function() {
 		this.cookieSet = false;
 
 		// if a trigger was given, calculate some values which might otherwise be expensive)
-		if( this.config.trigger !== '' ) {
+		if( this.config.autoShow && this.config.trigger !== '' ) {
 			this.triggerHeight = this.calculateTriggerHeight( config.triggerPercentage, config.triggerElementSelector );
 			this.cookieSet = this.isCookieSet();
 		}
@@ -174,13 +174,13 @@ module.exports = (function() {
 	// is this box enabled?
 	Box.prototype.mayAutoShow = function() {
 
-		// don't show if box was closed before
-		if( this.closed ) {
+		// don't show if autoShow is disabled
+		if( ! this.config.autoShow ) {
 			return false;
 		}
 
-		// don't show if trigger is empty
-		if( this.config.trigger === '' ) {
+		// don't show if box was closed before
+		if( this.closed ) {
 			return false;
 		}
 

@@ -129,6 +129,15 @@ class BoxLoader {
 			}
 
 			/**
+			 * @filter stb_show_box_{$box_id]
+			 * @expects bool
+			 *
+			 * Use to run some custom logic whether to show this specific box or not.
+			 * Return true if box should be shown.
+			 */
+			$matched = apply_filters( 'stb_show_box_' . $box_id, $matched );
+
+			/**
 			 * @filter stb_show_box
 			 * @expects bool
 			 * @param int $box_id
@@ -145,7 +154,7 @@ class BoxLoader {
 
 		}
 
-		return $matched_box_ids;
+		return (array) apply_filters( 'stb_matched_boxes_ids', $matched_box_ids );
 	}
 
 	/**
@@ -229,6 +238,7 @@ class BoxLoader {
 				'animation' => $box->options['animation'],
 				'cookieTime' => absint( $box->options['cookie'] ),
 				'autoHide' => (bool) $box->options['auto_hide'],
+				'autoShow' => (bool) $box->options['auto_show'],
 				'position' => $box->options['css']['position'],
 				'minimumScreenWidth' => $box->get_minimum_screen_size()
 			);

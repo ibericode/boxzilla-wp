@@ -45,10 +45,6 @@ table .stb-rule-row:first-child .stb-close{ visibility: hidden; }
 	table-layout:fixed;
 }
 
-.post-type-scroll-triggered-box .form-table th{
-	width:150px;
-}
-
 .post-type-scroll-triggered-box .wp-picker-container{
 	white-space: nowrap;
 }

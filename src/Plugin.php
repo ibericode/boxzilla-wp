@@ -2,7 +2,6 @@
 
 namespace ScrollTriggeredBoxes;
 
-use ScrollTriggeredBoxes\Admin\Admin;
 use ScrollTriggeredBoxes\DI\Container;
 
 final class Plugin extends Container implements iPlugin {
@@ -89,28 +88,8 @@ final class Plugin extends Container implements iPlugin {
 	 * Register services in the Service Container
 	 */
 	protected function register_services() {
-		$this['options'] = function( $app ) {
-			$defaults = array(
-				'test_mode' => 0
-			);
-
-			$options = (array) get_option( 'stb_settings', $defaults );
-			$options = array_merge( $defaults, $options );
-			return $options;
-		};
-
-		$this['plugins'] = function( $app ) {
-			$plugins = (array) apply_filters( 'stb_extensions', array() );
-			return new Collection( $plugins );
-		};
-
-		$this['box_loader'] = function( $app ) {
-			return new BoxLoader( $app );
-		};
-
-		$this['admin'] = function( $app ) {
-			return new Admin( $app );
-		};
+		$provider = new PluginServiceProvider();
+		$provider->register( $this );
 	}
 
 	/**

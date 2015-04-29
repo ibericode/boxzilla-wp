@@ -7,6 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'ScrollTriggeredBoxes\\Admin\\Admin' => $baseDir . '/src/Admin/Admin.php',
+    'ScrollTriggeredBoxes\\Admin\\AdminServiceProvider' => $baseDir . '/src/Admin/AdminServiceProvider.php',
     'ScrollTriggeredBoxes\\Admin\\Notices' => $baseDir . '/src/Admin/Notices.php',
     'ScrollTriggeredBoxes\\Box' => $baseDir . '/src/Box.php',
     'ScrollTriggeredBoxes\\BoxLoader' => $baseDir . '/src/BoxLoader.php',
@@ -20,5 +21,6 @@ return array(
     'ScrollTriggeredBoxes\\Licensing\\LicenseServiceProvider' => $baseDir . '/src/Licensing/LicenseServiceProvider.php',
     'ScrollTriggeredBoxes\\Licensing\\UpdateManager' => $baseDir . '/src/Licensing/UpdateManager.php',
     'ScrollTriggeredBoxes\\Plugin' => $baseDir . '/src/Plugin.php',
+    'ScrollTriggeredBoxes\\PluginServiceProvider' => $baseDir . '/src/PluginServiceProvider.php',
     'ScrollTriggeredBoxes\\iPlugin' => $baseDir . '/src/iPlugin.php',
 );

@@ -5,6 +5,7 @@ namespace ScrollTriggeredBoxes\Admin;
 use ScrollTriggeredBoxes\Licensing\LicenseServiceProvider,
 	ScrollTriggeredBoxes\Plugin,
 	ScrollTriggeredBoxes\Box;
+use WP_Post;
 
 class Admin {
 
@@ -40,9 +41,8 @@ class Admin {
 	 * Registers services into the Service Container
 	 */
 	protected function register_services() {
-		$this->plugin['notices'] = function( $app ) {
-			return new Notices();
-		};
+		$provider = new AdminServiceProvider();
+		$provider->register( $this->plugin );
 
 		// register other services
 		$provider = new LicenseServiceProvider();
@@ -63,18 +63,17 @@ class Admin {
 	 * Initialises the admin section
 	 */
 	public function init() {
-
 		global $pagenow;
-		add_action( 'save_post', array( $this, 'save_box_options' ), 20 );
+
+		add_action( 'save_post_scroll-triggered-box', array( $this, 'save_box_options' ), 20, 2 );
 		add_action( 'trashed_post', array( $this, 'flush_rules') );
 		add_action( 'untrashed_post', array( $this, 'flush_rules') );
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'load_assets' ) );
+		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ), 10, 2 );
+		add_filter( 'tiny_mce_before_init', array( $this, 'tinymce_init' ) );
 
-		if( $this->editing_box() ) {
-			add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
-			add_filter( 'tiny_mce_before_init', array( $this, 'tinymce_init' ) );
-		} elseif( $pagenow === 'plugins.php' ) {
+		if( $pagenow === 'plugins.php' ) {
 			add_filter( 'plugin_action_links', array( $this, 'add_plugin_settings_link' ), 10, 2 );
 			add_filter( 'plugin_row_meta', array( $this, 'add_plugin_meta_links'), 10, 2 );
 		}
@@ -119,14 +118,14 @@ class Admin {
 	 */
 	public function show_settings_page() {
 		$opts = $this->plugin['options'];
-		require $this->plugin->dir() . '/views/settings.php';
+		require __DIR__ . '/views/settings.php';
 	}
 
 	/**
 	 * Shows the extensions page
 	 */
 	public function show_extensions_page() {
-		require $this->plugin->dir() . '/views/extensions.php';
+		require __DIR__ . '/views/extensions.php';
 	}
 
 	/**
@@ -134,8 +133,8 @@ class Admin {
 	 *
 	 * @return bool
 	 */
-	private function editing_box() {
-		global $pagenow, $post;
+	protected function on_edit_box_page() {
+		global $pagenow;
 
 		if( ! in_array( $pagenow, array( 'post-new.php', 'post.php' ) ) ) {
 			return false;
@@ -145,11 +144,7 @@ class Admin {
 			return true;
 		}
 
-		if( $post && $post instanceof \WP_Post && $post->post_type === 'scroll-triggered-box' ) {
-			return true;
-		}
-
-		if( isset( $_GET['post'] ) && ( $post = get_post( $_GET['post'] ) ) && $post->post_type === 'scroll-triggered-box' ) {
+		if( get_post_type() === 'scroll-triggered-box' ) {
 			return true;
 		}
 
@@ -162,6 +157,12 @@ class Admin {
 	 * @return mixed
 	 */
 	public function tinymce_init($args) {
+
+		// only act on our post type
+		if( get_post_type() !== 'scroll-triggered-box' ) {
+			return $args;
+		}
+
 		$args['setup'] = 'function( editor ) { if(typeof(window.STB_Admin) === \'undefined\') { return; } editor.on("PreInit", window.STB_Admin.Designer.init ); }';
 		return $args;
 	}
@@ -171,31 +172,37 @@ class Admin {
 	 */
 	public function load_assets() {
 
-		if( ! $this->editing_box()
-			&& ( ! isset( $_GET['page'] ) || $_GET['page'] !== 'stb-settings' ) ) {
-			return false;
-		}
-
 		// load the following only when editing a box
-		if( $this->editing_box() ) {
+		if( $this->on_edit_box_page() ) {
 			wp_enqueue_style( 'wp-color-picker' );
 
 			// load scripts
 			wp_enqueue_script( 'scroll-triggered-boxes-admin' );
 		}
 
-		// load stylesheets
-		wp_enqueue_style( 'scroll-triggered-boxes-admin' );
+		if( $this->on_edit_box_page() || ( isset( $_GET['page'] ) && $_GET['page'] === 'stb-settings' ) ) {
 
+			// load stylesheets
+			wp_enqueue_style( 'scroll-triggered-boxes-admin' );
 
-		// allow add-ons to easily load their own scripts or stylesheets
-		do_action( 'stb_load_admin_assets' );
+			// allow add-ons to easily load their own scripts or stylesheets
+			do_action( 'stb_load_admin_assets' );
+		}
+
 	}
 
 	/**
 	 * Register meta boxes
+	 * @param string $post_type
+	 * @param WP_Post $post
+	 * @return bool
 	 */
-	public function add_meta_boxes() {
+	public function add_meta_boxes( $post_type, WP_Post $post ) {
+
+		if( $post_type !== 'scroll-triggered-box' ) {
+			return false;
+		}
+
 		add_meta_box(
 			'stb-box-appearance-controls',
 			__( 'Box Appearance', 'scroll-triggered-boxes' ),
@@ -237,6 +244,8 @@ class Admin {
 			'scroll-triggered-box',
 			'side'
 		);
+
+		return true;
 	}
 
 	/**
@@ -250,7 +259,7 @@ class Admin {
 		$opts = $box->get_options();
 
 		// include view
-		include $this->plugin->dir() . '/views/metaboxes/box-appearance-controls.php';
+		include __DIR__ . '/views/metaboxes/box-appearance-controls.php';
 	}
 
 	/**
@@ -264,7 +273,7 @@ class Admin {
 		$opts = $box->get_options();
 
 		// include view
-		include $this->plugin->dir() . '/views/metaboxes/box-option-controls.php';
+		include __DIR__ . '/views/metaboxes/box-option-controls.php';
 	}
 
 	/**
@@ -272,7 +281,7 @@ class Admin {
 	 * @param         $metabox
 	 */
 	public function metabox_appreciation_options( \WP_Post $post, $metabox ) {
-		include $this->plugin->dir() . '/views/metaboxes/show-appreciation.php';
+		include __DIR__ . '/views/metaboxes/show-appreciation.php';
 	}
 
 	/**
@@ -280,7 +289,7 @@ class Admin {
 	 * @param         $metabox
 	 */
 	public function metabox_available_add_ons( \WP_Post $post, $metabox ) {
-		include $this->plugin->dir() . '/views/metaboxes/available-add-ons.php';
+		include __DIR__ . '/views/metaboxes/available-add-ons.php';
 	}
 
 	/**
@@ -288,7 +297,7 @@ class Admin {
 	 * @param         $metabox
 	 */
 	public function metabox_support( \WP_Post $post, $metabox ) {
-		include $this->plugin->dir() . '/views/metaboxes/need-support.php';
+		include __DIR__ . '/views/metaboxes/need-support.php';
 	}
 
 
@@ -298,22 +307,17 @@ class Admin {
 	 * @param int $box_id
 	 * @return bool
 	*/
-	public function save_box_options( $box_id ) {
+	public function save_box_options( $box_id, $post ) {
 
-		// Verify that the nonce is set and valid.
-		if ( ! isset( $_POST['stb_options_nonce'] ) || ! wp_verify_nonce( $_POST['stb_options_nonce'], 'stb_options' ) ) {
+		// Only act on our own post type
+		if( $post->post_type !== 'scroll-triggered-box' ) {
 			return false;
 		}
 
 		// is this a revision save?
-    	if ( wp_is_post_revision( $box_id ) ) {
+    	if ( wp_is_post_revision( $box_id ) || ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) ) {
 		    return false;
     	}
-
-		// If this is an autosave, our form has not been submitted, so we don't want to do anything.
-		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
-			return false;
-		}
 
 		// can user edit this post?
 		if ( ! current_user_can( 'edit_post', $box_id ) ) {
@@ -334,7 +338,7 @@ class Admin {
 		// save box settings
 		update_post_meta( $box_id, 'stb_options', $opts );
 
-		$this->flush_rules();
+		$this->flush_rules( $box_id );
 		return true;
 	}
 
@@ -435,7 +439,7 @@ class Admin {
 			return $links;
 		}
 
-		$links[] = '<a href="https://wordpress.org/plugins/scroll-triggered-boxes/faq/">FAQ</a>';
+		$links[] = '<a href="https://scrolltriggeredboxes.com/kb">Documentation</a>';
 		return $links;
 	}
 
@@ -443,8 +447,16 @@ class Admin {
 	* Flush all box rules
 	*
 	* Loops through all published boxes and fills the rules option
+	 *
+	 * @param int $post_id
 	*/
-	public function flush_rules() {
+	public function flush_rules( $post_id ) {
+
+		// only act on our own post type
+		$post = get_post( $post_id );
+		if( $post instanceof WP_Post && $post->post_type !== 'scroll-triggered-box' ) {
+			return;
+		}
 
 		// get all published boxes
 		$boxes = get_posts(
