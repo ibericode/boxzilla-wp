@@ -37,7 +37,6 @@ if( version_compare( PHP_VERSION, '5.3', '>=' ) ) {
 
 	// load autoloader & init plugin
 	require dirname( __FILE__ ) . '/vendor/autoload.php';
-	require dirname( __FILE__ ) . '/src/Plugin.php';
 
 	// we need this constant later on
 	$id = 1;
