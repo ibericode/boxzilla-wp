@@ -125,6 +125,7 @@ class Admin {
 	 * Shows the extensions page
 	 */
 	public function show_extensions_page() {
+		$extensions = $this->fetch_extensions();
 		require __DIR__ . '/views/extensions.php';
 	}
 
@@ -485,6 +486,28 @@ class Admin {
 		}
 
 		update_option( 'stb_rules', $rules );
+	}
+
+	/**
+	 * Fetches a list of available add-on plugins
+	 *
+	 * @return array
+	 */
+	protected function fetch_extensions() {
+		$request = wp_remote_get('https://scrolltriggeredboxes.com/api/v1/plugins');
+
+		if( is_wp_error( $request ) ) {
+			return array();
+		}
+
+		$response = wp_remote_retrieve_body( $request );
+		$response = json_decode( $response );
+
+		if( is_array( $response->data ) ) {
+			return $response->data;
+		}
+
+		return array();
 	}
 
 }
