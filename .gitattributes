@@ -6,3 +6,4 @@
 /package.json       export-ignore
 /composer.json		export-ignore
 /tests              export-ignore
+/node_modules		export-ignore
