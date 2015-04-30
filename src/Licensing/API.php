@@ -88,7 +88,7 @@ class API {
 	 * @return object
 	 */
 	public function get_plugin( iPlugin $plugin ) {
-		$endpoint = sprintf( '/plugins/%d', $plugin->id() );
+		$endpoint = sprintf( '/plugins/%d?format=wp', $plugin->id() );
 		return $this->call( $endpoint );
 	}
 
@@ -102,7 +102,7 @@ class API {
 			function( $p ) { return $p->id(); }
 		);
 
-		$endpoint = add_query_arg( array( 'ids' => implode(',', $plugin_ids ) ), '/plugins' );
+		$endpoint = add_query_arg( array( 'ids' => implode(',', $plugin_ids ), 'format' => 'wp' ), '/plugins' );
 		return $this->call( $endpoint );
 	}
 
