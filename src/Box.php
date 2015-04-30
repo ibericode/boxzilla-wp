@@ -77,7 +77,7 @@ class Box {
 				'width' => '',
 				'border_color' => '',
 				'border_width' => '',
-				'border_style' => '',
+				'border_style' => 'solid',
 				'position' => 'bottom-right',
 				'manual' => ''
 			),

@@ -81,16 +81,17 @@ window.STB_Admin = (function($) {
 		var boxID = document.getElementById('post_ID').value || 0,
 			$editor,
 			$innerEditor,
-			optionElements = {
-				borderColor: document.getElementById('stb-border-color'),
-				borderWidth: document.getElementById('stb-border-width'),
-				borderStyle: document.getElementById('stb-border-style'),
-				backgroundColor: document.getElementById('stb-background-color'),
-				width: document.getElementById('stb-width'),
-				color: document.getElementById('stb-color'),
-				manualCSS: document.getElementById('stb-manual-css')
-			},
+			options = {},
 			manualStyleEl;
+
+			options.borderColor = new Option('border-color');
+			options.borderWidth = new Option('border-width');
+			options.borderStyle = new Option('border-style');
+			options.backgroundColor = new Option('background-color');
+			options.width = new Option('width');
+			options.color = new Option('color');
+			options.manualCSS = new Option('manual-css');
+
 
 		// functions
 		function init() {
@@ -124,64 +125,35 @@ window.STB_Admin = (function($) {
 			$(document).trigger('editorInit.stb');
 		}
 
-		function getColorValue(option,fallbackValue) {
-			if( optionElements[option].value.length > 0 ) {
-				return $(optionElements[option]).wpColorPicker('color');
-			}
-
-			return (typeof(fallbackValue) !== "undefined") ? fallbackValue : '';
-		}
-
-		function getPxValue(option, fallbackValue) {
-			if( optionElements[option].value.length > 0 ) {
-				return parseInt( optionElements[option].value ) + "px";
-			}
-
-			return (typeof(fallbackValue) !== "undefined") ? fallbackValue : 0;
-		}
-
-		function getValue( option ) {
-			if( optionElements[option].value.length > 0 ) {
-				return optionElements[option].value;
-			}
-
-			return (typeof(fallbackValue) !== "undefined") ? fallbackValue : '';
-		}
 
 		/**
 		 * Applies the styles from the options to the TinyMCE Editor
 		 */
 		function applyStyles() {
 			// add manual CSS to <head>
-			manualStyleEl.innerHTML = optionElements.manualCSS.value;
+			manualStyleEl.innerHTML = options.manualCSS.getValue();
 
 			// apply styles from CSS editor
 			$innerEditor.css({
-				'border-color': getColorValue( 'borderColor', '' ),
-				'border-width': getPxValue( 'borderWidth', '' ),
-				'border-style': getValue( 'borderStyle', '' ),
-				'background-color': getColorValue( 'backgroundColor', ''),
-				'width': getPxValue( 'width', 'auto' ),
-				'color': getColorValue( 'color', '' )
+				'border-color': options.borderColor.getColorValue(), //getColorValue( 'borderColor', '' ),
+				'border-width': options.borderWidth.getPxValue(), //getPxValue( 'borderWidth', '' ),
+				'border-style': options.borderStyle.getValue(), //getValue('borderStyle', '' ),
+				'background-color': options.backgroundColor.getColorValue(), //getColorValue( 'backgroundColor', ''),
+				'width': options.width.getPxValue(), //getPxValue( 'width', 'auto' ),
+				'color': options.color.getColorValue() // getColorValue( 'color', '' )
 			});
 
 			$(document).trigger('applyBoxStyles.stb');
 		}
 
 		function resetStyles() {
-			optionElements.borderColor.value = '';
-			optionElements.borderStyle.value = '';
-			optionElements.borderWidth.value = '';
-			optionElements.backgroundColor.value = '';
-			optionElements.color.value = '';
-			optionElements.manualCSS.value = '';
+			for( var key in options ) {
+				options[key].clear();
+			}
 			applyStyles();
-
 			$(document).trigger('resetBoxStyles.stb');
 		}
-
-		// init
-
+		
 		// event binders
 		$appearanceControls.find('input.stb-color-field').wpColorPicker({ change: applyStyles, clear: applyStyles });
 		$appearanceControls.find(":input").not(".stb-color-field").change(applyStyles);
@@ -193,11 +165,49 @@ window.STB_Admin = (function($) {
 
 	})();
 
-	return {
-		'Designer': Designer
+	// Option model
+	function Option( element ) {
+
+		// find corresponding element
+		if( typeof(element) == "string" ) {
+			element = document.getElementById('stb-' + element);
+		}
+		this._element = element;
+
+		// helper methods
+		this.getColorValue = function() {
+			if( this._element.value.length > 0 ) {
+				return $(this._element).wpColorPicker('color');
+			}
+
+			return '';
+		};
+
+		this.getPxValue = function() {
+			if( this._element.value.length > 0 ) {
+				return parseInt( this._element.value ) + "px";
+			}
+
+			return '';
+		};
+
+		this.getValue = function() {
+
+			if( this._element.value.length > 0 ) {
+				return this._element.value;
+			}
+
+			return '';
+		};
+
+		this.clear = function() {
+			this._element.value = '';
+		}
 	}
 
 
-
+	return {
+		'Designer': Designer
+	};
 
 })(window.jQuery);
