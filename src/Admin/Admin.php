@@ -494,6 +494,12 @@ class Admin {
 	 * @return array
 	 */
 	protected function fetch_extensions() {
+
+		$extensions = get_transient( 'stb_remote_extensions' );
+		if( $extensions ) {
+			return $extensions;
+		}
+
 		$request = wp_remote_get('https://scrolltriggeredboxes.com/api/v1/plugins');
 
 		if( is_wp_error( $request ) ) {
@@ -504,6 +510,7 @@ class Admin {
 		$response = json_decode( $response );
 
 		if( is_array( $response->data ) ) {
+			set_transient( 'stb_remote_extensions', $response->data, HOUR_IN_SECONDS );
 			return $response->data;
 		}
 

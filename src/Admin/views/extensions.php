@@ -1,6 +1,12 @@
 <?php defined( 'ABSPATH' ) or exit; ?>
 <div class="wrap" id="stb-admin" class="stb-extensions">
 
+	<h2><?php _e( 'Available add-on plugins', 'scroll-triggered-boxes' ); ?></h2>
+	<p>
+		<?php _e( "There are various add-ons available for Scroll Triggered Boxes which further enhance the functionality of the core plugin.", 'scroll-triggered-boxes' ); ?>
+		<?php printf( __( 'To gain instant access the premium add-on plugins listed, <a href="%s">have a look at the available premium plans</a>.', 'scroll-triggered-boxes' ), 'https://scrolltriggeredboxes.com/pricing' ); ?>
+	</p>
+
 	<?php if( empty( $extensions ) ) : ?>
 		<script>
 			window.setTimeout( function() {
@@ -11,7 +17,6 @@
 		<p><?php printf( __( 'If not, please click here: %s.', 'scroll-triggered-boxes' ), '<a href="https://scrolltriggeredboxes.com/plugins" target="_blank">View add-on plugins</a>' ); ?></p>
 	<?php else : ?>
 
-		<h3><?php _e( 'Available add-on plugins', 'scroll-triggered-boxes' ); ?></h3>
 		<?php foreach( $extensions as $plugin ) : ?>
 
 		<div class="plugin">
