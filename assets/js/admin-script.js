@@ -96,6 +96,7 @@ window.STB_Admin = (function($) {
 		// functions
 		function init() {
 			$editor = $("#content_ifr").contents().find('html');
+			$editor.addClass('scroll-triggered-box stb stb-' + boxID);
 			$innerEditor = $editor.find('#tinymce');
 
 			// make sure we're showing on a white background
@@ -104,7 +105,7 @@ window.STB_Admin = (function($) {
 			});
 
 			// add global class
-			$innerEditor.addClass('stb scroll-triggered-box stb-content stb-' + boxID);
+			$innerEditor.addClass('stb-content');
 
 			// add padding
 			$innerEditor.get(0).style.cssText += ';padding: 25px !important;';
@@ -153,7 +154,7 @@ window.STB_Admin = (function($) {
 			applyStyles();
 			$(document).trigger('resetBoxStyles.stb');
 		}
-		
+
 		// event binders
 		$appearanceControls.find('input.stb-color-field').wpColorPicker({ change: applyStyles, clear: applyStyles });
 		$appearanceControls.find(":input").not(".stb-color-field").change(applyStyles);

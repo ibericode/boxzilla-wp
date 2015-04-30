@@ -4,8 +4,6 @@ body {
 	height: auto;
 }
 
-.stb-bottom-center-container,
-.stb-top-center-container,
 .stb-center-container {
 	position: fixed;
 	top: 0;
@@ -17,31 +15,17 @@ body {
 	line-height: 0;
 }
 
-.stb-bottom-center-container {
-	bottom: 0;
-	top: auto;
-	height: auto;
-}
-
-.stb-top-center-container {
-	top: 0;
-	bottom: auto;
-}
-
-.stb-bottom-center-container > div,
-.stb-top-center-container > div,
-.stb-center-container > div{
+.stb-center-container .stb{
 	display: inline-block;
 	text-align: left;
+	position: relative;
 }
 
 .stb {
 	position: fixed;
-	right: 0;
-	bottom: 0;
 	z-index: 999999;
-	-moz-box-shadow: 0 0 10px 1px #333;
 	-webkit-box-shadow: 0 0 10px 1px #333;
+	-moz-box-shadow: 0 0 10px 1px #333;
 	box-shadow: 0 0 10px 1px #333;
 	padding: 25px;
 	margin: 0;
@@ -50,19 +34,8 @@ body {
 	box-sizing: border-box;
 	background: white;
 
-
 	/* reset line-height because of container line-height hack */
 	line-height: initial;
-
-	border-width: 0;
-	border-style: solid;
-	border-color: black;
-}
-
-.stb.stb-top-center,
-.stb.stb-bottom-center{
-	position: relative;
-	bottom: 0; top: 0; right: 0; left: 0;
 }
 
 .stb.stb-top-left{
@@ -81,20 +54,16 @@ body {
 	bottom: 0; right: 0; top: auto; left: auto;
 }
 
-.stb.stb-center {
-	position: relative;
-	margin: 0 auto;
-	left: auto; top: auto; right: auto; bottom: auto;
-}
-
 /* remove top margin from first child element */
-.stb > *:first-child {
-	margin-top: 0
+.stb-content *:first-child {
+	margin-top: 0;
+	padding-top: 0;
 }
 
 /* remove bottom margin from last child element */
-.stb > *:last-child {
+.stb-content *:last-child {
 	margin-bottom: 0;
+	padding-bottom: 0;
 }
 
 .stb-close{ 

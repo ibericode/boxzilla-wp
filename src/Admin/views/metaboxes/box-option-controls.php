@@ -44,8 +44,6 @@
 				<option value="top-center" <?php selected($opts['css']['position'], 'top-center'); ?>><?php _e( 'Top Center', 'scroll-triggered-boxes' ); ?></option>
 				<option value="top-right" <?php selected($opts['css']['position'], 'top-right'); ?>><?php _e( 'Top Right', 'scroll-triggered-boxes' ); ?></option>
 				<option value="bottom-left" <?php selected($opts['css']['position'], 'bottom-left'); ?>><?php _e( 'Bottom Left', 'scroll-triggered-boxes' ); ?></option>
-				<option value="bottom-center" <?php selected($opts['css']['position'], 'bottom-center'); ?>><?php _e( 'Bottom Center', 'scroll-triggered-boxes' ); ?></option>
-				<option value="bottom-right" <?php selected($opts['css']['position'], 'bottom-right'); ?>><?php _e( 'Bottom Right', 'scroll-triggered-boxes' ); ?></option>
 			</select>
 		</td>
 		<td colspan="2"></td>

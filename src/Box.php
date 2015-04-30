@@ -209,12 +209,14 @@ class Box {
 				<div class="<?php echo esc_attr( $this->get_css_classes() ); ?>"
 				     id="stb-<?php echo $this->ID; ?>"
 				     style="display: none;">
+					<div class="stb-content">
 						<?php
 						do_action( 'stb_print_box_content_before', $this );
 						echo $this->get_content();
 						do_action( 'stb_print_box_content_after', $this );
 						?>
-						<span class="stb-close"><?php echo $this->get_close_icon(); ?></span>
+					</div>
+					<span class="stb-close"><?php echo $this->get_close_icon(); ?></span>
 				</div>
 			</div>
 			<?php
