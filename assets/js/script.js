@@ -309,6 +309,15 @@ module.exports = (function($) {
 		}
 	}
 
+	// show all registered boxes
+	function showAllBoxes() {
+		for( var boxId in boxes ) {
+			if( ! boxes[boxId].visible ) {
+				boxes[boxId].show();
+			}
+		}
+	}
+
 	// hide all registered boxes
 	function hideAllBoxes() {
 		for( var boxId in boxes ) {
@@ -361,6 +370,7 @@ module.exports = (function($) {
 		showBox: function(id) { boxes[id].show(); },
 		hideBox: function(id) { boxes[id].hide(); },
 		toggleBox: function(id) { boxes[id].toggle(); },
+		showAllBoxes: showAllBoxes,
 		hideAllBoxes: hideAllBoxes,
 		disableAllBoxes: disableAllBoxes
 	}
