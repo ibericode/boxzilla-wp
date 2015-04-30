@@ -226,7 +226,7 @@ class Box {
 			<?php
 
 		// make sure box specifix CSS is printed
-		$this->print_css();
+		$this->print_css( true );
 	}
 
 	/**
