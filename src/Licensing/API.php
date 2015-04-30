@@ -57,7 +57,13 @@ class API {
 		$args = array(
 			'method' => 'POST'
 		);
-		return $this->call( $endpoint, $args );
+		$result = $this->call( $endpoint, $args );
+		if( $result ) {
+			$this->notices->add( $result->message, 'info' );
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -67,7 +73,14 @@ class API {
 	 */
 	public function logout() {
 		$endpoint = '/logout';
-		return $this->call( $endpoint );
+		$result = $this->call( $endpoint );
+
+		if( $result ) {
+			$this->notices->add( $result->message, 'info' );
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -116,25 +129,17 @@ class API {
 			return false;
 		}
 
-		// did remote API return a message?
-		if( isset( $response->message ) ) {
-			$this->notices->add( $response->message, ( $response->success ) ? 'success' : 'info' );
-		}
-
 		// store response
 		$this->last_response = $response;
 
-		// return response data
-		if( $response && $response->success ) {
-
-			if( isset( $response->data ) ) {
-				return $response->data;
-			}
-
-			return true;
+		// did request return an error response?
+		if( isset( $response->error ) ) {
+			$this->notices->add( $response->error->message, 'error' );
+			return null;
 		}
 
-		return false;
+		// return actual response data
+		return $response->data;
 	}
 
 	/**
