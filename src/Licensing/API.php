@@ -57,8 +57,7 @@ class API {
 		$args = array(
 			'method' => 'POST'
 		);
-		$result = $this->call( $endpoint, $args );
-		return is_object( $result ) && $result->success;
+		return $this->call( $endpoint, $args );
 	}
 
 	/**
@@ -68,8 +67,7 @@ class API {
 	 */
 	public function logout() {
 		$endpoint = '/logout';
-		$result = $this->call( $endpoint );
-		return is_object( $result ) && $result->success;
+		return $this->call( $endpoint );
 	}
 
 	/**
@@ -78,13 +76,7 @@ class API {
 	 */
 	public function get_plugin( iPlugin $plugin ) {
 		$endpoint = sprintf( '/plugins/%d', $plugin->id() );
-		$result = $this->call( $endpoint );
-
-		if( is_object( $result ) && $result->success ) {
-			return $result->data;
-		}
-
-		return null;
+		return $this->call( $endpoint );
 	}
 
 	/**
@@ -92,17 +84,13 @@ class API {
 	 * @return object
 	 */
 	public function get_plugins( Collection $plugins ) {
-		$plugins = $plugins->map(
+		// create array of plugin ID's
+		$plugin_ids = $plugins->map(
 			function( $p ) { return $p->id(); }
 		);
-		$endpoint = add_query_arg( array( 'plugins' => $plugins ), '/plugins' );
-		$result = $this->call( $endpoint );
 
-		if( is_object( $result ) && $result->success ) {
-			return $result->data;
-		}
-
-		return null;
+		$endpoint = add_query_arg( array( 'ids' => implode(',', $plugin_ids ) ), '/plugins' );
+		return $this->call( $endpoint );
 	}
 
 	/**
@@ -112,30 +100,41 @@ class API {
 	 */
 	public function call( $endpoint,$args = array() ) {
 
-		$response = wp_remote_request( $this->api_url . $endpoint, $args );
+		$request = wp_remote_request( $this->api_url . $endpoint, $args );
 
 		// test for wp errors
-		if( is_wp_error( $response ) ) {
-			$this->notices->add( $response->get_error_message(), 'error' ); ;
+		if( is_wp_error( $request ) ) {
+			$this->notices->add( $request->get_error_message(), 'error' ); ;
 			return false;
 		}
 
 		// retrieve response body
-		$body = wp_remote_retrieve_body( $response );
-		$data = json_decode( $body );
-		if( ! is_object( $data ) ) {
+		$body = wp_remote_retrieve_body( $request );
+		$response = json_decode( $body );
+		if( ! is_object( $response ) ) {
 			$this->notices->add( __( "The Scroll Triggered Boxes server returned an invalid response.", 'scroll-triggered-boxes' ), 'error' );
 			return false;
 		}
 
-		if( isset( $data->message ) ) {
-			$this->notices->add( $data->message, ( $data->success ) ? 'success' : 'info' );
+		// did remote API return a message?
+		if( isset( $response->message ) ) {
+			$this->notices->add( $response->message, ( $response->success ) ? 'success' : 'info' );
 		}
 
 		// store response
-		$this->last_response = $data;
+		$this->last_response = $response;
 
-		return $data;
+		// return response data
+		if( $response && $response->success ) {
+
+			if( isset( $response->data ) ) {
+				return $response->data;
+			}
+
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
