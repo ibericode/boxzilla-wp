@@ -35,6 +35,11 @@ class Box {
 	public $enabled = false;
 
 	/**
+	 * @var bool
+	 */
+	public $css_printed = false;
+
+	/**
 	 * @param \WP_Post|int $post
 	 */
 	public function __construct( $post ) {
@@ -77,7 +82,7 @@ class Box {
 				'width' => '',
 				'border_color' => '',
 				'border_width' => '',
-				'border_style' => 'solid',
+				'border_style' => '',
 				'position' => 'bottom-right',
 				'manual' => ''
 			),
@@ -201,9 +206,8 @@ class Box {
 	/**
 	 * Output HTML of this box
 	 */
-	public function output_html() {
+	public function print_html() {
 			$opts = $this->options;
-			$this->output_css();
 			?>
 			<div class="stb-container stb-<?php echo esc_attr( $opts['css']['position'] ); ?>-container">
 				<div class="<?php echo esc_attr( $this->get_css_classes() ); ?>"
@@ -220,60 +224,75 @@ class Box {
 				</div>
 			</div>
 			<?php
+
+		// make sure box specifix CSS is printed
+		$this->print_css();
 	}
 
 	/**
 	 * Output a <style> block, containing the custom styles for this box
+	 * @param bool $open_style_element
 	 */
-	public function output_css() {
+	public function print_css( $open_style_element = false ) {
+
+		// only print this once
+		if( $this->css_printed ) {
+			return;
+		}
+
 		$css = $this->options['css'];
 
 		// run filters
 		$minimum_screen_size = $this->get_minimum_screen_size();
-		?>
-		<style type="text/css">
-			<?php
-				// open selector wrapper
-				printf( '.stb-%d {', $this->ID );
 
-				// print any rules which may have been set
-				if ( '' !== $css['background_color'] ) {
-					printf( 'background: %s;', strip_tags( $css['background_color'] ) );
-				}
-				if ( '' !== $css['color'] ) {
-					printf( 'color: %s;', strip_tags( $css['color'] ) );
-				}
-				if ( '' !== $css['border_color'] ) {
-					printf( 'border-color: %s;', strip_tags( $css['border_color'] ) );
-				}
+		if( $open_style_element ) {
+			echo '<style type="text/css">';
+		}
 
-				if( '' !== $css['border_width'] ) {
-					printf( 'border-width: %dpx;', absint( $css['border_width'] ) );
-				}
+		// open selector wrapper
+		printf( '.stb-%d .stb-content {', $this->ID );
 
-				if( '' !== $css['border_style'] ) {
-					printf( 'border-style: %s;', strip_tags( $css['border_style'] ) );
-				}
+		// print any rules which may have been set
+		if ( '' !== $css['background_color'] ) {
+			printf( 'background: %s;', strip_tags( $css['background_color'] ) );
+		}
+		if ( '' !== $css['color'] ) {
+			printf( 'color: %s;', strip_tags( $css['color'] ) );
+		}
+		if ( '' !== $css['border_color'] ) {
+			printf( 'border-color: %s;', strip_tags( $css['border_color'] ) );
+		}
 
-				if( ! empty( $css['width'] ) ) {
-					printf( 'max-width: %dpx;', absint( $css['width'] ) );
-				}
+		if( '' !== $css['border_width'] ) {
+			printf( 'border-width: %dpx;', absint( $css['border_width'] ) );
+		}
 
-				if( $minimum_screen_size > 0 ) {
-					printf( '@media ( max-width: %dpx ) { #stb-%d { display: none !important; } }', $minimum_screen_size, $this->ID );
-				}
+		if( '' !== $css['border_style'] ) {
+			printf( 'border-style: %s;', strip_tags( $css['border_style'] ) );
+		}
 
-				// close wrapper
-				echo '}';
+		if( ! empty( $css['width'] ) ) {
+			printf( 'max-width: %dpx;', absint( $css['width'] ) );
+		}
 
+		if( $minimum_screen_size > 0 ) {
+			printf( '@media ( max-width: %dpx ) { #stb-%d { display: none !important; } }', $minimum_screen_size, $this->ID );
+		}
 
-				// print manual css
-				if( '' !== $css['manual'] ) {
-					echo strip_tags( $css['manual'] );
-				}
+		// close wrapper
+		echo '}' . PHP_EOL . PHP_EOL;
 
-				do_action( 'stb_box_print_css', $this ); ?>
-		</style>
-		<?php
+		// print manual css
+		if( '' !== $css['manual'] ) {
+			echo strip_tags( $css['manual'] );
+		}
+
+		do_action( 'stb_box_print_css', $this );
+
+		if( $open_style_element ) {
+			echo '</style>';
+		}
+
+		$this->css_printed = true;
 	}
 }

@@ -34,7 +34,8 @@ class BoxLoader {
 		// Only add other hooks if necessary
 		if( count( $this->matched_box_ids ) > 0 ) {
 			add_action( 'wp_enqueue_scripts', array( $this, 'load_styles' ) );
-			add_action( 'wp_footer', array( $this, 'output_boxes' ), 1 );
+			add_action( 'wp_head', array( $this, 'print_boxes_css' ), 90 );
+			add_action( 'wp_footer', array( $this, 'print_boxes_html' ), 90 );
 
 			add_filter( 'stb_box_content', 'wptexturize') ;
 			add_filter( 'stb_box_content', 'convert_smilies' );
@@ -252,18 +253,33 @@ class BoxLoader {
 	/**
 	* Outputs the boxes in the footer
 	*/
-	public function output_boxes() {
+	public function print_boxes_html() {
 		?><!-- Scroll Triggered Boxes v<?php echo $this->plugin->version(); ?> - https://wordpress.org/plugins/scroll-triggered-boxes/--><?php
 
 		// print HTML for each of the boxes
 		foreach ( $this->get_matched_boxes() as $box ) {
 			/* @var $box Box */
-			$box->output_html();
+			$box->print_html();
 		}
 
 			// print overlay element, we only need this once (it's re-used for all boxes)
 			echo '<div id="stb-overlay"></div>';
 		?><!-- / Scroll Triggered Box --><?php
+	}
+
+	/**
+	 * Print CSS of all boxes in <head>
+	 */
+	public function print_boxes_css() {
+		echo '<style type="text/css">';
+
+		// print HTML for each of the boxes
+		foreach ( $this->get_matched_boxes() as $box ) {
+			/* @var $box Box */
+			$box->print_css();
+		}
+
+		echo '</style>';
 	}
 
 

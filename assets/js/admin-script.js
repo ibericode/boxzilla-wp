@@ -79,11 +79,12 @@ window.STB_Admin = (function($) {
 
 		// vars
 		var boxID = document.getElementById('post_ID').value || 0,
-			$editor,
+			$editor, $editorFrame,
 			$innerEditor,
 			options = {},
 			manualStyleEl;
 
+			// create Option objects
 			options.borderColor = new Option('border-color');
 			options.borderWidth = new Option('border-width');
 			options.borderStyle = new Option('border-style');
@@ -95,26 +96,23 @@ window.STB_Admin = (function($) {
 
 		// functions
 		function init() {
-			$editor = $("#content_ifr").contents().find('html');
+			// add classes to TinyMCE <html>
+			$editorFrame = $("#content_ifr");
+
+			$editor = $editorFrame.contents().find('html');
 			$editor.addClass('scroll-triggered-box stb stb-' + boxID);
+
+			// add content class and padding to TinyMCE <body>
 			$innerEditor = $editor.find('#tinymce');
-
-			// make sure we're showing on a white background
-			$editor.css({
-				'background': 'white'
-			});
-
-			// add global class
 			$innerEditor.addClass('stb-content');
-
-			// add padding
-			$innerEditor.get(0).style.cssText += ';padding: 25px !important;';
-
 			$innerEditor.css({
-				'display': "inline-block",
-				'height': 'auto',
-				'min-width': '200px'
+				'margin': 0,
+				'background': 'white',
+				'display': 'inline-block',
+				'width': 'auto',
+				'min-width': '240px'
 			});
+			$innerEditor.get(0).style.cssText += ';padding: 25px !important;';
 
 			// create <style> element in <head>
 			manualStyleEl = document.createElement('style');
@@ -161,7 +159,8 @@ window.STB_Admin = (function($) {
 
 		return {
 			init: init,
-			resetStyles: resetStyles
+			resetStyles: resetStyles,
+			'options': options
 		};
 
 	})();
