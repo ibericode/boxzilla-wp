@@ -146,6 +146,10 @@ window.STB_Admin = (function($) {
 
 		function resetStyles() {
 			for( var key in options ) {
+				if( key.substring(0,5) === 'theme' ) {
+					continue;
+				}
+
 				options[key].clear();
 			}
 			applyStyles();
@@ -176,7 +180,11 @@ window.STB_Admin = (function($) {
 		// helper methods
 		this.getColorValue = function() {
 			if( this._element.value.length > 0 ) {
-				return $(this._element).wpColorPicker('color');
+				if( $(this._element).hasClass('wp-color-field')) {
+					return $(this._element).wpColorPicker('color');
+				} else {
+					return this._element.value;
+				}
 			}
 
 			return '';
@@ -201,12 +209,17 @@ window.STB_Admin = (function($) {
 
 		this.clear = function() {
 			this._element.value = '';
-		}
+		};
+
+		this.setValue = function(value) {
+			this._element.value = value;
+		};
 	}
 
 
 	return {
-		'Designer': Designer
+		'Designer': Designer,
+		'Option': Option
 	};
 
 })(window.jQuery);
