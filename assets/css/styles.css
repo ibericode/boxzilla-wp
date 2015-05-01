@@ -74,19 +74,20 @@ body {
 	background: transparent;
 	border: 0;
 	-webkit-appearance: none;
-	font-size: 24px;
+	font-size: 36px;
 	font-weight: bold;
 	line-height: 20px;
-	opacity: .4;
-	filter: alpha(opacity=33);
+	color: #000;
+	opacity: .5;
+	filter: alpha(opacity=50);
 }
 
 .stb-close:hover, .stb-close:focus {
 	color: #000;
 	text-decoration: none;
 	cursor: pointer;
-	opacity: .6;
-	filter: alpha(opacity=60);
+	opacity: .8;
+	filter: alpha(opacity=80);
 }
 
 #stb-overlay {
