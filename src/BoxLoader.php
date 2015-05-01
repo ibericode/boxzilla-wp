@@ -33,7 +33,7 @@ class BoxLoader {
 
 		// Only add other hooks if necessary
 		if( count( $this->matched_box_ids ) > 0 ) {
-			add_action( 'wp_enqueue_scripts', array( $this, 'load_styles' ) );
+			add_action( 'wp_enqueue_scripts', array( $this, 'load_assets' ) );
 			add_action( 'wp_head', array( $this, 'print_boxes_css' ), 90 );
 			add_action( 'wp_footer', array( $this, 'print_boxes_html' ), 90 );
 
@@ -161,7 +161,7 @@ class BoxLoader {
 	/**
 	* Load plugin styles
 	*/
-	public function load_styles() {
+	public function load_assets() {
 		$pre_suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 		// stylesheets
@@ -175,6 +175,8 @@ class BoxLoader {
 		wp_enqueue_script( 'scroll-triggered-boxes' );
 
 		$this->pass_box_options();
+
+		do_action( 'stb_load_assets', $this );
 	}
 
 	/**
