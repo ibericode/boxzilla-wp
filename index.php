@@ -45,7 +45,7 @@ if( version_compare( PHP_VERSION, '5.3', '>=' ) ) {
 	$name = 'Scroll Triggered Boxes';
 	$version = '2.0';
 
-	$reflect  = new ReflectionClass( 'ScrollTriggeredBoxes\Plugin' );
+	$reflect  = new ReflectionClass( 'ScrollTriggeredBoxes\BoxesPlugin' );
 	$GLOBALS['ScrollTriggeredBoxes'] = $reflect->newInstanceArgs( array(
 			$id,
 			$name,

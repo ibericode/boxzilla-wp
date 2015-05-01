@@ -3,21 +3,21 @@
 namespace ScrollTriggeredBoxes\Admin;
 
 use ScrollTriggeredBoxes\Licensing\LicenseServiceProvider,
-	ScrollTriggeredBoxes\Plugin,
+	ScrollTriggeredBoxes\iPlugin,
 	ScrollTriggeredBoxes\Box;
 use WP_Post;
 
 class Admin {
 
 	/**
-	 * @var Plugin $plugin
+	 * @var iPlugin $plugin
 	 */
 	private $plugin;
 
 	/**
 	 * @param Plugin $plugin
 	 */
-	public function __construct( Plugin $plugin ) {
+	public function __construct( iPlugin $plugin ) {
 
 		// store reference to plugin file
 		$this->plugin = $plugin;

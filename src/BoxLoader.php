@@ -5,7 +5,7 @@ namespace ScrollTriggeredBoxes;
 class BoxLoader {
 
 	/**
-	 * @var Plugin
+	 * @var iPlugin
 	 */
 	private $plugin;
 
@@ -17,9 +17,9 @@ class BoxLoader {
 	/**
 	 * Constructor
 	 *
-	 * @param Plugin $plugin
+	 * @param iPlugin $plugin
 	 */
-	public function __construct( Plugin $plugin ) {
+	public function __construct( iPlugin $plugin ) {
 		$this->plugin = $plugin;
 		add_action( 'wp', array( $this, 'init' ) );
 	}
