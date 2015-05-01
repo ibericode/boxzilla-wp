@@ -79,7 +79,7 @@ window.STB_Admin = (function($) {
 
 		// vars
 		var boxID = document.getElementById('post_ID').value || 0,
-			$editor, $editorFrame,
+			$editor, $editorFrame, $pseudoElement,
 			$innerEditor,
 			options = {},
 			manualStyleEl;
@@ -100,11 +100,11 @@ window.STB_Admin = (function($) {
 			$editorFrame = $("#content_ifr");
 
 			$editor = $editorFrame.contents().find('html');
-			$editor.addClass('scroll-triggered-box stb stb-' + boxID);
+
 
 			// add content class and padding to TinyMCE <body>
 			$innerEditor = $editor.find('#tinymce');
-			$innerEditor.addClass('stb-content');
+			$innerEditor.addClass('scroll-triggered-box stb stb-' + boxID);
 			$innerEditor.css({
 				'margin': 0,
 				'background': 'white',

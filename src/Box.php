@@ -250,7 +250,7 @@ class Box {
 		}
 
 		// open selector wrapper
-		printf( '.stb-%d .stb-content {', $this->ID );
+		printf( '.stb-%d {', $this->ID );
 
 		// print any rules which may have been set
 		if ( '' !== $css['background_color'] ) {
