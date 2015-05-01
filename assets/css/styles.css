@@ -54,14 +54,12 @@ body {
 	bottom: 0; right: 0; top: auto; left: auto;
 }
 
-/* remove top margin from first child element */
-.stb > div *:first-child {
+/* remove top & bottom margin from last child element */
+.stb-content > *:first-child {
 	margin-top: 0;
 	padding-top: 0;
 }
-
-/* remove bottom margin from last child element */
-.stb > div *:last-child {
+.stb-conten > *:last-child {
 	margin-bottom: 0;
 	padding-bottom: 0;
 }

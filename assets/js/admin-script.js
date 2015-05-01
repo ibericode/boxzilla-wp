@@ -98,9 +98,7 @@ window.STB_Admin = (function($) {
 		function init() {
 			// add classes to TinyMCE <html>
 			$editorFrame = $("#content_ifr");
-
 			$editor = $editorFrame.contents().find('html');
-
 
 			// add content class and padding to TinyMCE <body>
 			$innerEditor = $editor.find('#tinymce');
@@ -110,7 +108,8 @@ window.STB_Admin = (function($) {
 				'background': 'white',
 				'display': 'inline-block',
 				'width': 'auto',
-				'min-width': '240px'
+				'min-width': '240px',
+				'position': 'relative'
 			});
 			$innerEditor.get(0).style.cssText += ';padding: 25px !important;';
 

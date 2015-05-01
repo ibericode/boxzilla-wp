@@ -43,7 +43,7 @@
 	<tr valign="top">
 		<td colspan="3">
 			<label class="stb-label"><?php _e( 'Manual CSS', 'scroll-triggered-boxes' ); ?></label>
-			<textarea id="stb-manual-css" class="widefat" rows="5" placeholder=".stb-<?php echo $box->ID; ?> { ... }"><?php esc_textarea( $opts['css']['manual'] ); ?></textarea>
+			<textarea id="stb-manual-css" name="stb[css][manual]" class="widefat" rows="5" placeholder=".stb-<?php echo $box->ID; ?> { ... }"><?php echo esc_textarea( $opts['css']['manual'] ); ?></textarea>
 		</td>
 	</tr>
 	<?php do_action( 'stb_after_box_appearance_controls', $box, $opts ); ?>

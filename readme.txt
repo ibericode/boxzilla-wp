@@ -1,9 +1,9 @@
 === Plugin Name ===
 Contributors: DvanKooten
-Donate link: https://dannyvankooten.com/donate/
+Donate link: https://scrolltriggeredboxes.com/
 Tags: scroll triggered box, cta, social, pop-up, newsletter, call to action, mailchimp, contact form 7, social media
 Requires at least: 3.7
-Tested up to: 4.2
+Tested up to: 4.2.1
 Stable tag: 1.4.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -117,9 +117,8 @@ http://your-wordpress-site.com/some-page/#stb-94
 If you want more advanced styling, you can use CSS to further style the boxes. Every box gets its own unique #id as well as various CSS classes.
 
 `
-#box-{id} { } /* 1 particular box */
+.stb-{id} { } /* 1 particular box */
 .stb { } /* all boxes */
-.stb-content { } /* the contents of the box */
 .stb-close{ } /* the close button of the box */
 `
 
@@ -136,12 +135,12 @@ add_filter('stb_auto_hide_small_screens', '__return_false');
 All default WordPress filters are added to the `stb_content` filter hook. If you want to remove any of them, add the respectable line to your theme its `functions.php` file.
 
 `
-remove_filter( 'stb_content', 'wptexturize') ;
-remove_filter( 'stb_content', 'convert_smilies' );
-remove_filter( 'stb_content', 'convert_chars' );
-remove_filter( 'stb_content', 'wpautop' );
-remove_filter( 'stb_content', 'do_shortcode' );
-remove_filter( 'stb_content', 'shortcode_unautop' );
+remove_filter( 'stb_box_content', 'wptexturize') ;
+remove_filter( 'stb_box_content', 'convert_smilies' );
+remove_filter( 'stb_box_content', 'convert_chars' );
+remove_filter( 'stb_box_content', 'wpautop' );
+remove_filter( 'stb_box_content', 'do_shortcode' );
+remove_filter( 'stb_box_content', 'shortcode_unautop' );
 `
 
 == Installation ==
