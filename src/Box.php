@@ -246,37 +246,48 @@ class Box {
 		$minimum_screen_size = $this->get_minimum_screen_size();
 
 		if( $open_style_element ) {
-			echo '<style type="text/css">';
+			echo '<style type="text/css">' . PHP_EOL;
 		}
+
+		printf( "/* Custom Styles for Box %d */", $this->ID );
+		print PHP_EOL;
 
 		// open selector wrapper
 		printf( '.stb-%d {', $this->ID );
+		print PHP_EOL;
 
 		// print any rules which may have been set
 		if ( '' !== $css['background_color'] ) {
-			printf( 'background: %s;', strip_tags( $css['background_color'] ) );
+			printf( 'background: %s !important;', strip_tags( $css['background_color'] ) );
+			print PHP_EOL;
 		}
 		if ( '' !== $css['color'] ) {
-			printf( 'color: %s;', strip_tags( $css['color'] ) );
+			printf( 'color: %s !important;', strip_tags( $css['color'] ) );
+			print PHP_EOL;
 		}
 		if ( '' !== $css['border_color'] ) {
-			printf( 'border-color: %s;', strip_tags( $css['border_color'] ) );
+			printf( 'border-color: %s !important;', strip_tags( $css['border_color'] ) );
+			print PHP_EOL;
 		}
 
 		if( '' !== $css['border_width'] ) {
-			printf( 'border-width: %dpx;', absint( $css['border_width'] ) );
+			printf( 'border-width: %dpx !important;', absint( $css['border_width'] ) );
+			print PHP_EOL;
 		}
 
 		if( '' !== $css['border_style'] ) {
-			printf( 'border-style: %s;', strip_tags( $css['border_style'] ) );
+			printf( 'border-style: %s !important;', strip_tags( $css['border_style'] ) );
+			print PHP_EOL;
 		}
 
 		if( ! empty( $css['width'] ) ) {
 			printf( 'max-width: %dpx;', absint( $css['width'] ) );
+			print PHP_EOL;
 		}
 
 		if( $minimum_screen_size > 0 ) {
 			printf( '@media ( max-width: %dpx ) { #stb-%d { display: none !important; } }', $minimum_screen_size, $this->ID );
+			print PHP_EOL;
 		}
 
 		// close wrapper
@@ -290,7 +301,7 @@ class Box {
 		do_action( 'stb_box_print_css', $this );
 
 		if( $open_style_element ) {
-			echo '</style>';
+			echo '</style>' . PHP_EOL;
 		}
 
 		$this->css_printed = true;

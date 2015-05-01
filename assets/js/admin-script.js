@@ -78,7 +78,7 @@ window.STB_Admin = (function($) {
 	var Designer = (function() {
 
 		// vars
-		var boxID = document.getElementById('post_ID').value || 0,
+		var boxId = document.getElementById('post_ID').value || 0,
 			$editor, $editorFrame, $pseudoElement,
 			$innerEditor,
 			options = {},
@@ -102,7 +102,7 @@ window.STB_Admin = (function($) {
 
 			// add content class and padding to TinyMCE <body>
 			$innerEditor = $editor.find('#tinymce');
-			$innerEditor.addClass('scroll-triggered-box stb stb-' + boxID);
+			$innerEditor.addClass('scroll-triggered-box stb stb-' + boxId);
 			$innerEditor.css({
 				'margin': 0,
 				'background': 'white',
@@ -190,21 +190,21 @@ window.STB_Admin = (function($) {
 			return '';
 		};
 
-		this.getPxValue = function() {
+		this.getPxValue = function( fallbackValue ) {
 			if( this._element.value.length > 0 ) {
 				return parseInt( this._element.value ) + "px";
 			}
 
-			return '';
+			return fallbackValue || '';
 		};
 
-		this.getValue = function() {
+		this.getValue = function( fallbackValue ) {
 
 			if( this._element.value.length > 0 ) {
 				return this._element.value;
 			}
 
-			return '';
+			return fallbackValue || '';
 		};
 
 		this.clear = function() {

@@ -273,7 +273,7 @@ class BoxLoader {
 	 * Print CSS of all boxes in <head>
 	 */
 	public function print_boxes_css() {
-		echo '<style type="text/css">';
+		echo '<style type="text/css">' . PHP_EOL;
 
 		// print HTML for each of the boxes
 		foreach ( $this->get_matched_boxes() as $box ) {
@@ -281,7 +281,7 @@ class BoxLoader {
 			$box->print_css();
 		}
 
-		echo '</style>';
+		echo '</style>' . PHP_EOL . PHP_EOL;
 	}
 
 
