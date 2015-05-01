@@ -100,7 +100,7 @@ window.STB_Admin = (function($) {
 			$editorFrame = $("#content_ifr");
 			$editor = $editorFrame.contents().find('html');
 			$editor.css({
-				'backgrond': 'white'
+				'background': 'white'
 			});
 
 			// add content class and padding to TinyMCE <body>
