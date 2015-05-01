@@ -99,6 +99,9 @@ window.STB_Admin = (function($) {
 			// add classes to TinyMCE <html>
 			$editorFrame = $("#content_ifr");
 			$editor = $editorFrame.contents().find('html');
+			$editor.css({
+				'backgrond': 'white'
+			});
 
 			// add content class and padding to TinyMCE <body>
 			$innerEditor = $editor.find('#tinymce');
