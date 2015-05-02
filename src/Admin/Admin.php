@@ -15,12 +15,16 @@ class Admin {
 	private $plugin;
 
 	/**
-	 * @param Plugin $plugin
+	 * @param iPlugin $plugin
 	 */
 	public function __construct( iPlugin $plugin ) {
-
-		// store reference to plugin file
 		$this->plugin = $plugin;
+	}
+
+	/**
+	 * Initialise the all admin related stuff
+	 */
+	public function init() {
 		$this->register_services();
 
 		// Load the plugin textdomain
@@ -28,13 +32,6 @@ class Admin {
 
 		// action hooks
 		$this->add_hooks();
-
-		// if a premium add-on is installed, instantiate dependencies
-		if( count( $plugin['plugins'] ) > 0 ) {
-			$plugin['license_manager']->add_hooks();
-			$plugin['update_manager']->add_hooks();
-			$plugin['api_authenticator']->add_hooks();
-		}
 	}
 
 	/**
@@ -54,16 +51,10 @@ class Admin {
 	 * Add necessary hooks
 	 */
 	protected function add_hooks() {
-		add_action( 'init', array( $this, 'init' ) );
+		global $pagenow;
+
 		add_action( 'admin_init', array( $this, 'register' ) );
 		add_action( 'admin_menu', array( $this, 'menu' ) );
-	}
-
-	/**
-	 * Initialises the admin section
-	 */
-	public function init() {
-		global $pagenow;
 
 		add_action( 'save_post_scroll-triggered-box', array( $this, 'save_box_options' ), 20, 2 );
 		add_action( 'trashed_post', array( $this, 'flush_rules') );
@@ -76,6 +67,13 @@ class Admin {
 		if( $pagenow === 'plugins.php' ) {
 			add_filter( 'plugin_action_links', array( $this, 'add_plugin_settings_link' ), 10, 2 );
 			add_filter( 'plugin_row_meta', array( $this, 'add_plugin_meta_links'), 10, 2 );
+		}
+
+		// if a premium add-on is installed, instantiate dependencies
+		if( count( $this->plugin['plugins'] ) > 0 ) {
+			$this->plugin['license_manager']->add_hooks();
+			$this->plugin['update_manager']->add_hooks();
+			$this->plugin['api_authenticator']->add_hooks();
 		}
 	}
 

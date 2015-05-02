@@ -21,7 +21,6 @@ class BoxLoader {
 	 */
 	public function __construct( iPlugin $plugin ) {
 		$this->plugin = $plugin;
-		add_action( 'wp', array( $this, 'init' ) );
 	}
 
 	/**

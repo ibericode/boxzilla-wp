@@ -18,12 +18,18 @@ final class BoxesPlugin extends PluginBase {
 	 * Start loading classes on `plugins_loaded`, priority 20.
 	 */
 	public function load() {
+		$container = $this;
+
 		add_action( 'init', array( $this, 'register_post_type' ) );
 
 		if( ! is_admin() ) {
-			$this['box_loader'];
+			add_action( 'template_redirect', function() use( $container ) {
+				$container['box_loader']->init();
+			});
 		} elseif( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) {
-			$this['admin'];
+			add_action('init', function() use( $container ) {
+				$container['admin']->init();
+			});
 		}
 	}
 

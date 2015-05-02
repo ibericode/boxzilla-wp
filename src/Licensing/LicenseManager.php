@@ -23,6 +23,8 @@ class LicenseManager {
 
 	/**
 	 * @param Collection $extensions
+	 * @param API $api
+	 * @param License $license
 	 */
 	public function __construct( Collection $extensions, API $api, License $license ) {
 		$this->extensions = $extensions;
