@@ -3,7 +3,7 @@
   "title": "Scroll Triggered Boxes for WordPress",
   "repository": {
     "type": "git",
-    "url": "https://github.com/dannyvankooten/wp-scroll-triggered-boxes"
+    "url": "https://github.com/ibericode/scroll-triggered-boxes"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
