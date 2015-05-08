@@ -1,5 +1,5 @@
 === Plugin Name ===
-Contributors: DvanKooten
+Contributors: Ibericode, DvanKooten, iMazed, hchouhan
 Donate link: https://scrolltriggeredboxes.com/
 Tags: scroll triggered box, cta, social, pop-up, newsletter, call to action, mailchimp, contact form 7, social media
 Requires at least: 3.7
@@ -57,7 +57,7 @@ If you have created your own language pack (or have an update of an existing one
 **Other Links**
 
 - Have a look at some other [WordPress plugins by Danny van Kooten](https://dannyvankooten.com/wordpress-plugins/).
-- Contribute to the [Scroll Triggered Boxes plugin on GitHub](https://github.com/dannyvankooten/scroll-triggered-boxes).
+- Contribute to the [Scroll Triggered Boxes plugin on GitHub](https://github.com/ibericode/scroll-triggered-boxes).
 - The [Scroll Triggered Boxes site](https://scrolltriggeredboxes.com/)
 
 == Frequently Asked Questions ==

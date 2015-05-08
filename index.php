@@ -2,16 +2,16 @@
 /*
 Plugin Name: Scroll Triggered Boxes
 Version: 2.0
-Plugin URI: https://dannyvankooten.com/
+Plugin URI: https://scrolltriggeredboxes.com/
 Description: Call-To-Action Boxes that display after visitors scroll down far enough. Highly conversing, not so annoying!
-Author: Danny van Kooten
-Author URI: https://dannyvankooten.com/
+Author: Ibericode
+Author URI: https://ibericode.com/
 Text Domain: scroll-triggered-boxes
 Domain Path: /languages/
 License: GPL v3
 
 Scroll Triggered Boxes Plugin
-Copyright (C) 2013-2014, Danny van Kooten, hi@dannyvankooten.com
+Copyright (C) 2013-2015, Danny van Kooten, hi@dannyvankooten.com
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
