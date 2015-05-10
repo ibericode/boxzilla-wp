@@ -5,15 +5,15 @@ module.exports = (function() {
 		console  = window.console || { log: function() { }},
 		isLoggedIn = $(document.body).hasClass('logged-in'),
 		startTime = new Date().getTime();
-
 	// Box Object
-	var Box = function( config ) {
+	var Box = function( config, events ) {
 		this.id 		= config.id;
 		this.element 	= config.element;
 		this.$element 	= $(config.element);
 
 		// store config values
 		this.config = config;
+		this.events = events;
 
 		// store ref to overlay
 		this.overlay = document.getElementById('stb-overlay');
@@ -106,6 +106,9 @@ module.exports = (function() {
 		if( this.config.position === 'center' ) {
 			$(this.overlay).fadeToggle('slow');
 		}
+
+		// trigger event
+		this.events.trigger('box.' + ( show ? 'show' : 'hide' ), [ this ] );
 
 		// show or hide box using selected animation
 		if( this.config.animation === 'fade' ) {
@@ -237,6 +240,7 @@ module.exports = (function() {
 		this.hide();
 		this.setCookie();
 		this.closed = true;
+		this.events.trigger('box.disable', [ this ]);
 	};
 
 	return Box;

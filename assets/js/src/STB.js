@@ -7,7 +7,9 @@ module.exports = (function($) {
 		scrollTimer = 0,
 		resizeTimer = 0,
 		overlay = document.getElementById('stb-overlay'),
-		options = window.STB_Global_Options || {};
+		options = window.STB_Global_Options || {},
+		EventEmitter = require('./EventEmitter.js'),
+		events = new EventEmitter;
 
 	var Box = require('./Box.js');
 
@@ -16,11 +18,14 @@ module.exports = (function($) {
 	// initialise & add event listeners
 	function init() {
 		$(".scroll-triggered-box").each(createBoxFromDOM);
+
+		// event binds
 		$(window).bind('scroll.stb', onScroll);
 		$(window).bind('resize.stb', onWindowResize);
 		$(document).keyup(onKeyUp);
 		$(overlay).click(disableAllBoxes);
 
+		// print message when test mode is enabled
 		if( options.testMode ) {
 			console.log( 'Scroll Triggered Boxes: Test mode is enabled. Please disable test mode if you\'re done testing.' );
 		}
@@ -34,7 +39,7 @@ module.exports = (function($) {
 		boxOptions.element = this;
 		boxOptions.$element = $box;
 		boxOptions.testMode = options.testMode;
-		boxes[boxOptions.id] = new Box(boxOptions);
+		boxes[boxOptions.id] = new Box(boxOptions, events);
 	}
 
 	function onWindowResize() {
@@ -83,6 +88,7 @@ module.exports = (function($) {
 	}
 
 	// check criteria for all registered boxes
+	// todo: refactor part of this into box object?
 	function checkBoxCriterias() {
 
 		var scrollY = $(window).scrollTop();
@@ -127,7 +133,8 @@ module.exports = (function($) {
 		toggleBox: function(id) { boxes[id].toggle(); },
 		showAllBoxes: showAllBoxes,
 		hideAllBoxes: hideAllBoxes,
-		disableAllBoxes: disableAllBoxes
+		disableAllBoxes: disableAllBoxes,
+		events: events
 	}
 
 })(window.jQuery);
