@@ -41,7 +41,9 @@ module.exports = (function() {
 	Box.prototype.init = function() {
 		var box = this;
 		// attach event to "close" icon inside box
-		this.$element.find('.stb-close').click(this.disable.bind(this));
+		this.$element.find('.stb-close').click(function() {
+			box.dismiss();
+		});
 
 		// find all links & forms in this box
 		this.$links = this.$element.find('a');
@@ -56,11 +58,16 @@ module.exports = (function() {
 		});
 
 		// attach event to all links referring #stb-{box_id}
-		$('a[href="#' + this.$element.attr('id') +'"]').click(function() { this.toggle(); return false; }.bind(this));
+		$('a[href="#' + this.$element.attr('id') +'"]').click(function() {
+			box.toggle();
+			return false;
+		});
 
 		// auto-show the box if box is referenced from URL
 		if( this.locationHashRefersBox() ) {
-			window.setTimeout(this.show.bind(this), 300);
+			window.setTimeout(function() {
+				box.show();
+			}, 300);
 		}
 	};
 
@@ -251,11 +258,11 @@ module.exports = (function() {
 	};
 
 	// disable the box
-	Box.prototype.disable = function() {
+	Box.prototype.dismiss = function() {
 		this.hide();
 		this.setCookie();
 		this.closed = true;
-		this.events.trigger('box.disable', [ this ]);
+		this.events.trigger('box.dismiss', [ this ]);
 	};
 
 	return Box;
@@ -759,7 +766,7 @@ module.exports = (function($) {
 		$(window).bind('scroll.stb', onScroll);
 		$(window).bind('resize.stb', onWindowResize);
 		$(document).keyup(onKeyUp);
-		$(overlay).click(disableAllBoxes);
+		$(overlay).click(dismissAllBoxes);
 
 		// print message when test mode is enabled
 		if( options.testMode ) {
@@ -792,15 +799,15 @@ module.exports = (function($) {
 	// "keyup" listener
 	function onKeyUp(e) {
 		if (e.keyCode == 27) {
-			disableAllBoxes();
+			dismissAllBoxes();
 		}
 	}
 
 	// hide and disable all registered boxes
-	function disableAllBoxes() {
+	function dismissAllBoxes() {
 		for( var boxId in boxes ) {
 			if( boxes[boxId].visible ) {
-				boxes[boxId].disable();
+				boxes[boxId].dismiss();
 			}
 		}
 	}
@@ -869,7 +876,7 @@ module.exports = (function($) {
 		toggleBox: function(id) { boxes[id].toggle(); },
 		showAllBoxes: showAllBoxes,
 		hideAllBoxes: hideAllBoxes,
-		disableAllBoxes: disableAllBoxes,
+		dismissAllBoxes: dismissAllBoxes,
 		events: events
 	}
 

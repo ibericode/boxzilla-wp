@@ -23,7 +23,7 @@ module.exports = (function($) {
 		$(window).bind('scroll.stb', onScroll);
 		$(window).bind('resize.stb', onWindowResize);
 		$(document).keyup(onKeyUp);
-		$(overlay).click(disableAllBoxes);
+		$(overlay).click(dismissAllBoxes);
 
 		// print message when test mode is enabled
 		if( options.testMode ) {
@@ -56,15 +56,15 @@ module.exports = (function($) {
 	// "keyup" listener
 	function onKeyUp(e) {
 		if (e.keyCode == 27) {
-			disableAllBoxes();
+			dismissAllBoxes();
 		}
 	}
 
 	// hide and disable all registered boxes
-	function disableAllBoxes() {
+	function dismissAllBoxes() {
 		for( var boxId in boxes ) {
 			if( boxes[boxId].visible ) {
-				boxes[boxId].disable();
+				boxes[boxId].dismiss();
 			}
 		}
 	}
@@ -133,7 +133,7 @@ module.exports = (function($) {
 		toggleBox: function(id) { boxes[id].toggle(); },
 		showAllBoxes: showAllBoxes,
 		hideAllBoxes: hideAllBoxes,
-		disableAllBoxes: disableAllBoxes,
+		dismissAllBoxes: dismissAllBoxes,
 		events: events
 	}
 

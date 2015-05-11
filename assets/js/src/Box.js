@@ -40,7 +40,9 @@ module.exports = (function() {
 	Box.prototype.init = function() {
 		var box = this;
 		// attach event to "close" icon inside box
-		this.$element.find('.stb-close').click(this.disable.bind(this));
+		this.$element.find('.stb-close').click(function() {
+			box.dismiss();
+		});
 
 		// find all links & forms in this box
 		this.$links = this.$element.find('a');
@@ -55,11 +57,16 @@ module.exports = (function() {
 		});
 
 		// attach event to all links referring #stb-{box_id}
-		$('a[href="#' + this.$element.attr('id') +'"]').click(function() { this.toggle(); return false; }.bind(this));
+		$('a[href="#' + this.$element.attr('id') +'"]').click(function() {
+			box.toggle();
+			return false;
+		});
 
 		// auto-show the box if box is referenced from URL
 		if( this.locationHashRefersBox() ) {
-			window.setTimeout(this.show.bind(this), 300);
+			window.setTimeout(function() {
+				box.show();
+			}, 300);
 		}
 	};
 
@@ -250,11 +257,11 @@ module.exports = (function() {
 	};
 
 	// disable the box
-	Box.prototype.disable = function() {
+	Box.prototype.dismiss = function() {
 		this.hide();
 		this.setCookie();
 		this.closed = true;
-		this.events.trigger('box.disable', [ this ]);
+		this.events.trigger('box.dismiss', [ this ]);
 	};
 
 	return Box;
