@@ -234,6 +234,7 @@ class BoxLoader {
 			// create array with box options
 			$options = array(
 				'id' => $box->ID,
+				'title' => $box->title,
 				'trigger' => $box->options['trigger'],
 				'triggerPercentage' => absint( $box->options['trigger_percentage'] ),
 				'triggerElementSelector' => $box->options['trigger_element'],

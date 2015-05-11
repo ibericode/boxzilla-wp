@@ -8,6 +8,7 @@ module.exports = (function() {
 	// Box Object
 	var Box = function( config, events ) {
 		this.id 		= config.id;
+		this.title 		= config.title;
 		this.element 	= config.element;
 		this.$element 	= $(config.element);
 
@@ -37,8 +38,21 @@ module.exports = (function() {
 
 	// initialise the box
 	Box.prototype.init = function() {
+		var box = this;
 		// attach event to "close" icon inside box
 		this.$element.find('.stb-close').click(this.disable.bind(this));
+
+		// find all links & forms in this box
+		this.$links = this.$element.find('a');
+		this.$forms = this.$element.find('form');
+
+		this.$links.click(function(e) {
+			box.events.trigger('box.interactions.link', [ box, e.target ] );
+		});
+
+		this.$forms.submit(function(e) {
+			box.events.trigger('box.interactions.form', [ box, e.target ]);
+		});
 
 		// attach event to all links referring #stb-{box_id}
 		$('a[href="#' + this.$element.attr('id') +'"]').click(function() { this.toggle(); return false; }.bind(this));
