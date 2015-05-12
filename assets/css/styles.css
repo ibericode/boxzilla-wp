@@ -59,7 +59,7 @@ body {
 	margin-top: 0;
 	padding-top: 0;
 }
-.stb-conten > *:last-child {
+.stb-content > *:last-child {
 	margin-bottom: 0;
 	padding-bottom: 0;
 }
