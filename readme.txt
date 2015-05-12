@@ -1,5 +1,5 @@
 === Plugin Name ===
-Contributors: Ibericode, DvanKooten, iMazed, hchouhan
+Contributors: DvanKooten, ibericode, iMazed, hchouhan
 Donate link: https://scrolltriggeredboxes.com/
 Tags: scroll triggered box, cta, social, pop-up, newsletter, call to action, mailchimp, contact form 7, social media
 Requires at least: 3.7
@@ -8,67 +8,67 @@ Stable tag: 1.4.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-The best non-obtrusive call-to-action: Scroll Triggered Boxes. Show social media sharing options or sign-up forms in conversion boosting boxes.
+Call to actions for engaged visitors, a less obtrusive alternative to pop-ups.
 
 == Description ==
 
 = Scroll Triggered Boxes =
 
-Scroll Triggered Boxes are boxes that become visible after visitors have scrolled down far enough. 
+**Call to action boxes which appear once a visitor has scrolled down far enough. Highly converting, less annoying!**
 
-The visitors that scroll down far enough have engaged with your content and most likely got some value out of it, making them more receptive to any offer. Also, human eyes react to movement. Having a box "appear" is a sure way to get their attention while staying relatively unobtrusive and certainly less annoying than a pop-up.
+Scroll Triggered are boxes which slide or fade-in once a visitor has scrolled down far enough on your page.
 
-**Highly Converting Call To Actions**
+Visitors who scroll down far enough have already engaged with your content and most likely got value out of it, making them more receptive to your offer. Plus, human eyes react to movement. Having a box slide-in at a corner of the screen is a sure way to get their attention while staying relatively unobtrusive and certainly less annoying than a pop-up.
 
-This plugin is a sure way to get more visitors to take a certain action, whether this action is..
+= Any Call To Action =
 
-- .. subscribing to your newsletter
-- .. sharing a post
-- .. submitting a contact form
-- .. or something entirely different, you decide!
+Boxes can contain any content you like, even shortcodes for third-party plugins.
 
-Really anything is possible, from social media sharing options to sign-up or contact forms. The plugin is designed to work with *any* other plugin that uses shortcodes.
+- Newsletter sign-up form
+- Contact form
+- Buttons or links
+- Shortcodes
+- Social sharing options
+- Anything really. You decide.
 
-**Plugin Features**
+= Scroll Triggered Boxes, at a glance.. =
 
-- Create multiple scroll triggered boxes
-- Choose when a box should display: at a certain percentage of the page height or after scrolling past a certain element (like the comments section).
-- Control on which pages each box should show up to create extremely relevant boxes (uses conditonal tags)
-- Choose between a fading or sliding animation
-- Use anything as the box content: text, images, forms, shortcodes, etc. You decide!
-- Set the number of days a box should not be shown if a visitor closes it
-- Open a box right after loading a page or have it open when clicking a link or button
+- Unlimited amount of boxes
+- Page level targeting
+- Multiple animations
+- Appearance control, control when and where your box should appear.
+- Hide boxes for visitors who dismissed it
+- Show boxes by clicking a link or button
 
 Have a look at the [frequently asked questions](https://wordpress.org/plugins/scroll-triggered-boxes/faq/) as well, this plugin is really flexible.
 
-**Demo**
+**Add-on plugins**
 
-I'm using the plugin myself on [the website for one of my other plugins: MailChimp for WordPress](https://mc4wp.com/). Scroll down to the bottom and you'll see a box slide in in the bottom right corner, asking you to sign-up to the plugin newsletter.
+There are several [premium add-on plugins available for Scroll Triggered Boxes](https://scrolltriggeredboxes.com/plugins), which help you get even more out of your site.
 
-**Translators**
+**Translations**
 
-- English (en_US) - [Danny van Kooten](https://dannyvankooten.com/)
-- Dutch (nl_NL) - [Danny van Kooten](https://dannyvankooten.com/)
-- Spanish (es_ES) - [Paul Benitez - Tecnofilos](http://www.tecnofilos.net/)
+Please submit your new or improved translations [using a pull request on GitHub](https://github.com/ibericode/scroll-triggered-boxes).
 
-If you have created your own language pack (or have an update of an existing one) you can send in your .PO and .MO files so we can bundle it into Scroll Triggered Boxes. You can [download the latest POT file](https://plugins.svn.wordpress.org/scroll-triggered-boxes/trunk/languages/scroll-triggered-boxes.po), and [PO files in each language](https://plugins.svn.wordpress.org/scroll-triggered-boxes/trunk/languages/).
+**Bug Reports**
 
+Bug reports for [Scroll Triggered Boxes are welcomed on GitHub](https://github.com/ibericode/scroll-triggered-boxes). Please note that GitHub is _not_ a support forum.
 
 **Other Links**
 
-- Have a look at some other [WordPress plugins by Danny van Kooten](https://dannyvankooten.com/wordpress-plugins/).
-- Contribute to the [Scroll Triggered Boxes plugin on GitHub](https://github.com/ibericode/scroll-triggered-boxes).
+- Have a look at some other [WordPress plugins by Danny van Kooten](https://dannyvankooten.com/wordpress-plugins/)
+- Contribute to the [Scroll Triggered Boxes plugin on GitHub](https://github.com/ibericode/scroll-triggered-boxes)
+- [Add-on plugins for Scroll Triggered Boxes](https://scrolltriggeredboxes.com/plugins)
 - The [Scroll Triggered Boxes site](https://scrolltriggeredboxes.com/)
 
 == Frequently Asked Questions ==
 
 = How to display a form in the box? =
 
-The plugin is tested with the plugins below but will work with any plugin that uses shortcodes.
+The plugin is battle-tested with the plugins below but will work with any plugin that uses shortcodes.
 
 - [MailChimp for WordPress](https://wordpress.org/plugins/mailchimp-for-wp/)
 - [Contact Form 7](https://wordpress.org/plugins/contact-form-7/)
-- [Newsletter Sign-Up](https://wordpress.org/plugins/newsletter-sign-up/)
 
 = How to display sharing options in the box? =
 
@@ -122,14 +122,6 @@ If you want more advanced styling, you can use CSS to further style the boxes. E
 .stb-close{ } /* the close button of the box */
 `
 
-= Will a box be shown on mobile devices or small screens? =
-
-If the box width fits on the screen, the box will be shown. If the box width is larger than the screen size, the box will be automatically hidden. To disable automatic hiding of the box, add the following line to your theme its `functions.php` file.
-
-`
-add_filter('stb_auto_hide_small_screens', '__return_false');
-`
-
 = I want to disable auto-paragraphs in the box content =
 
 All default WordPress filters are added to the `stb_content` filter hook. If you want to remove any of them, add the respectable line to your theme its `functions.php` file.
@@ -168,9 +160,20 @@ Have a look at the [frequently asked questions](https://wordpress.org/plugins/sc
 3. A differently styled social triggered box.
 4. Configuring and customizing your boxes is easy.
 
-Some more screenshots can be found at the [Scroll Triggered Boxes plugin page on my website](https://dannyvankooten.com/wordpress-plugins/scroll-triggered-boxes/).
-
 == Changelog ==
+
+= 2.0 - May 12, 2015 =
+
+Major revamp of the plugin, maintaining backwards compatibility.
+
+**Important changes**
+
+- The plugin now comes with several [premium add-on plugins which further enhance the functionality of the plugin](https://scrolltriggeredboxes.com/plugins).
+- PHP 5.3 or higher is required.
+- "Test mode" is now a global setting.
+- Various UX improvements.
+
+If you encounter a bug, please [open an issue on GitHub](https://github.com/ibericode/scroll-triggered-boxes/issues).
 
 = 1.4.4 - April 4, 2015 =
 

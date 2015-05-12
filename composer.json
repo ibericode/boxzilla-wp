@@ -1,5 +1,5 @@
 {
-	"name": "dannyvankooten/wp-scroll-triggered-boxes",
+	"name": "ibericode/scroll-triggered-boxes",
 	"description": "The best non-obtrusive call-to-action: Scroll Triggered Boxes. A WordPress plugin.",
 	"keywords": ["wordpress", "scroll triggered", "call to action"],
 	"homepage": "https://wordpress.org/plugins/scroll-triggered-boxes/",
@@ -11,9 +11,15 @@
 			"homepage": "https://dannyvankooten.com"
 		}
 	],
+  "support": {
+    "issues": "https://github.com/ibericode/scroll-triggered-boxes/issues",
+    "forum": "https://wordpress.org/support/plugin/scroll-triggered-boxes",
+    "source": "https://github.com/ibericode/scroll-triggered-boxes"
+  },
 	"type": "wordpress-plugin",
 	"require": {
-		"php": ">=5.3.0"
+		"php": ">=5.3.0",
+        "composer/installers": "~1.0"
 	},
     "autoload": {
       "classmap": [
