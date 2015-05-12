@@ -72,13 +72,19 @@ class BoxLoader {
 
 		$matched = false;
 
+		// cast value to array with trimmed value if needed
+		if ( '' !== $value && $condition !== 'manual' && $condition !== 'everywhere' ) {
+			$value = array_map( 'trim', explode( ',', $value ) );
+		}
+
 		switch ( $condition ) {
 			case 'everywhere';
 				$matched = true;
 				break;
 
 			case 'is_post_type':
-				$matched = in_array( get_post_type(), $value );
+				$post_type = (string) get_post_type();
+				$matched = in_array( $post_type, $value );
 				break;
 
 			case 'is_single':
@@ -90,7 +96,7 @@ class BoxLoader {
 				break;
 
 			case 'is_not_page':
-				$matched = !is_page( $value );
+				$matched = ! is_page( $value );
 				break;
 
 			case 'manual':
