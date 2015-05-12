@@ -1,6 +1,6 @@
 === Plugin Name ===
 Contributors: DvanKooten, ibericode, iMazed, hchouhan
-Donate link: https://scrolltriggeredboxes.com/
+Donate link: https://scrolltriggeredboxes.com/#utm_source=wp-plugin-repo&utm-medium=scroll-triggered-boxes&utm_campaign=donate-link
 Tags: scroll triggered box, cta, social, pop-up, newsletter, call to action, mailchimp, contact form 7, social media
 Requires at least: 3.7
 Tested up to: 4.2.1
@@ -44,7 +44,7 @@ Have a look at the [frequently asked questions](https://wordpress.org/plugins/sc
 
 **Add-on plugins**
 
-There are several [premium add-on plugins available for Scroll Triggered Boxes](https://scrolltriggeredboxes.com/plugins), which help you get even more out of your site.
+There are several [premium add-on plugins available for Scroll Triggered Boxes](https://scrolltriggeredboxes.com/plugins#utm_source=wp-plugin-repo&utm-medium=scroll-triggered-boxes&utm_campaign=description), which help you get even more out of your site.
 
 **Translations**
 
@@ -58,8 +58,8 @@ Bug reports for [Scroll Triggered Boxes are welcomed on GitHub](https://github.c
 
 - Have a look at some other [WordPress plugins by Danny van Kooten](https://dannyvankooten.com/wordpress-plugins/)
 - Contribute to the [Scroll Triggered Boxes plugin on GitHub](https://github.com/ibericode/scroll-triggered-boxes)
-- [Add-on plugins for Scroll Triggered Boxes](https://scrolltriggeredboxes.com/plugins)
-- The [Scroll Triggered Boxes site](https://scrolltriggeredboxes.com/)
+- [Add-on plugins for Scroll Triggered Boxes](https://scrolltriggeredboxes.com/plugins#utm_source=wp-plugin-repo&utm-medium=scroll-triggered-boxes&utm_campaign=description)
+- The [Scroll Triggered Boxes site](https://scrolltriggeredboxes.com/#utm_source=wp-plugin-repo&utm-medium=scroll-triggered-boxes&utm_campaign=description)
 
 == Frequently Asked Questions ==
 
@@ -168,7 +168,7 @@ Major revamp of the plugin, maintaining backwards compatibility.
 
 **Important changes**
 
-- The plugin now comes with several [premium add-on plugins which further enhance the functionality of the plugin](https://scrolltriggeredboxes.com/plugins).
+- The plugin now comes with several [premium add-on plugins which further enhance the functionality of the plugin](https://scrolltriggeredboxes.com/plugins#utm_source=wp-plugin-repo&utm-medium=scroll-triggered-boxes&utm_campaign=changelog).
 - PHP 5.3 or higher is required.
 - "Test mode" is now a global setting.
 - Various UX improvements.
