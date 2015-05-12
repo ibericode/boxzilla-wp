@@ -229,14 +229,6 @@ class Admin {
 		);
 
 		add_meta_box(
-			'stb-available-add-ons',
-			__( 'Available add-ons.', 'scroll-triggered-boxes' ),
-			array( $this, 'metabox_available_add_ons' ),
-			'scroll-triggered-box',
-			'side'
-		);
-
-		add_meta_box(
 			'stb-show-appreciation',
 			__( 'Show your appreciation!', 'scroll-triggered-boxes' ),
 			array( $this, 'metabox_appreciation_options' ),
@@ -281,14 +273,6 @@ class Admin {
 	 */
 	public function metabox_appreciation_options( \WP_Post $post, $metabox ) {
 		include __DIR__ . '/views/metaboxes/show-appreciation.php';
-	}
-
-	/**
-	 * @param \WP_Post $post
-	 * @param         $metabox
-	 */
-	public function metabox_available_add_ons( \WP_Post $post, $metabox ) {
-		include __DIR__ . '/views/metaboxes/available-add-ons.php';
 	}
 
 	/**
