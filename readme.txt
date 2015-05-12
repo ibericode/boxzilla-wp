@@ -4,7 +4,7 @@ Donate link: https://scrolltriggeredboxes.com/#utm_source=wp-plugin-repo&utm-med
 Tags: scroll triggered box, cta, social, pop-up, newsletter, call to action, mailchimp, contact form 7, social media
 Requires at least: 3.7
 Tested up to: 4.2.2
-Stable tag: 2.0
+Stable tag: 2.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -161,6 +161,12 @@ Have a look at the [frequently asked questions](https://wordpress.org/plugins/sc
 4. Configuring and customizing your boxes is easy.
 
 == Changelog ==
+
+= 2.0.1 - May 12, 2015 =
+
+**Fixes**
+
+- Fix page level targeting no longer working
 
 = 2.0 - May 12, 2015 =
 
@@ -361,5 +367,5 @@ If you encounter a bug, please [open an issue on GitHub](https://github.com/iber
 
 == Upgrade Notice ==
 
-= 1.4.2 =
-Fixes cookie issue with yesterdays update. Please update.
+= 2.0.1 =
+Major code revamp & UX improvements. Requires PHP 5.3 or higher.
