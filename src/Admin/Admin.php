@@ -61,7 +61,7 @@ class Admin {
 		add_action( 'untrashed_post', array( $this, 'flush_rules') );
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'load_assets' ) );
-		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ), 10, 2 );
+		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
 		add_filter( 'tiny_mce_before_init', array( $this, 'tinymce_init' ) );
 
 		if( $pagenow === 'plugins.php' ) {
@@ -193,10 +193,9 @@ class Admin {
 	/**
 	 * Register meta boxes
 	 * @param string $post_type
-	 * @param WP_Post $post
 	 * @return bool
 	 */
-	public function add_meta_boxes( $post_type, WP_Post $post ) {
+	public function add_meta_boxes( $post_type ) {
 
 		if( $post_type !== 'scroll-triggered-box' ) {
 			return false;
