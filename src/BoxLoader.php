@@ -34,7 +34,7 @@ class BoxLoader {
 		if( count( $this->matched_box_ids ) > 0 ) {
 			add_action( 'wp_enqueue_scripts', array( $this, 'load_assets' ) );
 			add_action( 'wp_head', array( $this, 'print_boxes_css' ), 90 );
-			add_action( 'wp_footer', array( $this, 'print_boxes_html' ), 90 );
+			add_action( 'wp_footer', array( $this, 'print_boxes_html' ) );
 
 			add_filter( 'stb_box_content', 'wptexturize') ;
 			add_filter( 'stb_box_content', 'convert_smilies' );
