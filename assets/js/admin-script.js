@@ -82,7 +82,8 @@ window.STB_Admin = (function($) {
 			$editor, $editorFrame, $pseudoElement,
 			$innerEditor,
 			options = {},
-			manualStyleEl;
+			manualStyleEl,
+			initialised = false;
 
 			// create Option objects
 			options.borderColor = new Option('border-color');
@@ -122,6 +123,8 @@ window.STB_Admin = (function($) {
 			manualStyleEl.id = 'stb-manual-css';
 			$(manualStyleEl).appendTo($editor.find('head'));
 
+			initialised = true;
+
 			applyStyles();
 			$(document).trigger('editorInit.stb');
 		}
@@ -131,6 +134,11 @@ window.STB_Admin = (function($) {
 		 * Applies the styles from the options to the TinyMCE Editor
 		 */
 		function applyStyles() {
+			
+			if( ! initialised ) {
+				init();
+			}
+
 			// add manual CSS to <head>
 			manualStyleEl.innerHTML = options.manualCSS.getValue();
 
