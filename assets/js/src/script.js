@@ -1,1 +1,1 @@
-window.STB = require('./STB.js');
+window.STB = require('./BoxManager.js');

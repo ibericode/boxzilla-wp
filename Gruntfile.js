@@ -28,8 +28,8 @@ module.exports = function(grunt) {
 				tasks: [ 'uglify' ]
 			},
 			browserify: {
-				files: 'assets/js/src/*.js',
-				tasks: ['browserify:client']
+				files: 'assets/js/src/**',
+				tasks: ['browserify:script', 'browserify:admin']
 			},
 			css: {
 				files: ['assets/css/*.css', '!assets/css/*.min.css'],
@@ -39,9 +39,13 @@ module.exports = function(grunt) {
 
 		browserify: {
 
-			client: {
-				src: ['assets/js/src/*.js'],
+			script: {
+				src: ['assets/js/src/script.js'],
 				dest: 'assets/js/script.js'
+			},
+			admin: {
+				src: ['assets/js/src/admin-script.js'],
+				dest: 'assets/js/admin-script.js'
 			}
 		}
 	});
@@ -54,6 +58,6 @@ module.exports = function(grunt) {
 
 
 	// register at least this one task
-	grunt.registerTask('default', [ 'browserify:client', 'uglify', 'cssmin' ]);
+	grunt.registerTask('default', [ 'browserify:script', 'browserify:admin', 'uglify', 'cssmin' ]);
 
 };
