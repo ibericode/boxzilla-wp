@@ -83,7 +83,7 @@ window.STB_Admin = (function($) {
 			$innerEditor,
 			options = {},
 			manualStyleEl,
-			initialised = false;
+			visualEditorInitialised = false;
 
 			// create Option objects
 			options.borderColor = new Option('border-color');
@@ -97,6 +97,7 @@ window.STB_Admin = (function($) {
 
 		// functions
 		function init() {
+
 			// add classes to TinyMCE <html>
 			$editorFrame = $("#content_ifr");
 			$editor = $editorFrame.contents().find('html');
@@ -123,20 +124,20 @@ window.STB_Admin = (function($) {
 			manualStyleEl.id = 'stb-manual-css';
 			$(manualStyleEl).appendTo($editor.find('head'));
 
-			initialised = true;
+			visualEditorInitialised = true;
 
-			applyStyles();
 			$(document).trigger('editorInit.stb');
 		}
 
-
 		/**
 		 * Applies the styles from the options to the TinyMCE Editor
+		 * 
+		 * @return bool
 		 */
 		function applyStyles() {
-			
-			if( ! initialised ) {
-				init();
+
+			if( ! visualEditorInitialised ) {
+				return false;
 			}
 
 			// add manual CSS to <head>
@@ -153,6 +154,8 @@ window.STB_Admin = (function($) {
 			});
 
 			$(document).trigger('applyBoxStyles.stb');
+
+			return true;
 		}
 
 		function resetStyles() {
@@ -170,6 +173,7 @@ window.STB_Admin = (function($) {
 		// event binders
 		$appearanceControls.find('input.stb-color-field').wpColorPicker({ change: applyStyles, clear: applyStyles });
 		$appearanceControls.find(":input").not(".stb-color-field").change(applyStyles);
+		$(document).on('editorInit.stb', applyStyles);
 
 		return {
 			init: init,
