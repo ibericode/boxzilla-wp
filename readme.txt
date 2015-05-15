@@ -67,6 +67,10 @@ Bug reports for [Scroll Triggered Boxes are welcomed on GitHub](https://github.c
 
 == Frequently Asked Questions ==
 
+= What does this plugin do? =
+
+Have a look at the [Scroll Triggered Boxes demo site](http://demo.scrolltriggeredboxes.com/).
+
 = How to display a form in the box? =
 
 The plugin is battle-tested with the plugins below but will work with any plugin that uses shortcodes.
