@@ -2,7 +2,7 @@
 /*
 Plugin Name: Scroll Triggered Boxes
 Version: 2.0.1
-Plugin URI: https://scrolltriggeredboxes.com/#utm_source=wp-plugin&utm-medium=scroll-triggered-boxes&utm_campaign=plugin-page
+Plugin URI: https://scrolltriggeredboxes.com/#utm_source=wp-plugin&utm_medium=scroll-triggered-boxes&utm_campaign=plugins-page
 Description: Call-To-Action Boxes that display after visitors scroll down far enough. Unobtrusive, but highly conversing!
 Author: Ibericode
 Author URI: https://ibericode.com/
