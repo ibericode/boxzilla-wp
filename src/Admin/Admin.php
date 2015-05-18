@@ -421,7 +421,7 @@ class Admin {
 			return $links;
 		}
 
-		$links[] = '<a href="https://scrolltriggeredboxes.com/kb#utm_source=wp-plugin&utm-medium=scroll-triggered-boxes&utm_campaign=plugins-page">Documentation</a>';
+		$links[] = '<a href="https://scrolltriggeredboxes.com/kb#utm_source=wp-plugin&utm_medium=scroll-triggered-boxes&utm_campaign=plugins-page">Documentation</a>';
 		return $links;
 	}
 

@@ -1,10 +1,10 @@
 === Plugin Name ===
 Contributors: DvanKooten, ibericode, iMazed, hchouhan
-Donate link: https://scrolltriggeredboxes.com/#utm_source=wp-plugin-repo&utm-medium=scroll-triggered-boxes&utm_campaign=donate-link
+Donate link: https://scrolltriggeredboxes.com/#utm_source=wp-plugin-repo&utm_medium=scroll-triggered-boxes&utm_campaign=donate-link
 Tags: scroll triggered box, cta, social, pop-up, newsletter, call to action, mailchimp, contact form 7, social media
 Requires at least: 3.7
 Tested up to: 4.2.2
-Stable tag: 2.0.1
+Stable tag: 2.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -48,7 +48,7 @@ There's a [Scroll Triggered Boxes demo site](http://demo.scrolltriggeredboxes.co
 
 **Add-on plugins**
 
-There are several [premium add-on plugins available for Scroll Triggered Boxes](https://scrolltriggeredboxes.com/plugins#utm_source=wp-plugin-repo&utm-medium=scroll-triggered-boxes&utm_campaign=description), which help you get even more out of your site.
+There are several [premium add-on plugins available for Scroll Triggered Boxes](https://scrolltriggeredboxes.com/plugins#utm_source=wp-plugin-repo&utm_medium=scroll-triggered-boxes&utm_campaign=description), which help you get even more out of your site.
 
 **Translations**
 
@@ -62,8 +62,8 @@ Bug reports for [Scroll Triggered Boxes are welcomed on GitHub](https://github.c
 
 - Have a look at some other [WordPress plugins by Danny van Kooten](https://dannyvankooten.com/wordpress-plugins/)
 - Contribute to the [Scroll Triggered Boxes plugin on GitHub](https://github.com/ibericode/scroll-triggered-boxes)
-- [Add-on plugins for Scroll Triggered Boxes](https://scrolltriggeredboxes.com/plugins#utm_source=wp-plugin-repo&utm-medium=scroll-triggered-boxes&utm_campaign=description)
-- The [Scroll Triggered Boxes site](https://scrolltriggeredboxes.com/#utm_source=wp-plugin-repo&utm-medium=scroll-triggered-boxes&utm_campaign=description)
+- [Add-on plugins for Scroll Triggered Boxes](https://scrolltriggeredboxes.com/plugins#utm_source=wp-plugin-repo&utm_medium=scroll-triggered-boxes&utm_campaign=description)
+- The [Scroll Triggered Boxes site](https://scrolltriggeredboxes.com/#utm_source=wp-plugin-repo&utm_medium=scroll-triggered-boxes&utm_campaign=description)
 
 == Frequently Asked Questions ==
 
@@ -170,6 +170,18 @@ Have a look at the [frequently asked questions](https://wordpress.org/plugins/sc
 
 == Changelog ==
 
+= 2.0.2 - May 18, 2015 =
+
+**Fixes**
+
+- JavaScript error when loading box editor in HTML mode
+- Remove type hint for function that adds metaboxes, as this differs for new (unpublished) boxes
+
+**Improvements**
+
+- Output HTML for boxes at a slightly earlier hook, for better [MailChimp for WordPress](https://mc4wp.com/) compatibility.
+
+
 = 2.0.1 - May 12, 2015 =
 
 **Fixes**
@@ -182,7 +194,7 @@ Major revamp of the plugin, maintaining backwards compatibility.
 
 **Important changes**
 
-- The plugin now comes with several [premium add-on plugins which further enhance the functionality of the plugin](https://scrolltriggeredboxes.com/plugins#utm_source=wp-plugin-repo&utm-medium=scroll-triggered-boxes&utm_campaign=changelog).
+- The plugin now comes with several [premium add-on plugins which further enhance the functionality of the plugin](https://scrolltriggeredboxes.com/plugins#utm_source=wp-plugin-repo&utm_medium=scroll-triggered-boxes&utm_campaign=changelog).
 - PHP 5.3 or higher is required.
 - "Test mode" is now a global setting.
 - Various UX improvements.
@@ -274,5 +286,5 @@ If you encounter a bug, please [open an issue on GitHub](https://github.com/iber
 
 == Upgrade Notice ==
 
-= 2.0.1 =
-Major code revamp & UX improvements. Requires PHP 5.3 or higher.
+= 2.0.2 =
+Minor code improvements.
