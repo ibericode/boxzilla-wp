@@ -86,6 +86,10 @@ class BoxLoader {
 				$matched = in_array( $_SERVER['REQUEST_URI'], $value );
 				break;
 
+			case 'is_referer':
+				$matched = ! empty( $_SERVER['HTTP_REFERER'] ) && in_array( $_SERVER['HTTP_REFERER'], $value );
+				break;
+
 			case 'is_post_type':
 				$post_type = (string) get_post_type();
 				$matched = in_array( $post_type, $value );
