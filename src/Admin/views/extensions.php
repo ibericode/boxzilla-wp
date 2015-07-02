@@ -20,7 +20,7 @@
 		<?php foreach( $extensions as $plugin ) : ?>
 
 		<div class="plugin">
-			<img src="<?php echo esc_url( $plugin->image_url ); ?>" alt="<?php echo $plugin->name; ?>" width="280" height="220">
+			<a href="<?php echo esc_url( $plugin->page_url ); ?>" class="unstyled"><img src="<?php echo esc_url( $plugin->image_url ); ?>" alt="<?php echo $plugin->name; ?>" width="280" height="220"></a>
 			<div class="caption">
 				<h3><a href="<?php echo esc_url( $plugin->page_url ); ?>" class="unstyled"><?php echo $plugin->name; ?></a></h3>
 				<p><?php echo esc_html( $plugin->short_description ); ?></p>
