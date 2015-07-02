@@ -55,6 +55,10 @@ function __load_scroll_triggered_boxes() {
 			$dir
 		)
 	);
+
+	// register activation hook
+	register_activation_hook( __FILE__, array( 'ScrollTriggeredBoxes\\Admin\\Installer', 'run' ) );
+
 }
 
 function __load_scroll_triggered_boxes_fallback() {

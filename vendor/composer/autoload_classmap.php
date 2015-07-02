@@ -65,6 +65,7 @@ return array(
     'Composer\\Installers\\ZikulaInstaller' => $vendorDir . '/composer/installers/src/Composer/Installers/ZikulaInstaller.php',
     'ScrollTriggeredBoxes\\Admin\\Admin' => $baseDir . '/src/Admin/Admin.php',
     'ScrollTriggeredBoxes\\Admin\\AdminServiceProvider' => $baseDir . '/src/Admin/AdminServiceProvider.php',
+    'ScrollTriggeredBoxes\\Admin\\Installer' => $baseDir . '/src/Admin/Installer.php',
     'ScrollTriggeredBoxes\\Admin\\Notices' => $baseDir . '/src/Admin/Notices.php',
     'ScrollTriggeredBoxes\\Box' => $baseDir . '/src/Box.php',
     'ScrollTriggeredBoxes\\BoxLoader' => $baseDir . '/src/BoxLoader.php',
