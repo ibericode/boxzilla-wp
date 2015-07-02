@@ -173,7 +173,7 @@ module.exports = (function() {
 	Box.prototype.setCookie = function() {
 		if(this.config.cookieTime > 0) {
 			var expiryDate = new Date();
-			expiryDate.setDate( expiryDate.getDate() + this.cookieTime );
+			expiryDate.setDate( expiryDate.getDate() + this.config.cookieTime );
 			document.cookie = 'stb_box_'+ this.id + '=true; expires='+ expiryDate.toUTCString() +'; path=/';
 		}
 	};
