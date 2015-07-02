@@ -1,5 +1,5 @@
 === Plugin Name ===
-Contributors: ibericode, DvanKooten, iMazed, hchouhan
+Contributors: Ibericode, DvanKooten, iMazed, hchouhan
 Donate link: https://scrolltriggeredboxes.com/#utm_source=wp-plugin-repo&utm_medium=scroll-triggered-boxes&utm_campaign=donate-link
 Tags: scroll triggered box, cta, social, pop-up, newsletter, call to action, mailchimp, contact form 7, social media
 Requires at least: 3.7
@@ -8,68 +8,63 @@ Stable tag: 2.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Call to actions for engaged visitors, a less obtrusive alternative to pop-ups.
+Flexible call to actions for engaged visitors, a less obtrusive alternative to pop-ups.
 
 == Description ==
 
-= Scroll Triggered Boxes =
+Scroll Triggered Boxes is a *lightweight* plugin for adding flexible call-to-actions to your WordPress site. Boxes can slide or fade in at any point and can contain whatever content you like.
 
-**Call to action boxes which appear once a visitor has scrolled down far enough. Highly converting, less annoying!**
+= Features =
 
-Scroll Triggered are boxes which slide or fade-in once a visitor has scrolled down far enough on your page.
+- Create boxes containing whatever content you like: shortcodes, links, custom HTML, anything really.
+- Show boxes automatically after scrolling down based on a percentage point or a certain element (like your comment section).
+- Show boxes using a button or link.
+- Choose the box position: centered or in any corner of the screen.
+- Choose between a fading or sliding animation for showing the box.
+- Customize the box appearance using a few simple color & dimension controls.
+- Only load the box on certain pages, posts, etc.
+- Control how long dismissed boxes should stay hidden.
+- Control whether boxes should show on small screens.
 
-Visitors who scroll down far enough have already engaged with your content and most likely got value out of it, making them more receptive to your offer. Plus, human eyes react to movement. Having a box slide-in at a corner of the screen is a sure way to get their attention while staying relatively unobtrusive and certainly less annoying than a pop-up.
+[Read more about Scroll Triggered Boxes](https://scrolltriggeredboxes.com/#utm_source=wp-plugin-repo&utm_medium=scroll-triggered-boxes&utm_campaign=description).
 
-= Any Call To Action =
+= Documentation =
 
-Boxes can contain any content you like, even shortcodes for third-party plugins.
+Please have a look at the [frequently asked questions](https://wordpress.org/plugins/scroll-triggered-boxes/faq/).
 
-- Newsletter sign-up form
-- Contact form
-- Buttons or links
-- Shortcodes
-- Social sharing options
-- Anything really. You decide.
+= Demo =
 
-= Scroll Triggered Boxes, at a glance.. =
+There's a [Scroll Triggered Boxes demo site](http://demo.scrolltriggeredboxes.com#utm_source=wp-plugin-repo&utm_medium=scroll-triggered-boxes&utm_campaign=description), showcasing the vast amount of possibilities for you to gather your leads.
 
-- Unlimited amount of boxes
-- Page level targeting
-- Multiple animations
-- Appearance control, control when and where your box should appear.
-- Hide boxes for visitors who dismissed it
-- Show boxes by clicking a link or button
+= Add-ons =
 
-Have a look at the [frequently asked questions](https://wordpress.org/plugins/scroll-triggered-boxes/faq/) as well, this plugin is really flexible.
+The core Scroll Triggered Boxes plugin is free and always will be. Additional advanced functionality is available through several add-ons. Not only do they extend the core functionality of the plugin, they also help to fund further development of the core (free) plugin.
 
-**Demo**
+[Browse available add-ons for Scroll Triggered Boxes](https://scrolltriggeredboxes.com/plugins#utm_source=wp-plugin-repo&utm_medium=scroll-triggered-boxes&utm_campaign=description).
 
-There's a [Scroll Triggered Boxes demo site](http://demo.scrolltriggeredboxes.com/), showcasing the vast amount of possibilities for you to gather your leads.
+Some popular add-ons include:
 
-**Add-on plugins**
+**[Theme Pack](https://scrolltriggeredboxes.com/plugins/theme-pack#utm_source=wp-plugin-repo&utm_medium=scroll-triggered-boxes&utm_campaign=description)**
 
-There are several [premium add-on plugins available for Scroll Triggered Boxes](https://scrolltriggeredboxes.com/plugins#utm_source=wp-plugin-repo&utm_medium=scroll-triggered-boxes&utm_campaign=description), which help you get even more out of your site.
+A set of beautiful plug & play themes which make your boxes really stand out.
 
-**Translations**
+= Contributing and reporting bugs =
 
-Please submit your new or improved translations [using a pull request on GitHub](https://github.com/ibericode/scroll-triggered-boxes).
+You can contribute to this plugin using GitHub: [ibericode/scroll-triggered-boxes](https://github.com/ibericode/scroll-triggered-boxes)
 
-**Bug Reports**
+= Support =
 
-Bug reports for [Scroll Triggered Boxes are welcomed on GitHub](https://github.com/ibericode/scroll-triggered-boxes). Please note that GitHub is _not_ a support forum.
+Please use the [WordPress.org plugin support forums](https://wordpress.org/support/plugin/scroll-triggered-boxes) for community support where we try to help all users.
 
-**Other Links**
+If you think you've found a bug, please [report it on GitHub](https://github.com/ibericode/scroll-triggered-boxes/issues).
 
-- Have a look at some other [WordPress plugins by Danny van Kooten](https://dannyvankooten.com/wordpress-plugins/)
-- Contribute to the [Scroll Triggered Boxes plugin on GitHub](https://github.com/ibericode/scroll-triggered-boxes)
-- [Add-on plugins for Scroll Triggered Boxes](https://scrolltriggeredboxes.com/plugins#utm_source=wp-plugin-repo&utm_medium=scroll-triggered-boxes&utm_campaign=description)
-- The [Scroll Triggered Boxes site](https://scrolltriggeredboxes.com/#utm_source=wp-plugin-repo&utm_medium=scroll-triggered-boxes&utm_campaign=description)
+If you're on [one of the available premium plans](https://scrolltriggeredboxes.com/pricing#utm_source=wp-plugin-repo&utm_medium=scroll-triggered-boxes&utm_campaign=description), please use the support email for a guaranteed & faster response.
 
 == Frequently Asked Questions ==
 
 = What does this plugin do? =
 
-Have a look at the [Scroll Triggered Boxes demo site](http://demo.scrolltriggeredboxes.com/).
+Have a look at the [Scroll Triggered Boxes demo site](http://demo.scrolltriggeredboxes.com/#utm_source=wp-plugin-repo&utm_medium=scroll-triggered-boxes&utm_campaign=description).
 
 = How to display a form in the box? =
 
@@ -94,12 +89,12 @@ You can use [conditional tags](https://codex.wordpress.org/Conditional_Tags) to 
 
 *Example: only show for posts in category 'cars'*
 `
-is_single() && in_category('cars')
+is_single() && in_category( 'cars' )
 `
 
 *Example: show everywhere except on pages with slug 'contact' and 'checkout'
 `
-!is_page( array( 'contact', 'checkout') ) 
+! is_page( array( 'contact', 'checkout' ) )
 `
 
 = Can I have a box to open after clicking a certain link or button? =
