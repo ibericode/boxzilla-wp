@@ -171,6 +171,15 @@ Have a look at the [frequently asked questions](https://wordpress.org/plugins/sc
 
 - Boxes were not showing if any other resource (images, scripts, etc.) on the page failed to load.
 
+**Improvements**
+
+- Extension thumbnails are now clickable.
+- Prevent notice for empty string values.
+
+**Additions**
+
+- The plugin now creates a sample box upon plugin installation.
+
 = 2.0.3 - July 2, 2015 =
 
 **Fixes**
