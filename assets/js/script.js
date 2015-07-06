@@ -292,6 +292,7 @@ module.exports = (function($) {
 		// event binds
 		$(window).bind('scroll.stb', onScroll);
 		$(window).bind('resize.stb', onWindowResize);
+		$(window).bind('load', recalculateHeights);
 		$(document).keyup(onKeyUp);
 		$(overlay).click(dismissAllBoxes);
 
@@ -386,14 +387,16 @@ module.exports = (function($) {
 
 	// recalculate heights and variables based on height
 	function recalculateHeights() {
+		windowHeight = window.innerHeight;
+
 		for( var boxId in boxes ) {
 			var box = boxes[boxId];
 			box.setCustomBoxStyling();
 		}
 	}
 
-	// init on window.load
-	$(window).load(init);
+	// init on document.ready
+	$(document).ready(init);
 
 	// expose a simple API to control all registered boxes
 	return {
