@@ -174,7 +174,7 @@ Have a look at the [frequently asked questions](https://wordpress.org/plugins/sc
 **Improvements**
 
 - Extension thumbnails are now clickable.
-- Prevent notice for empty string values.
+- Prevent notice for empty string values in box rules.
 
 **Additions**
 
