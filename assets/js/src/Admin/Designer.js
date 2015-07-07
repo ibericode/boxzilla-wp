@@ -23,6 +23,11 @@ var Designer = function($, Option, events) {
 	// functions
 	function init() {
 
+		// Only run if TinyMCE has actually inited
+		if( typeof( window.tinyMCE ) !== "object" || tinyMCE.get('content') === null ) {
+			return;
+		}
+
 		// add classes to TinyMCE <html>
 		$editorFrame = $("#content_ifr");
 		$editor = $editorFrame.contents().find('html');
@@ -43,6 +48,9 @@ var Designer = function($, Option, events) {
 		});
 		$innerEditor.get(0).style.cssText += ';padding: 25px !important;';
 
+
+		console.log($innerEditor);
+
 		// create <style> element in <head>
 		manualStyleEl = document.createElement('style');
 		manualStyleEl.setAttribute('type','text/css');
@@ -56,6 +64,7 @@ var Designer = function($, Option, events) {
 
 		/* @deprecated 2.0.3 */
 		$(document).trigger('editorInit.stb');
+
 	}
 
 	/**
