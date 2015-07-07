@@ -29,6 +29,9 @@ final class Plugin extends PluginBase {
 			add_action('init', function() use( $container ) {
 				$container['admin']->init();
 			});
+		} else {
+			// todo: refactor this away (in premium add-on?)
+			require_once __DIR__ . '/Filter/ajax.php';
 		}
 	}
 
