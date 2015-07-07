@@ -34,27 +34,41 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * @return ScrollTriggeredBoxes\Plugin
+ */
+function scroll_triggered_boxes() {
+	static $instance;
+
+	if( is_null( $instance ) ) {
+		$id = 0;
+		$file = __FILE__;
+		$dir = dirname( __FILE__ );
+		$name = 'Scroll Triggered Boxes';
+		$version = '2.0.4';
+
+		$reflect  = new ReflectionClass( 'ScrollTriggeredBoxes\\Plugin' );
+		$instance = $reflect->newInstanceArgs( array(
+				$id,
+				$name,
+				$version,
+				$file,
+				$dir
+			)
+		);
+	}
+
+	return $instance;
+}
+
 // wrapper function to move out of global namespace
 function __load_scroll_triggered_boxes() {
+
 	// load autoloader & init plugin
 	require dirname( __FILE__ ) . '/vendor/autoload.php';
 
-	// we need this constant later on
-	$id = 0;
-	$file = __FILE__;
-	$dir = dirname( __FILE__ );
-	$name = 'Scroll Triggered Boxes';
-	$version = '2.0.4';
-
-	$reflect  = new ReflectionClass( 'ScrollTriggeredBoxes\\Plugin' );
-	$GLOBALS['stb'] = $reflect->newInstanceArgs( array(
-			$id,
-			$name,
-			$version,
-			$file,
-			$dir
-		)
-	);
+	// fetch instance and store in global
+	$GLOBALS['stb'] = scroll_triggered_boxes();
 
 	// register activation hook
 	register_activation_hook( __FILE__, array( 'ScrollTriggeredBoxes\\Admin\\Installer', 'run' ) );
