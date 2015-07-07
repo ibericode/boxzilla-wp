@@ -96,8 +96,14 @@ class BoxLoader {
 				break;
 
 			case 'is_single':
+			case 'is_post':
 				$matched = is_single( $value );
 				break;
+
+			case 'is_post_in_category':
+				$matched = is_singular( 'post' ) && has_category( $value );
+				break;
+
 
 			case 'is_page':
 				$matched = is_page( $value );
