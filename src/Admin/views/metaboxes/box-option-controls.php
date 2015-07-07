@@ -4,13 +4,19 @@
 	do_action( 'stb_before_box_option_controls', $box, $opts );
 
 	$key = 0;
-	foreach($opts['rules'] as $rule) { ?>
+	foreach($opts['rules'] as $rule) { if( ! array_key_exists( 'condition', $rule ) ) { continue; } ?>
 		<tr valign="top" class="stb-rule-row">
-			<th><label><?php _e( 'Show this box', 'scroll-triggered-boxes' ); ?></label></th>
+			<th style="<?php if( $key > 0 ) { echo 'text-align: right; font-weight: normal;'; } ?>">
+				<?php if( $key === 0 ) { ?>
+					<label><?php _e( 'Show this box', 'scroll-triggered-boxes' ); ?></label>
+				<?php } else { ?>
+					<label><?php _e( 'or', 'scroll-triggered-boxes' ); ?></label>
+				<?php } ?>
+			</th>
 			<td class="stb-sm">
 				<select class="widefat stb-rule-condition" name="stb[rules][<?php echo $key; ?>][condition]">
 					<optgroup label="<?php _e( 'Basic', 'scroll-triggered-boxes' ); ?>">
-						<option value="everywhere" <?php selected($rule['condition'], 'everywhere')?>><?php _e( 'everywhere', 'scroll-triggered-boxes' ); ?></option>
+						<option value="everywhere" <?php selected($rule['condition'], 'everywhere'); ?>><?php _e( 'everywhere', 'scroll-triggered-boxes' ); ?></option>
 						<option value="is_url" <?php selected($rule['condition'], 'is_url' ); ?>><?php _e( 'if URL is', 'scroll-triggered-boxes' ); ?></option>
 						<option value="is_page" <?php selected($rule['condition'], 'is_page'); ?>><?php _e( 'if Page is', 'scroll-triggered-boxes' ); ?></option>
 						<option value="is_not_page" <?php selected($rule['condition'], 'is_not_page'); ?>><?php _e( 'if Page is not', 'scroll-triggered-boxes' ); ?></option>

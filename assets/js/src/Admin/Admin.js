@@ -66,7 +66,10 @@ module.exports = (function($) {
 	function addRuleFields() {
 		var $row = $optionControls.find(".stb-rule-row").last();
 		var $newRow = $row.clone();
-		$newRow.find('th > label').text("Or");
+		$newRow.find('label').css({
+			'text-align': 'right',
+			'font-weight': 'normal'
+		}).find('label').text("or");
 		$newRow.insertAfter($row).find(":input").val('').each(function () {
 			this.name = this.name.replace(/\[(\d+)\]/, function (str, p1) {
 				return '[' + (parseInt(p1, 10) + 1) + ']';
