@@ -18,10 +18,11 @@
 					<optgroup label="<?php _e( 'Basic', 'scroll-triggered-boxes' ); ?>">
 						<option value="everywhere" <?php selected($rule['condition'], 'everywhere'); ?>><?php _e( 'everywhere', 'scroll-triggered-boxes' ); ?></option>
 						<option value="is_url" <?php selected($rule['condition'], 'is_url' ); ?>><?php _e( 'if URL is', 'scroll-triggered-boxes' ); ?></option>
-						<option value="is_page" <?php selected($rule['condition'], 'is_page'); ?>><?php _e( 'if Page is', 'scroll-triggered-boxes' ); ?></option>
-						<option value="is_not_page" <?php selected($rule['condition'], 'is_not_page'); ?>><?php _e( 'if Page is not', 'scroll-triggered-boxes' ); ?></option>
-						<option value="is_single" <?php selected($rule['condition'], 'is_single'); ?>><?php _e( 'if Post is', 'scroll-triggered-boxes' ); ?></option>
-						<option value="is_post_type" <?php selected($rule['condition'], 'is_post_type'); ?>><?php _e( 'if Post Type is', 'scroll-triggered-boxes' ); ?></option>
+						<option value="is_page" <?php selected($rule['condition'], 'is_page'); ?>><?php _e( 'if page is', 'scroll-triggered-boxes' ); ?></option>
+						<option value="is_single" <?php selected($rule['condition'], 'is_single'); ?>><?php _e( 'if post is', 'scroll-triggered-boxes' ); ?></option>
+						<option value="is_post_in_category" <?php selected($rule['condition'], 'is_post_in_category'); ?>><?php _e( 'if is post in category', 'scroll-triggered-boxes' ); ?></option>
+						<option value="is_post_type" <?php selected($rule['condition'], 'is_post_type'); ?>><?php _e( 'if post type is', 'scroll-triggered-boxes' ); ?></option>
+
 					</optgroup>
 					<optgroup label="<?php _e( 'Advanced', 'scroll-triggered-boxes' ); ?>">
 						<option value="manual" <?php selected($rule['condition'], 'manual'); ?>><?php _e( 'manual conditon', 'scroll-triggered-boxes' ); ?></option>
@@ -30,6 +31,7 @@
 				</select>
 			</td>
 			<td>
+
 				<input class="stb-rule-value widefat" name="stb[rules][<?php echo $key; ?>][value]" type="text" value="<?php echo esc_attr($rule['value']); ?>" placeholder="<?php _e( 'Leave empty for any or enter (comma-separated) names or ID\'s', 'scroll-triggered-boxes' ); ?>" <?php if( $rule['condition'] == 'everywhere' ) { echo 'style="display: none;"'; } ?> />
 			</td>
 			<td class="stb-xsm" width="1"><span class="stb-close stb-remove-rule">×</span></td>

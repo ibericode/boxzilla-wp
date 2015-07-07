@@ -48,9 +48,6 @@ var Designer = function($, Option, events) {
 		});
 		$innerEditor.get(0).style.cssText += ';padding: 25px !important;';
 
-
-		console.log($innerEditor);
-
 		// create <style> element in <head>
 		manualStyleEl = document.createElement('style');
 		manualStyleEl.setAttribute('type','text/css');
