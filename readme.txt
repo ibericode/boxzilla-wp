@@ -4,7 +4,7 @@ Donate link: https://scrolltriggeredboxes.com/#utm_source=wp-plugin-repo&utm_med
 Tags: scroll triggered box, cta, social, pop-up, newsletter, call to action, mailchimp, contact form 7, social media
 Requires at least: 3.7
 Tested up to: 4.2.2
-Stable tag: 2.0.4
+Stable tag: 2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -165,6 +165,21 @@ Have a look at the [frequently asked questions](https://wordpress.org/plugins/sc
 
 == Changelog ==
 
+= 2.1 - July 8, 2015 =
+
+**Fixes**
+
+- "If post is" filter with empty value was not working.
+
+**Improvements**
+
+- Added autocomplete search to filter rule values, which autocompletes post, page, category and post type slugs.
+- Minor other usability improvements to box filters.
+
+**Additions**
+
+- Added `is_post_in_category` filter rule condition, to target posts that have a certain category.
+
 = 2.0.4 - July 6, 2015 =
 
 **Fixes**
@@ -302,5 +317,5 @@ If you encounter a bug, please [open an issue on GitHub](https://github.com/iber
 
 == Upgrade Notice ==
 
-= 2.0.4 =
-Bugfix for boxes not showing if any resource on page failed to load.
+= 2.1 =
+Added autocomplete to box filters & minor bux fixes for filter rules.

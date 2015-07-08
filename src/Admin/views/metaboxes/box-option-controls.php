@@ -17,11 +17,11 @@
 				<select class="widefat stb-rule-condition" name="stb[rules][<?php echo $key; ?>][condition]">
 					<optgroup label="<?php _e( 'Basic', 'scroll-triggered-boxes' ); ?>">
 						<option value="everywhere" <?php selected($rule['condition'], 'everywhere'); ?>><?php _e( 'everywhere', 'scroll-triggered-boxes' ); ?></option>
-						<option value="is_url" <?php selected($rule['condition'], 'is_url' ); ?>><?php _e( 'if URL is', 'scroll-triggered-boxes' ); ?></option>
 						<option value="is_page" <?php selected($rule['condition'], 'is_page'); ?>><?php _e( 'if page is', 'scroll-triggered-boxes' ); ?></option>
 						<option value="is_single" <?php selected($rule['condition'], 'is_single'); ?>><?php _e( 'if post is', 'scroll-triggered-boxes' ); ?></option>
 						<option value="is_post_in_category" <?php selected($rule['condition'], 'is_post_in_category'); ?>><?php _e( 'if is post in category', 'scroll-triggered-boxes' ); ?></option>
 						<option value="is_post_type" <?php selected($rule['condition'], 'is_post_type'); ?>><?php _e( 'if post type is', 'scroll-triggered-boxes' ); ?></option>
+						<option value="is_url" <?php selected($rule['condition'], 'is_url' ); ?>><?php _e( 'if URL is', 'scroll-triggered-boxes' ); ?></option>
 
 					</optgroup>
 					<optgroup label="<?php _e( 'Advanced', 'scroll-triggered-boxes' ); ?>">
