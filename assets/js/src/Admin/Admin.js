@@ -34,7 +34,7 @@ module.exports = (function($) {
 
 		var $context;
 
-		if( this.tagName === "TR" ) {
+		if( this.tagName.toLowerCase() === "tr" ) {
 			$context = $(this);
 		} else {
 			$context = $(this).parents('tr');
@@ -57,7 +57,7 @@ module.exports = (function($) {
 		switch($condition.val()) {
 			case '':
 			default:
-				$betterInput.attr('placeholder', 'Leave empty to match anything or enter a comma-separated list of IDs or slugs');
+				$betterInput.attr('placeholder', 'Enter a comma-separated list of slugs..');
 				break;
 
 			case 'everywhere':
@@ -67,21 +67,26 @@ module.exports = (function($) {
 
 			case 'is_single':
 			case 'is_post':
-				$betterInput.attr('placeholder', 'Leave empty to match any post or enter a comma-separated list of post IDs or slugs');
-				$betterInput.suggest(ajaxurl + "?action=stb_autocomplete&post_type=post", {multiple:true, multipleSep: ","});
+				$betterInput.attr('placeholder', "Enter a comma-separated list of post slugs or post ID's..");
+				$betterInput.suggest(ajaxurl + "?action=stb_autocomplete&type=post", {multiple:true, multipleSep: ","});
 				break;
 
 			case 'is_page':
-				$betterInput.attr('placeholder', 'Leave empty to match any page or enter a comma-separated list of page IDs or slugs');
-				$betterInput.suggest(ajaxurl + "?action=stb_autocomplete&post_type=page", {multiple:true, multipleSep: ","});
+				$betterInput.attr('placeholder', "Enter a comma-separated list of page slugs or page ID's..");
+				$betterInput.suggest(ajaxurl + "?action=stb_autocomplete&type=page", {multiple:true, multipleSep: ","});
 				break;
 
 			case 'is_post_type':
-				$betterInput.attr('placeholder', 'Enter a comma-separated list of post type names');
+				$betterInput.attr('placeholder', "Enter a comma-separated list of post types.." );
+				$betterInput.suggest(ajaxurl + "?action=stb_autocomplete&type=post_type", {multiple:true, multipleSep: ","});
 				break;
 
 			case 'is_url':
-				$betterInput.attr('placeholder', 'Enter a relative URL, eg /contact/');
+				$betterInput.attr('placeholder', 'Enter a comma-separated list of relative URLs, eg /contact/');
+				break;
+
+			case 'is_post_in_category':
+				$betterInput.suggest(ajaxurl + "?action=stb_autocomplete&type=category", {multiple:true, multipleSep: ","});
 				break;
 
 			case 'manual':

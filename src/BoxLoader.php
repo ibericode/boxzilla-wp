@@ -72,9 +72,11 @@ class BoxLoader {
 
 		$matched = false;
 
-		// cast value to array with trimmed value if needed
-		if ( $condition !== 'manual' && $condition !== 'everywhere' ) {
-			$value = array_map( 'trim', explode( ',', rtrim( trim( $value ), ',' ) ) );
+		$value = trim( $value );
+
+		// cast value to array if needed
+		if ( $value !== '' && $condition !== 'manual' && $condition !== 'everywhere' ) {
+			$value = array_map( 'trim', explode( ',', rtrim( $value, ',' ) ) );
 		}
 
 		switch ( $condition ) {
@@ -83,16 +85,16 @@ class BoxLoader {
 				break;
 
 			case 'is_url':
-				$matched = in_array( $_SERVER['REQUEST_URI'], $value );
+				$matched = in_array( $_SERVER['REQUEST_URI'], (array) $value );
 				break;
 
 			case 'is_referer':
-				$matched = ! empty( $_SERVER['HTTP_REFERER'] ) && in_array( $_SERVER['HTTP_REFERER'], $value );
+				$matched = ! empty( $_SERVER['HTTP_REFERER'] ) && in_array( $_SERVER['HTTP_REFERER'], (array) $value );
 				break;
 
 			case 'is_post_type':
 				$post_type = (string) get_post_type();
-				$matched = in_array( $post_type, $value );
+				$matched = in_array( $post_type, (array) $value );
 				break;
 
 			case 'is_single':

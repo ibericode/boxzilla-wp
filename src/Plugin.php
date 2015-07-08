@@ -30,8 +30,7 @@ final class Plugin extends PluginBase {
 				$container['admin']->init();
 			});
 		} else {
-			// todo: refactor this away (in premium add-on?)
-			require_once __DIR__ . '/Filter/ajax.php';
+			$container['filter.autocomplete']->add_hooks();
 		}
 	}
 

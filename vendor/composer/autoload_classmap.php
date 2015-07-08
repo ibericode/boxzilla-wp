@@ -72,6 +72,7 @@ return array(
     'ScrollTriggeredBoxes\\Collection' => $baseDir . '/src/Collection.php',
     'ScrollTriggeredBoxes\\DI\\Container' => $baseDir . '/src/DI/Container.php',
     'ScrollTriggeredBoxes\\DI\\ServiceProviderInterface' => $baseDir . '/src/DI/ServiceProviderInterface.php',
+    'ScrollTriggeredBoxes\\Filter\\Autocomplete' => $baseDir . '/src/Filter/Autocomplete.php',
     'ScrollTriggeredBoxes\\Licensing\\API' => $baseDir . '/src/Licensing/API.php',
     'ScrollTriggeredBoxes\\Licensing\\Authenticator' => $baseDir . '/src/Licensing/Authenticator.php',
     'ScrollTriggeredBoxes\\Licensing\\License' => $baseDir . '/src/Licensing/License.php',

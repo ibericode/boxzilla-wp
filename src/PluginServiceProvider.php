@@ -5,6 +5,7 @@ namespace ScrollTriggeredBoxes;
 use ScrollTriggeredBoxes\Admin\Admin;
 use ScrollTriggeredBoxes\DI\Container;
 use ScrollTriggeredBoxes\DI\ServiceProviderInterface;
+use ScrollTriggeredBoxes\Filter\Autocomplete;
 
 class PluginServiceProvider implements ServiceProviderInterface {
 
@@ -38,6 +39,10 @@ class PluginServiceProvider implements ServiceProviderInterface {
 
 		$container['admin'] = function( $app ) {
 			return new Admin( $app );
+		};
+
+		$container['filter.autocomplete'] = function( $app ) {
+			return new Filter\Autocomplete();
 		};
 	}
 }
