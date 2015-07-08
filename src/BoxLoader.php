@@ -109,13 +109,16 @@ class BoxLoader {
 				$matched = is_page( $value );
 				break;
 
+			/**
+			 * @deprecated 2.1
+			 */
 			case 'is_not_page':
 				$matched = ! is_page( $value );
 				break;
 
 			case 'manual':
 				// eval for now...
-				$value = stripslashes(trim($value));
+				$value = stripslashes( trim( $value ) );
 				$matched = eval( "return (" . $value . ");" );
 				break;
 
@@ -140,6 +143,12 @@ class BoxLoader {
 
 			// loop through all rules for all boxes
 			foreach ( $box_rules as $rule ) {
+
+				// skip faulty values
+				if( empty( $rule['condition'] ) ) {
+					continue;
+				}
+
 				$matched = $this->match_rule( $rule['condition'], $rule['value'] );
 
 				// break out of loop if we've already matched
