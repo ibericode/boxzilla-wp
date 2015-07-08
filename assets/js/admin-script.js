@@ -95,7 +95,7 @@ module.exports = (function($) {
 	function addRuleFields() {
 		var $row = $optionControls.find(".stb-rule-row").last();
 		var $newRow = $row.clone();
-		$newRow.find('label').css({
+		$newRow.find('th').css({
 			'text-align': 'right',
 			'font-weight': 'normal'
 		}).find('label').text("or");
