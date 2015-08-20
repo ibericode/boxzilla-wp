@@ -70,7 +70,9 @@
 	<tr valign="top">
 		<th><label for="stb_trigger"><?php _e( 'Auto-show box?', 'scroll-triggered-boxes' ); ?></label></th>
 		<td colspan="3">
+			<?php // todo: build the actual logic behind this ?>
 			<label><input type="radio" class="stb-auto-show-trigger" name="stb[trigger]" value="" <?php checked( $opts['trigger'], '' ); ?> /> <?php _e( 'Never', 'scroll-triggered-boxes' ); ?></label><br />
+			<label><input type="radio" class="stb-auto-show-trigger" name="stb[trigger]" value="instant" <?php checked( $opts['trigger'], 'instant' ); ?> /> <?php print __( 'Yes, immediately after loading the page.', 'scroll-triggered-boxes' ); ?><input type="number" style="visibility: hidden;" /></label><br />
 			<label><input type="radio" class="stb-auto-show-trigger" name="stb[trigger]" value="percentage" <?php checked( $opts['trigger'], 'percentage' ); ?> /> <?php printf( __( 'Yes, when at %s of page height', 'scroll-triggered-boxes' ), '<input type="number" name="stb[trigger_percentage]" min="0" max="100" value="' . esc_attr( $opts['trigger_percentage'] ) . '" />%' ); ?></label><br />
 			<label><input type="radio" class="stb-auto-show-trigger" name="stb[trigger]" value="element" <?php checked( $opts['trigger'], 'element' ); ?> /> <?php printf( __( 'Yes, when at element %s', 'scroll-triggered-boxes' ), '<input type="text" name="stb[trigger_element]" value="' . esc_attr( $opts['trigger_element'] ) . '" placeholder="' . __( 'Example: #comments', 'scroll-triggered-boxes') .'" />' ); ?></label>
 		</td>

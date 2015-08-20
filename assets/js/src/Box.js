@@ -28,7 +28,11 @@ module.exports = (function() {
 
 		// if a trigger was given, calculate some values which might otherwise be expensive)
 		if( this.config.autoShow && this.config.trigger !== '' ) {
-			this.triggerHeight = this.calculateTriggerHeight( config.triggerPercentage, config.triggerElementSelector );
+
+			if( this.config.trigger === 'percentage' || this.config.trigger === 'element' ) {
+				this.triggerHeight = this.calculateTriggerHeight( config.triggerPercentage, config.triggerElementSelector );
+			}
+
 			this.cookieSet = this.isCookieSet();
 		}
 
@@ -62,12 +66,19 @@ module.exports = (function() {
 			return false;
 		});
 
-		// auto-show the box if box is referenced from URL
-		if( this.locationHashRefersBox() ) {
-			window.setTimeout(function() {
-				box.show();
-			}, 300);
+
+		if( this.config.trigger === 'instant' && ! this.cookieSet ) {
+			this.show();
+		} else {
+			// auto-show the box if box is referenced from URL
+			if( this.locationHashRefersBox() ) {
+				window.setTimeout(function() {
+					box.show();
+				}, 300);
+			}
 		}
+
+
 	};
 
 
