@@ -5,19 +5,36 @@ namespace ScrollTriggeredBoxes\Admin;
 
 class Installer {
 
+	/**
+	 * Run the installer
+	 */
 	public static function run() {
-		return new self;
+		$installer = new self;
+		$installer->add_hooks();
 	}
 
-	public function __construct() {
+	/**
+	 * Adds the necessary hooks
+	 */
+	public function add_hooks() {
+		add_action( 'admin_init', array( $this, 'install' ) );
+	}
+
+	/**
+	 * The main install method
+	 */
+	public function install() {
 		$this->create_sample_box();
 	}
 
-	public function create_sample_box() {
+	/**
+	 * @return bool
+	 */
+	protected function create_sample_box() {
 
 		// only create sample box if no boxes were found
-		$boxes = get_posts( array( 'post_type' => 'scroll-triggered-box' ) );
-		if( $boxes ) {
+		$boxes = get_posts( array( 'post_type' => 'scroll-triggered-box', 'post_status' => array( 'publish', 'draft' ) ) );
+		if( ! empty( $boxes ) ) {
 			return false;
 		}
 
