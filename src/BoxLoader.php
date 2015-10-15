@@ -76,7 +76,7 @@ class BoxLoader {
 
 		// cast value to array if needed
 		if ( $value !== '' && $condition !== 'manual' && $condition !== 'everywhere' ) {
-			$value = array_map( 'trim', explode( ',', rtrim( $value, ',' ) ) );
+			$value = array_map( 'trim', explode( ',', rtrim( trim( $value ), ',' ) ) );
 		}
 
 		switch ( $condition ) {
@@ -121,7 +121,11 @@ class BoxLoader {
 			case 'manual':
 				// eval for now...
 				$value = stripslashes( trim( $value ) );
-				$matched = eval( "return (" . $value . ");" );
+
+				if( ! empty( $value ) ) {
+					$matched = eval( "return (" . $value . ");" );
+				}
+
 				break;
 
 		}
