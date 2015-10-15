@@ -22,13 +22,29 @@ module.exports = (function($) {
 		// event binds
 		$(window).bind('scroll.stb', onScroll);
 		$(window).bind('resize.stb', onWindowResize);
-		$(window).bind('load', recalculateHeights);
+		$(window).bind('load', onLoad );
 		$(document).keyup(onKeyUp);
 		$(overlay).click(dismissAllBoxes);
 
 		// print message when test mode is enabled
 		if( options.testMode ) {
 			console.log( 'Scroll Triggered Boxes: Test mode is enabled. Please disable test mode if you\'re done testing.' );
+		}
+	}
+
+	function onLoad() {
+		recalculateHeights();
+
+		// show box if MailChimp for WordPress
+		if( typeof( window.mc4wpFormRequest.element ) === "object" ) {
+			var request = window.mc4wpFormRequest;
+			var $parentBox = $(request.element).parents('.stb');
+
+			// check if form is inside box
+			if( $parentBox.length ) {
+				showBox( parseInt( $parentBox.attr('id').substring(4) ) );
+			}
+
 		}
 	}
 
