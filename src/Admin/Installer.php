@@ -17,6 +17,12 @@ class Installer {
 	 * The main install method
 	 */
 	public function install() {
+
+		// don't install sample boxes on multisite
+		if( is_multisite() ) {
+			return;
+		}
+
 		$this->create_sample_box();
 	}
 
