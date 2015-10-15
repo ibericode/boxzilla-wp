@@ -41,20 +41,20 @@ function scroll_triggered_boxes() {
 	static $instance;
 
 	if( is_null( $instance ) ) {
+
+		$classname =  'ScrollTriggeredBoxes\\Plugin';
 		$id = 0;
 		$file = __FILE__;
 		$dir = dirname( __FILE__ );
 		$name = 'Scroll Triggered Boxes';
 		$version = '2.1.1';
 
-		$reflect  = new ReflectionClass( 'ScrollTriggeredBoxes\\Plugin' );
-		$instance = $reflect->newInstanceArgs( array(
-				$id,
-				$name,
-				$version,
-				$file,
-				$dir
-			)
+		$instance = new $classname(
+			$id,
+			$name,
+			$version,
+			$file,
+			$dir
 		);
 	}
 
@@ -68,11 +68,10 @@ function __load_scroll_triggered_boxes() {
 	require dirname( __FILE__ ) . '/vendor/autoload.php';
 
 	// fetch instance and store in global
-	$GLOBALS['stb'] = scroll_triggered_boxes();
+	$GLOBALS['scroll_triggered_boxes'] = scroll_triggered_boxes();
 
 	// register activation hook
 	register_activation_hook( __FILE__, array( 'ScrollTriggeredBoxes\\Admin\\Installer', 'run' ) );
-
 }
 
 function __load_scroll_triggered_boxes_fallback() {
