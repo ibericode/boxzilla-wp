@@ -3,6 +3,12 @@ module.exports = (function($) {
 	'use strict';
 
 	var $optionControls = $("#stb-box-options-controls");
+
+	// sanity check, are we on the correct page?
+	if( $optionControls.length === 0 ) {
+		return;
+	}
+
 	var $manualTip = $optionControls.find('.stb-manual-tip');
 	var EventEmitter = require('../EventEmitter.js');
 	var events = new EventEmitter();

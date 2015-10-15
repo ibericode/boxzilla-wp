@@ -1,6 +1,10 @@
 /* first row can't be deleted */
 table .stb-rule-row:first-child .stb-close{ visibility: hidden; }
 
+.column-box_id {
+	width: 80px;
+}
+
 .stb-sm { 
 	width:150px;
 }
