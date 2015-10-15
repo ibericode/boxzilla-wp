@@ -181,6 +181,11 @@ Have a look at the [frequently asked questions](https://wordpress.org/plugins/sc
 
 - Added "Box ID" column to boxes overview page so it's easier to find your box ID.
 
+**Additions**
+
+- The box cookie is now set after each form submissions, preventing it from showing up again
+- When using [MailChimp for WordPress](https://mc4wp.com), the box will now auto-show again after submitting the page.
+
 = 2.1.1 - August 20, 2015 =
 
 **Fixes**
