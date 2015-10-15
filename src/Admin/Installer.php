@@ -10,14 +10,7 @@ class Installer {
 	 */
 	public static function run() {
 		$installer = new self;
-		$installer->add_hooks();
-	}
-
-	/**
-	 * Adds the necessary hooks
-	 */
-	public function add_hooks() {
-		add_action( 'admin_init', array( $this, 'install' ) );
+		$installer->install();
 	}
 
 	/**
@@ -33,7 +26,13 @@ class Installer {
 	protected function create_sample_box() {
 
 		// only create sample box if no boxes were found
-		$boxes = get_posts( array( 'post_type' => 'scroll-triggered-box', 'post_status' => array( 'publish', 'draft' ) ) );
+		$boxes = get_posts(
+			array(
+				'post_type' => 'scroll-triggered-box',
+				'post_status' => array( 'publish', 'draft' )
+			)
+		);
+
 		if( ! empty( $boxes ) ) {
 			return false;
 		}
@@ -60,6 +59,7 @@ class Installer {
 				'manual' => ''
 			)
 		);
+
 		update_post_meta( $box_id, 'stb_options', $settings );
 
 		return true;
