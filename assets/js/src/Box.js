@@ -57,6 +57,7 @@ module.exports = (function() {
 		});
 
 		this.$forms.submit(function(e) {
+			box.setCookie();
 			box.events.trigger('box.interactions.form', [ box, e.target ]);
 		});
 
