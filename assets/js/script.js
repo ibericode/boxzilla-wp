@@ -317,8 +317,9 @@ module.exports = (function($) {
 	function onLoad() {
 		recalculateHeights();
 
-		// show box if MailChimp for WordPress
-		if( typeof( window.mc4wpFormRequest.element ) === "object" ) {
+		// show box if MailChimp for WordPress printed a request object in JS
+		// todo: decouple this, make it better..
+		if( typeof( window.mc4wpFormRequest ) === "object" && typeof( window.mc4wpFormRequest.element ) === "object" ) {
 			var request = window.mc4wpFormRequest;
 			var $parentBox = $(request.element).parents('.stb');
 
