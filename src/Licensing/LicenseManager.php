@@ -84,7 +84,7 @@ class LicenseManager {
 		}
 
 		// did key change or was "activate" button pressed?
-		$new_license_key = sanitize_text_field( $_POST['license_key'] );
+		$new_license_key = sanitize_text_field( $_POST['stb_license_key'] );
 		if( $new_license_key !== $this->license->key ) {
 			$this->license->key = $new_license_key;
 			$key_changed = true;
