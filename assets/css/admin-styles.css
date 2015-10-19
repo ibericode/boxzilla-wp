@@ -85,3 +85,68 @@ table .stb-rule-row:first-child .stb-close{ visibility: hidden; }
 .radio-label > input {
 	margin-top: 0 !important;
 }
+
+/** Grid */
+.stb-row{
+	margin: 0 -20px;
+}
+
+.stb-col-one-third,
+.stb-col-two-third {
+	float: left;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	padding: 0 20px;
+}
+
+.stb-col-two-third {
+	width: 66.66%;
+}
+
+.stb-col-one-third{
+	width: 33.33%;
+}
+
+
+/* admin sidebar */
+.stb-sidebar{
+	margin-top: 10px;
+}
+
+.stb-box {
+	background: white;
+	padding: 20px;
+	margin-bottom: 20px;
+	border: 1px solid #ccc;
+}
+
+.stb-box h3,
+.stb-box:first-child {
+	margin-top: 0;
+}
+
+.stb-box:last-child {
+	margin-bottom: 0;
+}
+
+.stb-sidebar form label {
+	display: block;
+	font-weight: bold;
+	margin-bottom: 6px;
+}
+
+@media( max-width: 920px ) {
+	.stb-row {
+		margin: 0;
+	}
+	.stb-col-one-third,
+	.stb-col-two-third {
+		float: none;
+		padding: 0;
+		width: auto;
+	}
+
+	.stb-sidebar {
+		margin-top: 40px;
+	}
+}

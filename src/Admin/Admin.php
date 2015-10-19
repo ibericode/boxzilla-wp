@@ -77,6 +77,7 @@ class Admin {
 		add_filter( 'tiny_mce_before_init', array( $this, 'tinymce_init' ) );
 		add_filter( 'manage_edit-scroll-triggered-box_columns', array( $this, 'post_type_column_titles' ) ) ;
 		add_action( 'manage_scroll-triggered-box_posts_custom_column', array( $this, 'post_type_column_content' ), 10, 2 );
+		add_filter( 'admin_footer_text', array( $this, 'admin_footer_text' ) );
 
 
 		if( $pagenow === 'plugins.php' ) {
@@ -273,16 +274,16 @@ class Admin {
 
 		add_meta_box(
 			'stb-support',
-			__( 'Need support?', 'scroll-triggered-boxes' ),
+			__( 'Looking for help?', 'scroll-triggered-boxes' ),
 			array( $this, 'metabox_support' ),
 			'scroll-triggered-box',
 			'side'
 		);
 
 		add_meta_box(
-			'stb-show-appreciation',
-			__( 'Show your appreciation!', 'scroll-triggered-boxes' ),
-			array( $this, 'metabox_appreciation_options' ),
+			'stb-email-optin',
+			__( 'Subscribe to our newsletter', 'scroll-triggered-boxes' ),
+			array( $this, 'metabox_email_optin' ),
 			'scroll-triggered-box',
 			'side'
 		);
@@ -322,8 +323,8 @@ class Admin {
 	 * @param \WP_Post $post
 	 * @param         $metabox
 	 */
-	public function metabox_appreciation_options( \WP_Post $post, $metabox ) {
-		include __DIR__ . '/views/metaboxes/show-appreciation.php';
+	public function metabox_email_optin( \WP_Post $post, $metabox ) {
+		include __DIR__ . '/views/metaboxes/email-optin.php';
 	}
 
 	/**
@@ -331,7 +332,7 @@ class Admin {
 	 * @param         $metabox
 	 */
 	public function metabox_support( \WP_Post $post, $metabox ) {
-		include __DIR__ . '/views/metaboxes/need-support.php';
+		include __DIR__ . '/views/metaboxes/need-help.php';
 	}
 
 
@@ -570,6 +571,25 @@ class Admin {
 			$i++;
 		}
 		return $ret;
+	}
+
+	/**
+	 * @param string $text
+	 * @return string
+	 */
+	public function admin_footer_text( $text ) {
+		$screen = get_current_screen();
+
+		if( ! $screen instanceof WP_Screen ) {
+			return $text;
+		}
+
+		$on_edit_page = $screen->parent_base === 'edit' && $screen->post_type === 'scroll-triggered-box';
+		if( $on_edit_page ) {
+			return sprintf( 'If you enjoy using <strong>Scroll Triggered Boxes</strong>, please <a href="%s" target="_blank">leave us a ★★★★★ rating</a>. A <strong style="text-decoration: underline;">huge</strong> thank you in advance!', 'https://wordpress.org/support/view/plugin-reviews/scroll-triggered-boxes?rate=5#postform' );
+		}
+
+		return $text;
 	}
 
 }
