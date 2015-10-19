@@ -2,7 +2,6 @@
 
 <h2><?php _e( 'License & Plugin Updates', 'scroll-triggered-boxes' ); ?></h2>
 
-
 <?php if( ! $this->license->activated ) { ?>
 	<div class="error inline">
 		<p>
