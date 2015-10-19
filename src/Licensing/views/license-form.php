@@ -2,6 +2,17 @@
 
 <h2><?php _e( 'License & Plugin Updates', 'scroll-triggered-boxes' ); ?></h2>
 
+
+<?php if( ! $this->license->activated ) { ?>
+	<div class="error inline">
+		<p>
+			<strong><?php _e( 'Warning! You are <u>not</u> receiving plugin updates for the following plugin(s):', 'scroll-triggered-boxes' ); ?></strong>
+			<?php echo join( ', ', $this->extensions->map(function($p) { return $p->name(); }) ); ?>.
+			To fix this, please activate your license.
+		</p>
+	</div>
+<?php } ?>
+
 <form method="post">
 	<table class="form-table">
 		<tr valign="top">
@@ -27,15 +38,7 @@
 		</tr>
 	</table>
 
-		<?php if( ! $this->license->activated ) { ?>
-			<div class="notice error">
-				<p>
-					<strong><?php _e( 'Warning! You are <u>not</u> receiving plugin updates for the following plugin(s):', 'scroll-triggered-boxes' ); ?></strong>
-					<?php echo join( ', ', $this->extensions->map(function($p) { return $p->name(); }) ); ?>.
-					To fix this, please activate your license.
-			</p>
-		</div>
-		<?php } ?>
+
 
 
 	<p>
