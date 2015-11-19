@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Scroll Triggered Boxes
-Version: 2.1.3
+Version: 2.1.4
 Plugin URI: https://scrolltriggeredboxes.com/#utm_source=wp-plugin&utm_medium=scroll-triggered-boxes&utm_campaign=plugins-page
 Description: Call-To-Action Boxes that display after visitors scroll down far enough. Unobtrusive, but highly conversing!
 Author: ibericode
@@ -47,7 +47,7 @@ function scroll_triggered_boxes() {
 		$file = __FILE__;
 		$dir = dirname( __FILE__ );
 		$name = 'Scroll Triggered Boxes';
-		$version = '2.1.3';
+		$version = '2.1.4';
 
 		$instance = new $classname(
 			$id,
