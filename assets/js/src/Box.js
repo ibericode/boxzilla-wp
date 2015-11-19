@@ -68,7 +68,7 @@ module.exports = (function() {
 		});
 
 
-		if( this.config.trigger === 'instant' && ! this.cookieSet ) {
+		if( this.config.autoShow && this.config.trigger === 'instant' && ! this.cookieSet ) {
 			this.show();
 		} else {
 			// auto-show the box if box is referenced from URL
