@@ -75,7 +75,7 @@ class BoxLoader {
 		$value = trim( $value );
 
 		// cast value to array if needed
-		if ( $value !== '' && $condition !== 'manual' && $condition !== 'everywhere' ) {
+		if ( $condition !== 'manual' && $condition !== 'everywhere' ) {
 			$value = array_map( 'trim', explode( ',', rtrim( trim( $value ), ',' ) ) );
 		}
 
