@@ -34,7 +34,7 @@ body {
 	background: white;
 
 	/* reset line-height because of container line-height hack */
-	line-height: initial;
+	line-height: normal;
 	padding: 25px;
 }
 
