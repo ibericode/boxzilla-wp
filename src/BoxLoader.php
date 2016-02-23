@@ -89,7 +89,16 @@ class BoxLoader {
 				break;
 
 			case 'is_referer':
-				$matched = ! empty( $_SERVER['HTTP_REFERER'] ) && in_array( $_SERVER['HTTP_REFERER'], (array) $value );
+				if( ! empty( $_SERVER['HTTP_REFERER'] ) ) {
+					$referer = $_SERVER['HTTP_REFERER'];
+
+					// find all values where string value appears in given referer
+					// eg: pinterest.com appears in https://nl.pinterest.com/ === true
+					$matches = array_filter( $value, function( $v ) use ( $referer ) {
+						return strpos( $referer, $v ) !== false;
+					});
+					$matched = count( $matches ) > 0;
+				}
 				break;
 
 			case 'is_post_type':
