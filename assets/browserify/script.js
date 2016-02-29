@@ -1,0 +1,1 @@
+window.STB = require('./_box-manager.js');

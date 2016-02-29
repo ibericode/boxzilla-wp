@@ -8,10 +8,10 @@ module.exports = (function($) {
 		resizeTimer = 0,
 		overlay = document.getElementById('stb-overlay'),
 		options = window.STB_Global_Options || {},
-		EventEmitter = require('./EventEmitter.js'),
+		EventEmitter = require('./_event-emitter.js'),
 		events = new EventEmitter;
 
-	var Box = require('./Box.js');
+	var Box = require('./_box.js');
 
 	// Functions
 

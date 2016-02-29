@@ -1,0 +1,1 @@
+window.STB_Admin = require('./admin/_admin.js');

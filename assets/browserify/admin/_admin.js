@@ -9,10 +9,10 @@ module.exports = (function($) {
 	}
 
 	var $manualTip = $optionControls.find('.stb-manual-tip');
-	var EventEmitter = require('../EventEmitter.js');
+	var EventEmitter = require('../_event-emitter.js');
 	var events = new EventEmitter();
-	var Option = require('./Option.js');
-	var Designer = require('./Designer.js')($, Option, events);
+	var Option = require('./_option.js');
+	var Designer = require('./_designer.js')($, Option, events);
 
 	// events
 	$optionControls.on('click', ".stb-add-rule", addRuleFields);

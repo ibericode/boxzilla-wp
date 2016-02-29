@@ -6,10 +6,19 @@
     "url": "https://github.com/ibericode/scroll-triggered-boxes"
   },
   "devDependencies": {
-    "grunt": "^0.4.5",
-    "grunt-browserify": "^3.5.1",
-    "grunt-contrib-cssmin": "0.10.0",
-    "grunt-contrib-uglify": "0.5.0",
-    "grunt-contrib-watch": "0.6.1"
+    "browserify": "^12.0.1",
+    "globby": "^4.0.0",
+    "gulp": "^3.9.0",
+    "gulp-cssmin": "^0.1.7",
+    "gulp-rename": "^1.2.2",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-streamify": "^1.0.2",
+    "gulp-uglify": "^1.5.2",
+    "gulp-util": "^3.0.7",
+    "gulp-wrap": "^0.11.0",
+    "merge-stream": "^1.0.0",
+    "through2": "^2.0.1",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0"
   }
 }

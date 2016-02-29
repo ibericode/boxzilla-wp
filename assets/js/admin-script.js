@@ -1,314 +1,4 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-module.exports = (function($) {
-	'use strict';
-
-	var $optionControls = $("#stb-box-options-controls");
-
-	// sanity check, are we on the correct page?
-	if( $optionControls.length === 0 ) {
-		return;
-	}
-
-	var $manualTip = $optionControls.find('.stb-manual-tip');
-	var EventEmitter = require('../EventEmitter.js');
-	var events = new EventEmitter();
-	var Option = require('./Option.js');
-	var Designer = require('./Designer.js')($, Option, events);
-
-	// events
-	$optionControls.on('click', ".stb-add-rule", addRuleFields);
-	$optionControls.on('click', ".stb-remove-rule", removeRule);
-	$optionControls.on('change', ".stb-rule-condition", setContextualHelpers);
-	$optionControls.find('.stb-auto-show-trigger').on('change', toggleTriggerOptions );
-	$(window).load(function() {
-		if( typeof(window.tinyMCE) === "undefined" ) {
-			document.getElementById('notice-notinymce').style.display = 'block';
-		}
-	});
-
-	// call contextual helper method for each row
-	$('.stb-rule-row').each(setContextualHelpers);
-
-	function toggleTriggerOptions() {
-		$optionControls.find('.stb-trigger-options').toggle( this.value !== '' );
-	}
-
-	function removeRule() {
-		$(this).parents('tr').remove();
-	}
-
-	function setContextualHelpers() {
-
-		var $context;
-
-		if( this.tagName.toLowerCase() === "tr" ) {
-			$context = $(this);
-		} else {
-			$context = $(this).parents('tr');
-		}
-
-		var $condition = $context.find('.stb-rule-condition');
-
-		// remove previously added helpers
-		$context.find('.stb-helper').remove();
-
-		var $valueInput = $context.find('.stb-rule-value');
-		var $betterInput = $valueInput.clone().attr('name','').addClass('stb-helper').insertAfter($valueInput).show();
-		$betterInput.change(function() {
-			$valueInput.attr('value', $(this).val() );
-		});
-		$valueInput.hide();
-		$manualTip.hide();
-
-		// change placeholder for textual help
-		switch($condition.val()) {
-			case '':
-			default:
-				$betterInput.attr('placeholder', 'Enter a comma-separated list of slugs..');
-				break;
-
-			case 'everywhere':
-				$valueInput.val('');
-				$betterInput.hide();
-				break;
-
-			case 'is_single':
-			case 'is_post':
-				$betterInput.attr('placeholder', "Enter a comma-separated list of post slugs or post ID's..");
-				$betterInput.suggest(ajaxurl + "?action=stb_autocomplete&type=post", {multiple:true, multipleSep: ","});
-				break;
-
-			case 'is_page':
-				$betterInput.attr('placeholder', "Enter a comma-separated list of page slugs or page ID's..");
-				$betterInput.suggest(ajaxurl + "?action=stb_autocomplete&type=page", {multiple:true, multipleSep: ","});
-				break;
-
-			case 'is_post_type':
-				$betterInput.attr('placeholder', "Enter a comma-separated list of post types.." );
-				$betterInput.suggest(ajaxurl + "?action=stb_autocomplete&type=post_type", {multiple:true, multipleSep: ","});
-				break;
-
-			case 'is_url':
-				$betterInput.attr('placeholder', 'Enter a comma-separated list of relative URLs, eg /contact/');
-				break;
-
-			case 'is_post_in_category':
-				$betterInput.suggest(ajaxurl + "?action=stb_autocomplete&type=category", {multiple:true, multipleSep: ","});
-				break;
-
-			case 'manual':
-				$betterInput.attr('placeholder', 'Example: is_single(1, 3)');
-				$manualTip.show();
-				break;
-		}
-	}
-
-	function addRuleFields() {
-		var $row = $optionControls.find(".stb-rule-row").last();
-		var $newRow = $row.clone();
-		$newRow.find('th').css({
-			'text-align': 'right',
-			'font-weight': 'normal'
-		}).find('label').text("or");
-		$newRow.insertAfter($row).find(":input").val('').each(function () {
-			this.name = this.name.replace(/\[(\d+)\]/, function (str, p1) {
-				return '[' + (parseInt(p1, 10) + 1) + ']';
-			});
-		}).trigger('change');
-		return false;
-	}
-
-	return {
-		'Designer': Designer,
-		'Option': Option,
-		'events': events
-	};
-
-})(window.jQuery);
-},{"../EventEmitter.js":4,"./Designer.js":2,"./Option.js":3}],2:[function(require,module,exports){
-var Designer = function($, Option, events) {
-
-	// vars
-	var boxId = document.getElementById('post_ID').value || 0,
-		$editor, $editorFrame,
-		$innerEditor,
-		options = {},
-		manualStyleEl,
-		visualEditorInitialised = false;
-
-	var $appearanceControls = $("#stb-box-appearance-controls");
-
-	// create Option objects
-	options.borderColor = new Option('border-color');
-	options.borderWidth = new Option('border-width');
-	options.borderStyle = new Option('border-style');
-	options.backgroundColor = new Option('background-color');
-	options.width = new Option('width');
-	options.color = new Option('color');
-	options.manualCSS = new Option('manual-css');
-
-
-	// functions
-	function init() {
-
-		// Only run if TinyMCE has actually inited
-		if( typeof( window.tinyMCE ) !== "object" || tinyMCE.get('content') === null ) {
-			return;
-		}
-
-		// add classes to TinyMCE <html>
-		$editorFrame = $("#content_ifr");
-		$editor = $editorFrame.contents().find('html');
-		$editor.css({
-			'background': 'white'
-		});
-
-		// add content class and padding to TinyMCE <body>
-		$innerEditor = $editor.find('#tinymce');
-		$innerEditor.addClass('scroll-triggered-box stb stb-' + boxId);
-		$innerEditor.css({
-			'margin': 0,
-			'background': 'white',
-			'display': 'inline-block',
-			'width': 'auto',
-			'min-width': '240px',
-			'position': 'relative'
-		});
-		$innerEditor.get(0).style.cssText += ';padding: 25px !important;';
-
-		// create <style> element in <head>
-		manualStyleEl = document.createElement('style');
-		manualStyleEl.setAttribute('type','text/css');
-		manualStyleEl.id = 'stb-manual-css';
-		$(manualStyleEl).appendTo($editor.find('head'));
-
-		visualEditorInitialised = true;
-
-		/* @since 2.0.3 */
-		events.trigger('editor.init');
-
-		/* @deprecated 2.0.3 */
-		$(document).trigger('editorInit.stb');
-
-	}
-
-	/**
-	 * Applies the styles from the options to the TinyMCE Editor
-	 *
-	 * @return bool
-	 */
-	function applyStyles() {
-
-		if( ! visualEditorInitialised ) {
-			return false;
-		}
-
-		// add manual CSS to <head>
-		manualStyleEl.innerHTML = options.manualCSS.getValue();
-
-		// apply styles from CSS editor
-		$innerEditor.css({
-			'border-color': options.borderColor.getColorValue(), //getColorValue( 'borderColor', '' ),
-			'border-width': options.borderWidth.getPxValue(), //getPxValue( 'borderWidth', '' ),
-			'border-style': options.borderStyle.getValue(), //getValue('borderStyle', '' ),
-			'background-color': options.backgroundColor.getColorValue(), //getColorValue( 'backgroundColor', ''),
-			'width': options.width.getPxValue(), //getPxValue( 'width', 'auto' ),
-			'color': options.color.getColorValue() // getColorValue( 'color', '' )
-		});
-
-		/* @since 2.0.3 */
-		events.trigger('editor.styles.apply');
-
-		/* @deprecated 2.0.3 */
-		$(document).trigger('applyBoxStyles.stb');
-
-		return true;
-	}
-
-	function resetStyles() {
-		for( var key in options ) {
-			if( key.substring(0,5) === 'theme' ) {
-				continue;
-			}
-
-			options[key].clear();
-		}
-		applyStyles();
-
-		/* @since 2.0.3 */
-		events.trigger('editor.styles.reset');
-
-		/* @deprecated 2.0.3 */
-		$(document).trigger('resetBoxStyles.stb');
-	}
-
-	// event binders
-	$appearanceControls.find('input.stb-color-field').wpColorPicker({ change: applyStyles, clear: applyStyles });
-	$appearanceControls.find(":input").not(".stb-color-field").change(applyStyles);
-	events.on('editor.init', applyStyles);
-
-	// public methods
-	return {
-		init: init,
-		resetStyles: resetStyles,
-		options: options
-	};
-
-};
-
-module.exports = Designer;
-},{}],3:[function(require,module,exports){
-var Option = function( element ) {
-
-	var $ = window.jQuery;
-
-	// find corresponding element
-	if( typeof(element) == "string" ) {
-		element = document.getElementById('stb-' + element);
-	}
-	this._element = element;
-
-	// helper methods
-	this.getColorValue = function() {
-		if( this._element.value.length > 0 ) {
-			if( $(this._element).hasClass('wp-color-field')) {
-				return $(this._element).wpColorPicker('color');
-			} else {
-				return this._element.value;
-			}
-		}
-
-		return '';
-	};
-
-	this.getPxValue = function( fallbackValue ) {
-		if( this._element.value.length > 0 ) {
-			return parseInt( this._element.value ) + "px";
-		}
-
-		return fallbackValue || '';
-	};
-
-	this.getValue = function( fallbackValue ) {
-
-		if( this._element.value.length > 0 ) {
-			return this._element.value;
-		}
-
-		return fallbackValue || '';
-	};
-
-	this.clear = function() {
-		this._element.value = '';
-	};
-
-	this.setValue = function(value) {
-		this._element.value = value;
-	};
-};
-
-module.exports = Option;
-},{}],4:[function(require,module,exports){
+(function () { var require = undefined; var define = undefined; (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 /*!
  * EventEmitter v4.2.11 - git.io/ee
  * Unlicense - http://unlicense.org/
@@ -781,6 +471,317 @@ module.exports = Option;
 		exports.EventEmitter = EventEmitter;
 	}
 }.call(this));
+},{}],2:[function(require,module,exports){
+window.STB_Admin = require('./admin/_admin.js');
+},{"./admin/_admin.js":3}],3:[function(require,module,exports){
+module.exports = (function($) {
+	'use strict';
+
+	var $optionControls = $("#stb-box-options-controls");
+
+	// sanity check, are we on the correct page?
+	if( $optionControls.length === 0 ) {
+		return;
+	}
+
+	var $manualTip = $optionControls.find('.stb-manual-tip');
+	var EventEmitter = require('../_event-emitter.js');
+	var events = new EventEmitter();
+	var Option = require('./_option.js');
+	var Designer = require('./_designer.js')($, Option, events);
+
+	// events
+	$optionControls.on('click', ".stb-add-rule", addRuleFields);
+	$optionControls.on('click', ".stb-remove-rule", removeRule);
+	$optionControls.on('change', ".stb-rule-condition", setContextualHelpers);
+	$optionControls.find('.stb-auto-show-trigger').on('change', toggleTriggerOptions );
+	$(window).load(function() {
+		if( typeof(window.tinyMCE) === "undefined" ) {
+			document.getElementById('notice-notinymce').style.display = 'block';
+		}
+	});
+
+	// call contextual helper method for each row
+	$('.stb-rule-row').each(setContextualHelpers);
+
+	function toggleTriggerOptions() {
+		$optionControls.find('.stb-trigger-options').toggle( this.value !== '' );
+	}
+
+	function removeRule() {
+		$(this).parents('tr').remove();
+	}
+
+	function setContextualHelpers() {
+
+		var $context;
+
+		if( this.tagName.toLowerCase() === "tr" ) {
+			$context = $(this);
+		} else {
+			$context = $(this).parents('tr');
+		}
+
+		var $condition = $context.find('.stb-rule-condition');
+
+		// remove previously added helpers
+		$context.find('.stb-helper').remove();
+
+		var $valueInput = $context.find('.stb-rule-value');
+		var $betterInput = $valueInput.clone().attr('name','').addClass('stb-helper').insertAfter($valueInput).show();
+		$betterInput.change(function() {
+			$valueInput.attr('value', $(this).val() );
+		});
+		$valueInput.hide();
+		$manualTip.hide();
+
+		// change placeholder for textual help
+		switch($condition.val()) {
+			case '':
+			default:
+				$betterInput.attr('placeholder', 'Enter a comma-separated list of slugs..');
+				break;
+
+			case 'everywhere':
+				$valueInput.val('');
+				$betterInput.hide();
+				break;
+
+			case 'is_single':
+			case 'is_post':
+				$betterInput.attr('placeholder', "Enter a comma-separated list of post slugs or post ID's..");
+				$betterInput.suggest(ajaxurl + "?action=stb_autocomplete&type=post", {multiple:true, multipleSep: ","});
+				break;
+
+			case 'is_page':
+				$betterInput.attr('placeholder', "Enter a comma-separated list of page slugs or page ID's..");
+				$betterInput.suggest(ajaxurl + "?action=stb_autocomplete&type=page", {multiple:true, multipleSep: ","});
+				break;
+
+			case 'is_post_type':
+				$betterInput.attr('placeholder', "Enter a comma-separated list of post types.." );
+				$betterInput.suggest(ajaxurl + "?action=stb_autocomplete&type=post_type", {multiple:true, multipleSep: ","});
+				break;
+
+			case 'is_url':
+				$betterInput.attr('placeholder', 'Enter a comma-separated list of relative URLs, eg /contact/');
+				break;
+
+			case 'is_post_in_category':
+				$betterInput.suggest(ajaxurl + "?action=stb_autocomplete&type=category", {multiple:true, multipleSep: ","});
+				break;
+
+			case 'manual':
+				$betterInput.attr('placeholder', 'Example: is_single(1, 3)');
+				$manualTip.show();
+				break;
+		}
+	}
+
+	function addRuleFields() {
+		var $row = $optionControls.find(".stb-rule-row").last();
+		var $newRow = $row.clone();
+		$newRow.find('th').css({
+			'text-align': 'right',
+			'font-weight': 'normal'
+		}).find('label').text("or");
+		$newRow.insertAfter($row).find(":input").val('').each(function () {
+			this.name = this.name.replace(/\[(\d+)\]/, function (str, p1) {
+				return '[' + (parseInt(p1, 10) + 1) + ']';
+			});
+		}).trigger('change');
+		return false;
+	}
+
+	return {
+		'Designer': Designer,
+		'Option': Option,
+		'events': events
+	};
+
+})(window.jQuery);
+},{"../_event-emitter.js":1,"./_designer.js":4,"./_option.js":5}],4:[function(require,module,exports){
+var Designer = function($, Option, events) {
+
+	// vars
+	var boxId = document.getElementById('post_ID').value || 0,
+		$editor, $editorFrame,
+		$innerEditor,
+		options = {},
+		manualStyleEl,
+		visualEditorInitialised = false;
+
+	var $appearanceControls = $("#stb-box-appearance-controls");
+
+	// create Option objects
+	options.borderColor = new Option('border-color');
+	options.borderWidth = new Option('border-width');
+	options.borderStyle = new Option('border-style');
+	options.backgroundColor = new Option('background-color');
+	options.width = new Option('width');
+	options.color = new Option('color');
+	options.manualCSS = new Option('manual-css');
+
+
+	// functions
+	function init() {
+
+		// Only run if TinyMCE has actually inited
+		if( typeof( window.tinyMCE ) !== "object" || tinyMCE.get('content') === null ) {
+			return;
+		}
+
+		// add classes to TinyMCE <html>
+		$editorFrame = $("#content_ifr");
+		$editor = $editorFrame.contents().find('html');
+		$editor.css({
+			'background': 'white'
+		});
+
+		// add content class and padding to TinyMCE <body>
+		$innerEditor = $editor.find('#tinymce');
+		$innerEditor.addClass('scroll-triggered-box stb stb-' + boxId);
+		$innerEditor.css({
+			'margin': 0,
+			'background': 'white',
+			'display': 'inline-block',
+			'width': 'auto',
+			'min-width': '240px',
+			'position': 'relative'
+		});
+		$innerEditor.get(0).style.cssText += ';padding: 25px !important;';
+
+		// create <style> element in <head>
+		manualStyleEl = document.createElement('style');
+		manualStyleEl.setAttribute('type','text/css');
+		manualStyleEl.id = 'stb-manual-css';
+		$(manualStyleEl).appendTo($editor.find('head'));
+
+		visualEditorInitialised = true;
+
+		/* @since 2.0.3 */
+		events.trigger('editor.init');
+
+		/* @deprecated 2.0.3 */
+		$(document).trigger('editorInit.stb');
+
+	}
+
+	/**
+	 * Applies the styles from the options to the TinyMCE Editor
+	 *
+	 * @return bool
+	 */
+	function applyStyles() {
+
+		if( ! visualEditorInitialised ) {
+			return false;
+		}
+
+		// add manual CSS to <head>
+		manualStyleEl.innerHTML = options.manualCSS.getValue();
+
+		// apply styles from CSS editor
+		$innerEditor.css({
+			'border-color': options.borderColor.getColorValue(), //getColorValue( 'borderColor', '' ),
+			'border-width': options.borderWidth.getPxValue(), //getPxValue( 'borderWidth', '' ),
+			'border-style': options.borderStyle.getValue(), //getValue('borderStyle', '' ),
+			'background-color': options.backgroundColor.getColorValue(), //getColorValue( 'backgroundColor', ''),
+			'width': options.width.getPxValue(), //getPxValue( 'width', 'auto' ),
+			'color': options.color.getColorValue() // getColorValue( 'color', '' )
+		});
+
+		/* @since 2.0.3 */
+		events.trigger('editor.styles.apply');
+
+		/* @deprecated 2.0.3 */
+		$(document).trigger('applyBoxStyles.stb');
+
+		return true;
+	}
+
+	function resetStyles() {
+		for( var key in options ) {
+			if( key.substring(0,5) === 'theme' ) {
+				continue;
+			}
+
+			options[key].clear();
+		}
+		applyStyles();
+
+		/* @since 2.0.3 */
+		events.trigger('editor.styles.reset');
+
+		/* @deprecated 2.0.3 */
+		$(document).trigger('resetBoxStyles.stb');
+	}
+
+	// event binders
+	$appearanceControls.find('input.stb-color-field').wpColorPicker({ change: applyStyles, clear: applyStyles });
+	$appearanceControls.find(":input").not(".stb-color-field").change(applyStyles);
+	events.on('editor.init', applyStyles);
+
+	// public methods
+	return {
+		init: init,
+		resetStyles: resetStyles,
+		options: options
+	};
+
+};
+
+module.exports = Designer;
 },{}],5:[function(require,module,exports){
-window.STB_Admin = require('./Admin/Admin.js');
-},{"./Admin/Admin.js":1}]},{},[5]);
+var Option = function( element ) {
+
+	var $ = window.jQuery;
+
+	// find corresponding element
+	if( typeof(element) == "string" ) {
+		element = document.getElementById('stb-' + element);
+	}
+	this._element = element;
+
+	// helper methods
+	this.getColorValue = function() {
+		if( this._element.value.length > 0 ) {
+			if( $(this._element).hasClass('wp-color-field')) {
+				return $(this._element).wpColorPicker('color');
+			} else {
+				return this._element.value;
+			}
+		}
+
+		return '';
+	};
+
+	this.getPxValue = function( fallbackValue ) {
+		if( this._element.value.length > 0 ) {
+			return parseInt( this._element.value ) + "px";
+		}
+
+		return fallbackValue || '';
+	};
+
+	this.getValue = function( fallbackValue ) {
+
+		if( this._element.value.length > 0 ) {
+			return this._element.value;
+		}
+
+		return fallbackValue || '';
+	};
+
+	this.clear = function() {
+		this._element.value = '';
+	};
+
+	this.setValue = function(value) {
+		this._element.value = value;
+	};
+};
+
+module.exports = Option;
+},{}]},{},[2]);
+ })();
