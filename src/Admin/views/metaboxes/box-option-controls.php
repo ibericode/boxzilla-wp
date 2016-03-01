@@ -1,32 +1,57 @@
-<?php defined( 'ABSPATH' ) or exit; ?>
+<?php
+
+defined( 'ABSPATH' ) or exit;
+
+/** @var \ScrollTriggeredBoxes\Box $box */
+/** @var array $opts */
+
+$rule_options = array(
+	'everywhere' => __( 'everywhere', 'scroll-triggered-boxes' ),
+	'is_page' => __( 'if page is', 'scroll-triggered-boxes' ),
+	'is_single' => __( 'if post is', 'scroll-triggered-boxes' ),
+	'is_post_in_category' => __( 'if is post in category', 'scroll-triggered-boxes' ),
+	'is_post_type' => __( 'if post type is', 'scroll-triggered-boxes' ),
+	'is_url' => __( 'if URL is', 'scroll-triggered-boxes' ),
+	'is_referer' => __( 'if referer is', 'scroll-triggered-boxes' ),
+);
+?>
 <table class="form-table">
 	<?php
 	do_action( 'stb_before_box_option_controls', $box, $opts );
 
+	?>
+	<tr>
+		<th><?php _e( 'Show this box if:', 'scroll-triggered-boxes' ); ?></th>
+		<td colspan="3">
+			<label>
+				<?php _e( 'Request matches', 'scroll-triggered-boxes' ); ?>
+				<select name="stb[rules_comparision]">
+					<option value="any" <?php selected( $opts['rules_comparision'], 'any' ); ?>><?php _e( 'any', 'scroll-triggered-boxes' ); ?></option>
+					<option value="all" <?php selected( $opts['rules_comparision'], 'all' ); ?>><?php _e( 'all', 'scroll-triggered-boxes' ); ?></option>
+				</select>
+				<?php _e( 'of the following conditions.', 'scroll-triggered-boxes' ); ?>
+			</label>
+		</td>
+	</tr>
+
+	<?php
 	$key = 0;
-	foreach($opts['rules'] as $rule) { if( ! array_key_exists( 'condition', $rule ) ) { continue; } ?>
+	foreach( $opts['rules'] as $rule ) { if( ! array_key_exists( 'condition', $rule ) ) { continue; } ?>
 		<tr valign="top" class="stb-rule-row">
-			<th style="<?php if( $key > 0 ) { echo 'text-align: right; font-weight: normal;'; } ?>">
-				<?php if( $key === 0 ) { ?>
-					<label><?php _e( 'Show this box', 'scroll-triggered-boxes' ); ?></label>
-				<?php } else { ?>
-					<label><?php _e( 'or', 'scroll-triggered-boxes' ); ?></label>
+			<th style="text-align: right; font-weight: normal;">
+				<?php if( $key > 0 ) { ?>
+					<label><?php $opts['rules_comparision'] === 'any' ? _e( 'or', 'scroll-triggered-boxes' ) : _e( 'and', 'scroll-triggered-boxes' ); ?></label>
 				<?php } ?>
 			</th>
 			<td class="stb-sm">
 				<select class="widefat stb-rule-condition" name="stb[rules][<?php echo $key; ?>][condition]">
 					<optgroup label="<?php _e( 'Basic', 'scroll-triggered-boxes' ); ?>">
-						<option value="everywhere" <?php selected($rule['condition'], 'everywhere'); ?>><?php _e( 'everywhere', 'scroll-triggered-boxes' ); ?></option>
-						<option value="is_page" <?php selected($rule['condition'], 'is_page'); ?>><?php _e( 'if page is', 'scroll-triggered-boxes' ); ?></option>
-						<option value="is_single" <?php selected($rule['condition'], 'is_single'); ?>><?php _e( 'if post is', 'scroll-triggered-boxes' ); ?></option>
-						<option value="is_post_in_category" <?php selected($rule['condition'], 'is_post_in_category'); ?>><?php _e( 'if is post in category', 'scroll-triggered-boxes' ); ?></option>
-						<option value="is_post_type" <?php selected($rule['condition'], 'is_post_type'); ?>><?php _e( 'if post type is', 'scroll-triggered-boxes' ); ?></option>
-						<option value="is_url" <?php selected($rule['condition'], 'is_url' ); ?>><?php _e( 'if URL is', 'scroll-triggered-boxes' ); ?></option>
-
+						<?php foreach( $rule_options as $value => $label ) {
+							printf( '<option value="%s" %s>%s</option>', $value, selected( $rule['condition'], $value ), $label );
+						} ?>
 					</optgroup>
 					<optgroup label="<?php _e( 'Advanced', 'scroll-triggered-boxes' ); ?>">
 						<option value="manual" <?php selected($rule['condition'], 'manual'); ?>><?php _e( 'manual conditon', 'scroll-triggered-boxes' ); ?></option>
-						<option value="is_referer" <?php selected($rule['condition'], 'is_referer' ); ?>><?php _e( 'if referer is', 'scroll-triggered-boxes' ); ?></option>
 					</optgroup>
 				</select>
 			</td>

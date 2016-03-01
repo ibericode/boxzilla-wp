@@ -8,7 +8,7 @@
 
 			<?php do_action( 'stb_before_settings' ); ?>
 
-			<form action="options.php" method="post">
+			<form action="<?php echo admin_url( 'options.php' ); ?>" method="post">
 
 				<?php settings_fields( 'stb_settings' ); ?>
 

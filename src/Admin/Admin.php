@@ -402,9 +402,14 @@ class Admin {
 
 				// trim all whitespace in value field
 				if ( $rule['condition'] !== 'manual' ) {
-					$rule['value'] = implode( ',', array_map( 'trim', explode( ',', $rule['value'] ) ) );
+					$rule['value'] = implode( ',', array_map( 'trim', explode( ',', rtrim( trim( $rule['value'] ), ',' ) ) ) );
 				}
 
+				// Make sure "is_url" values have a leading slash
+				if( $rule['condition'] === 'is_url' ) {
+					$rule['value'] = '/' . ltrim( $rule['value'], '/' );
+				}
+				
 				// (re)set value to 0 when condition is everywhere
 				if( $rule['condition'] === 'everywhere' ) {
 					$rule['value'] = '';
@@ -516,6 +521,7 @@ class Admin {
 
 				// add box rules to all rules
 				$rules[ $box->ID ] = $box_meta['rules'];
+				$rules[ $box->ID ]['comparision'] = $box_meta['rules_comparision'];
 
 			}
 

@@ -89,6 +89,7 @@ class Box {
 			'rules' => array(
 				0 => array('condition' => '', 'value' => '')
 			),
+			'rule_requirement' => 'any',
 			'cookie' => 0,
 			'trigger' => 'percentage',
 			'trigger_percentage' => 65,

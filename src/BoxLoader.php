@@ -175,9 +175,11 @@ class BoxLoader {
 		$matched_box_ids = array();
 		$rules = $this->get_filter_rules();
 
-		foreach ( $rules as $box_id => $box_rules ) {
+		foreach( $rules as $box_id => $box_rules ) {
 
 			$matched = false;
+			$comparision = isset( $box_rules['comparision'] ) ? $box_rules['comparision'] : 'any';
+			unset( $box_rules['comparision'] );
 
 			// loop through all rules for all boxes
 			foreach ( $box_rules as $rule ) {
@@ -190,7 +192,11 @@ class BoxLoader {
 				$matched = $this->match_rule( $rule['condition'], $rule['value'] );
 
 				// break out of loop if we've already matched
-				if( $matched ) {
+				if( $comparision === 'any' && $matched ) {
+					break;
+				}
+
+				if( $comparision === 'all' && ! $matched ) {
 					break;
 				}
 			}

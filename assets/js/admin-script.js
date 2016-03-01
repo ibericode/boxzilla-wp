@@ -477,6 +477,8 @@ window.STB_Admin = require('./admin/_admin.js');
 module.exports = (function($) {
 	'use strict';
 
+
+	/** TODO: Make strings translatable here */
 	var $optionControls = $("#stb-box-options-controls");
 
 	// sanity check, are we on the correct page?
@@ -584,7 +586,7 @@ module.exports = (function($) {
 		$newRow.find('th').css({
 			'text-align': 'right',
 			'font-weight': 'normal'
-		}).find('label').text("or");
+		}).find('label');
 		$newRow.insertAfter($row).find(":input").val('').each(function () {
 			this.name = this.name.replace(/\[(\d+)\]/, function (str, p1) {
 				return '[' + (parseInt(p1, 10) + 1) + ']';
