@@ -70,9 +70,17 @@ class BoxLoader {
 	 * @return boolean
 	 */
 	protected function match_patterns( $string, $patterns ) {
+		$string = strtolower( $string );
 
 		foreach( $patterns as $pattern ) {
-			$match = fnmatch( $pattern, $string );
+
+			$pattern = strtolower( $pattern );
+
+			if( function_exists( 'fnmatch' ) ) {
+				$match = fnmatch( $pattern, $string );
+			} else {
+				$match = ( $pattern === $string );
+			}
 
 			if( $match ) {
 				return true;
