@@ -51,13 +51,35 @@ class BoxLoader {
 	 * @return array
 	 */
 	protected function get_filter_rules() {
-		$rules = get_option( 'stb_rules' );
+		$rules = get_option( 'stb_rules', array() );
 
 		if( ! is_array( $rules ) ) {
 			return array();
 		}
 
 		return $rules;
+	}
+
+
+	/**
+	 * Match a string against an array of patterns, glob-style.
+	 *
+	 * @param string $string
+	 * @param array $patterns
+	 *
+	 * @return boolean
+	 */
+	protected function match_patterns( $string, $patterns ) {
+
+		foreach( $patterns as $pattern ) {
+			$match = fnmatch( $pattern, $string );
+
+			if( $match ) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -71,11 +93,10 @@ class BoxLoader {
 	protected function match_rule( $condition, $value ) {
 
 		$matched = false;
-
 		$value = trim( $value );
 
-		// cast value to array if needed
-		if ( $condition !== 'manual' && $condition !== 'everywhere' ) {
+		// cast value to array & trim whitespace or excess comma's
+		if ( $condition !== 'manual' ) {
 			$value = array_map( 'trim', explode( ',', rtrim( trim( $value ), ',' ) ) );
 		}
 
@@ -85,19 +106,13 @@ class BoxLoader {
 				break;
 
 			case 'is_url':
-				$matched = in_array( $_SERVER['REQUEST_URI'], (array) $value );
+				$matched = $this->match_patterns( $_SERVER['REQUEST_URI'], $value );
 				break;
 
 			case 'is_referer':
 				if( ! empty( $_SERVER['HTTP_REFERER'] ) ) {
 					$referer = $_SERVER['HTTP_REFERER'];
-
-					// find all values where string value appears in given referer
-					// eg: pinterest.com appears in https://nl.pinterest.com/ === true
-					$matches = array_filter( $value, function( $v ) use ( $referer ) {
-						return strpos( $referer, $v ) !== false;
-					});
-					$matched = count( $matches ) > 0;
+					$matched = $this->match_patterns( $referer, $value );
 				}
 				break;
 
