@@ -11,6 +11,7 @@ Changelog
 **Improvements**
 
 - Add empty box rule if rule has none
+- Close icon can now be removed by passing an empty string to the `stb_box_close_icon` filter.
 
 **Additions**
 

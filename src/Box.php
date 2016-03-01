@@ -208,7 +208,8 @@ class Box {
 	 * Output HTML of this box
 	 */
 	public function print_html() {
-			$opts = $this->options;
+		$opts = $this->options;
+		$close_icon = $this->get_close_icon();
 			?>
 			<div class="stb-container stb-<?php echo esc_attr( $opts['css']['position'] ); ?>-container">
 				<div class="<?php echo esc_attr( $this->get_css_classes() ); ?>"
@@ -221,7 +222,9 @@ class Box {
 						do_action( 'stb_print_box_content_after', $this );
 						?>
 					</div>
-					<span class="stb-close"><?php echo $this->get_close_icon(); ?></span>
+					<?php if( ! empty( $close_icon ) ) { ?>
+						<span class="stb-close"><?php echo $this->get_close_icon(); ?></span>
+					<?php } ?>
 				</div>
 			</div>
 			<?php
