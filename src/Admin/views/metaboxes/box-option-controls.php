@@ -6,6 +6,7 @@ defined( 'ABSPATH' ) or exit;
 /** @var array $opts */
 
 $rule_options = array(
+	'' => __( "Select a condition", 'scroll-triggered-boxes' ),
 	'everywhere' => __( 'everywhere', 'scroll-triggered-boxes' ),
 	'is_page' => __( 'if page is', 'scroll-triggered-boxes' ),
 	'is_single' => __( 'if post is', 'scroll-triggered-boxes' ),
@@ -14,6 +15,7 @@ $rule_options = array(
 	'is_url' => __( 'if URL is', 'scroll-triggered-boxes' ),
 	'is_referer' => __( 'if referer is', 'scroll-triggered-boxes' ),
 );
+
 ?>
 <table class="form-table">
 	<?php
@@ -21,7 +23,7 @@ $rule_options = array(
 
 	?>
 	<tr>
-		<th><?php _e( 'Show this box if:', 'scroll-triggered-boxes' ); ?></th>
+		<th><?php _e( 'Load this box if', 'scroll-triggered-boxes' ); ?></th>
 		<td colspan="3">
 			<label>
 				<?php _e( 'Request matches', 'scroll-triggered-boxes' ); ?>
@@ -51,13 +53,12 @@ $rule_options = array(
 						} ?>
 					</optgroup>
 					<optgroup label="<?php _e( 'Advanced', 'scroll-triggered-boxes' ); ?>">
-						<option value="manual" <?php selected($rule['condition'], 'manual'); ?>><?php _e( 'manual conditon', 'scroll-triggered-boxes' ); ?></option>
+						<option value="manual" <?php selected( $rule['condition'], 'manual' ); ?>><?php _e( 'manual conditon', 'scroll-triggered-boxes' ); ?></option>
 					</optgroup>
 				</select>
 			</td>
 			<td>
-
-				<input class="stb-rule-value widefat" name="stb[rules][<?php echo $key; ?>][value]" type="text" value="<?php echo esc_attr($rule['value']); ?>" placeholder="<?php _e( 'Leave empty for any or enter (comma-separated) names or ID\'s', 'scroll-triggered-boxes' ); ?>" <?php if( $rule['condition'] == 'everywhere' ) { echo 'style="display: none;"'; } ?> />
+				<input class="stb-rule-value widefat" name="stb[rules][<?php echo $key; ?>][value]" type="text" value="<?php echo esc_attr( $rule['value'] ); ?>" placeholder="<?php _e( 'Leave empty for any or enter (comma-separated) names or ID\'s', 'scroll-triggered-boxes' ); ?>" style="<?php if( in_array( $rule['condition'], array( '', 'everywhere' ) ) ) { echo 'display: none;'; } ?>" />
 			</td>
 			<td class="stb-xsm" width="1"><span class="stb-close stb-remove-rule">×</span></td>
 		</tr>

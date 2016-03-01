@@ -530,20 +530,24 @@ module.exports = (function($) {
 		$context.find('.stb-helper').remove();
 
 		var $valueInput = $context.find('.stb-rule-value');
-		var $betterInput = $valueInput.clone().attr('name','').addClass('stb-helper').insertAfter($valueInput).show();
-		$betterInput.change(function() {
-			$valueInput.attr('value', $(this).val() );
-		});
+		var $betterInput = $valueInput
+			.clone()
+			.removeAttr('name')
+			.addClass('stb-helper')
+			.insertAfter($valueInput)
+			.show()
+			.change(function() {
+				$valueInput.get(0).value = this.value; //.val(this.value);
+			});
+
 		$valueInput.hide();
 		$manualTip.hide();
 
 		// change placeholder for textual help
 		switch($condition.val()) {
-			case '':
-			default:
-				$betterInput.attr('placeholder', 'Enter a comma-separated list of slugs..');
-				break;
 
+			default:
+			case '':
 			case 'everywhere':
 				$valueInput.val('');
 				$betterInput.hide();
