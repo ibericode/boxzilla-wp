@@ -315,6 +315,10 @@ class Admin {
 		$box = new Box( $post );
 		$opts = $box->get_options();
 
+		if( empty( $opts['rules'] ) ) {
+			$opts['rules'][] = array('condition' => '', 'value' => '');
+		}
+
 		// include view
 		include __DIR__ . '/views/metaboxes/box-option-controls.php';
 	}
