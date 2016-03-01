@@ -10,8 +10,9 @@ Changelog
 
 **Improvements**
 
-- Add empty box rule if rule has none
+- Add empty box rule if rule has none.
 - Close icon can now be removed by passing an empty string to the `stb_box_close_icon` filter.
+- "Test mode" setting is now shown on individual box settings pages as well, for convenience.
 
 **Additions**
 

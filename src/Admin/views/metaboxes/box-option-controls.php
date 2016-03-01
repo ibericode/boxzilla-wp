@@ -4,7 +4,9 @@ defined( 'ABSPATH' ) or exit;
 
 /** @var \ScrollTriggeredBoxes\Box $box */
 /** @var array $opts */
+/** @var array $global_opts */
 
+/** @var array $rule_options */
 $rule_options = array(
 	'' => __( "Select a condition", 'scroll-triggered-boxes' ),
 	'everywhere' => __( 'everywhere', 'scroll-triggered-boxes' ),
@@ -125,6 +127,14 @@ $rule_options = array(
 			<label><input type="radio" name="stb[auto_hide]" value="1" <?php checked( $opts['auto_hide'], 1 ); ?> /> <?php _e( 'Yes' ); ?></label> &nbsp;
 			<label><input type="radio" name="stb[auto_hide]" value="0" <?php checked( $opts['auto_hide'], 0 ); ?> /> <?php _e( 'No' ); ?></label> &nbsp;
 			<p class="help"><?php _e( 'Hide box again when visitors scroll back up?', 'scroll-triggered-boxes' ); ?></p>
+		</td>
+	</tr>
+	<tr valign="top">
+		<th><label for="stb_test_mode"><?php _e( 'Enable test mode?', 'scroll-triggered-boxes' ); ?></label></th>
+		<td>
+			<label><input type="radio" id="stb_test_mode_1" name="stb_global_settings[test_mode]" value="1" <?php checked( $global_opts['test_mode'], 1 ); ?> /> <?php _e( 'Yes' ); ?></label> &nbsp;
+			<label><input type="radio" id="stb_test_mode_0" name="stb_global_settings[test_mode]" value="0" <?php checked( $global_opts['test_mode'], 0 ); ?> /> <?php _e( 'No' ); ?></label> &nbsp;
+			<p class="help"><?php _e( 'If test mode is enabled, all boxes will show up regardless of whether a cookie has been set.', 'scroll-triggered-boxes' ); ?></p>
 		</td>
 	</tr>
 	<?php do_action( 'stb_after_box_option_controls', $box, $opts ); ?>

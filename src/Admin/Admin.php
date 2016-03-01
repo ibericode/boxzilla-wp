@@ -335,6 +335,7 @@ class Admin {
 		// get box options
 		$box  = new Box( $post );
 		$opts = $box->get_options();
+		$global_opts = $this->plugin['options'];
 
 		if ( empty( $opts['rules'] ) ) {
 			$opts['rules'][] = array( 'condition' => '', 'value' => '' );
@@ -396,8 +397,15 @@ class Admin {
 		// allow extensions to filter the saved options
 		$opts = apply_filters( 'stb_saved_options', $opts, $box_id );
 
-		// save box settings
+		// save individual box settings
 		update_post_meta( $box_id, 'stb_options', $opts );
+
+		// update global settings if given
+		if( ! empty( $_POST['stb_global_settings'] ) ) {
+			$global_settings = get_option( 'stb_settings', array() );
+			$global_settings = array_merge( $global_settings, $_POST['stb_settings'] );
+			update_option( 'stb_settings', $global_settings );
+		}
 
 		$this->flush_rules( $box_id );
 
