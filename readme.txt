@@ -144,6 +144,14 @@ remove_filter( 'stb_box_content', 'do_shortcode' );
 remove_filter( 'stb_box_content', 'shortcode_unautop' );
 `
 
+= I want to disable closing of the box =
+`
+add_filter( 'stb_box_options', function( $opts ) {
+	$opts['unclosable'] = true;
+	return $opts;
+});
+`
+
 == Installation ==
 
 = Installing the plugin =

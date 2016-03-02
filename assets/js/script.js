@@ -165,11 +165,11 @@ module.exports = (function($) {
 		// calculate if click was near a box to avoid closing it (click error margin)
 		for(var boxId in boxes ) {
 			var box = boxes[boxId];
-			if(! box.visible ) { continue; }
+			if( ! box.visible || box.config.unclosable ) { continue; }
 
 			var rect = box.element.getBoundingClientRect();
 			var margin = 100;
-			
+
 			// if click was not anywhere near box, dismiss it.
 			if( x < ( rect.left - margin ) || x > ( rect.right + margin ) || y < ( rect.top - margin ) || y > ( rect.bottom + margin ) ) {
 				box.dismiss();

@@ -96,7 +96,8 @@ class Box {
 			'trigger_element' => '',
 			'animation' => 'fade',
 			'auto_hide' => 0,
-			'hide_on_screen_size' => ''
+			'hide_on_screen_size' => '',
+			'unclosable' => false,
 		);
 
 		$opts = get_post_meta( $this->ID, 'stb_options', true );
@@ -222,7 +223,7 @@ class Box {
 						do_action( 'stb_print_box_content_after', $this );
 						?>
 					</div>
-					<?php if( ! empty( $close_icon ) ) { ?>
+					<?php if( ! empty( $close_icon ) && ! $this->options['unclosable'] ) { ?>
 						<span class="stb-close"><?php echo $this->get_close_icon(); ?></span>
 					<?php } ?>
 				</div>

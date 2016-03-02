@@ -316,7 +316,8 @@ class BoxLoader {
 				'autoHide' => (bool) $box->options['auto_hide'],
 				'autoShow' => (bool) $box->options['auto_show'],
 				'position' => $box->options['css']['position'],
-				'minimumScreenWidth' => $box->get_minimum_screen_size()
+				'minimumScreenWidth' => $box->get_minimum_screen_size(),
+				'unclosable' => $box->options['unclosable'],
 			);
 
 			$boxes_options[ $box->ID ] = $options;
