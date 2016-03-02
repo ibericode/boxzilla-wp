@@ -1,9 +1,8 @@
 module.exports = (function($) {
 	'use strict';
 
-
-	/** TODO: Make strings translatable here */
-	var $optionControls = $("#stb-box-options-controls");
+	var optionControls = document.getElementById('stb-box-options-controls');
+	var $optionControls = $(optionControls);
 
 	// sanity check, are we on the correct page?
 	if( $optionControls.length === 0 ) {
@@ -16,6 +15,7 @@ module.exports = (function($) {
 	var Option = require('./_option.js');
 	var Designer = require('./_designer.js')($, Option, events);
 	var rowTemplate = wp.template('rule-row-template');
+	var i18n = stb_i18n;
 
 	// events
 	$optionControls.on('click', ".stb-add-rule", addRuleFields);
@@ -42,56 +42,57 @@ module.exports = (function($) {
 
 	function setContextualHelpers() {
 
-		var $context = ( this.tagName.toLowerCase() === "tr" ) ? $(this) : $(this).parents('tr');
-		var $condition = $context.find('.stb-rule-condition');
+		var context = ( this.tagName.toLowerCase() === "tr" ) ? this : $(this).parents('tr').get(0);
+		var condition = context.querySelector('.stb-rule-condition').value;
+		var valueInput = context.querySelector('input.stb-rule-value');
+		var betterInput = valueInput.cloneNode(true);
+		var $betterInput = $(betterInput);
 
 		// remove previously added helpers
-		$context.find('.stb-helper').remove();
+		$(context.querySelectorAll('.stb-helper')).remove();
 
-		var $valueInput = $context.find('.stb-rule-value');
-		var $betterInput = $valueInput
-			.clone()
-			.removeAttr('name')
-			.addClass('stb-helper')
-			.insertAfter($valueInput)
-			.show()
-			.change(function() {
-				$valueInput.get(0).value = this.value; //.val(this.value);
-			});
+		// prepare better input
+		betterInput.removeAttribute('name');
+		betterInput.className += ' stb-helper';
+		valueInput.parentNode.insertBefore(betterInput, valueInput.nextSibling);
+		betterInput.style.display = 'block';
+		$betterInput.change(function() {
+			valueInput.value = this.value; //.val(this.value);
+		});
 
-		$valueInput.hide();
+		valueInput.style.display = 'none';
 		$manualTip.hide();
 
 		// change placeholder for textual help
-		switch($condition.val()) {
+		switch(condition) {
 			default:
-				$betterInput.attr('placeholder', 'Enter a comma-separated list of values.');
+				$betterInput.attr('placeholder', i18n.enterCommaSeparatedValues);
 				break;
 
 			case '':
 			case 'everywhere':
-				$valueInput.val('');
+				valueInput.value = '';
 				$betterInput.hide();
 				break;
 
 			case 'is_single':
 			case 'is_post':
-				$betterInput.attr('placeholder', "Enter a comma-separated list of post slugs or post ID's..");
+				$betterInput.attr('placeholder', i18n.enterCommaSeparatedPosts);
 				$betterInput.suggest(ajaxurl + "?action=stb_autocomplete&type=post", {multiple:true, multipleSep: ","});
 				break;
 
 			case 'is_page':
-				$betterInput.attr('placeholder', "Enter a comma-separated list of page slugs or page ID's..");
+				$betterInput.attr('placeholder', i18n.enterCommaSeparatedPages);
 				$betterInput.suggest(ajaxurl + "?action=stb_autocomplete&type=page", {multiple:true, multipleSep: ","});
 				break;
 
 			case 'is_post_type':
-				$betterInput.attr('placeholder', "Enter a comma-separated list of post types.." );
+				$betterInput.attr('placeholder', i18n.enterCommaSeparatedPostTypes );
 				$betterInput.suggest(ajaxurl + "?action=stb_autocomplete&type=post_type", {multiple:true, multipleSep: ","});
 				break;
 
 			case 'is_url':
-				$betterInput.attr('placeholder', 'Enter a comma-separated list of relative URLs, eg /contact/');
+				$betterInput.attr('placeholder', i18n.enterCommaSeparatedRelativeUrls);
 				break;
 
 			case 'is_post_in_category':
@@ -99,7 +100,7 @@ module.exports = (function($) {
 				break;
 
 			case 'manual':
-				$betterInput.attr('placeholder', 'Example: is_single(1, 3)');
+				$betterInput.attr('placeholder', '');
 				$manualTip.show();
 				break;
 		}
@@ -107,7 +108,7 @@ module.exports = (function($) {
 
 	function addRuleFields() {
 		var data = {
-			'key': $optionControls.find('.stb-rule-row').length
+			'key': optionControls.querySelectorAll('.stb-rule-row').length
 		};
 		var html = rowTemplate(data);
 		$(document.getElementById('stb-box-rules')).after(html);

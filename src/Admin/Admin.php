@@ -261,6 +261,17 @@ class Admin {
 			wp_enqueue_style( 'scroll-triggered-boxes-admin' );
 		}
 
+		if( wp_script_is( 'scroll-triggered-boxes-admin', 'enqueued' ) ) {
+			wp_localize_script( 'scroll-triggered-boxes-admin' ,'stb_i18n', array(
+					'enterCommaSeparatedValues' => 'Enter a comma-separated list of values.',
+					'enterCommaSeparatedPosts' => "Enter a comma-separated list of post slugs or post ID's..",
+					'enterCommaSeparatedPages' => "Enter a comma-separated list of page slugs or page ID's..",
+					'enterCommaSeparatedPostTypes' => "Enter a comma-separated list of post types..",
+					'enterCommaSeparatedRelativeUrls' => 'Enter a comma-separated list of relative URLs, eg /contact/',
+				)
+			);
+		}
+
 	}
 
 	/**
