@@ -249,6 +249,15 @@ class Admin {
 			// load scripts
 			wp_enqueue_script( 'scroll-triggered-boxes-admin' );
 
+			wp_localize_script( 'scroll-triggered-boxes-admin' ,'stb_i18n', array(
+					'enterCommaSeparatedValues' => __( 'Enter a comma-separated list of values.', 'scroll-triggered-boxes' ),
+					'enterCommaSeparatedPosts' => __( "Enter a comma-separated list of post slugs or post ID's..", 'scroll-triggered-boxes' ),
+					'enterCommaSeparatedPages' => __( "Enter a comma-separated list of page slugs or page ID's..", 'scroll-triggered-boxes' ),
+					'enterCommaSeparatedPostTypes' => __( "Enter a comma-separated list of post types..", 'scroll-triggered-boxes' ),
+					'enterCommaSeparatedRelativeUrls' => __( "Enter a comma-separated list of relative URL's, eg /contact/", 'scroll-triggered-boxes' ),
+				)
+			);
+
 			// load stylesheets
 			wp_enqueue_style( 'scroll-triggered-boxes-admin' );
 
@@ -259,17 +268,6 @@ class Admin {
 		if ( isset( $_GET['page'] ) && $_GET['page'] === 'stb-settings' ) {
 			// load stylesheets
 			wp_enqueue_style( 'scroll-triggered-boxes-admin' );
-		}
-
-		if( wp_script_is( 'scroll-triggered-boxes-admin', 'enqueued' ) ) {
-			wp_localize_script( 'scroll-triggered-boxes-admin' ,'stb_i18n', array(
-					'enterCommaSeparatedValues' => 'Enter a comma-separated list of values.',
-					'enterCommaSeparatedPosts' => "Enter a comma-separated list of post slugs or post ID's..",
-					'enterCommaSeparatedPages' => "Enter a comma-separated list of page slugs or page ID's..",
-					'enterCommaSeparatedPostTypes' => "Enter a comma-separated list of post types..",
-					'enterCommaSeparatedRelativeUrls' => 'Enter a comma-separated list of relative URLs, eg /contact/',
-				)
-			);
 		}
 
 	}
