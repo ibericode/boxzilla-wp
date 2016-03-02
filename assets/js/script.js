@@ -69,8 +69,9 @@ module.exports = (function($) {
 	// hide and disable all registered boxes
 	function dismissAllBoxes() {
 		for( var boxId in boxes ) {
-			if( boxes[boxId].visible ) {
-				boxes[boxId].dismiss();
+			var box = boxes[boxId];
+			if( box.visible && ! box.config.unclosable ) {
+				box.dismiss();
 			}
 		}
 	}
@@ -78,8 +79,9 @@ module.exports = (function($) {
 	// show all registered boxes
 	function showAllBoxes() {
 		for( var boxId in boxes ) {
-			if( ! boxes[boxId].visible ) {
-				boxes[boxId].show();
+			var box = boxes[boxId];
+			if( ! box.visible ) {
+				box.show();
 			}
 		}
 	}
@@ -87,8 +89,9 @@ module.exports = (function($) {
 	// hide all registered boxes
 	function hideAllBoxes() {
 		for( var boxId in boxes ) {
-			if( boxes[boxId].visible ) {
-				boxes[boxId].hide();
+			var box = boxes[boxId];
+			if( box.visible ) {
+				box.hide();
 			}
 		}
 	}
@@ -168,7 +171,7 @@ module.exports = (function($) {
 			if( ! box.visible || box.config.unclosable ) { continue; }
 
 			var rect = box.element.getBoundingClientRect();
-			var margin = 100;
+			var margin = 100 + ( window.innerWidth * 0.05 );
 
 			// if click was not anywhere near box, dismiss it.
 			if( x < ( rect.left - margin ) || x > ( rect.right + margin ) || y < ( rect.top - margin ) || y > ( rect.bottom + margin ) ) {
@@ -291,19 +294,16 @@ module.exports = (function() {
 		var windowHeight = window.innerHeight;
 		var boxHeight = this.$element.outerHeight();
 
-		// does box + margin fit on screen?
-		if( ( boxHeight + 40 ) > windowHeight ) {
-
-			// add scrollbar to box and limit height
-			this.element.style.maxHeight = ( windowHeight - 40 ) + "px";
+		// add scrollbar to box and limit height
+		if( boxHeight > windowHeight ) {
+			this.element.style.maxHeight = windowHeight + "px";
 			this.element.style.overflowY = 'scroll';
-
 		}
 
 		// set new top margin for boxes which are centered
 		if( this.config.position === 'center' ) {
 			var newTopMargin = ( ( windowHeight - boxHeight ) / 2 );
-			if( newTopMargin < 20 ) newTopMargin = 20;
+			newTopMargin = newTopMargin >= 0 ? newTopMargin : 0;
 			this.element.style.marginTop = newTopMargin + "px";
 		}
 

@@ -68,8 +68,9 @@ module.exports = (function($) {
 	// hide and disable all registered boxes
 	function dismissAllBoxes() {
 		for( var boxId in boxes ) {
-			if( boxes[boxId].visible ) {
-				boxes[boxId].dismiss();
+			var box = boxes[boxId];
+			if( box.visible && ! box.config.unclosable ) {
+				box.dismiss();
 			}
 		}
 	}
@@ -77,8 +78,9 @@ module.exports = (function($) {
 	// show all registered boxes
 	function showAllBoxes() {
 		for( var boxId in boxes ) {
-			if( ! boxes[boxId].visible ) {
-				boxes[boxId].show();
+			var box = boxes[boxId];
+			if( ! box.visible ) {
+				box.show();
 			}
 		}
 	}
@@ -86,8 +88,9 @@ module.exports = (function($) {
 	// hide all registered boxes
 	function hideAllBoxes() {
 		for( var boxId in boxes ) {
-			if( boxes[boxId].visible ) {
-				boxes[boxId].hide();
+			var box = boxes[boxId];
+			if( box.visible ) {
+				box.hide();
 			}
 		}
 	}
@@ -167,7 +170,7 @@ module.exports = (function($) {
 			if( ! box.visible || box.config.unclosable ) { continue; }
 
 			var rect = box.element.getBoundingClientRect();
-			var margin = 100;
+			var margin = 100 + ( window.innerWidth * 0.05 );
 
 			// if click was not anywhere near box, dismiss it.
 			if( x < ( rect.left - margin ) || x > ( rect.right + margin ) || y < ( rect.top - margin ) || y > ( rect.bottom + margin ) ) {

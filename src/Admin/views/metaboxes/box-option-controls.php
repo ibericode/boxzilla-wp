@@ -18,6 +18,14 @@ $rule_options = array(
 	'is_referer' => __( 'if referer is', 'scroll-triggered-boxes' ),
 );
 
+$box_positions = array(
+	'bottom-left' => __( 'Bottom Left', 'scroll-triggered-boxes' ),
+	'bottom-right' => __( 'Bottom Right', 'scroll-triggered-boxes' ),
+	'center' => __( 'Center', 'scroll-triggered-boxes' ),
+	'top-left' => __( 'Top Left', 'scroll-triggered-boxes' ),
+	'top-right' => __( 'Top Right', 'scroll-triggered-boxes' ),
+);
+
 ?>
 <table class="form-table">
 	<?php
@@ -43,9 +51,8 @@ $rule_options = array(
 	foreach( $opts['rules'] as $rule ) { if( ! array_key_exists( 'condition', $rule ) ) { continue; } ?>
 		<tr valign="top" class="stb-rule-row">
 			<th style="text-align: right; font-weight: normal;">
-				<?php if( $key > 0 ) { ?>
-					<label><?php $opts['rules_comparision'] === 'any' ? _e( 'or', 'scroll-triggered-boxes' ) : _e( 'and', 'scroll-triggered-boxes' ); ?></label>
-				<?php } ?>
+				<span class="stb-close stb-remove-rule">×</span>
+				<label><?php $opts['rules_comparision'] === 'any' ? _e( 'or', 'scroll-triggered-boxes' ) : _e( 'and', 'scroll-triggered-boxes' ); ?></label>
 			</th>
 			<td class="stb-sm">
 				<select class="widefat stb-rule-condition" name="stb[rules][<?php echo $key; ?>][condition]">
@@ -59,10 +66,9 @@ $rule_options = array(
 					</optgroup>
 				</select>
 			</td>
-			<td>
+			<td colspan="2">
 				<input class="stb-rule-value widefat" name="stb[rules][<?php echo $key; ?>][value]" type="text" value="<?php echo esc_attr( $rule['value'] ); ?>" placeholder="<?php _e( 'Leave empty for any or enter (comma-separated) names or ID\'s', 'scroll-triggered-boxes' ); ?>" style="<?php if( in_array( $rule['condition'], array( '', 'everywhere' ) ) ) { echo 'display: none;'; } ?>" />
 			</td>
-			<td class="stb-xsm" width="1"><span class="stb-close stb-remove-rule">×</span></td>
 		</tr>
 	<?php $key++;
 	} ?>
@@ -77,12 +83,9 @@ $rule_options = array(
 		<th><label for="stb_position"><?php _e( 'Box Position', 'scroll-triggered-boxes' ); ?></label></th>
 		<td>
 			<select id="stb_position" name="stb[css][position]" class="widefat">
-				<option value="bottom-left" <?php selected($opts['css']['position'], 'bottom-left'); ?>><?php _e( 'Bottom Left', 'scroll-triggered-boxes' ); ?></option>
-				<option value="bottom-right" <?php selected($opts['css']['position'], 'bottom-right'); ?>><?php _e( 'Bottom Right', 'scroll-triggered-boxes' ); ?></option>
-				<option value="center" <?php selected($opts['css']['position'], 'center'); ?>><?php _e( 'Center', 'scroll-triggered-boxes' ); ?></option>
-				<option value="top-left" <?php selected($opts['css']['position'], 'top-left'); ?>><?php _e( 'Top Left', 'scroll-triggered-boxes' ); ?></option>
-				<option value="top-right" <?php selected($opts['css']['position'], 'top-right'); ?>><?php _e( 'Top Right', 'scroll-triggered-boxes' ); ?></option>
-
+				<?php foreach( $box_positions as $value => $label ) {
+					printf( '<option value="%s" %s>%s</option>', $value, selected( $opts['css']['position'], $value ), $label );
+				} ?>
 			</select>
 		</td>
 		<td colspan="2"></td>
