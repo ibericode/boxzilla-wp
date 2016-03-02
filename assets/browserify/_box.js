@@ -45,7 +45,7 @@ module.exports = (function() {
 		var box = this;
 
 		// attach event to "close" icon inside box
-		this.$element.find('.stb-close').click(box.dismiss);
+		this.$element.find('.stb-close').click(box.dismiss.bind(this));
 
 		// find all links & forms in this box
 		this.$links = this.$element.find('a');
@@ -72,7 +72,7 @@ module.exports = (function() {
 		} else {
 			// auto-show the box if box is referenced from URL
 			if( this.locationHashRefersBox() ) {
-				window.setTimeout(this.show, 300);
+				window.setTimeout(this.show.bind(this), 300);
 			}
 		}
 

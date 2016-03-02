@@ -12,7 +12,7 @@ License: GPL v3
 GitHub Plugin URI: https://github.com/ibericode/scroll-triggered-boxes
 
 Scroll Triggered Boxes Plugin
-Copyright (C) 2013-2015, Danny van Kooten, hi@dannyvankooten.com
+Copyright (C) 2013-2016, Danny van Kooten, hi@dannyvankooten.com
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
