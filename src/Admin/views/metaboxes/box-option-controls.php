@@ -76,7 +76,7 @@ $box_positions = array(
 		<th></th>
 		<td colspan="3"><button type="button" class="button stb-add-rule"><?php _e( 'Add rule', 'scroll-triggered-boxes' ); ?></button></td>
 	</tr>
-	<tr class="stb-manual-tip" style="display: none;">
+	<tr class="stb-manual-hint" style="display: none;">
 		<td></td><td></td><td colspan="2"><p class="help"><?php printf( __( 'For using advanced (manual) rules, have a look at %sthe WordPress Conditional Tags Codex page%s.', 'scroll-triggered-boxes' ), '<a href="https://codex.wordpress.org/Conditional_Tags">', '</a>' ); ?></p></td>
 	</tr>
 	<tr valign="top">

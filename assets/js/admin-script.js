@@ -485,13 +485,13 @@ module.exports = (function($) {
 		return;
 	}
 
-	var $manualTip = $optionControls.find('.stb-manual-tip');
 	var EventEmitter = require('../_event-emitter.js');
 	var events = new EventEmitter();
 	var Option = require('./_option.js');
 	var Designer = require('./_designer.js')($, Option, events);
 	var rowTemplate = wp.template('rule-row-template');
 	var i18n = stb_i18n;
+	var manualHintElement = optionControls.querySelector('.stb-manual-hint');
 
 	// events
 	$optionControls.on('click', ".stb-add-rule", addRuleFields);
@@ -537,38 +537,38 @@ module.exports = (function($) {
 		});
 
 		valueInput.style.display = 'none';
-		$manualTip.hide();
+		manualHintElement.style.display = 'none';
 
 		// change placeholder for textual help
 		switch(condition) {
 			default:
-				$betterInput.attr('placeholder', i18n.enterCommaSeparatedValues);
+				betterInput.placeholder = i18n.enterCommaSeparatedValues;
 				break;
 
 			case '':
 			case 'everywhere':
 				valueInput.value = '';
-				$betterInput.hide();
+				betterInput.style.display = 'none';
 				break;
 
 			case 'is_single':
 			case 'is_post':
-				$betterInput.attr('placeholder', i18n.enterCommaSeparatedPosts);
+				betterInput.placeholder = i18n.enterCommaSeparatedPosts;
 				$betterInput.suggest(ajaxurl + "?action=stb_autocomplete&type=post", {multiple:true, multipleSep: ","});
 				break;
 
 			case 'is_page':
-				$betterInput.attr('placeholder', i18n.enterCommaSeparatedPages);
+				betterInput.placeholder = i18n.enterCommaSeparatedPages;
 				$betterInput.suggest(ajaxurl + "?action=stb_autocomplete&type=page", {multiple:true, multipleSep: ","});
 				break;
 
 			case 'is_post_type':
-				$betterInput.attr('placeholder', i18n.enterCommaSeparatedPostTypes );
+				betterInput.placeholder = i18n.enterCommaSeparatedPostTypes;
 				$betterInput.suggest(ajaxurl + "?action=stb_autocomplete&type=post_type", {multiple:true, multipleSep: ","});
 				break;
 
 			case 'is_url':
-				$betterInput.attr('placeholder', i18n.enterCommaSeparatedRelativeUrls);
+				betterInput.placeholder = i18n.enterCommaSeparatedRelativeUrls;
 				break;
 
 			case 'is_post_in_category':
@@ -576,8 +576,8 @@ module.exports = (function($) {
 				break;
 
 			case 'manual':
-				$betterInput.attr('placeholder', '');
-				$manualTip.show();
+				betterInput.placeholder = '';
+				manualHintElement.style.display = '';
 				break;
 		}
 	}
