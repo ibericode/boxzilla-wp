@@ -134,6 +134,7 @@ class Admin {
 
 		wp_register_script( 'scroll-triggered-boxes-admin', $this->plugin->url( '/assets/js/admin-script' . $pre_suffix . '.js' ), array(
 			'jquery',
+			'wp-util',
 			'wp-color-picker',
 			'suggest'
 		), $this->plugin->version(), true );

@@ -45,14 +45,13 @@ $box_positions = array(
 			</label>
 		</td>
 	</tr>
-
+	<tbody id="stb-box-rules">
 	<?php
 	$key = 0;
 	foreach( $opts['rules'] as $rule ) { if( ! array_key_exists( 'condition', $rule ) ) { continue; } ?>
-		<tr valign="top" class="stb-rule-row">
+		<tr valign="top" class="stb-rule-row stb-rule-row-<?php echo $key; ?>">
 			<th style="text-align: right; font-weight: normal;">
-				<span class="stb-close stb-remove-rule">×</span>
-				<label><?php $opts['rules_comparision'] === 'any' ? _e( 'or', 'scroll-triggered-boxes' ) : _e( 'and', 'scroll-triggered-boxes' ); ?></label>
+				<span class="stb-close stb-remove-rule"><span class="dashicons dashicons-dismiss"></span></span>
 			</th>
 			<td class="stb-sm">
 				<select class="widefat stb-rule-condition" name="stb[rules][<?php echo $key; ?>][condition]">
@@ -72,6 +71,7 @@ $box_positions = array(
 		</tr>
 	<?php $key++;
 	} ?>
+	</tbody>
 	<tr>
 		<th></th>
 		<td colspan="3"><button type="button" class="button stb-add-rule"><?php _e( 'Add rule', 'scroll-triggered-boxes' ); ?></button></td>
@@ -143,3 +143,27 @@ $box_positions = array(
 	<?php do_action( 'stb_after_box_option_controls', $box, $opts ); ?>
 	</tbody>
 </table>
+
+
+<script type="text/html" id="tmpl-rule-row-template">
+	<tr valign="top" class="stb-rule-row stb-rule-row-{{{data.key}}}">
+		<th style="text-align: right; font-weight: normal;">
+			<span class="stb-close stb-remove-rule"><span class="dashicons dashicons-dismiss"></span></span>
+		</th>
+		<td class="stb-sm">
+			<select class="widefat stb-rule-condition" name="stb[rules][{{{data.key}}}][condition]">
+				<optgroup label="<?php _e( 'Basic', 'scroll-triggered-boxes' ); ?>">
+					<?php foreach( $rule_options as $value => $label ) {
+						printf( '<option value="%s" %s>%s</option>', $value, '', $label );
+					} ?>
+				</optgroup>
+				<optgroup label="<?php _e( 'Advanced', 'scroll-triggered-boxes' ); ?>">
+					<option value="manual"><?php _e( 'manual conditon', 'scroll-triggered-boxes' ); ?></option>
+				</optgroup>
+			</select>
+		</td>
+		<td colspan="2">
+			<input class="stb-rule-value widefat" name="stb[rules][{{{data.key}}}][value]" type="text" value="" placeholder="<?php _e( 'Leave empty for any or enter (comma-separated) names or ID\'s', 'scroll-triggered-boxes' ); ?>" style="display: none;" />
+		</td>
+	</tr>
+</script>

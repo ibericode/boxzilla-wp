@@ -15,12 +15,14 @@ module.exports = (function($) {
 	var events = new EventEmitter();
 	var Option = require('./_option.js');
 	var Designer = require('./_designer.js')($, Option, events);
+	var rowTemplate = wp.template('rule-row-template');
 
 	// events
 	$optionControls.on('click', ".stb-add-rule", addRuleFields);
 	$optionControls.on('click', ".stb-remove-rule", removeRule);
 	$optionControls.on('change', ".stb-rule-condition", setContextualHelpers);
 	$optionControls.find('.stb-auto-show-trigger').on('change', toggleTriggerOptions );
+
 	$(window).load(function() {
 		if( typeof(window.tinyMCE) === "undefined" ) {
 			document.getElementById('notice-notinymce').style.display = 'block';
@@ -40,14 +42,7 @@ module.exports = (function($) {
 
 	function setContextualHelpers() {
 
-		var $context;
-
-		if( this.tagName.toLowerCase() === "tr" ) {
-			$context = $(this);
-		} else {
-			$context = $(this).parents('tr');
-		}
-
+		var $context = ( this.tagName.toLowerCase() === "tr" ) ? $(this) : $(this).parents('tr');
 		var $condition = $context.find('.stb-rule-condition');
 
 		// remove previously added helpers
@@ -111,17 +106,11 @@ module.exports = (function($) {
 	}
 
 	function addRuleFields() {
-		var $row = $optionControls.find(".stb-rule-row").last();
-		var $newRow = $row.clone();
-		$newRow.find('th').css({
-			'text-align': 'right',
-			'font-weight': 'normal'
-		}).find('label');
-		$newRow.insertAfter($row).find(":input").val('').each(function () {
-			this.name = this.name.replace(/\[(\d+)\]/, function (str, p1) {
-				return '[' + (parseInt(p1, 10) + 1) + ']';
-			});
-		}).trigger('change');
+		var data = {
+			'key': $optionControls.find('.stb-rule-row').length
+		};
+		var html = rowTemplate(data);
+		$(document.getElementById('stb-box-rules')).after(html);
 		return false;
 	}
 

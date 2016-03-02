@@ -243,10 +243,9 @@ module.exports = (function() {
 	// initialise the box
 	Box.prototype.init = function() {
 		var box = this;
+
 		// attach event to "close" icon inside box
-		this.$element.find('.stb-close').click(function() {
-			box.dismiss();
-		});
+		this.$element.find('.stb-close').click(box.dismiss);
 
 		// find all links & forms in this box
 		this.$links = this.$element.find('a');
@@ -273,9 +272,7 @@ module.exports = (function() {
 		} else {
 			// auto-show the box if box is referenced from URL
 			if( this.locationHashRefersBox() ) {
-				window.setTimeout(function() {
-					box.show();
-				}, 300);
+				window.setTimeout(this.show, 300);
 			}
 		}
 
@@ -381,14 +378,17 @@ module.exports = (function() {
 
 	// set cookie that disables automatically showing the box
 	Box.prototype.setCookie = function() {
-		if(this.config.cookieTime > 0) {
-			var expiryDate = new Date();
-			expiryDate.setDate( expiryDate.getDate() + this.config.cookieTime );
-			document.cookie = 'stb_box_'+ this.id + '=true; expires='+ expiryDate.toUTCString() +'; path=/';
+		// do nothing if cookieTime evaluates to false
+		if(! this.config.cookieTime) {
+			return;
 		}
+
+		var expiryDate = new Date();
+		expiryDate.setDate( expiryDate.getDate() + this.config.cookieTime );
+		document.cookie = 'stb_box_'+ this.id + '=true; expires='+ expiryDate.toUTCString() +'; path=/';
 	};
 
-	// checks whether window.location.hash equals the box element ID of that of any
+	// checks whether window.location.hash equals the box element ID or that of any element inside the box
 	Box.prototype.locationHashRefersBox = function() {
 
 		if( ! window.location.hash || 0 === window.location.hash.length ) {
