@@ -133,9 +133,10 @@ module.exports = (function() {
 		// set new visibility status
 		this.visible = show;
 
-		// fadein / fadeout the overlay if position is "center"
+		// calculate custom styling for which CSS is "too stupid"
 		this.setCustomBoxStyling();
 
+		// fadein / fadeout the overlay if position is "center"
 		if( this.config.position === 'center' ) {
 			$(this.overlay).fadeToggle('slow');
 		}

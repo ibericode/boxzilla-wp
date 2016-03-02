@@ -548,7 +548,7 @@ module.exports = (function($) {
 			default:
 				$betterInput.attr('placeholder', 'Enter a comma-separated list of values.');
 				break;
-			
+
 			case '':
 			case 'everywhere':
 				$valueInput.val('');

@@ -25,7 +25,7 @@ module.exports = (function($) {
 		$(window).bind('resize.stb', onWindowResize);
 		$(window).bind('load', onLoad );
 		$(document).keyup(onKeyUp);
-		$(overlay).click(dismissAllBoxes);
+		$(overlay).click(onOverlayClick);
 
 		// print message when test mode is enabled
 		if( options.testMode ) {
@@ -35,19 +35,6 @@ module.exports = (function($) {
 
 	function onLoad() {
 		recalculateHeights();
-
-		// show box if MailChimp for WordPress printed a request object in JS
-		// todo: decouple this, make it better..
-		if( typeof( window.mc4wpFormRequest ) === "object" && typeof( window.mc4wpFormRequest.element ) === "object" ) {
-			var request = window.mc4wpFormRequest;
-			var $parentBox = $(request.element).parents('.stb');
-
-			// check if form is inside box
-			if( $parentBox.length ) {
-				showBox( parseInt( $parentBox.attr('id').substring(4) ) );
-			}
-
-		}
 	}
 
 	// create a Box object from the DOM
@@ -168,6 +155,25 @@ module.exports = (function($) {
 	function toggleBox(id) {
 		if( typeof( boxes[id] ) === "object" ) {
 			boxes[id].toggle();
+		}
+	}
+
+	function onOverlayClick(e) {
+		var x = e.offsetX;
+		var y = e.offsetY;
+
+		// calculate if click was near a box to avoid closing it (click error margin)
+		for(var boxId in boxes ) {
+			var box = boxes[boxId];
+			if(! box.visible ) { continue; }
+
+			var rect = box.element.getBoundingClientRect();
+			var margin = 100;
+			
+			// if click was not anywhere near box, dismiss it.
+			if( x < ( rect.left - margin ) || x > ( rect.right + margin ) || y < ( rect.top - margin ) || y > ( rect.bottom + margin ) ) {
+				box.dismiss();
+			}
 		}
 	}
 
@@ -324,9 +330,10 @@ module.exports = (function() {
 		// set new visibility status
 		this.visible = show;
 
-		// fadein / fadeout the overlay if position is "center"
+		// calculate custom styling for which CSS is "too stupid"
 		this.setCustomBoxStyling();
 
+		// fadein / fadeout the overlay if position is "center"
 		if( this.config.position === 'center' ) {
 			$(this.overlay).fadeToggle('slow');
 		}
