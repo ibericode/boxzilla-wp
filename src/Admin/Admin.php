@@ -413,7 +413,7 @@ class Admin {
 		// update global settings if given
 		if( ! empty( $_POST['stb_global_settings'] ) ) {
 			$global_settings = get_option( 'stb_settings', array() );
-			$global_settings = array_merge( $global_settings, $_POST['stb_settings'] );
+			$global_settings = array_merge( $global_settings, $_POST['stb_global_settings'] );
 			update_option( 'stb_settings', $global_settings );
 		}
 

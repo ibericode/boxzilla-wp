@@ -1,6 +1,13 @@
 Changelog
 ==========
 
+#### 2.2.1 - March 2, 2016
+
+**Fixes**
+
+- "Test mode" setting from individual box pages not saving and throwing a warning.
+
+
 #### 2.2 - March 2, 2016
 
 **Fixes**
