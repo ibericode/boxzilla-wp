@@ -1,23 +1,24 @@
 Changelog
 ==========
 
-
-#### Trunk (unreleased)
+#### 2.2 - March 2, 2016
 
 **Fixes**
 
 - CSS `initial` keyword compatibility fix for Internet Explorer
 
-**Improvements**
-
-- Add empty box rule if rule has none.
-- Close icon can now be removed by passing an empty string to the `stb_box_close_icon` filter.
-- "Test mode" setting is now shown on individual box settings pages as well, for convenience.
-
 **Additions**
 
-- Allow glob-style patterns for matching URL's and referer URL's.
+- Allow glob-style patterns for matching URL's and referer URL's, eg `*.google.com`.
 - Allow matching any condition or all conditions to load a box.
+
+**Improvements**
+
+- Boxes can now be marked "unclosable" by filtering the box options (see FAQ).
+- When box is "center" positioned, clicking the overlay now uses an error click margin to avoid unintentionally dismissing a box.
+- Close icon can now be removed by passing an empty string to the `stb_box_close_icon` filter.
+- "Test mode" setting is now shown on individual box settings pages as well, for convenience.
+- When editing a box, an empty box rule is now always shown.
 
 
 ####  2.1.4 - November 19, 2015
