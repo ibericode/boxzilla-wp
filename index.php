@@ -47,7 +47,7 @@ function scroll_triggered_boxes() {
 		$file = __FILE__;
 		$dir = dirname( __FILE__ );
 		$name = 'Scroll Triggered Boxes';
-		$version = '2.1.4';
+		$version = '2.2';
 
 		$instance = new $classname(
 			$id,
