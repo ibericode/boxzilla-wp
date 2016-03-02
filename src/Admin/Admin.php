@@ -422,12 +422,95 @@ class Admin {
 	}
 
 	/**
-	 * @param $string
+	 * @param string $url_string
 	 *
 	 * @return string
 	 */
-	public function leadingslashit( $string ) {
-		return '/' . ltrim( $string, '/' );
+	public function sanitize_url( $url_string ) {
+
+		// if empty, just return a slash
+		if( empty( $url_string ) ) {
+			return '/';
+		}
+
+		// if string looks like an absolute URL, extract just the path
+		if( preg_match( '/^((https|http)?\:\/\/)?(\w+\.)?\w+\.\w+\.*/i', $url_string ) ) {
+
+			// make sure URL has scheme prepended, to make parse_url() understand..
+			$url_string = 'https://' . str_replace( array( 'http://', 'https://' ), '', $url_string );
+
+			// get just the path
+			$url_string = parse_url( $url_string, PHP_URL_PATH );
+		}
+
+		// leading slash it
+		return '/' . ltrim( $url_string, '/' );
+	}
+
+	/**
+	 * @param array $rule
+	 * @return array The sanitized rule array
+	 */
+	public function sanitize_box_rule( $rule) {
+		$rule['value'] = trim( $rule['value'] );
+
+		// don't touch empty values or manual rules
+		if ( $rule['condition'] !== 'manual' ) {
+
+			// convert to array
+			$rule['value'] = explode( ',', trim( $rule['value'], ',' ) );
+
+			// trim all whitespace in value field
+			$rule['value'] = array_map( 'trim', $rule['value'] );
+
+			// Make sure "is_url" values have a leading slash
+			if ( $rule['condition'] === 'is_url' ) {
+				$rule['value'] = array_map( array( $this, 'sanitize_url' ), $rule['value'] );
+			}
+
+			// (re)set value to 0 when condition is everywhere
+			if ( $rule['condition'] === 'everywhere' ) {
+				$rule['value'] = '';
+			}
+
+			// convert back to string before saving
+			if ( is_array( $rule['value'] ) ) {
+				$rule['value'] = join( ',', $rule['value'] );
+			}
+		}
+
+		return $rule;
+	}
+
+	/**
+	 * @param array $css
+	 * @return array
+	 */
+	public function sanitize_box_css( $css ) {
+
+		// sanitize settings
+		if ( '' !== $css['width'] ) {
+			$css['width'] = absint( $css['width'] );
+		}
+
+		if ( '' !== $css['border_width'] ) {
+			$css['border_width'] = absint( $css['border_width'] );
+		}
+
+		// make sure colors start with `#`
+		$color_keys = array( 'color', 'background_color', 'border_color' );
+		foreach ( $color_keys as $key ) {
+			$value = $css[ $key ];
+			$color = sanitize_text_field( $value );
+
+			// make sure color starts with `#`
+			if ( '' !== $color && $color[0] !== '#' ) {
+				$color = '#' . $color;
+			}
+			$css[ $key ] = $color;
+		}
+
+		return $css;
 	}
 
 	/**
@@ -439,69 +522,18 @@ class Admin {
 	 */
 	protected function sanitize_box_options( $opts ) {
 
-		// sanitize rules
-		$sanitized_rules = array();
-		if ( isset( $opts['rules'] ) && is_array( $opts['rules'] ) ) {
-			foreach ( $opts['rules'] as $rule ) {
+		static $defaults = array(
+			'rules' => array(),
+			'css' => array()
+		);
+		$opts = array_merge( $defaults, $opts );
 
-				$rule['value'] = trim( $rule['value'] );
-
-				// don't touch empty values or manual rules
-				if ( ! empty( $rule['value'] ) && $rule['condition'] !== 'manual' ) {
-
-					// convert to array
-					$rule['value'] = explode( ',', trim( $rule['value'], ',' ) );
-
-					// trim all whitespace in value field
-					$rule['value'] = array_map( 'trim', $rule['value'] );
-
-					// Make sure "is_url" values have a leading slash
-					if ( $rule['condition'] === 'is_url' ) {
-						$rule['value'] = array_map( array( $this, 'leadingslashit' ), $rule['value'] );
-					}
-
-					// (re)set value to 0 when condition is everywhere
-					if ( $rule['condition'] === 'everywhere' ) {
-						$rule['value'] = '';
-					}
-
-					// convert back to string before saving
-					if ( is_array( $rule['value'] ) ) {
-						$rule['value'] = join( ',', $rule['value'] );
-					}
-				}
-
-				$sanitized_rules[] = $rule;
-			}
-		}
-
-		$opts['rules'] = $sanitized_rules;
-
-		// sanitize settings
-		if ( '' !== $opts['css']['width'] ) {
-			$opts['css']['width'] = absint( $opts['css']['width'] );
-		}
-
-		if ( '' !== $opts['css']['border_width'] ) {
-			$opts['css']['border_width'] = absint( $opts['css']['border_width'] );
-		}
-
+		$opts['rules'] = array_map( array( $this, 'sanitize_box_rule' ), $opts['rules'] );
+		$opts['css'] = $this->sanitize_box_css( $opts['css'] );
 		$opts['cookie']             = absint( $opts['cookie'] );
 		$opts['trigger']            = sanitize_text_field( $opts['trigger'] );
 		$opts['trigger_percentage'] = absint( $opts['trigger_percentage'] );
 		$opts['trigger_element']    = sanitize_text_field( $opts['trigger_element'] );
-
-		// make sure colors start with `#`
-		$color_keys = array( 'color', 'background_color', 'border_color' );
-		foreach ( $color_keys as $key => $value ) {
-			$color = sanitize_text_field( $value );
-
-			// make sure color starts with `#`
-			if ( '' !== $color && $color[0] !== '#' ) {
-				$color = '#' . $color;
-			}
-			$opts['css'][ $key ] = $color;
-		}
 
 		return $opts;
 	}

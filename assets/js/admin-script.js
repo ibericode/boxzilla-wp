@@ -545,8 +545,10 @@ module.exports = (function($) {
 
 		// change placeholder for textual help
 		switch($condition.val()) {
-
 			default:
+				$betterInput.attr('placeholder', 'Enter a comma-separated list of values.');
+				break;
+			
 			case '':
 			case 'everywhere':
 				$valueInput.val('');
