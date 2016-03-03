@@ -3,6 +3,7 @@ module.exports = (function($) {
 
 	// Global Variables
 	var boxes = {},
+		inited = false,
 		windowHeight = window.innerHeight,
 		scrollTimer = 0,
 		resizeTimer = 0,
@@ -17,6 +18,9 @@ module.exports = (function($) {
 
 	// initialise & add event listeners
 	function init() {
+		// make sure we only init once
+		if( inited ) return;
+
 		$(".scroll-triggered-box").each(createBoxFromDOM);
 
 		// event binds
@@ -30,6 +34,8 @@ module.exports = (function($) {
 		if( options.testMode ) {
 			console.log( 'Scroll Triggered Boxes: Test mode is enabled. Please disable test mode if you\'re done testing.' );
 		}
+
+		inited = true;
 	}
 
 	function onLoad() {
@@ -179,8 +185,9 @@ module.exports = (function($) {
 		}
 	}
 
-	// init on document.ready
+	// init on document.ready OR in 5 seconds in case event pipeline is broken
 	$(document).ready(init);
+	window.setTimeout(init, 5000);
 
 	// expose a simple API to control all registered boxes
 	return {
