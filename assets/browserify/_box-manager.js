@@ -36,6 +36,8 @@ module.exports = (function($) {
 		}
 
 		inited = true;
+
+		events.trigger('ready');
 	}
 
 	function onLoad() {

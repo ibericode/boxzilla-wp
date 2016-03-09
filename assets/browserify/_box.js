@@ -5,6 +5,7 @@ module.exports = (function() {
 		console  = window.console || { log: function() { }},
 		isLoggedIn = $(document.body).hasClass('logged-in'),
 		startTime = new Date().getTime();
+
 	// Box Object
 	var Box = function( config, events ) {
 		this.id 		= config.id;
@@ -68,11 +69,11 @@ module.exports = (function() {
 
 
 		if( this.config.autoShow && this.config.trigger === 'instant' && ! this.cookieSet ) {
-			this.show();
+			$(window).load(this.show.bind(this));
 		} else {
 			// auto-show the box if box is referenced from URL
 			if( this.locationHashRefersBox() ) {
-				window.setTimeout(this.show.bind(this), 300);
+				$(window).load(this.show.bind(this));
 			}
 		}
 
@@ -150,11 +151,13 @@ module.exports = (function() {
 
 	// show the box
 	Box.prototype.show = function() {
+		this.events.trigger('box.show', [ this ]);
 		return this.toggle(true);
 	};
 
 	// hide the box
 	Box.prototype.hide = function() {
+		this.events.trigger('box.hide', [ this ]);
 		return this.toggle(false);
 	};
 
