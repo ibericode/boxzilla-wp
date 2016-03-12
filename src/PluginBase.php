@@ -4,12 +4,7 @@ namespace ScrollTriggeredBoxes;
 
 use ScrollTriggeredBoxes\DI\Container;
 
-abstract class PluginBase extends Container implements iPlugin {
-
-	/**
-	 * @var iPlugin The One True Plugin Instance
-	 */
-	public static $instance;
+class PluginBase extends Container implements iPlugin {
 
 	/**
 	 * @var string The current version of the plugin
@@ -41,14 +36,6 @@ abstract class PluginBase extends Container implements iPlugin {
 	 */
 	protected $id = 0;
 
-
-	/**
-	 * @return iPlugin
-	 */
-	public static function instance() {
-		return self::$instance;
-	}
-
 	/**
 	 * Constructor
 	 *
@@ -73,9 +60,6 @@ abstract class PluginBase extends Container implements iPlugin {
 
 		// load rest of classes on a later hook
 		$this->load();
-
-		// store instance
-		self::$instance = $this;
 	}
 
 	/**
