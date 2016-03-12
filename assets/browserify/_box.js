@@ -221,11 +221,6 @@ module.exports = (function() {
 			return false;
 		}
 
-		// don't show if triggerHeight is 0 (element not found or percentage set to 0)
-		if( this.triggerHeight === 0 ) {
-			return false;
-		}
-
 		// check if box fits on given minimum screen width
 		if( this.config.minimumScreenWidth > 0 && window.innerWidth < this.config.minimumScreenWidth ) {
 			return false;

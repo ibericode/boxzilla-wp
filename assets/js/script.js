@@ -118,6 +118,10 @@ module.exports = (function($) {
 				continue;
 			}
 
+			if( box.triggerHeight <= 0 ) {
+				continue;
+			}
+
 			if( scrollHeight > box.triggerHeight ) {
 				if( ! box.visible ) {
 					box.show();
@@ -427,11 +431,6 @@ module.exports = (function() {
 
 		// don't show if box was closed before
 		if( this.closed ) {
-			return false;
-		}
-
-		// don't show if triggerHeight is 0 (element not found or percentage set to 0)
-		if( this.triggerHeight === 0 ) {
 			return false;
 		}
 

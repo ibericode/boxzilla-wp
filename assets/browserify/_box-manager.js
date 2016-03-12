@@ -117,6 +117,10 @@ module.exports = (function($) {
 				continue;
 			}
 
+			if( box.triggerHeight <= 0 ) {
+				continue;
+			}
+
 			if( scrollHeight > box.triggerHeight ) {
 				if( ! box.visible ) {
 					box.show();
