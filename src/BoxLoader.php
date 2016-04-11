@@ -179,12 +179,11 @@ class BoxLoader {
 
 			$matched = false;
 			$comparision = isset( $box_rules['comparision'] ) ? $box_rules['comparision'] : 'any';
-			unset( $box_rules['comparision'] );
 
 			// loop through all rules for all boxes
 			foreach ( $box_rules as $rule ) {
 
-				// skip faulty values
+				// skip faulty values (and comparision rule)
 				if( empty( $rule['condition'] ) ) {
 					continue;
 				}
