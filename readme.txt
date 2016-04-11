@@ -190,6 +190,7 @@ Have a look at the [frequently asked questions](https://wordpress.org/plugins/sc
 
 - Fallback for box initialization when other script errors.
 - Getting ready for new Exit Intent add-on, to be released soon.
+- Use event bubbling for `#stb-103` style links, so link elements loaded over AJAX can also open boxes.
 
 
 #### 2.2.1 - March 2, 2016
