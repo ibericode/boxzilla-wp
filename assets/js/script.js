@@ -275,12 +275,11 @@ module.exports = (function() {
 		});
 
 		// attach event to all links referring #stb-{box_id}
-		$('a[href="#' + this.$element.attr('id') +'"]').click(function() {
+		$(document.body).on('click', 'a[href="#stb-' + box.id + '"]', function() {
 			box.toggle();
 			return false;
 		});
-
-
+		
 		if( this.config.autoShow && this.config.trigger === 'instant' && ! this.cookieSet ) {
 			$(window).load(this.show.bind(this));
 		} else {
