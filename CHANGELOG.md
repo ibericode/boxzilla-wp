@@ -1,6 +1,18 @@
 Changelog
 ==========
 
+#### 2.2.2 - April 11, 2016
+
+**Fixes**
+
+- Fixes notice on settings page when creating a new box.
+
+**Improvements**
+
+- Fallback for box initialization when other script errors.
+- Getting ready for new Exit Intent add-on, to be released soon.
+
+
 #### 2.2.1 - March 2, 2016
 
 **Fixes**
