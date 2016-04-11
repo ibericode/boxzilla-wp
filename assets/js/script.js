@@ -279,7 +279,7 @@ module.exports = (function() {
 			box.toggle();
 			return false;
 		});
-		
+
 		if( this.config.autoShow && this.config.trigger === 'instant' && ! this.cookieSet ) {
 			$(window).load(this.show.bind(this));
 		} else {
