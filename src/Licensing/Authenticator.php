@@ -46,11 +46,11 @@ class Authenticator {
 
 		$this->license->load();
 
-		if( ! isset( $args['headers'] ) ) {
+		if( empty( $args['headers'] ) ) {
 			$args['headers'] = array();
 		}
 
-		$args['headers']['Authorization'] = 'Basic ' . base64_encode( urlencode( $this->license->site ) . ':' . urlencode( $this->license->key ) );
+		$args['headers']['Authorization'] = 'Bearer ' . urlencode( $this->license->key );
 		return $args;
 	}
 }

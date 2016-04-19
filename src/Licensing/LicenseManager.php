@@ -59,9 +59,7 @@ class LicenseManager {
 
 		// listen for activation / deactivation requests
 		$this->listen();
-
-		// register update checks
-
+		
 		return true;
 	}
 
@@ -80,7 +78,7 @@ class LicenseManager {
 		// the form was submitted, let's see..
 		if( $_POST['action'] === 'deactivate' ) {
 			$this->license->deactivate();
-			$this->api->logout();
+			$this->api->delete_license_activation( $this->license );
 		}
 
 		// did key change or was "activate" button pressed?
@@ -94,7 +92,7 @@ class LicenseManager {
 		    && ! $this->license->activated
 		    && ( $_POST['action'] === 'activate' || $key_changed ) ) {
 			// let's try to activate it
-			if( $this->api->login() ) {
+			if( $this->api->create_license_activation( $this->license ) ) {
 				$this->license->activate();
 			}
 		}

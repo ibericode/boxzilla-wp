@@ -5,6 +5,7 @@ namespace ScrollTriggeredBoxes\Licensing;
 use ScrollTriggeredBoxes\Admin\Notices;
 use ScrollTriggeredBoxes\Collection;
 use ScrollTriggeredBoxes\iPlugin;
+use WP_Error;
 
 class API {
 
@@ -50,14 +51,15 @@ class API {
 	/**
 	 * Logs the current site in to the remote API
 	 *
+	 * @param License $license
 	 * @return bool
 	 */
-	public function login() {
-		$endpoint = '/login';
-		$args = array(
-			'method' => 'POST'
+	public function create_license_activation( License $license ) {
+		$endpoint = '/license/activations';
+		$data = array(
+			'site_url' => $license->site
 		);
-		$result = $this->call( $endpoint, $args );
+		$result = $this->request( 'POST', $endpoint, $data );
 		if( $result ) {
 			$this->notices->add( $result->message, 'info' );
 			return true;
@@ -69,11 +71,15 @@ class API {
 	/**
 	 * Logs the current site out of the remote API
 	 *
+	 * @param License $license
 	 * @return bool
 	 */
-	public function logout() {
-		$endpoint = '/logout';
-		$result = $this->call( $endpoint );
+	public function delete_license_activation( License $license ) {
+		$endpoint = '/license/activations';
+		$data = array(
+			'site_url' => $license->site
+		);
+		$result = $this->request( 'DELETE', $endpoint, $data );
 
 		if( $result ) {
 			$this->notices->add( $result->message, 'info' );
@@ -89,7 +95,7 @@ class API {
 	 */
 	public function get_plugin( iPlugin $plugin ) {
 		$endpoint = sprintf( '/plugins/%d?format=wp', $plugin->id() );
-		return $this->call( $endpoint );
+		return $this->request( 'GET', $endpoint );
 	}
 
 	/**
@@ -98,25 +104,34 @@ class API {
 	 */
 	public function get_plugins( Collection $plugins ) {
 		// create array of plugin ID's
-		$plugin_ids = $plugins->map(
-			function( $p ) { return $p->id(); }
-		);
-
+		$plugin_ids = $plugins->map(function( $p ) { return $p->id(); });
 		$endpoint = add_query_arg( array( 'ids' => implode(',', $plugin_ids ), 'format' => 'wp' ), '/plugins' );
-		return $this->call( $endpoint );
+		return $this->request( 'GET', $endpoint );
 	}
 
 	/**
+	 * @param string $method
 	 * @param string $endpoint
-	 * @param array $args
+	 * @param array $data
 	 * @return object
 	 */
-	public function call( $endpoint,$args = array() ) {
+	public function request( $method, $endpoint, $data = array() ) {
 
-		$request = wp_remote_request( $this->api_url . $endpoint, $args );
+		$url = $this->api_url . $endpoint;
+		$args = array(
+			'method' => $method
+		);
+
+		if( in_array( $method, array( 'GET', 'DELETE' ) ) ) {
+			$url = add_query_arg( $data, $url );
+		} else {
+			$args['body'] = $data;
+		}
+
+		$request = wp_remote_request( $url, $args );
 
 		// test for wp errors
-		if( is_wp_error( $request ) ) {
+		if( $request instanceof WP_Error) {
 			$this->notices->add( $request->get_error_message(), 'error' ); ;
 			return false;
 		}

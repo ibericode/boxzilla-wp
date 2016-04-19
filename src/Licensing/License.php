@@ -2,6 +2,16 @@
 
 namespace ScrollTriggeredBoxes\Licensing;
 
+/**
+ * Class License
+ *
+ *
+ * @property string $key
+ * @property string $site
+ * @property boolean $activated
+ *
+ * @package ScrollTriggeredBoxes\Licensing
+ */
 class License {
 
 	/**
