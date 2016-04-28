@@ -1,6 +1,6 @@
 <?php
 
-namespace ScrollTriggeredBoxes;
+namespace Boxzilla;
 
 class BoxLoader {
 
@@ -36,12 +36,12 @@ class BoxLoader {
 			add_action( 'wp_head', array( $this, 'print_boxes_css' ), 90 );
 			add_action( 'wp_footer', array( $this, 'print_boxes_html' ) );
 
-			add_filter( 'stb_box_content', 'wptexturize') ;
-			add_filter( 'stb_box_content', 'convert_smilies' );
-			add_filter( 'stb_box_content', 'convert_chars' );
-			add_filter( 'stb_box_content', 'wpautop' );
-			add_filter( 'stb_box_content', 'shortcode_unautop' );
-			add_filter( 'stb_box_content', 'do_shortcode', 11 );
+			add_filter( 'boxzilla_box_content', 'wptexturize') ;
+			add_filter( 'boxzilla_box_content', 'convert_smilies' );
+			add_filter( 'boxzilla_box_content', 'convert_chars' );
+			add_filter( 'boxzilla_box_content', 'wpautop' );
+			add_filter( 'boxzilla_box_content', 'shortcode_unautop' );
+			add_filter( 'boxzilla_box_content', 'do_shortcode', 11 );
 		}
 	}
 
@@ -51,7 +51,7 @@ class BoxLoader {
 	 * @return array
 	 */
 	protected function get_filter_rules() {
-		$rules = get_option( 'stb_rules', array() );
+		$rules = get_option( 'boxzilla_rules', array() );
 
 		if( ! is_array( $rules ) ) {
 			return array();
@@ -201,23 +201,23 @@ class BoxLoader {
 			}
 
 			/**
-			 * @filter stb_show_box_{$box_id]
+			 * @filter boxzilla_show_box_{$box_id]
 			 * @expects bool
 			 *
 			 * Use to run some custom logic whether to show this specific box or not.
 			 * Return true if box should be shown.
 			 */
-			$matched = apply_filters( 'stb_show_box_' . $box_id, $matched );
+			$matched = apply_filters( 'boxzilla_show_box_' . $box_id, $matched );
 
 			/**
-			 * @filter stb_show_box
+			 * @filter boxzilla_show_box
 			 * @expects bool
 			 * @param int $box_id
 			 *
 			 * Use to run some custom logic whether to show a box or not.
 			 * Return true if box should be shown.
 			 */
-			$matched = apply_filters( 'stb_show_box', $matched, $box_id );
+			$matched = apply_filters( 'boxzilla_show_box', $matched, $box_id );
 
 			// if matched, box should be loaded on this page
 			if ( $matched ) {
@@ -226,7 +226,7 @@ class BoxLoader {
 
 		}
 
-		return (array) apply_filters( 'stb_matched_boxes_ids', $matched_box_ids );
+		return (array) apply_filters( 'boxzilla_matched_boxes_ids', $matched_box_ids );
 	}
 
 	/**
@@ -236,18 +236,18 @@ class BoxLoader {
 		$pre_suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 		// stylesheets
-		wp_register_style( 'scroll-triggered-boxes', $this->plugin->url( '/assets/css/styles' . $pre_suffix . '.css' ), array(), $this->plugin->version() );
+		wp_register_style( 'boxzilla', $this->plugin->url( '/assets/css/styles' . $pre_suffix . '.css' ), array(), $this->plugin->version() );
 
 		// scripts
-		wp_register_script( 'scroll-triggered-boxes',$this->plugin->url( '/assets/js/script' . $pre_suffix . '.js' ), array( 'jquery' ), $this->plugin->version(), true );
+		wp_register_script( 'boxzilla',$this->plugin->url( '/assets/js/script' . $pre_suffix . '.js' ), array( 'jquery' ), $this->plugin->version(), true );
 
 		// Finally, enqueue style.
-		wp_enqueue_style( 'scroll-triggered-boxes' );
-		wp_enqueue_script( 'scroll-triggered-boxes' );
+		wp_enqueue_style( 'boxzilla' );
+		wp_enqueue_script( 'boxzilla' );
 
 		$this->pass_box_options();
 
-		do_action( 'stb_load_assets', $this );
+		do_action( 'boxzilla_load_assets', $this );
 	}
 
 	/**
@@ -268,7 +268,7 @@ class BoxLoader {
 			// query Box posts
 			$boxes = get_posts(
 				array(
-					'post_type' => 'scroll-triggered-box',
+					'post_type' => 'boxzilla-box',
 					'post_status' => 'publish',
 					'post__in'    => $this->matched_box_ids,
 					'numberposts' => -1
@@ -289,15 +289,15 @@ class BoxLoader {
 	 */
 	public function pass_box_options() {
 
-		// create STB_Global_Options object
+		// create boxzilla_Global_Options object
 		$plugin_options = $this->plugin['options'];
 		$global_options = array(
 			'testMode' => (bool) $plugin_options['test_mode']
 		);
-		wp_localize_script( 'scroll-triggered-boxes', 'STB_Global_Options', $global_options );
+		wp_localize_script( 'boxzilla', 'Boxzilla_Global_Options', $global_options );
 
 
-		// create STB_Box_Options object
+		// create Boxzilla_Box_Options object
 		$boxes_options = array();
 		foreach( $this->get_matched_boxes() as $box ) {
 
@@ -322,24 +322,24 @@ class BoxLoader {
 			$boxes_options[ $box->ID ] = $options;
 		}
 
-		wp_localize_script( 'scroll-triggered-boxes', 'STB_Box_Options', $boxes_options );
+		wp_localize_script( 'boxzilla', 'Boxzilla_Box_Options', $boxes_options );
 	}
 
 	/**
 	* Outputs the boxes in the footer
 	*/
 	public function print_boxes_html() {
-		?><!-- Scroll Triggered Boxes v<?php echo $this->plugin->version(); ?> - https://wordpress.org/plugins/scroll-triggered-boxes/--><?php
+		?><!-- Boxzilla v<?php echo $this->plugin->version(); ?> - https://wordpress.org/plugins/boxzilla/--><?php
 
 		// print HTML for each of the boxes
 		foreach ( $this->get_matched_boxes() as $box ) {
-			/* @var $box Box */
+			/* @var Box $box */
 			$box->print_html();
 		}
 
 			// print overlay element, we only need this once (it's re-used for all boxes)
-			echo '<div id="stb-overlay"></div>';
-		?><!-- / Scroll Triggered Box --><?php
+			echo '<div id="boxzilla-overlay"></div>';
+		?><!-- / Boxzilla --><?php
 	}
 
 	/**
@@ -350,7 +350,7 @@ class BoxLoader {
 
 		// print HTML for each of the boxes
 		foreach ( $this->get_matched_boxes() as $box ) {
-			/* @var $box Box */
+			/* @var Box $box  */
 			$box->print_css();
 		}
 

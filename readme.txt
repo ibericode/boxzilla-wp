@@ -1,4 +1,4 @@
-=== Scroll Triggered Boxes ===
+=== Boxzilla ===
 Contributors: Ibericode, DvanKooten, hchouhan, lapzor
 Donate link: https://scrolltriggeredboxes.com/#utm_source=wp-plugin-repo&utm_medium=scroll-triggered-boxes&utm_campaign=donate-link
 Tags: scroll triggered box, cta, social, pop-up, newsletter, call to action, mailchimp, contact form 7, social media,mc4wp
@@ -14,7 +14,7 @@ Flexible call to action boxes, a better alternative to pop-ups.
 
 = Call-To-Action Boxes =
 
-Scroll Triggered Boxes is a *lightweight* plugin for adding flexible call-to-actions to your WordPress site. Boxes can slide or fade in at any point and can contain whatever content you like.
+Boxzilla is a *lightweight* plugin for adding flexible call-to-actions to your WordPress site. Boxes can slide or fade in at any point and can contain whatever content you like.
 
 = Features =
 
@@ -28,7 +28,7 @@ Scroll Triggered Boxes is a *lightweight* plugin for adding flexible call-to-act
 - Control how long dismissed boxes should stay hidden.
 - Control whether boxes should show on small screens.
 
-[Read more about Scroll Triggered Boxes](https://scrolltriggeredboxes.com/#utm_source=wp-plugin-repo&utm_medium=scroll-triggered-boxes&utm_campaign=description).
+[Read more about Boxzilla](https://scrolltriggeredboxes.com/#utm_source=wp-plugin-repo&utm_medium=scroll-triggered-boxes&utm_campaign=description).
 
 = Documentation =
 
@@ -36,13 +36,13 @@ Please have a look at the [frequently asked questions](https://wordpress.org/plu
 
 = Demo =
 
-There's a [Scroll Triggered Boxes demo site](http://demo.scrolltriggeredboxes.com#utm_source=wp-plugin-repo&utm_medium=scroll-triggered-boxes&utm_campaign=description), showcasing the vast amount of possibilities for you to gather your leads.
+There's a [Boxzilla demo site](http://demo.scrolltriggeredboxes.com#utm_source=wp-plugin-repo&utm_medium=scroll-triggered-boxes&utm_campaign=description), showcasing the vast amount of possibilities for you to gather your leads.
 
 = Add-ons =
 
-The core Scroll Triggered Boxes plugin is free and always will be. Additional advanced functionality is available through several add-ons. Not only do they extend the core functionality of the plugin, they also help to fund further development of the core (free) plugin.
+The core Boxzilla plugin is free and always will be. Additional advanced functionality is available through several add-ons. Not only do they extend the core functionality of the plugin, they also help to fund further development of the core (free) plugin.
 
-[Browse available add-ons for Scroll Triggered Boxes](https://scrolltriggeredboxes.com/plugins#utm_source=wp-plugin-repo&utm_medium=scroll-triggered-boxes&utm_campaign=description).
+[Browse available add-ons for Boxzilla](https://scrolltriggeredboxes.com/plugins#utm_source=wp-plugin-repo&utm_medium=scroll-triggered-boxes&utm_campaign=description).
 
 Some popular add-ons include:
 
@@ -70,7 +70,7 @@ If you're on [one of the available premium plans](https://scrolltriggeredboxes.c
 
 = What does this plugin do? =
 
-Have a look at the [Scroll Triggered Boxes demo site](http://demo.scrolltriggeredboxes.com/#utm_source=wp-plugin-repo&utm_medium=scroll-triggered-boxes&utm_campaign=description).
+Have a look at the [Boxzilla demo site](http://demo.scrolltriggeredboxes.com/#utm_source=wp-plugin-repo&utm_medium=scroll-triggered-boxes&utm_campaign=description).
 
 = How to display a form in the box? =
 
@@ -136,17 +136,17 @@ If you want more advanced styling, you can use CSS to further style the boxes. E
 All default WordPress filters are added to the `stb_content` filter hook. If you want to remove any of them, add the respectable line to your theme its `functions.php` file.
 
 `
-remove_filter( 'stb_box_content', 'wptexturize') ;
-remove_filter( 'stb_box_content', 'convert_smilies' );
-remove_filter( 'stb_box_content', 'convert_chars' );
-remove_filter( 'stb_box_content', 'wpautop' );
-remove_filter( 'stb_box_content', 'do_shortcode' );
-remove_filter( 'stb_box_content', 'shortcode_unautop' );
+remove_filter( 'boxzilla_box_content', 'wptexturize') ;
+remove_filter( 'boxzilla_box_content', 'convert_smilies' );
+remove_filter( 'boxzilla_box_content', 'convert_chars' );
+remove_filter( 'boxzilla_box_content', 'wpautop' );
+remove_filter( 'boxzilla_box_content', 'do_shortcode' );
+remove_filter( 'boxzilla_box_content', 'shortcode_unautop' );
 `
 
 = I want to disable closing of the box =
 `
-add_filter( 'stb_box_options', function( $opts ) {
+add_filter( 'boxzilla_box_options', function( $opts ) {
 	$opts['unclosable'] = true;
 	return $opts;
 });
@@ -156,19 +156,19 @@ add_filter( 'stb_box_options', function( $opts ) {
 
 = Installing the plugin =
 
-1. In your WordPress admin panel, go to *Plugins > New Plugin*, search for *Scroll Triggered Boxes* and click "Install now"
-1. Alternatively, download the plugin and upload the contents of `scroll-triggered-boxes.zip` to your plugins directory, which usually is `/wp-content/plugins/`.
+1. In your WordPress admin panel, go to *Plugins > New Plugin*, search for *Boxzilla* and click "Install now"
+1. Alternatively, download the plugin and upload the contents of `boxzilla.zip` to your plugins directory, which usually is `/wp-content/plugins/`.
 1. Activate the plugin. 
 
-= Creating a Scroll Triggered Box =
+= Creating a Boxzilla box =
 
-1. Go to *Scroll Triggered Boxes > Add New*
+1. Go to *Boxzilla > Add New*
 1. Add some content to the box
 1. (Optional) customize the appearance of the box by changing the *Appearance Settings*
 
 = Additional Customization =
 
-Have a look at the [frequently asked questions](https://wordpress.org/plugins/scroll-triggered-boxes/faq/) section for some examples of additional customization.
+Have a look at the [frequently asked questions](https://wordpress.org/plugins/boxzilla/faq/) section for some examples of additional customization.
 
 == Screenshots ==
 

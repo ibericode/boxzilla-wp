@@ -1,6 +1,6 @@
 <?php
 
-namespace ScrollTriggeredBoxes\Admin;
+namespace Boxzilla\Admin;
 
 class Notices {
 

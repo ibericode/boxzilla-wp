@@ -1,1 +1,1 @@
-window.STB_Admin = require('./admin/_admin.js');
+window.Boxzilla_Admin = require('./admin/_admin.js');

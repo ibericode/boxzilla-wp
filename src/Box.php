@@ -1,6 +1,6 @@
 <?php
 
-namespace ScrollTriggeredBoxes;
+namespace Boxzilla;
 
 class Box {
 
@@ -100,7 +100,7 @@ class Box {
 			'unclosable' => false,
 		);
 
-		$opts = get_post_meta( $this->ID, 'stb_options', true );
+		$opts = get_post_meta( $this->ID, 'boxzilla_options', true );
 
 		// merge CSS options
 		if( ! isset( $opts['css'] ) ) {
@@ -116,7 +116,7 @@ class Box {
 		$opts['auto_show'] = ! empty( $opts['trigger'] );
 
 		// allow others to filter the final array of options
-		return apply_filters( 'stb_box_options', $opts, $this );
+		return apply_filters( 'boxzilla_box_options', $opts, $this );
 	}
 
 	/**
@@ -144,14 +144,13 @@ class Box {
 
 		// default classes
 		$classes = array(
-			'scroll-triggered-box',
-			'stb',
-			'stb-' . $this->ID,
-			'stb-' . $this->options['css']['position']
+			'boxzilla',
+			'boxzilla-' . $this->ID,
+			'boxzilla-' . $this->options['css']['position']
 		);
 
 		// allow other plugins to add more classes
-		$classes = (array) apply_filters( 'stb_box_css_classes', $classes, $this );
+		$classes = (array) apply_filters( 'boxzilla_box_css_classes', $classes, $this );
 
 		// convert array of css classes to string
 		return implode( ' ', $classes );
@@ -163,7 +162,7 @@ class Box {
 	 * @return string
 	 */
 	public function get_close_icon() {
-		$close_icon = apply_filters( 'stb_box_close_icon', '&times;', $this );
+		$close_icon = apply_filters( 'boxzilla_box_close_icon', '&times;', $this );
 		return (string) $close_icon;
 	}
 
@@ -173,7 +172,7 @@ class Box {
 	 * @return mixed|void
 	 */
 	public function get_content() {
-		$content = apply_filters( 'stb_box_content', $this->content, $this );
+		$content = apply_filters( 'boxzilla_box_content', $this->content, $this );
 		return $content;
 	}
 
@@ -185,14 +184,14 @@ class Box {
 	public function get_minimum_screen_size() {
 
 		/**
-		 * @filter stb_auto_hide_small_screens
+		 * @filter boxzilla_auto_hide_small_screens
 		 * @expects bool
 		 * @param int $box_id
 		 * @deprecated 4.0 Use the hide_on_screen_size option instead
 		 *
 		 * Use to set whether the box should auto-hide on devices with a width smaller than 480px
 		 */
-		$auto_hide_small_screens = apply_filters( 'stb_auto_hide_small_screens', true, $this );
+		$auto_hide_small_screens = apply_filters( 'boxzilla_auto_hide_small_screens', true, $this );
 
 		if( '' === $this->options['hide_on_screen_size'] && $auto_hide_small_screens ) {
 			$minimum_screen_size = absint( $this->options['css']['width'] );
@@ -212,19 +211,19 @@ class Box {
 		$opts = $this->options;
 		$close_icon = $this->get_close_icon();
 			?>
-			<div class="stb-container stb-<?php echo esc_attr( $opts['css']['position'] ); ?>-container">
+			<div class="boxzilla-container boxzilla-<?php echo esc_attr( $opts['css']['position'] ); ?>-container">
 				<div class="<?php echo esc_attr( $this->get_css_classes() ); ?>"
-				     id="stb-<?php echo $this->ID; ?>"
+				     id="boxzilla-<?php echo $this->ID; ?>"
 				     style="display: none;">
-					<div class="stb-content">
+					<div class="boxzilla-content">
 						<?php
-						do_action( 'stb_print_box_content_before', $this );
+						do_action( 'boxzilla_print_box_content_before', $this );
 						echo $this->get_content();
-						do_action( 'stb_print_box_content_after', $this );
+						do_action( 'boxzilla_print_box_content_after', $this );
 						?>
 					</div>
 					<?php if( ! empty( $close_icon ) && ! $this->options['unclosable'] ) { ?>
-						<span class="stb-close"><?php echo $this->get_close_icon(); ?></span>
+						<span class="boxzilla-close-icon"><?php echo $this->get_close_icon(); ?></span>
 					<?php } ?>
 				</div>
 			</div>
@@ -258,7 +257,7 @@ class Box {
 		print PHP_EOL;
 
 		// open selector wrapper
-		printf( '.stb-%d {', $this->ID );
+		printf( '.boxzilla-%d {', $this->ID );
 		print PHP_EOL;
 
 		// print any rules which may have been set
@@ -291,7 +290,7 @@ class Box {
 		}
 
 		if( $minimum_screen_size > 0 ) {
-			printf( '@media ( max-width: %dpx ) { #stb-%d { display: none !important; } }', $minimum_screen_size, $this->ID );
+			printf( '@media ( max-width: %dpx ) { #boxzilla-%d { display: none !important; } }', $minimum_screen_size, $this->ID );
 			print PHP_EOL;
 		}
 
@@ -303,7 +302,7 @@ class Box {
 			echo strip_tags( $css['manual'] );
 		}
 
-		do_action( 'stb_box_print_css', $this );
+		do_action( 'boxzilla_box_print_css', $this );
 
 		if( $open_style_element ) {
 			echo '</style>' . PHP_EOL;

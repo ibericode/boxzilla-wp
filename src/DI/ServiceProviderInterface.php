@@ -24,7 +24,7 @@
  * THE SOFTWARE.
  */
 
-namespace ScrollTriggeredBoxes\DI;
+namespace Boxzilla\DI;
 
 /**
  * Pimple service provider interface.

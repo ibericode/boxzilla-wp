@@ -1,10 +1,10 @@
 <?php
 
-namespace ScrollTriggeredBoxes\Admin;
+namespace Boxzilla\Admin;
 
-use ScrollTriggeredBoxes\Licensing\LicenseServiceProvider,
-	ScrollTriggeredBoxes\iPlugin,
-	ScrollTriggeredBoxes\Box;
+use Boxzilla\Licensing\LicenseServiceProvider,
+	Boxzilla\iPlugin,
+	Boxzilla\Box;
 use WP_Post;
 use WP_Screen;
 
@@ -29,7 +29,7 @@ class Admin {
 		$this->register_services();
 
 		// Load the plugin textdomain
-		load_plugin_textdomain( 'scroll-triggered-boxes', null, $this->plugin->dir() . '/languages' );
+		load_plugin_textdomain( 'boxzilla', null, $this->plugin->dir() . '/languages' );
 
 		// action hooks
 		$this->add_hooks();
@@ -57,7 +57,7 @@ class Admin {
 		add_action( 'admin_init', array( $this, 'register' ) );
 		add_action( 'admin_menu', array( $this, 'menu' ) );
 
-		add_action( 'save_post_scroll-triggered-box', array( $this, 'save_box_options' ), 20, 2 );
+		add_action( 'save_post_boxzilla-box', array( $this, 'save_box_options' ), 20, 2 );
 		add_action( 'trashed_post', array( $this, 'flush_rules' ) );
 		add_action( 'untrashed_post', array( $this, 'flush_rules' ) );
 
@@ -75,8 +75,8 @@ class Admin {
 		add_action( 'admin_enqueue_scripts', array( $this, 'load_assets' ) );
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
 		add_filter( 'tiny_mce_before_init', array( $this, 'tinymce_init' ) );
-		add_filter( 'manage_edit-scroll-triggered-box_columns', array( $this, 'post_type_column_titles' ) );
-		add_action( 'manage_scroll-triggered-box_posts_custom_column', array(
+		add_filter( 'manage_edit-boxzilla-box_columns', array( $this, 'post_type_column_titles' ) );
+		add_action( 'manage_boxzilla-box_posts_custom_column', array(
 			$this,
 			'post_type_column_content'
 		), 10, 2 );
@@ -113,10 +113,10 @@ class Admin {
 	 */
 	public function post_type_column_titles( $columns ) {
 		$columns = self::array_insert( $columns, array(
-			'box_id' => __( 'Box ID', 'scroll-triggered-box' )
+			'box_id' => __( 'Box ID', 'boxzilla' )
 		), 1 );
 
-		$columns['title'] = __( 'Box Title', 'scroll-triggered-box' );
+		$columns['title'] = __( 'Box Title', 'boxzilla' );
 
 		return $columns;
 	}
@@ -127,12 +127,12 @@ class Admin {
 	public function register() {
 
 		// register settings
-		register_setting( 'stb_settings', 'stb_settings', array( $this, 'sanitize_settings' ) );
+		register_setting( 'boxzilla_settings', 'boxzilla_settings', array( $this, 'sanitize_settings' ) );
 
 		// register scripts
 		$pre_suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
-		wp_register_script( 'scroll-triggered-boxes-admin', $this->plugin->url( '/assets/js/admin-script' . $pre_suffix . '.js' ), array(
+		wp_register_script( 'boxzilla-admin', $this->plugin->url( '/assets/js/admin-script' . $pre_suffix . '.js' ), array(
 			'jquery',
 			'wp-util',
 			'wp-color-picker',
@@ -140,7 +140,7 @@ class Admin {
 		), $this->plugin->version(), true );
 
 		// load stylesheets
-		wp_register_style( 'scroll-triggered-boxes-admin', $this->plugin->url( '/assets/css/admin-styles' . $pre_suffix . '.css' ), array(), $this->plugin->version() );
+		wp_register_style( 'boxzilla-admin', $this->plugin->url( '/assets/css/admin-styles' . $pre_suffix . '.css' ), array(), $this->plugin->version() );
 	}
 
 	/**
@@ -150,23 +150,23 @@ class Admin {
 
 		$menu_items = array(
 			array(
-				__( 'Settings', 'scroll-triggered-boxes' ),
-				__( 'Settings', 'scroll-triggered-boxes' ),
-				'stb-settings',
+				__( 'Settings', 'boxzilla' ),
+				__( 'Settings', 'boxzilla' ),
+				'boxzilla-settings',
 				array( $this, 'show_settings_page' )
 			),
 			array(
-				__( 'Extensions', 'scroll-triggered-boxes' ),
-				'<span style="color: orange">' . __( 'Extensions', 'scroll-triggered-boxes' ) . '</span>',
-				'stb-extensions',
+				__( 'Extensions', 'boxzilla' ),
+				'<span style="color: orange">' . __( 'Extensions', 'boxzilla' ) . '</span>',
+				'boxzilla-extensions',
 				array( $this, 'show_extensions_page' )
 			)
 		);
 
-		$menu_items = apply_filters( 'stb_admin_menu_items', $menu_items );
+		$menu_items = apply_filters( 'boxzilla_admin_menu_items', $menu_items );
 
 		foreach ( $menu_items as $item ) {
-			add_submenu_page( 'edit.php?post_type=scroll-triggered-box', $item[0] . '- Scroll Triggered Boxes', $item[1], 'manage_options', $item[2], $item[3] );
+			add_submenu_page( 'edit.php?post_type=boxzilla-box', $item[0] . '- Boxzilla', $item[1], 'manage_options', $item[2], $item[3] );
 		}
 	}
 
@@ -198,11 +198,11 @@ class Admin {
 			return false;
 		}
 
-		if ( isset( $_GET['post_type'] ) && $_GET['post_type'] === 'scroll-triggered-box' ) {
+		if ( isset( $_GET['post_type'] ) && $_GET['post_type'] === 'boxzilla-box' ) {
 			return true;
 		}
 
-		if ( get_post_type() === 'scroll-triggered-box' ) {
+		if ( get_post_type() === 'boxzilla-box' ) {
 			return true;
 		}
 
@@ -217,11 +217,11 @@ class Admin {
 	public function tinymce_init( $args ) {
 
 		// only act on our post type
-		if ( get_post_type() !== 'scroll-triggered-box' ) {
+		if ( get_post_type() !== 'boxzilla-box' ) {
 			return $args;
 		}
 
-		$args['setup'] = 'function( editor ) { if(typeof(window.STB_Admin) === \'undefined\') { return; } editor.on("PreInit", window.STB_Admin.Designer.init ); }';
+		$args['setup'] = 'function( editor ) { if(typeof(window.Boxzilla_Admin) === \'undefined\') { return; } editor.on("PreInit", window.Boxzilla_Admin.Designer.init ); }';
 
 		return $args;
 	}
@@ -237,37 +237,37 @@ class Admin {
 			return false;
 		}
 
-		if ( $screen->base === 'edit' && $screen->post_type === 'scroll-triggered-box' ) {
+		if ( $screen->base === 'edit' && $screen->post_type === 'boxzilla-box' ) {
 			// load stylesheets
-			wp_enqueue_style( 'scroll-triggered-boxes-admin' );
+			wp_enqueue_style( 'boxzilla-admin' );
 		}
 
-		if ( $screen->base === 'post' && $screen->post_type === 'scroll-triggered-box' ) {
+		if ( $screen->base === 'post' && $screen->post_type === 'boxzilla-box' ) {
 			// color picker
 			wp_enqueue_style( 'wp-color-picker' );
 
 			// load scripts
-			wp_enqueue_script( 'scroll-triggered-boxes-admin' );
+			wp_enqueue_script( 'boxzilla-admin' );
 
-			wp_localize_script( 'scroll-triggered-boxes-admin' ,'stb_i18n', array(
-					'enterCommaSeparatedValues' => __( 'Enter a comma-separated list of values.', 'scroll-triggered-boxes' ),
-					'enterCommaSeparatedPosts' => __( "Enter a comma-separated list of post slugs or post ID's..", 'scroll-triggered-boxes' ),
-					'enterCommaSeparatedPages' => __( "Enter a comma-separated list of page slugs or page ID's..", 'scroll-triggered-boxes' ),
-					'enterCommaSeparatedPostTypes' => __( "Enter a comma-separated list of post types..", 'scroll-triggered-boxes' ),
-					'enterCommaSeparatedRelativeUrls' => __( "Enter a comma-separated list of relative URL's, eg /contact/", 'scroll-triggered-boxes' ),
+			wp_localize_script( 'boxzilla-admin' ,'boxzilla_i18n', array(
+					'enterCommaSeparatedValues' => __( 'Enter a comma-separated list of values.', 'boxzilla' ),
+					'enterCommaSeparatedPosts' => __( "Enter a comma-separated list of post slugs or post ID's..", 'boxzilla' ),
+					'enterCommaSeparatedPages' => __( "Enter a comma-separated list of page slugs or page ID's..", 'boxzilla' ),
+					'enterCommaSeparatedPostTypes' => __( "Enter a comma-separated list of post types..", 'boxzilla' ),
+					'enterCommaSeparatedRelativeUrls' => __( "Enter a comma-separated list of relative URL's, eg /contact/", 'boxzilla' ),
 				)
 			);
 
 			// load stylesheets
-			wp_enqueue_style( 'scroll-triggered-boxes-admin' );
+			wp_enqueue_style( 'boxzilla-admin' );
 
 			// allow add-ons to easily load their own scripts or stylesheets
-			do_action( 'stb_load_admin_assets' );
+			do_action( 'boxzilla_load_admin_assets' );
 		}
 
-		if ( isset( $_GET['page'] ) && $_GET['page'] === 'stb-settings' ) {
+		if ( isset( $_GET['page'] ) && $_GET['page'] === 'boxzilla-settings' ) {
 			// load stylesheets
-			wp_enqueue_style( 'scroll-triggered-boxes-admin' );
+			wp_enqueue_style( 'boxzilla-admin' );
 		}
 
 	}
@@ -281,41 +281,41 @@ class Admin {
 	 */
 	public function add_meta_boxes( $post_type ) {
 
-		if ( $post_type !== 'scroll-triggered-box' ) {
+		if ( $post_type !== 'boxzilla-box' ) {
 			return false;
 		}
 
 		add_meta_box(
-			'stb-box-appearance-controls',
-			__( 'Box Appearance', 'scroll-triggered-boxes' ),
+			'boxzilla-box-appearance-controls',
+			__( 'Box Appearance', 'boxzilla' ),
 			array( $this, 'metabox_box_appearance_controls' ),
-			'scroll-triggered-box',
+			'boxzilla-box',
 			'normal',
 			'core'
 		);
 
 		add_meta_box(
-			'stb-box-options-controls',
-			__( 'Box Options', 'scroll-triggered-boxes' ),
+			'boxzilla-box-options-controls',
+			__( 'Box Options', 'boxzilla' ),
 			array( $this, 'metabox_box_option_controls' ),
-			'scroll-triggered-box',
+			'boxzilla-box',
 			'normal',
 			'core'
 		);
 
 		add_meta_box(
-			'stb-support',
-			__( 'Looking for help?', 'scroll-triggered-boxes' ),
+			'boxzilla-support',
+			__( 'Looking for help?', 'boxzilla' ),
 			array( $this, 'metabox_support' ),
-			'scroll-triggered-box',
+			'boxzilla-box',
 			'side'
 		);
 
 		add_meta_box(
-			'stb-email-optin',
-			__( 'Subscribe to our newsletter', 'scroll-triggered-boxes' ),
+			'boxzilla-email-optin',
+			__( 'Subscribe to our newsletter', 'boxzilla' ),
 			array( $this, 'metabox_email_optin' ),
-			'scroll-triggered-box',
+			'boxzilla-box',
 			'side'
 		);
 
@@ -382,7 +382,7 @@ class Admin {
 	public function save_box_options( $box_id, $post ) {
 
 		// Only act on our own post type
-		if ( $post->post_type !== 'scroll-triggered-box' ) {
+		if ( $post->post_type !== 'boxzilla-box' ) {
 			return false;
 		}
 
@@ -397,25 +397,25 @@ class Admin {
 		}
 
 		// make sure options array is set
-		if ( ! isset( $_POST['stb'] ) || ! is_array( $_POST['stb'] ) ) {
+		if ( ! isset( $_POST['boxzilla_box'] ) || ! is_array( $_POST['boxzilla_box'] ) ) {
 			return false;
 		}
 
 		// get new options from $_POST
-		$opts = $this->sanitize_box_options( $_POST['stb'] );
+		$opts = $this->sanitize_box_options( $_POST['boxzilla_box'] );
 
 		// allow extensions to filter the saved options
-		$opts = apply_filters( 'stb_saved_options', $opts, $box_id );
+		$opts = apply_filters( 'boxzilla_saved_options', $opts, $box_id );
 
 		// save individual box settings
-		update_post_meta( $box_id, 'stb_options', $opts );
+		update_post_meta( $box_id, 'boxzilla_options', $opts );
 
 		// update global settings if given
-		if( ! empty( $_POST['stb_global_settings'] ) ) {
-			$global_settings = get_option( 'stb_settings', array() );
+		if( ! empty( $_POST['boxzilla_global_settings'] ) ) {
+			$global_settings = get_option( 'boxzilla_settings', array() );
 			if( ! is_array( $global_settings ) ) { $global_settings = array(); }
-			$global_settings = array_merge( $global_settings, $_POST['stb_global_settings'] );
-			update_option( 'stb_settings', $global_settings );
+			$global_settings = array_merge( $global_settings, $_POST['boxzilla_global_settings'] );
+			update_option( 'boxzilla_settings', $global_settings );
 		}
 
 		$this->flush_rules( $box_id );
@@ -562,7 +562,7 @@ class Admin {
 			return $links;
 		}
 
-		$settings_link = '<a href="' . admin_url( 'edit.php?post_type=scroll-triggered-box' ) . '">' . __( 'Boxes' ) . '</a>';
+		$settings_link = '<a href="' . admin_url( 'edit.php?post_type=boxzilla-box' ) . '">' . __( 'Boxes' ) . '</a>';
 		array_unshift( $links, $settings_link );
 
 		return $links;
@@ -581,8 +581,8 @@ class Admin {
 			return $links;
 		}
 
-		$links[] = '<a href="https://scrolltriggeredboxes.com/kb#utm_source=wp-plugin&utm_medium=scroll-triggered-boxes&utm_campaign=plugins-page">Documentation</a>';
-		$links[] = '<a href="https://scrolltriggeredboxes.com/plugins#utm_source=wp-plugin&utm_medium=scroll-triggered-boxes&utm_campaign=plugins-page">Add-ons</a>';
+		$links[] = '<a href="https://kb.boxzillaplugin.com/#utm_source=wp-plugin&utm_medium=boxzilla&utm_campaign=plugins-page">Documentation</a>';
+		$links[] = '<a href="https://boxzillaplugin.com/add-ons/#utm_source=wp-plugin&utm_medium=boxzilla&utm_campaign=plugins-page">Add-ons</a>';
 
 		return $links;
 	}
@@ -598,14 +598,14 @@ class Admin {
 
 		// only act on our own post type
 		$post = get_post( $post_id );
-		if ( $post instanceof WP_Post && $post->post_type !== 'scroll-triggered-box' ) {
+		if ( $post instanceof WP_Post && $post->post_type !== 'boxzilla-box' ) {
 			return;
 		}
 
 		// get all published boxes
 		$boxes = get_posts(
 			array(
-				'post_type'   => 'scroll-triggered-box',
+				'post_type'   => 'boxzilla-box',
 				'post_status' => 'publish',
 				'numberposts' => - 1
 			)
@@ -619,7 +619,7 @@ class Admin {
 
 			foreach ( $boxes as $box ) {
 				// get box meta data
-				$box_meta = get_post_meta( $box->ID, 'stb_options', true );
+				$box_meta = get_post_meta( $box->ID, 'boxzilla_options', true );
 
 				// add box rules to all rules
 				$rules[ $box->ID ]                = $box_meta['rules'];
@@ -629,7 +629,7 @@ class Admin {
 
 		}
 
-		update_option( 'stb_rules', $rules );
+		update_option( 'boxzilla_rules', $rules );
 	}
 
 	/**
@@ -639,12 +639,12 @@ class Admin {
 	 */
 	protected function fetch_extensions() {
 
-		$extensions = get_transient( 'stb_remote_extensions' );
+		$extensions = get_transient( 'boxzilla_remote_extensions' );
 		if ( $extensions ) {
 			return $extensions;
 		}
 
-		$request = wp_remote_get( 'https://scrolltriggeredboxes.com/api/v1/plugins' );
+		$request = wp_remote_get( 'https://api.boxzillaplugin.com/v1/plugins' );
 
 		if ( is_wp_error( $request ) ) {
 			return array();
@@ -654,7 +654,7 @@ class Admin {
 		$response = json_decode( $response );
 
 		if ( is_array( $response->data ) ) {
-			set_transient( 'stb_remote_extensions', $response->data, HOUR_IN_SECONDS );
+			set_transient( 'boxzilla_remote_extensions', $response->data, HOUR_IN_SECONDS );
 
 			return $response->data;
 		}
@@ -697,9 +697,9 @@ class Admin {
 			return $text;
 		}
 
-		$on_edit_page = $screen->parent_base === 'edit' && $screen->post_type === 'scroll-triggered-box';
+		$on_edit_page = $screen->parent_base === 'edit' && $screen->post_type === 'boxzilla-box';
 		if ( $on_edit_page ) {
-			return sprintf( 'If you enjoy using <strong>Scroll Triggered Boxes</strong>, please <a href="%s" target="_blank">leave us a ★★★★★ rating</a>. A <strong style="text-decoration: underline;">huge</strong> thank you in advance!', 'https://wordpress.org/support/view/plugin-reviews/scroll-triggered-boxes?rate=5#postform' );
+			return sprintf( 'If you enjoy using <strong>Boxzilla</strong>, please <a href="%s" target="_blank">leave us a ★★★★★ rating</a>. A <strong style="text-decoration: underline;">huge</strong> thank you in advance!', 'https://wordpress.org/support/view/plugin-reviews/boxzilla?rate=5#postform' );
 		}
 
 		return $text;

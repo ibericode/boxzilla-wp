@@ -1,6 +1,6 @@
 <?php
 
-namespace ScrollTriggeredBoxes;
+namespace Boxzilla;
 
 final class Plugin extends PluginBase {
 
@@ -42,27 +42,27 @@ final class Plugin extends PluginBase {
 		$args = array(
 			'public' => false,
 			'labels'  =>  array(
-				'name'               => __( 'Scroll Triggered Boxes', 'scroll-triggered-boxes' ),
-				'singular_name'      => __( 'Scroll Triggered Box', 'scroll-triggered-boxes' ),
-				'add_new'            => __( 'Add New', 'scroll-triggered-boxes' ),
-				'add_new_item'       => __( 'Add New Box', 'scroll-triggered-boxes' ),
-				'edit_item'          => __( 'Edit Box', 'scroll-triggered-boxes' ),
-				'new_item'           => __( 'New Box', 'scroll-triggered-boxes' ),
-				'all_items'          => __( 'All Boxes', 'scroll-triggered-boxes' ),
-				'view_item'          => __( 'View Box', 'scroll-triggered-boxes' ),
-				'search_items'       => __( 'Search Boxes', 'scroll-triggered-boxes' ),
-				'not_found'          => __( 'No Boxes found', 'scroll-triggered-boxes' ),
-				'not_found_in_trash' => __( 'No Boxes found in Trash', 'scroll-triggered-boxes' ),
+				'name'               => __( 'Boxzilla', 'boxzilla' ),
+				'singular_name'      => __( 'Box', 'boxzilla' ),
+				'add_new'            => __( 'Add New', 'boxzilla' ),
+				'add_new_item'       => __( 'Add New Box', 'boxzilla' ),
+				'edit_item'          => __( 'Edit Box', 'boxzilla' ),
+				'new_item'           => __( 'New Box', 'boxzilla' ),
+				'all_items'          => __( 'All Boxes', 'boxzilla' ),
+				'view_item'          => __( 'View Box', 'boxzilla' ),
+				'search_items'       => __( 'Search Boxes', 'boxzilla' ),
+				'not_found'          => __( 'No Boxes found', 'boxzilla' ),
+				'not_found_in_trash' => __( 'No Boxes found in Trash', 'boxzilla' ),
 				'parent_item_colon'  => '',
-				'menu_name'          => __( 'Scroll Triggered Boxes', 'scroll-triggered-boxes' )
+				'menu_name'          => __( 'Boxzilla', 'boxzilla' )
 			),
 			'show_ui' => true,
 			'menu_position' => '108.1337133',
-			'menu_icon' => $this->url( '/assets/img/menu-icon.png' ),
+			'menu_icon' => $this->url( '/assets/img/menu-icon.jpg' ),
 			'query_var' => false
 		);
 
-		register_post_type( 'scroll-triggered-box', $args );
+		register_post_type( 'boxzilla-box', $args );
 	}
 
 }

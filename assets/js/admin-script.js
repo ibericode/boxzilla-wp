@@ -472,12 +472,12 @@
 	}
 }.call(this));
 },{}],2:[function(require,module,exports){
-window.STB_Admin = require('./admin/_admin.js');
+window.Boxzilla_Admin = require('./admin/_admin.js');
 },{"./admin/_admin.js":3}],3:[function(require,module,exports){
 module.exports = (function($) {
 	'use strict';
 
-	var optionControls = document.getElementById('stb-box-options-controls');
+	var optionControls = document.getElementById('boxzilla-box-options-controls');
 	var $optionControls = $(optionControls);
 
 	// sanity check, are we on the correct page?
@@ -485,19 +485,20 @@ module.exports = (function($) {
 		return;
 	}
 
+	// TODO: Handle this using NPM
 	var EventEmitter = require('../_event-emitter.js');
 	var events = new EventEmitter();
 	var Option = require('./_option.js');
 	var Designer = require('./_designer.js')($, Option, events);
 	var rowTemplate = wp.template('rule-row-template');
-	var i18n = stb_i18n;
-	var manualHintElement = optionControls.querySelector('.stb-manual-hint');
+	var i18n = boxzilla_i18n;
+	var manualHintElement = optionControls.querySelector('.boxzilla-manual-hint');
 
 	// events
-	$optionControls.on('click', ".stb-add-rule", addRuleFields);
-	$optionControls.on('click', ".stb-remove-rule", removeRule);
-	$optionControls.on('change', ".stb-rule-condition", setContextualHelpers);
-	$optionControls.find('.stb-auto-show-trigger').on('change', toggleTriggerOptions );
+	$optionControls.on('click', ".boxzilla-add-rule", addRuleFields);
+	$optionControls.on('click', ".boxzilla-remove-rule", removeRule);
+	$optionControls.on('change', ".boxzilla-rule-condition", setContextualHelpers);
+	$optionControls.find('.boxzilla-auto-show-trigger').on('change', toggleTriggerOptions );
 
 	$(window).load(function() {
 		if( typeof(window.tinyMCE) === "undefined" ) {
@@ -506,10 +507,10 @@ module.exports = (function($) {
 	});
 
 	// call contextual helper method for each row
-	$('.stb-rule-row').each(setContextualHelpers);
+	$('.boxzilla-rule-row').each(setContextualHelpers);
 
 	function toggleTriggerOptions() {
-		$optionControls.find('.stb-trigger-options').toggle( this.value !== '' );
+		$optionControls.find('.boxzilla-trigger-options').toggle( this.value !== '' );
 	}
 
 	function removeRule() {
@@ -519,17 +520,17 @@ module.exports = (function($) {
 	function setContextualHelpers() {
 
 		var context = ( this.tagName.toLowerCase() === "tr" ) ? this : $(this).parents('tr').get(0);
-		var condition = context.querySelector('.stb-rule-condition').value;
-		var valueInput = context.querySelector('input.stb-rule-value');
+		var condition = context.querySelector('.boxzilla-rule-condition').value;
+		var valueInput = context.querySelector('input.boxzilla-rule-value');
 		var betterInput = valueInput.cloneNode(true);
 		var $betterInput = $(betterInput);
 
 		// remove previously added helpers
-		$(context.querySelectorAll('.stb-helper')).remove();
+		$(context.querySelectorAll('.boxzilla-helper')).remove();
 
 		// prepare better input
 		betterInput.removeAttribute('name');
-		betterInput.className += ' stb-helper';
+		betterInput.className += ' boxzilla-helper';
 		valueInput.parentNode.insertBefore(betterInput, valueInput.nextSibling);
 		betterInput.style.display = 'block';
 		$betterInput.change(function() {
@@ -554,17 +555,17 @@ module.exports = (function($) {
 			case 'is_single':
 			case 'is_post':
 				betterInput.placeholder = i18n.enterCommaSeparatedPosts;
-				$betterInput.suggest(ajaxurl + "?action=stb_autocomplete&type=post", {multiple:true, multipleSep: ","});
+				$betterInput.suggest(ajaxurl + "?action=boxzilla_autocomplete&type=post", {multiple:true, multipleSep: ","});
 				break;
 
 			case 'is_page':
 				betterInput.placeholder = i18n.enterCommaSeparatedPages;
-				$betterInput.suggest(ajaxurl + "?action=stb_autocomplete&type=page", {multiple:true, multipleSep: ","});
+				$betterInput.suggest(ajaxurl + "?action=boxzilla_autocomplete&type=page", {multiple:true, multipleSep: ","});
 				break;
 
 			case 'is_post_type':
 				betterInput.placeholder = i18n.enterCommaSeparatedPostTypes;
-				$betterInput.suggest(ajaxurl + "?action=stb_autocomplete&type=post_type", {multiple:true, multipleSep: ","});
+				$betterInput.suggest(ajaxurl + "?action=boxzilla_autocomplete&type=post_type", {multiple:true, multipleSep: ","});
 				break;
 
 			case 'is_url':
@@ -572,7 +573,7 @@ module.exports = (function($) {
 				break;
 
 			case 'is_post_in_category':
-				$betterInput.suggest(ajaxurl + "?action=stb_autocomplete&type=category", {multiple:true, multipleSep: ","});
+				$betterInput.suggest(ajaxurl + "?action=boxzilla_autocomplete&type=category", {multiple:true, multipleSep: ","});
 				break;
 
 			case 'manual':
@@ -584,10 +585,10 @@ module.exports = (function($) {
 
 	function addRuleFields() {
 		var data = {
-			'key': optionControls.querySelectorAll('.stb-rule-row').length
+			'key': optionControls.querySelectorAll('.boxzilla-rule-row').length
 		};
 		var html = rowTemplate(data);
-		$(document.getElementById('stb-box-rules')).after(html);
+		$(document.getElementById('boxzilla-box-rules')).after(html);
 		return false;
 	}
 
@@ -609,7 +610,7 @@ var Designer = function($, Option, events) {
 		manualStyleEl,
 		visualEditorInitialised = false;
 
-	var $appearanceControls = $("#stb-box-appearance-controls");
+	var $appearanceControls = $("#boxzilla-box-appearance-controls");
 
 	// create Option objects
 	options.borderColor = new Option('border-color');
@@ -638,7 +639,7 @@ var Designer = function($, Option, events) {
 
 		// add content class and padding to TinyMCE <body>
 		$innerEditor = $editor.find('#tinymce');
-		$innerEditor.addClass('scroll-triggered-box stb stb-' + boxId);
+		$innerEditor.addClass('boxzilla boxzilla-' + boxId);
 		$innerEditor.css({
 			'margin': 0,
 			'background': 'white',
@@ -652,17 +653,13 @@ var Designer = function($, Option, events) {
 		// create <style> element in <head>
 		manualStyleEl = document.createElement('style');
 		manualStyleEl.setAttribute('type','text/css');
-		manualStyleEl.id = 'stb-manual-css';
+		manualStyleEl.id = 'boxzilla-manual-css';
 		$(manualStyleEl).appendTo($editor.find('head'));
 
 		visualEditorInitialised = true;
 
 		/* @since 2.0.3 */
 		events.trigger('editor.init');
-
-		/* @deprecated 2.0.3 */
-		$(document).trigger('editorInit.stb');
-
 	}
 
 	/**
@@ -692,9 +689,6 @@ var Designer = function($, Option, events) {
 		/* @since 2.0.3 */
 		events.trigger('editor.styles.apply');
 
-		/* @deprecated 2.0.3 */
-		$(document).trigger('applyBoxStyles.stb');
-
 		return true;
 	}
 
@@ -710,14 +704,11 @@ var Designer = function($, Option, events) {
 
 		/* @since 2.0.3 */
 		events.trigger('editor.styles.reset');
-
-		/* @deprecated 2.0.3 */
-		$(document).trigger('resetBoxStyles.stb');
 	}
 
 	// event binders
-	$appearanceControls.find('input.stb-color-field').wpColorPicker({ change: applyStyles, clear: applyStyles });
-	$appearanceControls.find(":input").not(".stb-color-field").change(applyStyles);
+	$appearanceControls.find('input.boxzilla-color-field').wpColorPicker({ change: applyStyles, clear: applyStyles });
+	$appearanceControls.find(":input").not(".boxzilla-color-field").change(applyStyles);
 	events.on('editor.init', applyStyles);
 
 	// public methods
@@ -737,7 +728,7 @@ var Option = function( element ) {
 
 	// find corresponding element
 	if( typeof(element) == "string" ) {
-		element = document.getElementById('stb-' + element);
+		element = document.getElementById('boxzilla-' + element);
 	}
 	this._element = element;
 

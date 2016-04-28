@@ -1,9 +1,9 @@
 <?php
 
-namespace ScrollTriggeredBoxes\Licensing;
+namespace Boxzilla\Licensing;
 
-use ScrollTriggeredBoxes\DI\Container,
-	ScrollTriggeredBoxes\DI\ServiceProviderInterface;
+use Boxzilla\DI\Container,
+	Boxzilla\DI\ServiceProviderInterface;
 
 class LicenseServiceProvider implements ServiceProviderInterface {
 
@@ -19,7 +19,7 @@ class LicenseServiceProvider implements ServiceProviderInterface {
 		};
 
 		$container['license'] = function( $container ) {
-			return new License( 'stb_license' );
+			return new License( 'boxzilla_license' );
 		};
 
 		$container['api'] = function( $container ) {

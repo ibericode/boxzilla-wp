@@ -7,8 +7,8 @@ module.exports = (function($) {
 		windowHeight = window.innerHeight,
 		scrollTimer = 0,
 		resizeTimer = 0,
-		overlay = document.getElementById('stb-overlay'),
-		options = window.STB_Global_Options || {},
+		overlay = document.getElementById('boxzilla-overlay'),
+		options = window.Boxzilla_Global_Options || {},
 		EventEmitter = require('./_event-emitter.js'),
 		events = new EventEmitter;
 
@@ -21,18 +21,18 @@ module.exports = (function($) {
 		// make sure we only init once
 		if( inited ) return;
 
-		$(".scroll-triggered-box").each(createBoxFromDOM);
+		$(".boxzilla").each(createBoxFromDOM);
 
 		// event binds
-		$(window).bind('scroll.stb', onScroll);
-		$(window).bind('resize.stb', onWindowResize);
+		$(window).bind('scroll.boxzilla', onScroll);
+		$(window).bind('resize.boxzilla', onWindowResize);
 		$(window).bind('load', onLoad );
 		$(document).keyup(onKeyUp);
 		$(overlay).click(onOverlayClick);
 
 		// print message when test mode is enabled
 		if( options.testMode ) {
-			console.log( 'Scroll Triggered Boxes: Test mode is enabled. Please disable test mode if you\'re done testing.' );
+			console.log( 'Boxzilla: Test mode is enabled. Please disable test mode if you\'re done testing.' );
 		}
 
 		inited = true;
@@ -47,8 +47,8 @@ module.exports = (function($) {
 	// create a Box object from the DOM
 	function createBoxFromDOM() {
 		var $box = $(this);
-		var id = parseInt(this.id.substring(4));
-		var boxOptions = STB_Box_Options[id];
+		var id = parseInt(this.id.substring("boxzilla-".length));
+		var boxOptions = window.Boxzilla_Box_Options[id];
 		boxOptions.element = this;
 		boxOptions.$element = $box;
 		boxOptions.testMode = options.testMode;

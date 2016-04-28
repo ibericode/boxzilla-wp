@@ -1,11 +1,11 @@
-Scroll Triggered Boxes for WordPress
+Boxzilla for WordPress
 ======================
 ![Version](https://img.shields.io/wordpress/plugin/v/scroll-triggered-boxes.svg)
 ![Downloads](https://img.shields.io/wordpress/plugin/dt/scroll-triggered-boxes.svg)
 ![Rating](https://img.shields.io/wordpress/plugin/r/scroll-triggered-boxes.svg)
 [![Code Climate](https://codeclimate.com/github/dannyvankooten/wp-scroll-triggered-boxes/badges/gpa.svg)](https://codeclimate.com/github/dannyvankooten/wp-scroll-triggered-boxes)
 
-Here, you can browse the source of the [Scroll Triggered Boxes for WordPress plugin](https://wordpress.org/plugins/scroll-triggered-boxes/) project, find and discuss open issues or contribute code to the plugin yourself.
+Here, you can browse the source of the [Boxzilla for WordPress plugin](https://wordpress.org/plugins/scroll-triggered-boxes/) project, find and discuss open issues or contribute code to the plugin yourself.
 
 Installation
 ------------
@@ -16,7 +16,7 @@ If you want to run the latest development version, you have two options:
 * You can download the repository .zip file: [scroll-triggered-boxes.zip](https://github.com/ibericode/scroll-triggered-boxes/archive/master.zip)
 * You can clone the GitHub repository using Git
 
-This will download the latest development version of the Scroll Triggered Boxes for WordPress plugin. While this version is usually stable,
+This will download the latest development version of the Boxzilla for WordPress plugin. While this version is usually stable,
 it is not recommended for use in a production environment.
 
 Bugs
@@ -29,8 +29,8 @@ A .pot file is shipped with the plugin. To submit your translation files, please
 
 Support
 -------
-This is a developer's portal for the Scroll Triggered Boxes for WordPress plugin and should not be used for support. Please visit the
-[Scroll Triggered Boxes for WordPress support forum on WordPress.org](https://wordpress.org/support/plugin/scroll-triggered-boxes).
+This is a developer's portal for the Boxzilla for WordPress plugin and should not be used for support. Please visit the
+[Boxzilla for WordPress support forum on WordPress.org](https://wordpress.org/support/plugin/scroll-triggered-boxes).
 
 Contributions
 -------------

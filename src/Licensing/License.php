@@ -1,6 +1,6 @@
 <?php
 
-namespace ScrollTriggeredBoxes\Licensing;
+namespace Boxzilla\Licensing;
 
 /**
  * Class License
@@ -10,7 +10,7 @@ namespace ScrollTriggeredBoxes\Licensing;
  * @property string $site
  * @property boolean $activated
  *
- * @package ScrollTriggeredBoxes\Licensing
+ * @package Boxzilla\Licensing
  */
 class License {
 

@@ -4,7 +4,7 @@ var Option = function( element ) {
 
 	// find corresponding element
 	if( typeof(element) == "string" ) {
-		element = document.getElementById('stb-' + element);
+		element = document.getElementById('boxzilla-' + element);
 	}
 	this._element = element;
 

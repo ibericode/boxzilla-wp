@@ -1,17 +1,16 @@
 <?php
 /*
-Plugin Name: Scroll Triggered Boxes
-Version: 2.2.2
-Plugin URI: https://scrolltriggeredboxes.com/#utm_source=wp-plugin&utm_medium=scroll-triggered-boxes&utm_campaign=plugins-page
+Plugin Name: Boxzilla
+Version: 2.3
+Plugin URI: https://boxzillaplugin.com/#utm_source=wp-plugin&utm_medium=scroll-triggered-boxes&utm_campaign=plugins-page
 Description: Call-To-Action Boxes that display after visitors scroll down far enough. Unobtrusive, but highly conversing!
 Author: ibericode
 Author URI: https://ibericode.com/#utm_source=wp-plugin&utm_medium=scroll-triggered-boxes&utm_campaign=plugins-page
-Text Domain: scroll-triggered-boxes
+Text Domain: boxzilla
 Domain Path: /languages/
 License: GPL v3
-GitHub Plugin URI: https://github.com/ibericode/scroll-triggered-boxes
 
-Scroll Triggered Boxes Plugin
+Boxzilla Plugin
 Copyright (C) 2013-2016, Danny van Kooten, hi@dannyvankooten.com
 
 This program is free software: you can redistribute it and/or modify
@@ -34,54 +33,38 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+
 /**
- * @return ScrollTriggeredBoxes\Plugin
+ * @ignore
+ * @internal
  */
-function scroll_triggered_boxes() {
-	static $instance;
+function __load_boxzilla() {
+	global $boxzilla, $scroll_triggered_boxes;
 
-	if( is_null( $instance ) ) {
-
-		$classname =  'ScrollTriggeredBoxes\\Plugin';
-		$id = 0;
-		$file = __FILE__;
-		$dir = dirname( __FILE__ );
-		$name = 'Scroll Triggered Boxes';
-		$version = '2.2.1';
-
-		$instance = new $classname(
-			$id,
-			$name,
-			$version,
-			$file,
-			$dir
-		);
+	// load autoloader but only if not loaded already (for compat with sitewide autoloader)
+	if( ! function_exists( 'boxzilla' ) ) {
+		require dirname( __FILE__ ) . '/vendor/autoload.php';
 	}
 
-	return $instance;
-}
-
-// wrapper function to move out of global namespace
-function __load_scroll_triggered_boxes() {
-
-	// load autoloader & init plugin
-	require dirname( __FILE__ ) . '/vendor/autoload.php';
+	define( 'BOXZILLA_FILE', __FILE__ );
+	define( 'BOXZILLA_VERSION', '2.3' );
 
 	// fetch instance and store in global
-	$GLOBALS['scroll_triggered_boxes'] = scroll_triggered_boxes();
+	$boxzilla = $scroll_triggered_boxes = boxzilla();
 
 	// register activation hook
-	register_activation_hook( __FILE__, array( 'ScrollTriggeredBoxes\\Admin\\Installer', 'run' ) );
+	register_activation_hook( __FILE__, array( 'Boxzilla\\Admin\\Installer', 'run' ) );
 }
 
-function __load_scroll_triggered_boxes_fallback() {
+function __load_boxzilla_fallback() {
 	// load php 5.2 fallback
 	require dirname( __FILE__ ) . '/fallback.php';
-	new STB_PHP_Fallback( 'Scroll Triggered Boxes', plugin_basename( __FILE__ ) );
+	new STB_PHP_Fallback( 'Boxzilla', plugin_basename( __FILE__ ) );
 }
 
 if( version_compare( PHP_VERSION, '5.3', '>=' ) ) {
-	__load_scroll_triggered_boxes();
+	__load_boxzilla();
 } else {
-	__load_scroll_triggered_boxes_fallback();
+	__load_boxzilla_fallback();
 }
+

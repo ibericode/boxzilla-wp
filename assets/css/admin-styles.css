@@ -1,5 +1,5 @@
 /* first row can't be deleted */
-.stb-rule-row-0 .stb-close{
+.boxzilla-rule-row-0 .boxzilla-close{
 	visibility: hidden;
 }
 
@@ -7,25 +7,25 @@
 	width: 80px;
 }
 
-.stb-sm { 
+.boxzilla-sm { 
 	width:150px;
 }
 
-.stb-xsm {
+.boxzilla-xsm {
 	width: 15px;
 }
 
-.stb-title{ 
+.boxzilla-title{ 
 	margin-top:2em !important;
 }
 
-.stb-label{
+.boxzilla-label{
 	display:block;
 	font-weight: bold;
 	margin-bottom:6px;
 }
 
-.stb-close{ 
+.boxzilla-close{ 
 	padding: 0;
 	cursor: pointer;
 	background: transparent;
@@ -39,7 +39,7 @@
 	filter: alpha(opacity=30);
 }
 
-.stb-close:hover, .stb-close:focus {
+.boxzilla-close:hover, .boxzilla-close:focus {
 	color: #000;
 	text-decoration: none;
 	cursor: pointer;
@@ -47,23 +47,23 @@
 	filter: alpha(opacity=60);
 }
 
-.post-type-scroll-triggered-box .form-table{
+.post-type-boxzilla-box .form-table{
 	table-layout:fixed;
 }
 
-.post-type-scroll-triggered-box .wp-picker-container{
+.post-type-boxzilla-box .wp-picker-container{
 	white-space: nowrap;
 }
 
-.post-type-scroll-triggered-box .wp-picker-clear,
-.post-type-scroll-triggered-box .wp-picker-holder,
-.post-type-scroll-triggered-box .wp-picker-input-wrap {
+.post-type-boxzilla-box .wp-picker-clear,
+.post-type-boxzilla-box .wp-picker-holder,
+.post-type-boxzilla-box .wp-picker-input-wrap {
 	background:white;
 	z-index: 999 !important;
 	position: absolute !important;
 }
 
-#stb-admin .status {
+#boxzilla-admin .status {
 	display: inline-block;
 	padding: 3px 6px;
 	color: white;
@@ -71,11 +71,11 @@
 	font-weight: bold;
 }
 
-#stb-admin .status.positive {
+#boxzilla-admin .status.positive {
 	background-color: limeGreen;
 }
 
-#stb-admin .status.negative {
+#boxzilla-admin .status.negative {
 	background: #c3c3c3;
 }
 
@@ -89,66 +89,66 @@
 }
 
 /** Grid */
-.stb-row{
+.boxzilla-row{
 	margin: 0 -20px;
 }
 
-.stb-col-one-third,
-.stb-col-two-third {
+.boxzilla-col-one-third,
+.boxzilla-col-two-third {
 	float: left;
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 	padding: 0 20px;
 }
 
-.stb-col-two-third {
+.boxzilla-col-two-third {
 	width: 66.66%;
 }
 
-.stb-col-one-third{
+.boxzilla-col-one-third{
 	width: 33.33%;
 }
 
 
 /* admin sidebar */
-.stb-sidebar{
+.boxzilla-sidebar{
 	margin-top: 10px;
 }
 
-.stb-box {
+.boxzilla-box {
 	background: white;
 	padding: 20px;
 	margin-bottom: 20px;
 	border: 1px solid #ccc;
 }
 
-.stb-box h3,
-.stb-box:first-child {
+.boxzilla-box h3,
+.boxzilla-box:first-child {
 	margin-top: 0;
 }
 
-.stb-box:last-child {
+.boxzilla-box:last-child {
 	margin-bottom: 0;
 }
 
-.stb-sidebar form label {
+.boxzilla-sidebar form label {
 	display: block;
 	font-weight: bold;
 	margin-bottom: 6px;
 }
 
 @media( max-width: 920px ) {
-	.stb-row {
+	.boxzilla-row {
 		margin: 0;
 	}
-	.stb-col-one-third,
-	.stb-col-two-third {
+	.boxzilla-col-one-third,
+	.boxzilla-col-two-third {
 		float: none;
 		padding: 0;
 		width: auto;
 	}
 
-	.stb-sidebar {
+	.boxzilla-sidebar {
 		margin-top: 40px;
 	}
 }

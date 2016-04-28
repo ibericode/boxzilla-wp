@@ -18,7 +18,7 @@ module.exports = (function() {
 		this.events = events;
 
 		// store ref to overlay
-		this.overlay = document.getElementById('stb-overlay');
+		this.overlay = document.getElementById('boxzilla-overlay');
 
 		// state
 		this.visible 	= false;
@@ -46,7 +46,7 @@ module.exports = (function() {
 		var box = this;
 
 		// attach event to "close" icon inside box
-		this.$element.find('.stb-close').click(box.dismiss.bind(this));
+		this.$element.find('.boxzilla-close-icon').click(box.dismiss.bind(this));
 
 		// find all links & forms in this box
 		this.$links = this.$element.find('a');
@@ -61,8 +61,8 @@ module.exports = (function() {
 			box.events.trigger('box.interactions.form', [ box, e.target ]);
 		});
 
-		// attach event to all links referring #stb-{box_id}
-		$(document.body).on('click', 'a[href="#stb-' + box.id + '"]', function() {
+		// attach event to all links referring #boxzilla-{box_id}
+		$(document.body).on('click', 'a[href="#boxzilla-' + box.id + '"]', function() {
 			box.toggle();
 			return false;
 		});
@@ -145,6 +145,9 @@ module.exports = (function() {
 			this.$element.slideToggle( 'slow' );
 		}
 
+		// // focus on first input field in box
+		// this.$element.find('input').first().focus();
+
 		return true;
 	};
 
@@ -187,7 +190,7 @@ module.exports = (function() {
 
 		var expiryDate = new Date();
 		expiryDate.setDate( expiryDate.getDate() + this.config.cookieTime );
-		document.cookie = 'stb_box_'+ this.id + '=true; expires='+ expiryDate.toUTCString() +'; path=/';
+		document.cookie = 'boxzilla_box_'+ this.id + '=true; expires='+ expiryDate.toUTCString() +'; path=/';
 	};
 
 	// checks whether window.location.hash equals the box element ID or that of any element inside the box
@@ -258,7 +261,7 @@ module.exports = (function() {
 			return false;
 		}
 
-		var cookieSet = document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*" + 'stb_box_' + this.id + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1") === "true";
+		var cookieSet = document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*" + 'boxzilla_box_' + this.id + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1") === "true";
 		return cookieSet;
 
 	};

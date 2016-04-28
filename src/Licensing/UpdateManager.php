@@ -1,11 +1,11 @@
 <?php
 
-namespace ScrollTriggeredBoxes\Licensing;
+namespace Boxzilla\Licensing;
 
-use ScrollTriggeredBoxes\Collection,
-	ScrollTriggeredBoxes\iPlugin,
-	ScrollTriggeredBoxes\Plugin,
-	ScrollTriggeredBoxes\Admin\Notices;
+use Boxzilla\Collection,
+	Boxzilla\iPlugin,
+	Boxzilla\Plugin,
+	Boxzilla\Admin\Notices;
 
 class UpdateManager {
 
@@ -186,8 +186,8 @@ class UpdateManager {
 
 		// add some notices if license is inactive
 		if( ! $this->license->activated ) {
-			$response->upgrade_notice = sprintf( 'You will need to <a href="%s">activate your license</a> to install this plugin update.', admin_url( 'edit.php?post_type=scroll-triggered-box&page=stb-settings' ) );
-			$response->sections->changelog = '<p>' . sprintf( 'You will need to <a href="%s" target="_top">activate your license</a> to install this plugin update.', admin_url( 'edit.php?post_type=scroll-triggered-box&page=stb-settings' ) ) . '</p>' . $response->sections->changelog;
+			$response->upgrade_notice = sprintf( 'You will need to <a href="%s">activate your license</a> to install this plugin update.', admin_url( 'edit.php?post_type=boxzilla-box&page=boxzilla-settings' ) );
+			$response->sections->changelog = '<p>' . sprintf( 'You will need to <a href="%s" target="_top">activate your license</a> to install this plugin update.', admin_url( 'edit.php?post_type=boxzilla-box&page=boxzilla-settings' ) ) . '</p>' . $response->sections->changelog;
 			$response->package = null;
 		}
 

@@ -1,11 +1,11 @@
 <?php
 
-namespace ScrollTriggeredBoxes;
+namespace Boxzilla;
 
-use ScrollTriggeredBoxes\Admin\Admin;
-use ScrollTriggeredBoxes\DI\Container;
-use ScrollTriggeredBoxes\DI\ServiceProviderInterface;
-use ScrollTriggeredBoxes\Filter\Autocomplete;
+use Boxzilla\Admin\Admin;
+use Boxzilla\DI\Container;
+use Boxzilla\DI\ServiceProviderInterface;
+use Boxzilla\Filter\Autocomplete;
 
 class PluginServiceProvider implements ServiceProviderInterface {
 
@@ -23,13 +23,13 @@ class PluginServiceProvider implements ServiceProviderInterface {
 				'test_mode' => 0
 			);
 
-			$options = (array) get_option( 'stb_settings', $defaults );
+			$options = (array) get_option( 'boxzilla_settings', $defaults );
 			$options = array_merge( $defaults, $options );
 			return $options;
 		};
 
 		$container['plugins'] = function( $app ) {
-			$plugins = (array) apply_filters( 'stb_extensions', array() );
+			$plugins = (array) apply_filters( 'boxzilla_extensions', array() );
 			return new Collection( $plugins );
 		};
 

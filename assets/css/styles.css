@@ -4,7 +4,7 @@ body {
 	height: auto;
 }
 
-.stb-center-container {
+.boxzilla-center-container {
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -15,13 +15,13 @@ body {
 	line-height: 0;
 }
 
-.stb-center-container .stb{
+.boxzilla-center-container .boxzilla{
 	display: inline-block;
 	text-align: left;
 	position: relative;
 }
 
-.stb {
+.boxzilla {
 	position: fixed;
 	z-index: 999999;
 	-webkit-box-shadow: 0 0 10px 1px #333;
@@ -38,33 +38,33 @@ body {
 	padding: 25px;
 }
 
-.stb.stb-top-left{
+.boxzilla.boxzilla-top-left{
 	top: 0; left: 0; bottom: auto; right: auto;
 }
 
-.stb.stb-top-right{
+.boxzilla.boxzilla-top-right{
 	top: 0; right: 0; bottom: auto; left: auto;
 }
 
-.stb.stb-bottom-left{
+.boxzilla.boxzilla-bottom-left{
 	bottom: 0; left: 0; top: auto; right: auto;
 }
 
-.stb.stb-bottom-right{
+.boxzilla.boxzilla-bottom-right{
 	bottom: 0; right: 0; top: auto; left: auto;
 }
 
 /* remove top & bottom margin from last child element */
-.stb-content > *:first-child {
+.boxzilla-content > *:first-child {
 	margin-top: 0;
 	padding-top: 0;
 }
-.stb-content > *:last-child {
+.boxzilla-content > *:last-child {
 	margin-bottom: 0;
 	padding-bottom: 0;
 }
 
-.stb-close{ 
+.boxzilla-close-icon {
 	position:absolute; 
 	right :0;
 	top: 0;
@@ -82,7 +82,7 @@ body {
 	filter: alpha(opacity=50);
 }
 
-.stb-close:hover, .stb-close:focus {
+.boxzilla-close-icon:hover, .boxzilla-close-icon:focus {
 	color: #000;
 	text-decoration: none;
 	cursor: pointer;
@@ -90,7 +90,7 @@ body {
 	filter: alpha(opacity=80);
 }
 
-#stb-overlay {
+#boxzilla-overlay {
 	position: fixed;
 	background: rgba(0,0,0,0.65);
 	width: 100%;

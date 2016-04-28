@@ -1,1 +1,1 @@
-window.STB = require('./_box-manager.js');
+window.Boxzilla = require('./_box-manager.js');

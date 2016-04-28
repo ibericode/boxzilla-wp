@@ -1,6 +1,6 @@
 <?php
 
-namespace ScrollTriggeredBoxes\Licensing;
+namespace Boxzilla\Licensing;
 
 class Authenticator {
 

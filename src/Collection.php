@@ -1,6 +1,6 @@
 <?php
 
-namespace ScrollTriggeredBoxes;
+namespace Boxzilla;
 
 class Collection implements \Iterator, \Countable {
 

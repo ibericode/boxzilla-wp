@@ -1,7 +1,7 @@
 <?php
 
 
-namespace ScrollTriggeredBoxes\Admin;
+namespace Boxzilla\Admin;
 
 class Installer {
 
@@ -34,7 +34,7 @@ class Installer {
 		// only create sample box if no boxes were found
 		$boxes = get_posts(
 			array(
-				'post_type' => 'scroll-triggered-box',
+				'post_type' => 'boxzilla-box',
 				'post_status' => array( 'publish', 'draft' )
 			)
 		);
@@ -45,7 +45,7 @@ class Installer {
 
 		$box_id = wp_insert_post(
 			array(
-				'post_type' => 'scroll-triggered-box',
+				'post_type' => 'boxzilla-box',
 				'post_title' => "Sample Box",
 				'post_content' => "<h4>Hello world.</h4><p>This is a sample box, with some sample content in it.</p>",
 				'post_status' => 'draft',
@@ -66,7 +66,7 @@ class Installer {
 			)
 		);
 
-		update_post_meta( $box_id, 'stb_options', $settings );
+		update_post_meta( $box_id, 'boxzilla_options', $settings );
 
 		return true;
 	}

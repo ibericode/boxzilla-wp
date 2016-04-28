@@ -1,8 +1,8 @@
 <?php
 
-namespace ScrollTriggeredBoxes;
+namespace Boxzilla;
 
-use ScrollTriggeredBoxes\DI\Container;
+use Boxzilla\DI\Container;
 
 class PluginBase extends Container implements iPlugin {
 

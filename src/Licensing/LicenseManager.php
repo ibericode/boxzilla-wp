@@ -1,8 +1,8 @@
 <?php
 
-namespace ScrollTriggeredBoxes\Licensing;
+namespace Boxzilla\Licensing;
 
-use ScrollTriggeredBoxes\Collection;
+use Boxzilla\Collection;
 
 class LicenseManager {
 
@@ -55,7 +55,7 @@ class LicenseManager {
 		$this->license->load();
 
 		// register license key form
-		add_action( 'stb_after_settings', array( $this, 'show_license_form' ) );
+		add_action( 'boxzilla_after_settings', array( $this, 'show_license_form' ) );
 
 		// listen for activation / deactivation requests
 		$this->listen();
@@ -69,7 +69,7 @@ class LicenseManager {
 	protected function listen() {
 
 		// nothing to do
-		if( ! isset( $_POST['stb_license_form'] ) ) {
+		if( ! isset( $_POST['boxzilla_license_form'] ) ) {
 			return false;
 		}
 
@@ -82,7 +82,7 @@ class LicenseManager {
 		}
 
 		// did key change or was "activate" button pressed?
-		$new_license_key = sanitize_text_field( $_POST['stb_license_key'] );
+		$new_license_key = sanitize_text_field( $_POST['boxzilla_license_key'] );
 		if( $new_license_key !== $this->license->key ) {
 			$this->license->key = $new_license_key;
 			$key_changed = true;

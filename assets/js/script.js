@@ -8,8 +8,8 @@ module.exports = (function($) {
 		windowHeight = window.innerHeight,
 		scrollTimer = 0,
 		resizeTimer = 0,
-		overlay = document.getElementById('stb-overlay'),
-		options = window.STB_Global_Options || {},
+		overlay = document.getElementById('boxzilla-overlay'),
+		options = window.Boxzilla_Global_Options || {},
 		EventEmitter = require('./_event-emitter.js'),
 		events = new EventEmitter;
 
@@ -22,18 +22,18 @@ module.exports = (function($) {
 		// make sure we only init once
 		if( inited ) return;
 
-		$(".scroll-triggered-box").each(createBoxFromDOM);
+		$(".boxzilla").each(createBoxFromDOM);
 
 		// event binds
-		$(window).bind('scroll.stb', onScroll);
-		$(window).bind('resize.stb', onWindowResize);
+		$(window).bind('scroll.boxzilla', onScroll);
+		$(window).bind('resize.boxzilla', onWindowResize);
 		$(window).bind('load', onLoad );
 		$(document).keyup(onKeyUp);
 		$(overlay).click(onOverlayClick);
 
 		// print message when test mode is enabled
 		if( options.testMode ) {
-			console.log( 'Scroll Triggered Boxes: Test mode is enabled. Please disable test mode if you\'re done testing.' );
+			console.log( 'Boxzilla: Test mode is enabled. Please disable test mode if you\'re done testing.' );
 		}
 
 		inited = true;
@@ -48,8 +48,8 @@ module.exports = (function($) {
 	// create a Box object from the DOM
 	function createBoxFromDOM() {
 		var $box = $(this);
-		var id = parseInt(this.id.substring(4));
-		var boxOptions = STB_Box_Options[id];
+		var id = parseInt(this.id.substring("boxzilla-".length));
+		var boxOptions = window.Boxzilla_Box_Options[id];
 		boxOptions.element = this;
 		boxOptions.$element = $box;
 		boxOptions.testMode = options.testMode;
@@ -231,7 +231,7 @@ module.exports = (function() {
 		this.events = events;
 
 		// store ref to overlay
-		this.overlay = document.getElementById('stb-overlay');
+		this.overlay = document.getElementById('boxzilla-overlay');
 
 		// state
 		this.visible 	= false;
@@ -259,7 +259,7 @@ module.exports = (function() {
 		var box = this;
 
 		// attach event to "close" icon inside box
-		this.$element.find('.stb-close').click(box.dismiss.bind(this));
+		this.$element.find('.boxzilla-close-icon').click(box.dismiss.bind(this));
 
 		// find all links & forms in this box
 		this.$links = this.$element.find('a');
@@ -274,8 +274,8 @@ module.exports = (function() {
 			box.events.trigger('box.interactions.form', [ box, e.target ]);
 		});
 
-		// attach event to all links referring #stb-{box_id}
-		$(document.body).on('click', 'a[href="#stb-' + box.id + '"]', function() {
+		// attach event to all links referring #boxzilla-{box_id}
+		$(document.body).on('click', 'a[href="#boxzilla-' + box.id + '"]', function() {
 			box.toggle();
 			return false;
 		});
@@ -358,6 +358,9 @@ module.exports = (function() {
 			this.$element.slideToggle( 'slow' );
 		}
 
+		// // focus on first input field in box
+		// this.$element.find('input').first().focus();
+
 		return true;
 	};
 
@@ -400,7 +403,7 @@ module.exports = (function() {
 
 		var expiryDate = new Date();
 		expiryDate.setDate( expiryDate.getDate() + this.config.cookieTime );
-		document.cookie = 'stb_box_'+ this.id + '=true; expires='+ expiryDate.toUTCString() +'; path=/';
+		document.cookie = 'boxzilla_box_'+ this.id + '=true; expires='+ expiryDate.toUTCString() +'; path=/';
 	};
 
 	// checks whether window.location.hash equals the box element ID or that of any element inside the box
@@ -471,7 +474,7 @@ module.exports = (function() {
 			return false;
 		}
 
-		var cookieSet = document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*" + 'stb_box_' + this.id + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1") === "true";
+		var cookieSet = document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*" + 'boxzilla_box_' + this.id + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1") === "true";
 		return cookieSet;
 
 	};
@@ -960,6 +963,6 @@ module.exports = (function() {
 	}
 }.call(this));
 },{}],4:[function(require,module,exports){
-window.STB = require('./_box-manager.js');
+window.Boxzilla = require('./_box-manager.js');
 },{"./_box-manager.js":1}]},{},[4]);
  })();

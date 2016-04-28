@@ -8,7 +8,7 @@ var Designer = function($, Option, events) {
 		manualStyleEl,
 		visualEditorInitialised = false;
 
-	var $appearanceControls = $("#stb-box-appearance-controls");
+	var $appearanceControls = $("#boxzilla-box-appearance-controls");
 
 	// create Option objects
 	options.borderColor = new Option('border-color');
@@ -37,7 +37,7 @@ var Designer = function($, Option, events) {
 
 		// add content class and padding to TinyMCE <body>
 		$innerEditor = $editor.find('#tinymce');
-		$innerEditor.addClass('scroll-triggered-box stb stb-' + boxId);
+		$innerEditor.addClass('boxzilla boxzilla-' + boxId);
 		$innerEditor.css({
 			'margin': 0,
 			'background': 'white',
@@ -51,17 +51,13 @@ var Designer = function($, Option, events) {
 		// create <style> element in <head>
 		manualStyleEl = document.createElement('style');
 		manualStyleEl.setAttribute('type','text/css');
-		manualStyleEl.id = 'stb-manual-css';
+		manualStyleEl.id = 'boxzilla-manual-css';
 		$(manualStyleEl).appendTo($editor.find('head'));
 
 		visualEditorInitialised = true;
 
 		/* @since 2.0.3 */
 		events.trigger('editor.init');
-
-		/* @deprecated 2.0.3 */
-		$(document).trigger('editorInit.stb');
-
 	}
 
 	/**
@@ -91,9 +87,6 @@ var Designer = function($, Option, events) {
 		/* @since 2.0.3 */
 		events.trigger('editor.styles.apply');
 
-		/* @deprecated 2.0.3 */
-		$(document).trigger('applyBoxStyles.stb');
-
 		return true;
 	}
 
@@ -109,14 +102,11 @@ var Designer = function($, Option, events) {
 
 		/* @since 2.0.3 */
 		events.trigger('editor.styles.reset');
-
-		/* @deprecated 2.0.3 */
-		$(document).trigger('resetBoxStyles.stb');
 	}
 
 	// event binders
-	$appearanceControls.find('input.stb-color-field').wpColorPicker({ change: applyStyles, clear: applyStyles });
-	$appearanceControls.find(":input").not(".stb-color-field").change(applyStyles);
+	$appearanceControls.find('input.boxzilla-color-field').wpColorPicker({ change: applyStyles, clear: applyStyles });
+	$appearanceControls.find(":input").not(".boxzilla-color-field").change(applyStyles);
 	events.on('editor.init', applyStyles);
 
 	// public methods

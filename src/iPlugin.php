@@ -1,6 +1,6 @@
 <?php
 
-namespace ScrollTriggeredBoxes;
+namespace Boxzilla;
 
 interface iPlugin {
 

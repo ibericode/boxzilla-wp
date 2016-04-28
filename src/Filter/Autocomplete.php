@@ -1,11 +1,11 @@
 <?php
 
-namespace ScrollTriggeredBoxes\Filter;
+namespace Boxzilla\Filter;
 
 class Autocomplete {
 
 	public function add_hooks() {
-		add_action( 'wp_ajax_stb_autocomplete', array( $this, 'ajax' ) );
+		add_action( 'wp_ajax_boxzilla_autocomplete', array( $this, 'ajax' ) );
 	}
 
 	/**

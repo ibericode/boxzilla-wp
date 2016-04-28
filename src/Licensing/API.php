@@ -1,10 +1,10 @@
 <?php
 
-namespace ScrollTriggeredBoxes\Licensing;
+namespace Boxzilla\Licensing;
 
-use ScrollTriggeredBoxes\Admin\Notices;
-use ScrollTriggeredBoxes\Collection;
-use ScrollTriggeredBoxes\iPlugin;
+use Boxzilla\Admin\Notices;
+use Boxzilla\Collection;
+use Boxzilla\iPlugin;
 use WP_Error;
 
 class API {
@@ -140,7 +140,7 @@ class API {
 		$body = wp_remote_retrieve_body( $request );
 		$response = json_decode( $body );
 		if( ! is_object( $response ) ) {
-			$this->notices->add( __( "The Scroll Triggered Boxes server returned an invalid response.", 'scroll-triggered-boxes' ), 'error' );
+			$this->notices->add( __( "The Boxzilla server returned an invalid response.", 'boxzilla' ), 'error' );
 			return false;
 		}
 

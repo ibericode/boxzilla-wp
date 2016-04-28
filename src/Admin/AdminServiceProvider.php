@@ -1,9 +1,9 @@
 <?php
 
-namespace ScrollTriggeredBoxes\Admin;
+namespace Boxzilla\Admin;
 
-use ScrollTriggeredBoxes\DI\Container;
-use ScrollTriggeredBoxes\DI\ServiceProviderInterface;
+use Boxzilla\DI\Container;
+use Boxzilla\DI\ServiceProviderInterface;
 
 class AdminServiceProvider implements ServiceProviderInterface {
 
