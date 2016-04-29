@@ -1,6 +1,6 @@
 === Boxzilla ===
 Contributors: Ibericode, DvanKooten, hchouhan, lapzor
-Donate link: https://scrolltriggeredboxes.com/#utm_source=wp-plugin-repo&utm_medium=scroll-triggered-boxes&utm_campaign=donate-link
+Donate link: https://boxzillaplugin.com/#utm_source=wp-plugin-repo&utm_medium=boxzilla&utm_campaign=donate-link
 Tags: scroll triggered box, cta, social, pop-up, newsletter, call to action, mailchimp, contact form 7, social media,mc4wp
 Requires at least: 3.8
 Tested up to: 4.4.2
@@ -28,25 +28,25 @@ Boxzilla is a *lightweight* plugin for adding flexible call-to-actions to your W
 - Control how long dismissed boxes should stay hidden.
 - Control whether boxes should show on small screens.
 
-[Read more about Boxzilla](https://scrolltriggeredboxes.com/#utm_source=wp-plugin-repo&utm_medium=scroll-triggered-boxes&utm_campaign=description).
+[Read more about Boxzilla](https://boxzillaplugin.com/#utm_source=wp-plugin-repo&utm_medium=boxzilla&utm_campaign=description).
 
 = Documentation =
 
-Please have a look at the [frequently asked questions](https://wordpress.org/plugins/scroll-triggered-boxes/faq/).
+Please have a look at the [frequently asked questions](https://wordpress.org/plugins/boxzilla/faq/).
 
 = Demo =
 
-There's a [Boxzilla demo site](http://demo.scrolltriggeredboxes.com#utm_source=wp-plugin-repo&utm_medium=scroll-triggered-boxes&utm_campaign=description), showcasing the vast amount of possibilities for you to gather your leads.
+There's a [Boxzilla demo site](https://demo.boxzillaplugin.com#utm_source=wp-plugin-repo&utm_medium=boxzilla&utm_campaign=description), showcasing the vast amount of possibilities for you to gather your leads.
 
 = Add-ons =
 
 The core Boxzilla plugin is free and always will be. Additional advanced functionality is available through several add-ons. Not only do they extend the core functionality of the plugin, they also help to fund further development of the core (free) plugin.
 
-[Browse available add-ons for Boxzilla](https://scrolltriggeredboxes.com/plugins#utm_source=wp-plugin-repo&utm_medium=scroll-triggered-boxes&utm_campaign=description).
+[Browse available add-ons for Boxzilla](https://boxzillaplugin.com/add-ons/#utm_source=wp-plugin-repo&utm_medium=boxzilla&utm_campaign=description).
 
 Some popular add-ons include:
 
-**[Theme Pack](https://scrolltriggeredboxes.com/plugins/theme-pack#utm_source=wp-plugin-repo&utm_medium=scroll-triggered-boxes&utm_campaign=description)**
+**[Theme Pack](https://boxzillaplugin.com/add-ons/theme-pack#utm_source=wp-plugin-repo&utm_medium=boxzilla&utm_campaign=description)**
 
 A set of beautiful plug & play themes which make your boxes really stand out.
 
@@ -56,21 +56,21 @@ An easy way to show a MailChimp sign-up form inside your boxes.
 
 = Contributing and reporting bugs =
 
-You can contribute to this plugin using GitHub: [ibericode/scroll-triggered-boxes](https://github.com/ibericode/scroll-triggered-boxes)
+You can contribute to this plugin using GitHub: [ibericode/boxzilla](https://github.com/ibericode/boxzilla)
 
 = Support =
 
-Please use the [WordPress.org plugin support forums](https://wordpress.org/support/plugin/scroll-triggered-boxes) for community support where we try to help all users.
+Please use the [WordPress.org plugin support forums](https://wordpress.org/support/plugin/boxzilla) for community support where we try to help all users.
 
-If you think you've found a bug, please [report it on GitHub](https://github.com/ibericode/scroll-triggered-boxes/issues).
+If you think you've found a bug, please [report it on GitHub](https://github.com/ibericode/boxzilla/issues).
 
-If you're on [one of the available premium plans](https://scrolltriggeredboxes.com/pricing#utm_source=wp-plugin-repo&utm_medium=scroll-triggered-boxes&utm_campaign=description), please use the support email for a guaranteed & faster response.
+If you're on [one of the available premium plans](https://boxzillaplugin.com/pricing#utm_source=wp-plugin-repo&utm_medium=boxzilla&utm_campaign=description), please use the support email for a guaranteed & faster response.
 
 == Frequently Asked Questions ==
 
 = What does this plugin do? =
 
-Have a look at the [Boxzilla demo site](http://demo.scrolltriggeredboxes.com/#utm_source=wp-plugin-repo&utm_medium=scroll-triggered-boxes&utm_campaign=description).
+Have a look at the [Boxzilla demo site](https://demo.boxzillaplugin.com/#utm_source=wp-plugin-repo&utm_medium=boxzilla&utm_campaign=description).
 
 = How to display a form in the box? =
 
@@ -224,7 +224,7 @@ Have a look at the [frequently asked questions](https://wordpress.org/plugins/bo
 
 **Fixes**
 
-- Do not show box instantly if auto-show is disabled. Fixes an issue with [the premium MailChimp add-on](https://scrolltriggeredboxes.com/plugins/mailchimp).
+- Do not show box instantly if auto-show is disabled. Fixes an issue with [the premium MailChimp add-on](https://boxzillaplugin.com/plugins/mailchimp).
 
 ####  2.1.3 - October 19, 2015 
 
@@ -321,18 +321,18 @@ Major revamp of the plugin, maintaining backwards compatibility.
 
 **Important changes**
 
-- The plugin now comes with several [premium add-on plugins which further enhance the functionality of the plugin](https://scrolltriggeredboxes.com/plugins#utm_source#### wp-plugin-repo&utm_medium=scroll-triggered-boxes&utm_campaignchangelog).
+- The plugin now comes with several [premium add-on plugins which further enhance the functionality of the plugin](https://boxzillaplugin.com/plugins#utm_source#### wp-plugin-repo&utm_medium=boxzilla&utm_campaignchangelog).
 - PHP 5.3 or higher is required.
 - "Test mode" is now a global setting.
 - Various UX improvements.
 
-If you encounter a bug, please [open an issue on GitHub](https://github.com/ibericode/scroll-triggered-boxes/issues).
+If you encounter a bug, please [open an issue on GitHub](https://github.com/ibericode/boxzilla/issues).
 
 ####  1.4.4 - April 4, 2015 
 
 **Additions**
 
-- Added a PHP version check in preparation for the upcoming [Scroll Triggered Boxes v2.0](https://scrolltriggeredboxes.com/a-new-site/) release.
+- Added a PHP version check in preparation for the upcoming [Scroll Triggered Boxes v2.0](https://boxzillaplugin.com/a-new-site/) release.
 
 ####  1.4.3 - January 29, 2015 
 
@@ -379,7 +379,7 @@ If you encounter a bug, please [open an issue on GitHub](https://github.com/iber
 
 - Various code improvements
 - Minified all assets (scripts and styles)
-- You can now contribute to the [Scroll Triggered Boxes plugin on GitHub](https://github.com/ibericode/scroll-triggered-boxes).
+- You can now contribute to the [Scroll Triggered Boxes plugin on GitHub](https://github.com/ibericode/boxzilla).
 
 **Additions**
 

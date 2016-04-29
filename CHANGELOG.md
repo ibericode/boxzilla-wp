@@ -45,7 +45,7 @@ Changelog
 
 **Fixes**
 
-- Do not show box instantly if auto-show is disabled. Fixes an issue with [the premium MailChimp add-on](https://scrolltriggeredboxes.com/plugins/mailchimp).
+- Do not show box instantly if auto-show is disabled. Fixes an issue with [the premium MailChimp add-on](https://boxzillaplugin.com/add-ons/mailchimp).
 
 ####  2.1.3 - October 19, 2015 
 
@@ -142,9 +142,9 @@ Major revamp of the plugin, maintaining backwards compatibility.
 
 **Important changes**
 
-- The plugin now comes with several [premium add-on plugins which further enhance the functionality of the plugin](https://scrolltriggeredboxes.com/plugins#utm_source#### wp-plugin-repo&utm_medium=scroll-triggered-boxes&utm_campaignchangelog).
+- The plugin now comes with several [premium add-on plugins which further enhance the functionality of the plugin](https://boxzillaplugin.com/add-ons/#utm_source=wp-plugin-repo&utm_medium=boxzilla&utm_campaign=changelog).
 - PHP 5.3 or higher is required.
 - "Test mode" is now a global setting.
 - Various UX improvements.
 
-If you encounter a bug, please [open an issue on GitHub](https://github.com/ibericode/scroll-triggered-boxes/issues).
+If you encounter a bug, please [open an issue on GitHub](https://github.com/ibericode/boxzilla/issues).
