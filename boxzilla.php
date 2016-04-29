@@ -2,10 +2,10 @@
 /*
 Plugin Name: Boxzilla
 Version: 2.3
-Plugin URI: https://boxzillaplugin.com/#utm_source=wp-plugin&utm_medium=scroll-triggered-boxes&utm_campaign=plugins-page
+Plugin URI: https://boxzillaplugin.com/#utm_source=wp-plugin&utm_medium=boxzilla&utm_campaign=plugins-page
 Description: Call-To-Action Boxes that display after visitors scroll down far enough. Unobtrusive, but highly conversing!
 Author: ibericode
-Author URI: https://ibericode.com/#utm_source=wp-plugin&utm_medium=scroll-triggered-boxes&utm_campaign=plugins-page
+Author URI: https://ibericode.com/#utm_source=wp-plugin&utm_medium=boxzilla&utm_campaign=plugins-page
 Text Domain: boxzilla
 Domain Path: /languages/
 License: GPL v3

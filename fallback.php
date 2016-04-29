@@ -54,7 +54,7 @@ class STB_PHP_Fallback {
 		?>
 		<div class="updated">
 			<p><?php printf( '<strong>%s</strong> did not activate because it requires <strong>PHP v5.3</strong> or higher, while your server is running <strong>PHP v%s</strong>.', $this->plugin_name, PHP_VERSION ); ?>
-			<p><?php printf( '<a href="%s">Updating your PHP version</a> makes your site faster, more secure and should be easy for your host.', 'http://www.wpupdatephp.com/update/#utm_source=wp-plugin&utm_medium=scroll-triggered-boxes&utm_campaign=activation-notice' ); ?></p>
+			<p><?php printf( '<a href="%s">Updating your PHP version</a> makes your site faster, more secure and should be easy for your host.', 'http://www.wpupdatephp.com/update/#utm_source=wp-plugin&utm_medium=boxzillas&utm_campaign=activation-notice' ); ?></p>
 		</div>
 		<?php
 	}
