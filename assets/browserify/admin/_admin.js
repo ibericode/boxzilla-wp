@@ -9,8 +9,7 @@ module.exports = (function($) {
 		return;
 	}
 
-	// TODO: Handle this using NPM
-	var EventEmitter = require('../_event-emitter.js');
+	var EventEmitter = require('wolfy87-eventemitter');
 	var events = new EventEmitter();
 	var Option = require('./_option.js');
 	var Designer = require('./_designer.js')($, Option, events);

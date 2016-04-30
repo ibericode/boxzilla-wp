@@ -9,7 +9,7 @@ module.exports = (function($) {
 		resizeTimer = 0,
 		overlay = document.getElementById('boxzilla-overlay'),
 		options = window.Boxzilla_Global_Options || {},
-		EventEmitter = require('./_event-emitter.js'),
+		EventEmitter = require('wolfy87-eventemitter'),
 		events = new EventEmitter;
 
 	var Box = require('./_box.js');
