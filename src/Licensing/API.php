@@ -4,7 +4,7 @@ namespace Boxzilla\Licensing;
 
 use Boxzilla\Admin\Notices;
 use Boxzilla\Collection;
-use Boxzilla\iPlugin;
+use Boxzilla\Plugin;
 use WP_Error;
 
 class API {
@@ -90,19 +90,19 @@ class API {
 	}
 
 	/**
-	 * @param iPlugin $plugin
+	 * @param Plugin $plugin
 	 * @return object
 	 */
-	public function get_plugin( iPlugin $plugin ) {
+	public function get_plugin( Plugin $plugin ) {
 		$endpoint = sprintf( '/plugins/%d?format=wp', $plugin->id() );
 		return $this->request( 'GET', $endpoint );
 	}
 
 	/**
-	 * @param Collection $plugins
+	 * @param Plugin[] $plugins
 	 * @return object
 	 */
-	public function get_plugins( Collection $plugins ) {
+	public function get_plugins( $plugins ) {
 		// create array of plugin ID's
 		$plugin_ids = $plugins->map(function( $p ) { return $p->id(); });
 		$endpoint = add_query_arg( array( 'ids' => implode(',', $plugin_ids ), 'format' => 'wp' ), '/plugins' );

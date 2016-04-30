@@ -2,50 +2,42 @@
 
 namespace Boxzilla\Admin;
 
-use Boxzilla\Licensing\LicenseServiceProvider,
-	Boxzilla\iPlugin,
-	Boxzilla\Box;
+use Boxzilla\Plugin,
+	Boxzilla\Box,
+	Boxzilla\Boxzilla;
 use WP_Post;
 use WP_Screen;
 
 class Admin {
 
 	/**
-	 * @var iPlugin $plugin
+	 * @var Plugin $plugin
 	 */
 	private $plugin;
 
 	/**
-	 * @param iPlugin $plugin
+	 * @var Boxzilla
 	 */
-	public function __construct( iPlugin $plugin ) {
+	protected $boxzilla;
+
+	/**
+	 * @param Plugin $plugin
+	 * @param Boxzilla $boxzilla
+	 */
+	public function __construct( Plugin $plugin, Boxzilla $boxzilla ) {
 		$this->plugin = $plugin;
+		$this->boxzilla = $boxzilla;
 	}
 
 	/**
 	 * Initialise the all admin related stuff
 	 */
 	public function init() {
-		$this->register_services();
-
 		// Load the plugin textdomain
 		load_plugin_textdomain( 'boxzilla', null, $this->plugin->dir() . '/languages' );
 
 		// action hooks
 		$this->add_hooks();
-	}
-
-	/**
-	 * Registers services into the Service Container
-	 */
-	protected function register_services() {
-		$provider = new AdminServiceProvider();
-		$provider->register( $this->plugin );
-
-		// register other services
-		$provider = new LicenseServiceProvider();
-		$provider->register( $this->plugin );
-
 	}
 
 	/**
@@ -62,10 +54,10 @@ class Admin {
 		add_action( 'untrashed_post', array( $this, 'flush_rules' ) );
 
 		// if a premium add-on is installed, instantiate dependencies
-		if ( count( $this->plugin['plugins'] ) > 0 ) {
-			$this->plugin['license_manager']->add_hooks();
-			$this->plugin['update_manager']->add_hooks();
-			$this->plugin['api_authenticator']->add_hooks();
+		if ( count( $this->boxzilla['plugins'] ) > 0 ) {
+			$this->boxzilla['license_manager']->add_hooks();
+			$this->boxzilla['update_manager']->add_hooks();
+			$this->boxzilla['api_authenticator']->add_hooks();
 		}
 	}
 
@@ -174,7 +166,7 @@ class Admin {
 	 * Shows the settings page
 	 */
 	public function show_settings_page() {
-		$opts = $this->plugin['options'];
+		$opts = $this->boxzilla->options;
 		require __DIR__ . '/views/settings.php';
 	}
 
@@ -345,7 +337,7 @@ class Admin {
 		// get box options
 		$box  = new Box( $post );
 		$opts = $box->get_options();
-		$global_opts = $this->plugin['options'];
+		$global_opts = $this->boxzilla->options;
 
 		if ( empty( $opts['rules'] ) ) {
 			$opts['rules'][] = array( 'condition' => '', 'value' => '' );

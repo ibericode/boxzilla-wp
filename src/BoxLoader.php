@@ -5,7 +5,7 @@ namespace Boxzilla;
 class BoxLoader {
 
 	/**
-	 * @var iPlugin
+	 * @var Plugin
 	 */
 	private $plugin;
 
@@ -15,12 +15,19 @@ class BoxLoader {
 	private $matched_box_ids = array();
 
 	/**
+	 * @var array
+	 */
+	protected $options;
+
+	/**
 	 * Constructor
 	 *
-	 * @param iPlugin $plugin
+	 * @param Plugin $plugin
+	 * @param array $options
 	 */
-	public function __construct( iPlugin $plugin ) {
+	public function __construct( Plugin $plugin, array $options ) {
 		$this->plugin = $plugin;
+		$this->options = $options;
 	}
 
 	/**
@@ -271,7 +278,7 @@ class BoxLoader {
 	public function pass_box_options() {
 
 		// create boxzilla_Global_Options object
-		$plugin_options = $this->plugin['options'];
+		$plugin_options = $this->options;
 		$global_options = array(
 			'testMode' => (bool) $plugin_options['test_mode']
 		);

@@ -2,67 +2,104 @@
 
 namespace Boxzilla;
 
-final class Plugin extends PluginBase {
-
+class Plugin {
 
 	/**
-	 * Register services in the Service Container
+	 * @var string The current version of the plugin
 	 */
-	protected function register_services() {
-		$provider = new PluginServiceProvider();
-		$provider->register( $this );
+	protected $version = '1.0';
+
+	/**
+	 * @var string
+	 */
+	protected $file = '';
+
+	/**
+	 * @var string
+	 */
+	protected $dir = '';
+
+	/**
+	 * @var string
+	 */
+	protected $name = '';
+
+	/**
+	 * @var string
+	 */
+	protected $slug = '';
+
+	/**
+	 * @var int
+	 */
+	protected $id = 0;
+
+	/**
+	 * Constructor
+	 *
+	 * @param int $id
+	 * @param string $name
+	 * @param string $version
+	 * @param string $file
+	 * @param string $dir
+	 */
+	public function __construct( $id, $name, $version, $file, $dir ) {
+		$this->id = $id;
+		$this->name = $name;
+		$this->version = $version;
+		$this->file = $file;
+		$this->dir = $dir;
+		$this->slug = plugin_basename( $file );
 	}
 
 	/**
-	 * Start loading classes on `plugins_loaded`, priority 20.
+	 * @return int
 	 */
-	public function load() {
-		$container = $this;
-
-		add_action( 'init', array( $this, 'register_post_type' ) );
-
-		if( ! is_admin() ) {
-			add_action( 'template_redirect', function() use( $container ) {
-				$container['box_loader']->init();
-			});
-		} elseif( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) {
-			add_action('init', function() use( $container ) {
-				$container['admin']->init();
-			});
-		} else {
-			$container['filter.autocomplete']->add_hooks();
-		}
+	public function id() {
+		return $this->id;
 	}
 
 	/**
-	 * Register the box post type
+	 * @return string
 	 */
-	public function register_post_type() {
-		// Register custom post type
-		$args = array(
-			'public' => false,
-			'labels'  =>  array(
-				'name'               => __( 'Boxzilla', 'boxzilla' ),
-				'singular_name'      => __( 'Box', 'boxzilla' ),
-				'add_new'            => __( 'Add New', 'boxzilla' ),
-				'add_new_item'       => __( 'Add New Box', 'boxzilla' ),
-				'edit_item'          => __( 'Edit Box', 'boxzilla' ),
-				'new_item'           => __( 'New Box', 'boxzilla' ),
-				'all_items'          => __( 'All Boxes', 'boxzilla' ),
-				'view_item'          => __( 'View Box', 'boxzilla' ),
-				'search_items'       => __( 'Search Boxes', 'boxzilla' ),
-				'not_found'          => __( 'No Boxes found', 'boxzilla' ),
-				'not_found_in_trash' => __( 'No Boxes found in Trash', 'boxzilla' ),
-				'parent_item_colon'  => '',
-				'menu_name'          => __( 'Boxzilla', 'boxzilla' )
-			),
-			'show_ui' => true,
-			'menu_position' => '108.1337133',
-			'menu_icon' => $this->url( '/assets/img/menu-icon.jpg' ),
-			'query_var' => false
-		);
-
-		register_post_type( 'boxzilla-box', $args );
+	public function slug() {
+		return $this->slug;
 	}
 
+	/**
+	 * @return string
+	 */
+	public function name() {
+		return $this->name;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function version() {
+		return $this->version;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function file() {
+		return $this->file;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function dir() {
+		return $this->dir;
+	}
+
+	/**
+	 * @param string $path
+	 *
+	 * @return mixed
+	 */
+	public function url( $path = '' ) {
+		return plugins_url( $path, $this->file() );
+	}
 }

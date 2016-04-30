@@ -39,32 +39,27 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @internal
  */
 function __load_boxzilla() {
-	global $boxzilla, $scroll_triggered_boxes;
 
-	// load autoloader but only if not loaded already (for compat with sitewide autoloader)
-	if( ! function_exists( 'boxzilla' ) ) {
-		require dirname( __FILE__ ) . '/vendor/autoload.php';
+	// Load PHP 5.2 fallback
+	if( version_compare( PHP_VERSION, '5.3', '<' ) ) {
+		require dirname( __FILE__ ) . '/fallback.php';
+		new STB_PHP_Fallback( 'Boxzilla', plugin_basename( __FILE__ ) );
+		return;
 	}
 
 	define( 'BOXZILLA_FILE', __FILE__ );
 	define( 'BOXZILLA_VERSION', '2.3' );
 
-	// fetch instance and store in global
-	$boxzilla = $scroll_triggered_boxes = boxzilla();
-
-	// register activation hook
-	register_activation_hook( __FILE__, array( 'Boxzilla\\Admin\\Installer', 'run' ) );
+	require __DIR__ . '/bootstrap.php';
 }
 
-function __load_boxzilla_fallback() {
-	// load php 5.2 fallback
-	require dirname( __FILE__ ) . '/fallback.php';
-	new STB_PHP_Fallback( 'Boxzilla', plugin_basename( __FILE__ ) );
+
+// load autoloader but only if not loaded already (for compat with sitewide autoloader)
+if( ! function_exists( 'boxzilla' ) ) {
+	require dirname( __FILE__ ) . '/vendor/autoload.php';
 }
 
-if( version_compare( PHP_VERSION, '5.3', '>=' ) ) {
-	__load_boxzilla();
-} else {
-	__load_boxzilla_fallback();
-}
+// register activation hook
+register_activation_hook( __FILE__, array( 'Boxzilla\\Admin\\Installer', 'run' ) );
 
+add_action( 'plugins_loaded', '__load_boxzilla', 8 );

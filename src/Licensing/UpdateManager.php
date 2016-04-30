@@ -3,7 +3,6 @@
 namespace Boxzilla\Licensing;
 
 use Boxzilla\Collection,
-	Boxzilla\iPlugin,
 	Boxzilla\Plugin,
 	Boxzilla\Admin\Notices;
 
@@ -156,11 +155,11 @@ class UpdateManager {
 	}
 
 	/**
-	 * @param iPlugin $plugin
+	 * @param Plugin $plugin
 	 *
 	 * @return null
 	 */
-	public function get_update_info( iPlugin $plugin ) {
+	public function get_update_info( Plugin $plugin ) {
 		$available_updates = $this->fetch_updates();
 
 		if( isset( $available_updates[ $plugin->slug() ] ) ) {
@@ -171,12 +170,12 @@ class UpdateManager {
 	}
 
 	/**
-	 * @param iPlugin $plugin
+	 * @param Plugin $plugin
 	 * @param         $response
 	 *
 	 * @return mixed
 	 */
-	protected function format_response( iPlugin $plugin, $response ) {
+	protected function format_response( Plugin $plugin, $response ) {
 		$response->new_version = $response->version;
 		$response->slug = dirname( $plugin->slug() );
 		$response->plugin = $plugin->slug();

@@ -3,11 +3,11 @@
 namespace Boxzilla;
 
 use Boxzilla\Admin\Admin;
+use Boxzilla\Admin\Notices;
 use Boxzilla\DI\Container;
 use Boxzilla\DI\ServiceProviderInterface;
-use Boxzilla\Filter\Autocomplete;
 
-class PluginServiceProvider implements ServiceProviderInterface {
+class BoxzillaServiceProvider implements ServiceProviderInterface {
 
 	/**
 	 * Registers services on the given container.
@@ -18,7 +18,16 @@ class PluginServiceProvider implements ServiceProviderInterface {
 	 * @param Container $container An Container instance
 	 */
 	public function register( Container $container ) {
-		$container['options'] = function( $app ) {
+
+		$container['plugin'] = new Plugin(
+			0,
+			'Boxzilla',
+			BOXZILLA_VERSION,
+			BOXZILLA_FILE,
+			dirname( BOXZILLA_FILE )
+		);
+
+		$container['options'] = function( $container ) {
 			$defaults = array(
 				'test_mode' => 0
 			);
@@ -28,21 +37,25 @@ class PluginServiceProvider implements ServiceProviderInterface {
 			return $options;
 		};
 
-		$container['plugins'] = function( $app ) {
+		$container['plugins'] = function( $container ) {
 			$plugins = (array) apply_filters( 'boxzilla_extensions', array() );
 			return new Collection( $plugins );
 		};
 
-		$container['box_loader'] = function( $app ) {
-			return new BoxLoader( $app );
+		$container['box_loader'] = function( $container ) {
+			return new BoxLoader( $container->plugin, $container->options );
 		};
 
-		$container['admin'] = function( $app ) {
-			return new Admin( $app );
+		$container['admin'] = function( $container ) {
+			return new Admin( $container->plugin, $container );
 		};
 
-		$container['filter.autocomplete'] = function( $app ) {
+		$container['filter.autocomplete'] = function( $container ) {
 			return new Filter\Autocomplete();
+		};
+
+		$container['notices'] = function( $container ) {
+			return new Notices();
 		};
 	}
 }
