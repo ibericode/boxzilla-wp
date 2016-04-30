@@ -101,12 +101,9 @@ class BoxLoader {
 	protected function match_rule( $condition, $value ) {
 
 		$matched = false;
-		$value = trim( $value );
 
 		// cast value to array & trim whitespace or excess comma's
-		if ( $condition !== 'manual' ) {
-			$value = array_map( 'trim', explode( ',', rtrim( trim( $value ), ',' ) ) );
-		}
+		$value = array_map( 'trim', explode( ',', rtrim( trim( $value ), ',' ) ) );
 
 		switch ( $condition ) {
 			case 'everywhere';
@@ -143,22 +140,6 @@ class BoxLoader {
 				$matched = is_page( $value );
 				break;
 
-			/**
-			 * @deprecated 2.1
-			 */
-			case 'is_not_page':
-				$matched = ! is_page( $value );
-				break;
-
-			case 'manual':
-				// eval for now...
-				$value = stripslashes( trim( $value ) );
-
-				if( ! empty( $value ) ) {
-					$matched = eval( "return (" . $value . ");" );
-				}
-
-				break;
 
 		}
 

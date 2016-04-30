@@ -492,7 +492,6 @@ module.exports = (function($) {
 	var Designer = require('./_designer.js')($, Option, events);
 	var rowTemplate = wp.template('rule-row-template');
 	var i18n = boxzilla_i18n;
-	var manualHintElement = optionControls.querySelector('.boxzilla-manual-hint');
 
 	// events
 	$optionControls.on('click', ".boxzilla-add-rule", addRuleFields);
@@ -538,7 +537,6 @@ module.exports = (function($) {
 		});
 
 		valueInput.style.display = 'none';
-		manualHintElement.style.display = 'none';
 
 		// change placeholder for textual help
 		switch(condition) {
@@ -574,11 +572,6 @@ module.exports = (function($) {
 
 			case 'is_post_in_category':
 				$betterInput.suggest(ajaxurl + "?action=boxzilla_autocomplete&type=category", {multiple:true, multipleSep: ","});
-				break;
-
-			case 'manual':
-				betterInput.placeholder = '';
-				manualHintElement.style.display = '';
 				break;
 		}
 	}

@@ -55,14 +55,9 @@ $box_positions = array(
 			</th>
 			<td class="boxzilla-sm">
 				<select class="widefat boxzilla-rule-condition" name="boxzilla_box[rules][<?php echo $key; ?>][condition]">
-					<optgroup label="<?php _e( 'Basic', 'boxzilla' ); ?>">
-						<?php foreach( $rule_options as $value => $label ) {
-							printf( '<option value="%s" %s>%s</option>', $value, selected( $rule['condition'], $value ), $label );
-						} ?>
-					</optgroup>
-					<optgroup label="<?php _e( 'Advanced', 'boxzilla' ); ?>">
-						<option value="manual" <?php selected( $rule['condition'], 'manual' ); ?>><?php _e( 'manual conditon', 'boxzilla' ); ?></option>
-					</optgroup>
+					<?php foreach( $rule_options as $value => $label ) {
+						printf( '<option value="%s" %s %s>%s</option>', $value, disabled( $value, '', false ), selected( $rule['condition'], $value ), $label );
+					} ?>
 				</select>
 			</td>
 			<td colspan="2">
@@ -75,9 +70,6 @@ $box_positions = array(
 	<tr>
 		<th></th>
 		<td colspan="3"><button type="button" class="button boxzilla-add-rule"><?php _e( 'Add rule', 'boxzilla' ); ?></button></td>
-	</tr>
-	<tr class="boxzilla-manual-hint" style="display: none;">
-		<td></td><td></td><td colspan="2"><p class="help"><?php printf( __( 'For using advanced (manual) rules, have a look at %sthe WordPress Conditional Tags Codex page%s.', 'boxzilla' ), '<a href="https://codex.wordpress.org/Conditional_Tags">', '</a>' ); ?></p></td>
 	</tr>
 	<tr valign="top">
 		<th><label for="boxzilla_position"><?php _e( 'Box Position', 'boxzilla' ); ?></label></th>
@@ -153,14 +145,9 @@ $box_positions = array(
 		</th>
 		<td class="boxzilla-sm">
 			<select class="widefat boxzilla-rule-condition" name="boxzilla_box[rules][{{{data.key}}}][condition]">
-				<optgroup label="<?php _e( 'Basic', 'boxzilla' ); ?>">
-					<?php foreach( $rule_options as $value => $label ) {
-						printf( '<option value="%s" %s>%s</option>', $value, '', $label );
-					} ?>
-				</optgroup>
-				<optgroup label="<?php _e( 'Advanced', 'boxzilla' ); ?>">
-					<option value="manual"><?php _e( 'manual conditon', 'boxzilla' ); ?></option>
-				</optgroup>
+				<?php foreach( $rule_options as $value => $label ) {
+					printf( '<option value="%s" %s %s>%s</option>', $value, disabled( $value, '', false ), '', $label );
+				} ?>
 			</select>
 		</td>
 		<td colspan="2">
