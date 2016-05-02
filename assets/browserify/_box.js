@@ -206,13 +206,11 @@ Box.prototype.toggle = function(show) {
 
 // show the box
 Box.prototype.show = function() {
-	this.events.trigger('box.show', [ this ]);
 	return this.toggle(true);
 };
 
 // hide the box
 Box.prototype.hide = function() {
-	this.events.trigger('box.hide', [ this ]);
 	return this.toggle(false);
 };
 
