@@ -5,7 +5,6 @@ var Designer = function($, Option, events) {
 		$editor, $editorFrame,
 		$innerEditor,
 		options = {},
-		manualStyleEl,
 		visualEditorInitialised = false;
 
 	var $appearanceControls = $("#boxzilla-box-appearance-controls");
@@ -17,8 +16,6 @@ var Designer = function($, Option, events) {
 	options.backgroundColor = new Option('background-color');
 	options.width = new Option('width');
 	options.color = new Option('color');
-	options.manualCSS = new Option('manual-css');
-
 
 	// functions
 	function init() {
@@ -48,12 +45,6 @@ var Designer = function($, Option, events) {
 		});
 		$innerEditor.get(0).style.cssText += ';padding: 25px !important;';
 
-		// create <style> element in <head>
-		manualStyleEl = document.createElement('style');
-		manualStyleEl.setAttribute('type','text/css');
-		manualStyleEl.id = 'boxzilla-manual-css';
-		$(manualStyleEl).appendTo($editor.find('head'));
-
 		visualEditorInitialised = true;
 
 		/* @since 2.0.3 */
@@ -70,9 +61,6 @@ var Designer = function($, Option, events) {
 		if( ! visualEditorInitialised ) {
 			return false;
 		}
-
-		// add manual CSS to <head>
-		manualStyleEl.innerHTML = options.manualCSS.getValue();
 
 		// apply styles from CSS editor
 		$innerEditor.css({
@@ -111,9 +99,9 @@ var Designer = function($, Option, events) {
 
 	// public methods
 	return {
-		init: init,
-		resetStyles: resetStyles,
-		options: options
+		'init': init,
+		'resetStyles': resetStyles,
+		'options': options
 	};
 
 };
