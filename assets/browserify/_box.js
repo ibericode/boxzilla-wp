@@ -1,335 +1,330 @@
-module.exports = (function() {
-	'use strict';
+'use strict';
 
-	var $ = window.jQuery,
-		isLoggedIn = $(document.body).hasClass('logged-in'),
-		startTime = new Date().getTime();
-	// Box Object
-	var Box = function( config, events ) {
-		this.id 		= config.id;
-		this.title 		= config.title;
+var $ = window.jQuery,
+	isLoggedIn = $(document.body).hasClass('logged-in'),
+	startTime = new Date().getTime();
 
-		// store config values
-		this.config = config;
-		this.events = events;
+// Box Object
+var Box = function( config, events ) {
+	this.id 		= config.id;
+	this.title 		= config.title;
 
-		// store ref to overlay
-		this.overlay = document.getElementById('boxzilla-overlay');
+	// store config values
+	this.config = config;
+	this.events = events;
 
-		// state
-		this.visible 	= false;
-		this.closed 	= false;
-		this.triggered 	= false;
-		this.triggerHeight = 0;
-		this.cookieSet = false;
+	// store ref to overlay
+	this.overlay = document.getElementById('boxzilla-overlay');
 
-		// if a trigger was given, calculate some values which might otherwise be expensive)
-		if( this.config.autoShow && this.config.trigger !== '' ) {
+	// state
+	this.visible 	= false;
+	this.closed 	= false;
+	this.triggered 	= false;
+	this.triggerHeight = 0;
+	this.cookieSet = false;
 
-			if( this.config.trigger === 'percentage' || this.config.trigger === 'element' ) {
-				this.triggerHeight = this.calculateTriggerHeight( config.triggerPercentage, config.triggerElementSelector );
-			}
+	// if a trigger was given, calculate some values which might otherwise be expensive)
+	if( this.config.autoShow && this.config.trigger !== '' ) {
 
-			this.cookieSet = this.isCookieSet();
+		if( this.config.trigger === 'percentage' || this.config.trigger === 'element' ) {
+			this.triggerHeight = this.calculateTriggerHeight( config.triggerPercentage, config.triggerElementSelector );
 		}
 
-		// create dom element for this box
-		this.element = this.dom();
-		this.$element = $(this.element);
+		this.cookieSet = this.isCookieSet();
+	}
 
-		// setup custom styling
-		this.css();
+	// create dom element for this box
+	this.element = this.dom();
+	this.$element = $(this.element);
 
-		// further initialise the box
-		this.init();
-	};
+	// setup custom styling
+	this.css();
 
-	// initialise the box
-	Box.prototype.init = function() {
-		var box = this;
+	// further initialise the box
+	this.init();
+};
 
-		// attach event to "close" icon inside box
-		this.$element.find('.boxzilla-close-icon').click(box.dismiss.bind(this));
+// initialise the box
+Box.prototype.init = function() {
+	var box = this;
 
-		// find all links & forms in this box
-		this.$links = this.$element.find('a');
-		this.$forms = this.$element.find('form');
+	// attach event to "close" icon inside box
+	this.$element.find('.boxzilla-close-icon').click(box.dismiss.bind(this));
 
-		this.$links.click(function(e) {
-			box.events.trigger('box.interactions.link', [ box, e.target ] );
-		});
+	this.$element.on('click', 'a', function(e) {
+		box.events.trigger('box.interactions.link', [ box, e.target ] );
+	});
 
-		this.$forms.submit(function(e) {
-			box.setCookie();
-			box.events.trigger('box.interactions.form', [ box, e.target ]);
-		});
+	this.$element.on('submit', 'form', function(e) {
+		box.setCookie();
+		box.events.trigger('box.interactions.form', [ box, e.target ]);
+	});
 
-		// attach event to all links referring #boxzilla-{box_id}
-		$(document.body).on('click', 'a[href="#boxzilla-' + box.id + '"]', function() {
-			box.toggle();
-			return false;
-		});
-
-		if( this.config.autoShow && this.config.trigger === 'instant' && ! this.cookieSet ) {
-			$(window).load(this.show.bind(this));
-		} else {
-			// auto-show the box if box is referenced from URL
-			if( this.locationHashRefersBox() ) {
-				$(window).load(this.show.bind(this));
-			}
-		}
-	};
-
-	Box.prototype.css = function() {
-
-		var css = this.config.css;
-
-		if( css.background_color ) {
-			this.element.style.background = css.background_color;
-		}
-
-		if( css.color ) {
-			this.element.style.color = css.color;
-		}
-
-		if( css.border_color ) {
-			this.element.style.borderColor = css.border_color;
-		}
-
-		if( css.border_width ) {
-			this.element.style.borderWidth = parseInt(css.border_width) + "px";
-		}
-
-		if( css.border_style ) {
-			this.element.style.borderStyle = css.border_style;
-		}
-
-		if( css.width ) {
-			this.element.style.maxWidth = parseInt(css.width) + "px";
-		}
-	};
-
-	// generate dom elements for this box
-	Box.prototype.dom = function() {
-
-		var wrapper = document.createElement('div');
-		wrapper.className = 'boxzilla-container boxzilla-' + this.config.position + '-container';
-
-		var box = document.createElement('div');
-		box.className = 'boxzilla boxzilla-' + this.id + ' boxzilla-' + this.config.position;
-		box.style.display = 'none';
-		wrapper.appendChild(box);
-
-		var content = document.createElement('div');
-		content.className = 'boxzilla-content';
-		content.innerHTML = this.config.content;
-		box.appendChild(content);
-
-		if( ! this.config.unclosable && this.config.icon ) {
-			var icon = document.createElement('span');
-			icon.className = "boxzilla-close-icon";
-			icon.innerHTML = this.config.icon;
-			box.appendChild(icon);
-		}
-
-		document.body.appendChild(wrapper);
-
-		return box;
-	};
-
-	// set (calculate) custom box styling depending on box options
-	Box.prototype.setCustomBoxStyling = function() {
-
-		// reset element to its initial state
-		this.element.style.overflowY = 'auto';
-		this.element.style.maxHeight = 'none';
-
-		// get new dimensions
-		var windowHeight = window.innerHeight;
-		var boxHeight = this.$element.outerHeight();
-
-		// add scrollbar to box and limit height
-		if( boxHeight > windowHeight ) {
-			this.element.style.maxHeight = windowHeight + "px";
-			this.element.style.overflowY = 'scroll';
-		}
-
-		// set new top margin for boxes which are centered
-		if( this.config.position === 'center' ) {
-			var newTopMargin = ( ( windowHeight - boxHeight ) / 2 );
-			newTopMargin = newTopMargin >= 0 ? newTopMargin : 0;
-			this.element.style.marginTop = newTopMargin + "px";
-		}
-
-	};
-
-	// toggle visibility of the box
-	Box.prototype.toggle = function(show) {
-
-		// revert visibility if no explicit argument is given
-		if( typeof( show ) === "undefined" ) {
-			show = ! this.visible;
-		}
-
-		// do nothing if element is being animated
-		if( this.$element.is(':animated') ) {
-			return false;
-		}
-
-		// is box already at desired visibility?
-		if( show === this.visible ) {
-			return false;
-		}
-
-		// set new visibility status
-		this.visible = show;
-
-		// calculate custom styling for which CSS is "too stupid"
-		this.setCustomBoxStyling();
-
-		// fadein / fadeout the overlay if position is "center"
-		if( this.config.position === 'center' ) {
-			$(this.overlay).fadeToggle('slow');
-		}
-
-		// trigger event
-		this.events.trigger('box.' + ( show ? 'show' : 'hide' ), [ this ] );
-
-		// show or hide box using selected animation
-		if( this.config.animation === 'fade' ) {
-			this.$element.fadeToggle( 'slow' );
-		} else {
-			this.$element.slideToggle( 'slow' );
-		}
-
-		// // focus on first input field in box
-		// this.$element.find('input').first().focus();
-
-		return true;
-	};
-
-	// show the box
-	Box.prototype.show = function() {
-		this.events.trigger('box.show', [ this ]);
-		return this.toggle(true);
-	};
-
-	// hide the box
-	Box.prototype.hide = function() {
-		this.events.trigger('box.hide', [ this ]);
-		return this.toggle(false);
-	};
-
-	// calculate trigger height
-	Box.prototype.calculateTriggerHeight = function( triggerPercentage, triggerElementSelector ) {
-
-		if( this.config.trigger === 'element' ) {
-			var $triggerElement = $(triggerElementSelector).first();
-			if( $triggerElement.length > 0 ) {
-				// return top offset of element
-				return $triggerElement.offset().top;
-			} else {
-				// element was not found, disable box.
-				return 0;
-			}
-		}
-
-		// calcate % of page height
-		return ( triggerPercentage / 100 * $(document).height() );
-	};
-
-	// set cookie that disables automatically showing the box
-	Box.prototype.setCookie = function() {
-		// do nothing if cookieTime evaluates to false
-		if(! this.config.cookieTime) {
-			return;
-		}
-
-		var expiryDate = new Date();
-		expiryDate.setDate( expiryDate.getDate() + this.config.cookieTime );
-		document.cookie = 'boxzilla_box_'+ this.id + '=true; expires='+ expiryDate.toUTCString() +'; path=/';
-	};
-
-	// checks whether window.location.hash equals the box element ID or that of any element inside the box
-	Box.prototype.locationHashRefersBox = function() {
-
-		if( ! window.location.hash || 0 === window.location.hash.length ) {
-			return false;
-		}
-
-		var elementId = window.location.hash.substring(1);
-		if( elementId === this.element.id ) {
-			return true;
-		} else if( this.element.querySelector('#' + elementId) ) {
-			return true;
-		}
-
+	// attach event to all links referring #boxzilla-{box_id}
+	$(document.body).on('click', 'a[href="#boxzilla-' + box.id + '"]', function() {
+		box.toggle();
 		return false;
-	};
+	});
 
-	// is this box enabled?
-	Box.prototype.mayAutoShow = function() {
-
-		// don't show if autoShow is disabled
-		if( ! this.config.autoShow ) {
-			return false;
+	if( this.config.autoShow && this.config.trigger === 'instant' && ! this.cookieSet ) {
+		$(window).load(this.show.bind(this));
+	} else {
+		// auto-show the box if box is referenced from URL
+		if( this.locationHashRefersBox() ) {
+			$(window).load(this.show.bind(this));
 		}
+	}
+};
 
-		// don't show if box was closed before
-		if( this.closed ) {
-			return false;
+Box.prototype.css = function() {
+
+	var css = this.config.css;
+
+	if( css.background_color ) {
+		this.element.style.background = css.background_color;
+	}
+
+	if( css.color ) {
+		this.element.style.color = css.color;
+	}
+
+	if( css.border_color ) {
+		this.element.style.borderColor = css.border_color;
+	}
+
+	if( css.border_width ) {
+		this.element.style.borderWidth = parseInt(css.border_width) + "px";
+	}
+
+	if( css.border_style ) {
+		this.element.style.borderStyle = css.border_style;
+	}
+
+	if( css.width ) {
+		this.element.style.maxWidth = parseInt(css.width) + "px";
+	}
+};
+
+// generate dom elements for this box
+Box.prototype.dom = function() {
+
+	var wrapper = document.createElement('div');
+	wrapper.className = 'boxzilla-container boxzilla-' + this.config.position + '-container';
+
+	var box = document.createElement('div');
+	box.className = 'boxzilla boxzilla-' + this.id + ' boxzilla-' + this.config.position;
+	box.style.display = 'none';
+	wrapper.appendChild(box);
+
+	var content = document.createElement('div');
+	content.className = 'boxzilla-content';
+	content.innerHTML = this.config.content;
+	box.appendChild(content);
+
+	if( ! this.config.unclosable && this.config.icon ) {
+		var icon = document.createElement('span');
+		icon.className = "boxzilla-close-icon";
+		icon.innerHTML = this.config.icon;
+		box.appendChild(icon);
+	}
+
+	document.body.appendChild(wrapper);
+
+	return box;
+};
+
+// set (calculate) custom box styling depending on box options
+Box.prototype.setCustomBoxStyling = function() {
+
+	// reset element to its initial state
+	this.element.style.overflowY = 'auto';
+	this.element.style.maxHeight = 'none';
+
+	// get new dimensions
+	var windowHeight = window.innerHeight;
+	var boxHeight = this.$element.outerHeight();
+
+	// add scrollbar to box and limit height
+	if( boxHeight > windowHeight ) {
+		this.element.style.maxHeight = windowHeight + "px";
+		this.element.style.overflowY = 'scroll';
+	}
+
+	// set new top margin for boxes which are centered
+	if( this.config.position === 'center' ) {
+		var newTopMargin = ( ( windowHeight - boxHeight ) / 2 );
+		newTopMargin = newTopMargin >= 0 ? newTopMargin : 0;
+		this.element.style.marginTop = newTopMargin + "px";
+	}
+
+};
+
+// toggle visibility of the box
+Box.prototype.toggle = function(show) {
+
+	// revert visibility if no explicit argument is given
+	if( typeof( show ) === "undefined" ) {
+		show = ! this.visible;
+	}
+
+	// do nothing if element is being animated
+	if( this.$element.is(':animated') ) {
+		return false;
+	}
+
+	// is box already at desired visibility?
+	if( show === this.visible ) {
+		return false;
+	}
+
+	// set new visibility status
+	this.visible = show;
+
+	// calculate custom styling for which CSS is "too stupid"
+	this.setCustomBoxStyling();
+
+	// fadein / fadeout the overlay if position is "center"
+	if( this.config.position === 'center' ) {
+		$(this.overlay).fadeToggle('slow');
+	}
+
+	// trigger event
+	this.events.trigger('box.' + ( show ? 'show' : 'hide' ), [ this ] );
+
+	// show or hide box using selected animation
+	if( this.config.animation === 'fade' ) {
+		this.$element.fadeToggle( 'slow' );
+	} else {
+		this.$element.slideToggle( 'slow' );
+	}
+
+	// // focus on first input field in box
+	// this.$element.find('input').first().focus();
+
+	return true;
+};
+
+// show the box
+Box.prototype.show = function() {
+	this.events.trigger('box.show', [ this ]);
+	return this.toggle(true);
+};
+
+// hide the box
+Box.prototype.hide = function() {
+	this.events.trigger('box.hide', [ this ]);
+	return this.toggle(false);
+};
+
+// calculate trigger height
+Box.prototype.calculateTriggerHeight = function( triggerPercentage, triggerElementSelector ) {
+
+	if( this.config.trigger === 'element' ) {
+		var $triggerElement = $(triggerElementSelector).first();
+		if( $triggerElement.length > 0 ) {
+			// return top offset of element
+			return $triggerElement.offset().top;
+		} else {
+			// element was not found, disable box.
+			return 0;
 		}
+	}
 
-		// check if box fits on given minimum screen width
-		if( this.config.minimumScreenWidth > 0 && window.innerWidth < this.config.minimumScreenWidth ) {
-			return false;
-		}
+	// calcate % of page height
+	return ( triggerPercentage / 100 * $(document).height() );
+};
 
-		// don't show if page just loaded ( 500ms)
-		// TODO: make an option out of this
-		var currentTime = new Date().getTime();
-		if( ( startTime + 500 ) > currentTime ) {
-			return false;
-		}
+// set cookie that disables automatically showing the box
+Box.prototype.setCookie = function() {
+	// do nothing if cookieTime evaluates to false
+	if(! this.config.cookieTime) {
+		return;
+	}
 
-		// rely on cookie value (show if not set, don't show if set)
-		return ! this.cookieSet;
-	};
+	var expiryDate = new Date();
+	expiryDate.setDate( expiryDate.getDate() + this.config.cookieTime );
+	document.cookie = 'boxzilla_box_'+ this.id + '=true; expires='+ expiryDate.toUTCString() +'; path=/';
+};
 
-	Box.prototype.mayAutoHide = function() {
+// checks whether window.location.hash equals the box element ID or that of any element inside the box
+Box.prototype.locationHashRefersBox = function() {
 
-		// check if autoHide was allowed from config
-		if( ! this.config.autoHide ) {
-			return false;
-		}
+	if( ! window.location.hash || 0 === window.location.hash.length ) {
+		return false;
+	}
 
-		// only allow autoHide when box has been autoshown (triggered)
-		return this.triggered;
-	};
+	var elementId = window.location.hash.substring(1);
+	if( elementId === this.element.id ) {
+		return true;
+	} else if( this.element.querySelector('#' + elementId) ) {
+		return true;
+	}
 
-	Box.prototype.isCookieSet = function() {
-		// always show on test mode
-		if( isLoggedIn && this.config.testMode ) {
-			return false;
-		}
+	return false;
+};
 
-		// check for cookie
-		if( this.config.cookieTime === 0 ) {
-			return false;
-		}
+// is this box enabled?
+Box.prototype.mayAutoShow = function() {
 
-		var cookieSet = document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*" + 'boxzilla_box_' + this.id + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1") === "true";
-		return cookieSet;
+	// don't show if autoShow is disabled
+	if( ! this.config.autoShow ) {
+		return false;
+	}
 
-	};
+	// don't show if box was closed before
+	if( this.closed ) {
+		return false;
+	}
 
-	// disable the box
-	Box.prototype.dismiss = function() {
-		this.hide();
-		this.setCookie();
-		this.closed = true;
-		this.events.trigger('box.dismiss', [ this ]);
-	};
+	// check if box fits on given minimum screen width
+	if( this.config.minimumScreenWidth > 0 && window.innerWidth < this.config.minimumScreenWidth ) {
+		return false;
+	}
 
-	return Box;
-})();
+	// don't show if page just loaded ( 500ms)
+	// TODO: make an option out of this
+	var currentTime = new Date().getTime();
+	if( ( startTime + 500 ) > currentTime ) {
+		return false;
+	}
+
+	// rely on cookie value (show if not set, don't show if set)
+	return ! this.cookieSet;
+};
+
+Box.prototype.mayAutoHide = function() {
+
+	// check if autoHide was allowed from config
+	if( ! this.config.autoHide ) {
+		return false;
+	}
+
+	// only allow autoHide when box has been autoshown (triggered)
+	return this.triggered;
+};
+
+Box.prototype.isCookieSet = function() {
+	// always show on test mode
+	if( isLoggedIn && this.config.testMode ) {
+		return false;
+	}
+
+	// check for cookie
+	if( this.config.cookieTime === 0 ) {
+		return false;
+	}
+
+	var cookieSet = document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*" + 'boxzilla_box_' + this.id + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1") === "true";
+	return cookieSet;
+
+};
+
+// disable the box
+Box.prototype.dismiss = function() {
+	this.hide();
+	this.setCookie();
+	this.closed = true;
+	this.events.trigger('box.dismiss', [ this ]);
+};
+
+module.exports = Box;
