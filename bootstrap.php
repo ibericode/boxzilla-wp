@@ -4,14 +4,17 @@ namespace Boxzilla;
 
 defined( 'ABSPATH' ) or exit;
 
-global $boxzilla;
+/** @var Boxzilla $boxzilla */
+$boxzilla = boxzilla();
 
-$boxzilla = $container = boxzilla();
-
+// register services
 $provider = new BoxzillaServiceProvider();
-$provider->register( $container );
+$provider->register( $boxzilla );
 
-add_action( 'init', function() use( $container ){
+// load default filters
+require __DIR__ . '/src/default-filters.php';
+
+add_action( 'init', function() use( $boxzilla ){
     // Register custom post type
     $args = array(
         'public' => false,
@@ -32,7 +35,7 @@ add_action( 'init', function() use( $container ){
         ),
         'show_ui' => true,
         'menu_position' => '108.1337133',
-        'menu_icon' => $container->plugin->url( '/assets/img/menu-icon.jpg' ),
+        'menu_icon' => $boxzilla->plugin->url( '/assets/img/menu-icon.jpg' ),
         'query_var' => false
     );
 
@@ -42,8 +45,8 @@ add_action( 'init', function() use( $container ){
 if( ! is_admin() ) {
 
     // PUBLIC
-    add_action( 'template_redirect', function() use( $container ) {
-        $container['box_loader']->init();
+    add_action( 'template_redirect', function() use( $boxzilla ) {
+        $boxzilla['box_loader']->init();
     });
 
 } else {
@@ -53,11 +56,11 @@ if( ! is_admin() ) {
     $provider->register( $boxzilla );
 
     if( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) {
-        add_action('init', function() use( $container ) {
-            $container['admin']->init();
+        add_action('init', function() use( $boxzilla ) {
+            $boxzilla['admin']->init();
         });
     } else {
-        $container['filter.autocomplete']->add_hooks();
+        $boxzilla['filter.autocomplete']->add_hooks();
     }
     
 }

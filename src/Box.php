@@ -2,6 +2,8 @@
 
 namespace Boxzilla;
 
+use WP_Post;
+
 class Box {
 
 	/**
@@ -40,12 +42,12 @@ class Box {
 	public $css_printed = false;
 
 	/**
-	 * @param \WP_Post|int $post
+	 * @param WP_Post|int $post
 	 */
 	public function __construct( $post ) {
 
 		// fetch post if it hasn't been fetched yet
-		if( is_int( $post ) ) {
+		if( ! $post instanceof WP_Post ) {
 			$post = get_post( $post );
 		}
 
@@ -99,24 +101,27 @@ class Box {
 			'hide_on_screen_size' => '',
 			'unclosable' => false,
 		);
+		$box = $this;
 
-		$opts = get_post_meta( $this->ID, 'boxzilla_options', true );
+		$options = get_post_meta( $this->ID, 'boxzilla_options', true );
+		$options = is_array( $options ) ? $options : array();
 
-		// merge CSS options
-		if( ! isset( $opts['css'] ) ) {
-			$opts['css'] = $defaults['css'];
-		} else {
-			$opts['css'] = array_merge( $defaults['css'], $opts['css'] );
-		}
-
-		// merge rest
-		$opts = array_merge( $defaults, $opts );
+		// merge options with default options
+		$options = array_replace_recursive( $defaults, $options );
 
 		// set value of auto_show
-		$opts['auto_show'] = ! empty( $opts['trigger'] );
+		$options['auto_show'] = ! empty( $options['trigger'] );
 
 		// allow others to filter the final array of options
-		return apply_filters( 'boxzilla_box_options', $opts, $this );
+		/**
+		 * Filter the options for a given box
+		 *
+		 * @param array $options
+		 * @param Box $box
+		 */
+		$options = apply_filters( 'boxzilla_box_options', $options, $box );
+
+		return $options;
 	}
 
 	/**
@@ -143,14 +148,20 @@ class Box {
 	public function get_css_classes() {
 
 		// default classes
+		$box = $this;
 		$classes = array(
 			'boxzilla',
 			'boxzilla-' . $this->ID,
 			'boxzilla-' . $this->options['css']['position']
 		);
 
-		// allow other plugins to add more classes
-		$classes = (array) apply_filters( 'boxzilla_box_css_classes', $classes, $this );
+		/**
+		 * Filters the CSS classes which are added to this box
+		 *
+		 * @param array $classes
+		 * @param Box $box
+		 */
+		$classes = (array) apply_filters( 'boxzilla_box_css_classes', $classes, $box );
 
 		// convert array of css classes to string
 		return implode( ' ', $classes );
@@ -162,8 +173,19 @@ class Box {
 	 * @return string
 	 */
 	public function get_close_icon() {
-		$close_icon = apply_filters( 'boxzilla_box_close_icon', '&times;', $this );
-		return (string) $close_icon;
+
+		$box = $this;
+		$html = '&times;';
+
+		/**
+		 * Filters the HTML for the close icon.
+		 *
+		 * @param string $html
+		 * @param Box $box
+		 */
+		$close_icon = (string) apply_filters( 'boxzilla_box_close_icon', $html, $box );
+
+		return $close_icon;
 	}
 
 	/**
@@ -172,7 +194,16 @@ class Box {
 	 * @return mixed|void
 	 */
 	public function get_content() {
-		$content = apply_filters( 'boxzilla_box_content', $this->content, $this );
+		$content = $this->content;
+		$box = $this;
+
+		/**
+		 * Filters the HTML for the box content
+		 *
+		 * @param string $content
+		 * @param Box $box
+		 */
+		$content = apply_filters( 'boxzilla_box_content', $content, $box );
 		return $content;
 	}
 
@@ -183,19 +214,7 @@ class Box {
 	 */
 	public function get_minimum_screen_size() {
 
-		/**
-		 * @filter boxzilla_auto_hide_small_screens
-		 * @expects bool
-		 * @param int $box_id
-		 * @deprecated 4.0 Use the hide_on_screen_size option instead
-		 *
-		 * Use to set whether the box should auto-hide on devices with a width smaller than 480px
-		 */
-		$auto_hide_small_screens = apply_filters( 'boxzilla_auto_hide_small_screens', true, $this );
-
-		if( '' === $this->options['hide_on_screen_size'] && $auto_hide_small_screens ) {
-			$minimum_screen_size = absint( $this->options['css']['width'] );
-		} elseif( $this->options['hide_on_screen_size'] > 0 ) {
+		if( $this->options['hide_on_screen_size'] > 0 ) {
 			$minimum_screen_size = absint( $this->options['hide_on_screen_size'] );
 		} else {
 			$minimum_screen_size = 0;
@@ -210,24 +229,36 @@ class Box {
 	public function print_html() {
 		$opts = $this->options;
 		$close_icon = $this->get_close_icon();
-			?>
-			<div class="boxzilla-container boxzilla-<?php echo esc_attr( $opts['css']['position'] ); ?>-container">
-				<div class="<?php echo esc_attr( $this->get_css_classes() ); ?>"
-				     id="boxzilla-<?php echo $this->ID; ?>"
-				     style="display: none;">
-					<div class="boxzilla-content">
-						<?php
-						do_action( 'boxzilla_print_box_content_before', $this );
-						echo $this->get_content();
-						do_action( 'boxzilla_print_box_content_after', $this );
-						?>
-					</div>
-					<?php if( ! empty( $close_icon ) && ! $this->options['unclosable'] ) { ?>
-						<span class="boxzilla-close-icon"><?php echo $this->get_close_icon(); ?></span>
-					<?php } ?>
+
+		?><div class="boxzilla-container boxzilla-<?php echo esc_attr( $opts['css']['position'] ); ?>-container">
+			<div class="<?php echo esc_attr( $this->get_css_classes() ); ?>"
+				 id="boxzilla-<?php echo $this->ID; ?>"
+				 style="display: none;">
+				<div class="boxzilla-content">
+					<?php
+
+					/**
+					 * Runs just before outputting the box content
+					 *
+					 * @ignore
+					 */
+					do_action( 'boxzilla_print_box_content_before', $this );
+
+					echo $this->get_content();
+
+					/**
+					 * Runs right after outputting the box content
+					 *
+					 * @ignore
+					 */
+					do_action( 'boxzilla_print_box_content_after', $this );
+					?>
 				</div>
+				<?php if( ! empty( $close_icon ) && ! $this->options['unclosable'] ) { ?>
+					<span class="boxzilla-close-icon"><?php echo $this->get_close_icon(); ?></span>
+				<?php } ?>
 			</div>
-			<?php
+		</div><?php
 
 		// make sure box specifix CSS is printed
 		$this->print_css( true );
@@ -302,6 +333,9 @@ class Box {
 			echo strip_tags( $css['manual'] );
 		}
 
+		/**
+		 * Runs right after outputting custom CSS styles for a box.
+		 */
 		do_action( 'boxzilla_box_print_css', $this );
 
 		if( $open_style_element ) {

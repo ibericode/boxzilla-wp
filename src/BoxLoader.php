@@ -12,7 +12,7 @@ class BoxLoader {
 	/**
 	 * @var array
 	 */
-	private $matched_box_ids = array();
+	private $box_ids_to_load = array();
 
 	/**
 	 * @var array
@@ -35,20 +35,13 @@ class BoxLoader {
 	 */
 	public function init() {
 
-		$this->matched_box_ids = $this->filter_boxes();
+		$this->box_ids_to_load = $this->filter_boxes();
 
 		// Only add other hooks if necessary
-		if( count( $this->matched_box_ids ) > 0 ) {
+		if( count( $this->box_ids_to_load ) > 0 ) {
 			add_action( 'wp_enqueue_scripts', array( $this, 'load_assets' ) );
 			add_action( 'wp_head', array( $this, 'print_boxes_css' ), 90 );
 			add_action( 'wp_footer', array( $this, 'print_boxes_html' ) );
-
-			add_filter( 'boxzilla_box_content', 'wptexturize') ;
-			add_filter( 'boxzilla_box_content', 'convert_smilies' );
-			add_filter( 'boxzilla_box_content', 'convert_chars' );
-			add_filter( 'boxzilla_box_content', 'wpautop' );
-			add_filter( 'boxzilla_box_content', 'shortcode_unautop' );
-			add_filter( 'boxzilla_box_content', 'do_shortcode', 11 );
 		}
 	}
 
@@ -147,7 +140,6 @@ class BoxLoader {
 				$matched = is_page( $value );
 				break;
 
-
 		}
 
 		return $matched;
@@ -160,7 +152,7 @@ class BoxLoader {
 	 */
 	private function filter_boxes() {
 
-		$matched_box_ids = array();
+		$box_ids_to_load = array();
 		$rules = $this->get_filter_rules();
 
 		foreach( $rules as $box_id => $box_rules ) {
@@ -183,38 +175,40 @@ class BoxLoader {
 					break;
 				}
 
+				// no need to continue if this rule didn't match
 				if( $comparision === 'all' && ! $matched ) {
 					break;
 				}
 			}
 
-			/**
-			 * @filter boxzilla_show_box_{$box_id]
-			 * @expects bool
-			 *
-			 * Use to run some custom logic whether to show this specific box or not.
-			 * Return true if box should be shown.
-			 */
-			$matched = apply_filters( 'boxzilla_show_box_' . $box_id, $matched );
+			// value of $matched at this point determines whether box should be loaded
+			$load_box = $matched;
 
 			/**
-			 * @filter boxzilla_show_box
-			 * @expects bool
-			 * @param int $box_id
+			 * Filters whether a box should be loaded into the page HTML.
 			 *
-			 * Use to run some custom logic whether to show a box or not.
-			 * Return true if box should be shown.
+			 * The dynamic portion of the hook, `$box_id`, refers to the ID of the box. Return true if you want to output the box.
+			 *
+			 * @param boolean $load_box
 			 */
-			$matched = apply_filters( 'boxzilla_show_box', $matched, $box_id );
+			$load_box = apply_filters( 'boxzilla_load_box_' . $box_id, $load_box );
+
+			/**
+			 * Filters whether a box should be loaded into the page HTML.
+			 *
+			 * @param boolean $load_box
+			 * @param int $box_id
+			 */
+			$load_box = apply_filters( 'boxzilla_load_box', $load_box, $box_id );
 
 			// if matched, box should be loaded on this page
-			if ( $matched ) {
-				$matched_box_ids[] = $box_id;
+			if ( $load_box ) {
+				$box_ids_to_load[] = $box_id;
 			}
 
 		}
 
-		return (array) apply_filters( 'boxzilla_matched_boxes_ids', $matched_box_ids );
+		return $box_ids_to_load;
 	}
 
 	/**
@@ -248,7 +242,7 @@ class BoxLoader {
 
 		if( is_null( $boxes ) ) {
 
-			if( count( $this->matched_box_ids ) === 0 ) {
+			if( count( $this->box_ids_to_load ) === 0 ) {
 				$boxes = array();
 				return $boxes;
 			}
@@ -258,7 +252,7 @@ class BoxLoader {
 				array(
 					'post_type' => 'boxzilla-box',
 					'post_status' => 'publish',
-					'post__in'    => $this->matched_box_ids,
+					'post__in'    => $this->box_ids_to_load,
 					'numberposts' => -1
 				)
 			);
@@ -289,7 +283,7 @@ class BoxLoader {
 		$boxes_options = array();
 		foreach( $this->get_matched_boxes() as $box ) {
 
-			/* @var $box Box */
+			/* @var Box $box */
 
 			// create array with box options
 			$options = array(
