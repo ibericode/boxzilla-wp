@@ -194,7 +194,7 @@ class Box {
 			'title' => $box->title,
 			'icon' => $box->get_close_icon(),
 			'content' => $box->get_content(),
-			'css' => $box->options['css'],
+			'css' => array_filter( $box->options['css'] ),
 			'trigger' => $box->options['trigger'],
 			'triggerPercentage' => absint( $box->options['trigger_percentage'] ),
 			'triggerElementSelector' => $box->options['trigger_element'],
