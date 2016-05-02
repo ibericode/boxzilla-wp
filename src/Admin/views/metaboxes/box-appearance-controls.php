@@ -40,12 +40,6 @@
 			<p class="help"><?php _e( 'Border style', 'boxzilla' ); ?></p>
 		</td>
 	</tr>
-	<tr valign="top">
-		<td colspan="3">
-			<label class="boxzilla-label"><?php _e( 'Manual CSS', 'boxzilla' ); ?></label>
-			<textarea id="boxzilla-manual-css" name="boxzilla_box[css][manual]" class="widefat" rows="5" placeholder=".boxzilla-<?php echo $box->ID; ?> { ... }"><?php echo esc_textarea( $opts['css']['manual'] ); ?></textarea>
-		</td>
-	</tr>
 	<?php do_action( 'boxzilla_after_box_appearance_controls', $box, $opts ); ?>
 </table>
 

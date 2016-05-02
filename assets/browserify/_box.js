@@ -2,16 +2,12 @@ module.exports = (function() {
 	'use strict';
 
 	var $ = window.jQuery,
-		console  = window.console || { log: function() { }},
 		isLoggedIn = $(document.body).hasClass('logged-in'),
 		startTime = new Date().getTime();
-
 	// Box Object
 	var Box = function( config, events ) {
 		this.id 		= config.id;
 		this.title 		= config.title;
-		this.element 	= config.element;
-		this.$element 	= $(config.element);
 
 		// store config values
 		this.config = config;
@@ -36,6 +32,13 @@ module.exports = (function() {
 
 			this.cookieSet = this.isCookieSet();
 		}
+
+		// create dom element for this box
+		this.element = this.dom();
+		this.$element = $(this.element);
+
+		// setup custom styling
+		this.css();
 
 		// further initialise the box
 		this.init();
@@ -75,10 +78,64 @@ module.exports = (function() {
 				$(window).load(this.show.bind(this));
 			}
 		}
-
-
 	};
 
+	Box.prototype.css = function() {
+
+		var css = this.config.css;
+
+		if( css.background_color ) {
+			this.element.style.background = css.background_color;
+		}
+
+		if( css.color ) {
+			this.element.style.color = css.color;
+		}
+
+		if( css.border_color ) {
+			this.element.style.borderColor = css.border_color;
+		}
+
+		if( css.border_width ) {
+			this.element.style.borderWidth = parseInt(css.border_width) + "px";
+		}
+
+		if( css.border_style ) {
+			this.element.style.borderStyle = css.border_style;
+		}
+
+		if( css.width ) {
+			this.element.style.maxWidth = parseInt(css.width) + "px";
+		}
+	};
+
+	// generate dom elements for this box
+	Box.prototype.dom = function() {
+
+		var wrapper = document.createElement('div');
+		wrapper.className = 'boxzilla-container boxzilla-' + this.config.position + '-container';
+
+		var box = document.createElement('div');
+		box.className = 'boxzilla boxzilla-' + this.id + ' boxzilla-' + this.config.position;
+		box.style.display = 'none';
+		wrapper.appendChild(box);
+
+		var content = document.createElement('div');
+		content.className = 'boxzilla-content';
+		content.innerHTML = this.config.content;
+		box.appendChild(content);
+
+		if( ! this.config.unclosable && this.config.icon ) {
+			var icon = document.createElement('span');
+			icon.className = "boxzilla-close-icon";
+			icon.innerHTML = this.config.icon;
+			box.appendChild(icon);
+		}
+
+		document.body.appendChild(wrapper);
+
+		return box;
+	};
 
 	// set (calculate) custom box styling depending on box options
 	Box.prototype.setCustomBoxStyling = function() {
@@ -229,7 +286,7 @@ module.exports = (function() {
 		}
 
 		// don't show if page just loaded ( 500ms)
-		// todo: make an option out of this
+		// TODO: make an option out of this
 		var currentTime = new Date().getTime();
 		if( ( startTime + 500 ) > currentTime ) {
 			return false;

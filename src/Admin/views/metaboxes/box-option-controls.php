@@ -112,8 +112,8 @@ $box_positions = array(
 	<tr valign="top">
 		<th><label for="boxzilla_hide_on_screen_size"><?php _e( 'Do not auto-show box on small screens?', 'boxzilla' ); ?></label></th>
 		<td colspan="3">
-			<p><?php printf( __( 'Do not auto-show on screens smaller than %s.', 'boxzilla' ), '<input type="number" min="0" name="boxzilla_box[hide_on_screen_size]" value="' . esc_attr( $opts['hide_on_screen_size'] ) . '" placeholder="'. esc_attr( $opts['css']['width'] ) .'" style="max-width: 70px;" />px' ); ?></p>
-			<p class="help"><?php _e( 'Set to <code>0</code> if you <strong>do</strong> want to auto-show the box on small screens.', 'boxzilla' ); ?></p>
+			<p><?php printf( __( 'Do not auto-show on screens smaller than %s.', 'boxzilla' ), '<input type="number" min="0" name="boxzilla_box[hide_on_screen_size]" value="' . esc_attr( $opts['hide_on_screen_size'] ) . '" style="max-width: 70px;" />px' ); ?></p>
+			<p class="help"><?php _e( 'Leave empty if you <strong>do</strong> want to auto-show the box on small screens.', 'boxzilla' ); ?></p>
 		</td>
 
 	</tr>

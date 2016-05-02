@@ -1,6 +1,30 @@
 (function () { var require = undefined; var define = undefined; (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-module.exports = (function($) {
-	'use strict';
+'use strict';
+
+function throttle(fn, threshhold, scope) {
+	threshhold || (threshhold = 250);
+	var last,
+		deferTimer;
+	return function () {
+		var context = scope || this;
+
+		var now = +new Date,
+			args = arguments;
+		if (last && now < last + threshhold) {
+			// hold on to it
+			clearTimeout(deferTimer);
+			deferTimer = setTimeout(function () {
+				last = now;
+				fn.apply(context, args);
+			}, threshhold);
+		} else {
+			last = now;
+			fn.apply(context, args);
+		}
+	};
+}
+
+var Manager = (function($) {
 
 	// Global Variables
 	var boxes = {},
@@ -8,25 +32,28 @@ module.exports = (function($) {
 		windowHeight = window.innerHeight,
 		scrollTimer = 0,
 		resizeTimer = 0,
-		overlay = document.getElementById('boxzilla-overlay'),
-		options = window.Boxzilla_Global_Options || {},
+		overlay = document.createElement('div'),
+		options = window.boxzilla_options,
 		EventEmitter = require('wolfy87-eventemitter'),
 		events = new EventEmitter;
 
 	var Box = require('./_box.js');
-
-	// Functions
 
 	// initialise & add event listeners
 	function init() {
 		// make sure we only init once
 		if( inited ) return;
 
-		$(".boxzilla").each(createBoxFromDOM);
+		// add overlay element to dom
+		overlay.id = 'boxzilla-overlay';
+		document.body.appendChild(overlay);
+
+		// create Box object for each box
+		options.boxes.forEach(createBox);
 
 		// event binds
-		$(window).bind('scroll.boxzilla', onScroll);
-		$(window).bind('resize.boxzilla', onWindowResize);
+		$(window).bind('scroll.boxzilla', throttle(checkBoxCriterias));
+		$(window).bind('resize.boxzilla', throttle(recalculateHeights));
 		$(window).bind('load', onLoad );
 		$(document).keyup(onKeyUp);
 		$(overlay).click(onOverlayClick);
@@ -41,30 +68,15 @@ module.exports = (function($) {
 		events.trigger('ready');
 	}
 
-	function onLoad() {
-		recalculateHeights();
-	}
-
 	// create a Box object from the DOM
-	function createBoxFromDOM() {
-		var $box = $(this);
-		var id = parseInt(this.id.substring("boxzilla-".length));
-		var boxOptions = window.Boxzilla_Box_Options[id];
-		boxOptions.element = this;
-		boxOptions.$element = $box;
+	function createBox(boxOptions) {
 		boxOptions.testMode = options.testMode;
 		boxes[boxOptions.id] = new Box(boxOptions, events);
 	}
 
-	function onWindowResize() {
-		resizeTimer && clearTimeout(resizeTimer);
-		resizeTimer = window.setTimeout(recalculateHeights, 100);
-	}
-
-	// "scroll" listener
-	function onScroll() {
-		scrollTimer && clearTimeout(scrollTimer);
-		scrollTimer = window.setTimeout(checkBoxCriterias, 100);
+	// "window.load" listener
+	function onLoad() {
+		recalculateHeights();
 	}
 
 	// "keyup" listener
@@ -198,33 +210,31 @@ module.exports = (function($) {
 
 	// expose a simple API to control all registered boxes
 	return {
-		boxes: boxes,
-		showBox: showBox,
-		hideBox: hideBox,
-		toggleBox: toggleBox,
-		showAllBoxes: showAllBoxes,
-		hideAllBoxes: hideAllBoxes,
-		dismissAllBoxes: dismissAllBoxes,
-		dismiss: dismiss,
-		events: events
+		'boxes': boxes,
+		'showBox': showBox,
+		'hideBox': hideBox,
+		'toggleBox': toggleBox,
+		'showAllBoxes': showAllBoxes,
+		'hideAllBoxes': hideAllBoxes,
+		'dismissAllBoxes': dismissAllBoxes,
+		'dismiss': dismiss,
+		'events': events
 	}
 
 })(window.jQuery);
+
+module.exports = Manager;
 },{"./_box.js":2,"wolfy87-eventemitter":4}],2:[function(require,module,exports){
 module.exports = (function() {
 	'use strict';
 
 	var $ = window.jQuery,
-		console  = window.console || { log: function() { }},
 		isLoggedIn = $(document.body).hasClass('logged-in'),
 		startTime = new Date().getTime();
-
 	// Box Object
 	var Box = function( config, events ) {
 		this.id 		= config.id;
 		this.title 		= config.title;
-		this.element 	= config.element;
-		this.$element 	= $(config.element);
 
 		// store config values
 		this.config = config;
@@ -249,6 +259,13 @@ module.exports = (function() {
 
 			this.cookieSet = this.isCookieSet();
 		}
+
+		// create dom element for this box
+		this.element = this.dom();
+		this.$element = $(this.element);
+
+		// setup custom styling
+		this.css();
 
 		// further initialise the box
 		this.init();
@@ -288,10 +305,64 @@ module.exports = (function() {
 				$(window).load(this.show.bind(this));
 			}
 		}
-
-
 	};
 
+	Box.prototype.css = function() {
+
+		var css = this.config.css;
+
+		if( css.background_color ) {
+			this.element.style.background = css.background_color;
+		}
+
+		if( css.color ) {
+			this.element.style.color = css.color;
+		}
+
+		if( css.border_color ) {
+			this.element.style.borderColor = css.border_color;
+		}
+
+		if( css.border_width ) {
+			this.element.style.borderWidth = parseInt(css.border_width) + "px";
+		}
+
+		if( css.border_style ) {
+			this.element.style.borderStyle = css.border_style;
+		}
+
+		if( css.width ) {
+			this.element.style.maxWidth = parseInt(css.width) + "px";
+		}
+	};
+
+	// generate dom elements for this box
+	Box.prototype.dom = function() {
+
+		var wrapper = document.createElement('div');
+		wrapper.className = 'boxzilla-container boxzilla-' + this.config.position + '-container';
+
+		var box = document.createElement('div');
+		box.className = 'boxzilla boxzilla-' + this.id + ' boxzilla-' + this.config.position;
+		box.style.display = 'none';
+		wrapper.appendChild(box);
+
+		var content = document.createElement('div');
+		content.className = 'boxzilla-content';
+		content.innerHTML = this.config.content;
+		box.appendChild(content);
+
+		if( ! this.config.unclosable && this.config.icon ) {
+			var icon = document.createElement('span');
+			icon.className = "boxzilla-close-icon";
+			icon.innerHTML = this.config.icon;
+			box.appendChild(icon);
+		}
+
+		document.body.appendChild(wrapper);
+
+		return box;
+	};
 
 	// set (calculate) custom box styling depending on box options
 	Box.prototype.setCustomBoxStyling = function() {
@@ -442,7 +513,7 @@ module.exports = (function() {
 		}
 
 		// don't show if page just loaded ( 500ms)
-		// todo: make an option out of this
+		// TODO: make an option out of this
 		var currentTime = new Date().getTime();
 		if( ( startTime + 500 ) > currentTime ) {
 			return false;

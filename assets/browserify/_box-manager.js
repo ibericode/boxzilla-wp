@@ -1,31 +1,56 @@
-module.exports = (function($) {
-	'use strict';
+'use strict';
+
+function throttle(fn, threshhold, scope) {
+	threshhold || (threshhold = 250);
+	var last,
+		deferTimer;
+	return function () {
+		var context = scope || this;
+
+		var now = +new Date,
+			args = arguments;
+		if (last && now < last + threshhold) {
+			// hold on to it
+			clearTimeout(deferTimer);
+			deferTimer = setTimeout(function () {
+				last = now;
+				fn.apply(context, args);
+			}, threshhold);
+		} else {
+			last = now;
+			fn.apply(context, args);
+		}
+	};
+}
+
+var Manager = (function($) {
 
 	// Global Variables
 	var boxes = {},
 		inited = false,
 		windowHeight = window.innerHeight,
-		scrollTimer = 0,
-		resizeTimer = 0,
-		overlay = document.getElementById('boxzilla-overlay'),
-		options = window.Boxzilla_Global_Options || {},
+		overlay = document.createElement('div'),
+		options = window.boxzilla_options,
 		EventEmitter = require('wolfy87-eventemitter'),
 		events = new EventEmitter;
 
 	var Box = require('./_box.js');
-
-	// Functions
 
 	// initialise & add event listeners
 	function init() {
 		// make sure we only init once
 		if( inited ) return;
 
-		$(".boxzilla").each(createBoxFromDOM);
+		// add overlay element to dom
+		overlay.id = 'boxzilla-overlay';
+		document.body.appendChild(overlay);
+
+		// create Box object for each box
+		options.boxes.forEach(createBox);
 
 		// event binds
-		$(window).bind('scroll.boxzilla', onScroll);
-		$(window).bind('resize.boxzilla', onWindowResize);
+		$(window).bind('scroll.boxzilla', throttle(checkBoxCriterias));
+		$(window).bind('resize.boxzilla', throttle(recalculateHeights));
 		$(window).bind('load', onLoad );
 		$(document).keyup(onKeyUp);
 		$(overlay).click(onOverlayClick);
@@ -40,30 +65,15 @@ module.exports = (function($) {
 		events.trigger('ready');
 	}
 
-	function onLoad() {
-		recalculateHeights();
-	}
-
 	// create a Box object from the DOM
-	function createBoxFromDOM() {
-		var $box = $(this);
-		var id = parseInt(this.id.substring("boxzilla-".length));
-		var boxOptions = window.Boxzilla_Box_Options[id];
-		boxOptions.element = this;
-		boxOptions.$element = $box;
+	function createBox(boxOptions) {
 		boxOptions.testMode = options.testMode;
 		boxes[boxOptions.id] = new Box(boxOptions, events);
 	}
 
-	function onWindowResize() {
-		resizeTimer && clearTimeout(resizeTimer);
-		resizeTimer = window.setTimeout(recalculateHeights, 100);
-	}
-
-	// "scroll" listener
-	function onScroll() {
-		scrollTimer && clearTimeout(scrollTimer);
-		scrollTimer = window.setTimeout(checkBoxCriterias, 100);
+	// "window.load" listener
+	function onLoad() {
+		recalculateHeights();
 	}
 
 	// "keyup" listener
@@ -197,15 +207,17 @@ module.exports = (function($) {
 
 	// expose a simple API to control all registered boxes
 	return {
-		boxes: boxes,
-		showBox: showBox,
-		hideBox: hideBox,
-		toggleBox: toggleBox,
-		showAllBoxes: showAllBoxes,
-		hideAllBoxes: hideAllBoxes,
-		dismissAllBoxes: dismissAllBoxes,
-		dismiss: dismiss,
-		events: events
+		'boxes': boxes,
+		'showBox': showBox,
+		'hideBox': hideBox,
+		'toggleBox': toggleBox,
+		'showAllBoxes': showAllBoxes,
+		'hideAllBoxes': hideAllBoxes,
+		'dismissAllBoxes': dismissAllBoxes,
+		'dismiss': dismiss,
+		'events': events
 	}
 
 })(window.jQuery);
+
+module.exports = Manager;

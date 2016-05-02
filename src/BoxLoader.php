@@ -40,8 +40,6 @@ class BoxLoader {
 		// Only add other hooks if necessary
 		if( count( $this->box_ids_to_load ) > 0 ) {
 			add_action( 'wp_enqueue_scripts', array( $this, 'load_assets' ) );
-			add_action( 'wp_head', array( $this, 'print_boxes_css' ), 90 );
-			add_action( 'wp_footer', array( $this, 'print_boxes_html' ) );
 		}
 	}
 
@@ -235,7 +233,7 @@ class BoxLoader {
 	/**
 	 * Get an array of Box objects. These are the boxes that will be loaded for the current request.
 	 *
-	 * @return array An array of `Box` objects.
+	 * @return Box[]
 	 */
 	public function get_matched_boxes() {
 		static $boxes;
@@ -273,72 +271,15 @@ class BoxLoader {
 
 		// create boxzilla_Global_Options object
 		$plugin_options = $this->options;
-		$global_options = array(
-			'testMode' => (bool) $plugin_options['test_mode']
+		$boxes = $this->get_matched_boxes();
+
+		$data = array(
+			'testMode' => (boolean) $plugin_options['test_mode'],
+			'boxes' => array_map( function(Box $box) { return $box->get_client_options(); }, $boxes ),
 		);
-		wp_localize_script( 'boxzilla', 'Boxzilla_Global_Options', $global_options );
 
-
-		// create Boxzilla_Box_Options object
-		$boxes_options = array();
-		foreach( $this->get_matched_boxes() as $box ) {
-
-			/* @var Box $box */
-
-			// create array with box options
-			$options = array(
-				'id' => $box->ID,
-				'title' => $box->title,
-				'trigger' => $box->options['trigger'],
-				'triggerPercentage' => absint( $box->options['trigger_percentage'] ),
-				'triggerElementSelector' => $box->options['trigger_element'],
-				'animation' => $box->options['animation'],
-				'cookieTime' => absint( $box->options['cookie'] ),
-				'autoHide' => (bool) $box->options['auto_hide'],
-				'autoShow' => (bool) $box->options['auto_show'],
-				'position' => $box->options['css']['position'],
-				'minimumScreenWidth' => $box->get_minimum_screen_size(),
-				'unclosable' => $box->options['unclosable'],
-			);
-
-			$boxes_options[ $box->ID ] = $options;
-		}
-
-		wp_localize_script( 'boxzilla', 'Boxzilla_Box_Options', $boxes_options );
+		wp_localize_script( 'boxzilla', 'boxzilla_options', $data );
 	}
-
-	/**
-	* Outputs the boxes in the footer
-	*/
-	public function print_boxes_html() {
-		?><!-- Boxzilla v<?php echo $this->plugin->version(); ?> - https://wordpress.org/plugins/boxzilla/--><?php
-
-		// print HTML for each of the boxes
-		foreach ( $this->get_matched_boxes() as $box ) {
-			/* @var Box $box */
-			$box->print_html();
-		}
-
-			// print overlay element, we only need this once (it's re-used for all boxes)
-			echo '<div id="boxzilla-overlay"></div>';
-		?><!-- / Boxzilla --><?php
-	}
-
-	/**
-	 * Print CSS of all boxes in <head>
-	 */
-	public function print_boxes_css() {
-		echo '<style type="text/css">' . PHP_EOL;
-
-		// print HTML for each of the boxes
-		foreach ( $this->get_matched_boxes() as $box ) {
-			/* @var Box $box  */
-			$box->print_css();
-		}
-
-		echo '</style>' . PHP_EOL . PHP_EOL;
-	}
-
 
 }
 

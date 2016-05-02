@@ -457,29 +457,25 @@ class Admin {
 	public function sanitize_box_rule( $rule) {
 		$rule['value'] = trim( $rule['value'] );
 
-		// don't touch empty values or manual rules
-		if ( $rule['condition'] !== 'manual' ) {
+		// convert to array
+		$rule['value'] = explode( ',', trim( $rule['value'], ',' ) );
 
-			// convert to array
-			$rule['value'] = explode( ',', trim( $rule['value'], ',' ) );
+		// trim all whitespace in value field
+		$rule['value'] = array_map( 'trim', $rule['value'] );
 
-			// trim all whitespace in value field
-			$rule['value'] = array_map( 'trim', $rule['value'] );
+		// Make sure "is_url" values have a leading slash
+		if ( $rule['condition'] === 'is_url' ) {
+			$rule['value'] = array_map( array( $this, 'sanitize_url' ), $rule['value'] );
+		}
 
-			// Make sure "is_url" values have a leading slash
-			if ( $rule['condition'] === 'is_url' ) {
-				$rule['value'] = array_map( array( $this, 'sanitize_url' ), $rule['value'] );
-			}
+		// (re)set value to 0 when condition is everywhere
+		if ( $rule['condition'] === 'everywhere' ) {
+			$rule['value'] = '';
+		}
 
-			// (re)set value to 0 when condition is everywhere
-			if ( $rule['condition'] === 'everywhere' ) {
-				$rule['value'] = '';
-			}
-
-			// convert back to string before saving
-			if ( is_array( $rule['value'] ) ) {
-				$rule['value'] = join( ',', $rule['value'] );
-			}
+		// convert back to string before saving
+		if ( is_array( $rule['value'] ) ) {
+			$rule['value'] = join( ',', $rule['value'] );
 		}
 
 		return $rule;
@@ -529,10 +525,11 @@ class Admin {
 			'rules' => array(),
 			'css' => array()
 		);
-		$opts = array_merge( $defaults, $opts );
+		
+		$opts = array_replace( $defaults, $opts );
 
-		$opts['rules'] = array_map( array( $this, 'sanitize_box_rule' ), $opts['rules'] );
-		$opts['css'] = $this->sanitize_box_css( $opts['css'] );
+		$opts['rules'] 				= array_map( array( $this, 'sanitize_box_rule' ), $opts['rules'] );
+		$opts['css'] 				= $this->sanitize_box_css( $opts['css'] );
 		$opts['cookie']             = absint( $opts['cookie'] );
 		$opts['trigger']            = sanitize_text_field( $opts['trigger'] );
 		$opts['trigger_percentage'] = absint( $opts['trigger_percentage'] );
