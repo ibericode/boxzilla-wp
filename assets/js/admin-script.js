@@ -1,123 +1,122 @@
 (function () { var require = undefined; var define = undefined; (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 window.Boxzilla_Admin = require('./admin/_admin.js');
 },{"./admin/_admin.js":2}],2:[function(require,module,exports){
-module.exports = (function($) {
-	'use strict';
+'use strict';
 
-	var optionControls = document.getElementById('boxzilla-box-options-controls');
-	var $optionControls = $(optionControls);
+var $ = window.jQuery;
+var Option = require('./_option.js');
+var optionControls = document.getElementById('boxzilla-box-options-controls');
+var $optionControls = $(optionControls);
 
-	// sanity check, are we on the correct page?
-	if( $optionControls.length === 0 ) {
-		return;
+// sanity check, are we on the correct page?
+if( $optionControls.length === 0 ) {
+	return;
+}
+
+var EventEmitter = require('wolfy87-eventemitter');
+var events = new EventEmitter();
+var Designer = require('./_designer.js')($, Option, events);
+var rowTemplate = wp.template('rule-row-template');
+var i18n = boxzilla_i18n;
+
+// events
+$optionControls.on('click', ".boxzilla-add-rule", addRuleFields);
+$optionControls.on('click', ".boxzilla-remove-rule", removeRule);
+$optionControls.on('change', ".boxzilla-rule-condition", setContextualHelpers);
+$optionControls.find('.boxzilla-auto-show-trigger').on('change', toggleTriggerOptions );
+
+$(window).load(function() {
+	if( typeof(window.tinyMCE) === "undefined" ) {
+		document.getElementById('notice-notinymce').style.display = 'block';
 	}
+});
 
-	var EventEmitter = require('wolfy87-eventemitter');
-	var events = new EventEmitter();
-	var Option = require('./_option.js');
-	var Designer = require('./_designer.js')($, Option, events);
-	var rowTemplate = wp.template('rule-row-template');
-	var i18n = boxzilla_i18n;
+// call contextual helper method for each row
+$('.boxzilla-rule-row').each(setContextualHelpers);
 
-	// events
-	$optionControls.on('click', ".boxzilla-add-rule", addRuleFields);
-	$optionControls.on('click', ".boxzilla-remove-rule", removeRule);
-	$optionControls.on('change', ".boxzilla-rule-condition", setContextualHelpers);
-	$optionControls.find('.boxzilla-auto-show-trigger').on('change', toggleTriggerOptions );
+function toggleTriggerOptions() {
+	$optionControls.find('.boxzilla-trigger-options').toggle( this.value !== '' );
+}
 
-	$(window).load(function() {
-		if( typeof(window.tinyMCE) === "undefined" ) {
-			document.getElementById('notice-notinymce').style.display = 'block';
-		}
+function removeRule() {
+	$(this).parents('tr').remove();
+}
+
+function setContextualHelpers() {
+
+	var context = ( this.tagName.toLowerCase() === "tr" ) ? this : $(this).parents('tr').get(0);
+	var condition = context.querySelector('.boxzilla-rule-condition').value;
+	var valueInput = context.querySelector('input.boxzilla-rule-value');
+	var betterInput = valueInput.cloneNode(true);
+	var $betterInput = $(betterInput);
+
+	// remove previously added helpers
+	$(context.querySelectorAll('.boxzilla-helper')).remove();
+
+	// prepare better input
+	betterInput.removeAttribute('name');
+	betterInput.className += ' boxzilla-helper';
+	valueInput.parentNode.insertBefore(betterInput, valueInput.nextSibling);
+	betterInput.style.display = 'block';
+	$betterInput.change(function() {
+		valueInput.value = this.value; //.val(this.value);
 	});
 
-	// call contextual helper method for each row
-	$('.boxzilla-rule-row').each(setContextualHelpers);
+	valueInput.style.display = 'none';
 
-	function toggleTriggerOptions() {
-		$optionControls.find('.boxzilla-trigger-options').toggle( this.value !== '' );
+	// change placeholder for textual help
+	switch(condition) {
+		default:
+			betterInput.placeholder = i18n.enterCommaSeparatedValues;
+			break;
+
+		case '':
+		case 'everywhere':
+			valueInput.value = '';
+			betterInput.style.display = 'none';
+			break;
+
+		case 'is_single':
+		case 'is_post':
+			betterInput.placeholder = i18n.enterCommaSeparatedPosts;
+			$betterInput.suggest(ajaxurl + "?action=boxzilla_autocomplete&type=post", {multiple:true, multipleSep: ","});
+			break;
+
+		case 'is_page':
+			betterInput.placeholder = i18n.enterCommaSeparatedPages;
+			$betterInput.suggest(ajaxurl + "?action=boxzilla_autocomplete&type=page", {multiple:true, multipleSep: ","});
+			break;
+
+		case 'is_post_type':
+			betterInput.placeholder = i18n.enterCommaSeparatedPostTypes;
+			$betterInput.suggest(ajaxurl + "?action=boxzilla_autocomplete&type=post_type", {multiple:true, multipleSep: ","});
+			break;
+
+		case 'is_url':
+			betterInput.placeholder = i18n.enterCommaSeparatedRelativeUrls;
+			break;
+
+		case 'is_post_in_category':
+			$betterInput.suggest(ajaxurl + "?action=boxzilla_autocomplete&type=category", {multiple:true, multipleSep: ","});
+			break;
 	}
+}
 
-	function removeRule() {
-		$(this).parents('tr').remove();
-	}
-
-	function setContextualHelpers() {
-
-		var context = ( this.tagName.toLowerCase() === "tr" ) ? this : $(this).parents('tr').get(0);
-		var condition = context.querySelector('.boxzilla-rule-condition').value;
-		var valueInput = context.querySelector('input.boxzilla-rule-value');
-		var betterInput = valueInput.cloneNode(true);
-		var $betterInput = $(betterInput);
-
-		// remove previously added helpers
-		$(context.querySelectorAll('.boxzilla-helper')).remove();
-
-		// prepare better input
-		betterInput.removeAttribute('name');
-		betterInput.className += ' boxzilla-helper';
-		valueInput.parentNode.insertBefore(betterInput, valueInput.nextSibling);
-		betterInput.style.display = 'block';
-		$betterInput.change(function() {
-			valueInput.value = this.value; //.val(this.value);
-		});
-
-		valueInput.style.display = 'none';
-
-		// change placeholder for textual help
-		switch(condition) {
-			default:
-				betterInput.placeholder = i18n.enterCommaSeparatedValues;
-				break;
-
-			case '':
-			case 'everywhere':
-				valueInput.value = '';
-				betterInput.style.display = 'none';
-				break;
-
-			case 'is_single':
-			case 'is_post':
-				betterInput.placeholder = i18n.enterCommaSeparatedPosts;
-				$betterInput.suggest(ajaxurl + "?action=boxzilla_autocomplete&type=post", {multiple:true, multipleSep: ","});
-				break;
-
-			case 'is_page':
-				betterInput.placeholder = i18n.enterCommaSeparatedPages;
-				$betterInput.suggest(ajaxurl + "?action=boxzilla_autocomplete&type=page", {multiple:true, multipleSep: ","});
-				break;
-
-			case 'is_post_type':
-				betterInput.placeholder = i18n.enterCommaSeparatedPostTypes;
-				$betterInput.suggest(ajaxurl + "?action=boxzilla_autocomplete&type=post_type", {multiple:true, multipleSep: ","});
-				break;
-
-			case 'is_url':
-				betterInput.placeholder = i18n.enterCommaSeparatedRelativeUrls;
-				break;
-
-			case 'is_post_in_category':
-				$betterInput.suggest(ajaxurl + "?action=boxzilla_autocomplete&type=category", {multiple:true, multipleSep: ","});
-				break;
-		}
-	}
-
-	function addRuleFields() {
-		var data = {
-			'key': optionControls.querySelectorAll('.boxzilla-rule-row').length
-		};
-		var html = rowTemplate(data);
-		$(document.getElementById('boxzilla-box-rules')).after(html);
-		return false;
-	}
-
-	return {
-		'Designer': Designer,
-		'Option': Option,
-		'events': events
+function addRuleFields() {
+	var data = {
+		'key': optionControls.querySelectorAll('.boxzilla-rule-row').length
 	};
+	var html = rowTemplate(data);
+	$(document.getElementById('boxzilla-box-rules')).after(html);
+	return false;
+}
 
-})(window.jQuery);
+module.exports = {
+	'Designer': Designer,
+	'Option': Option,
+	'events': events
+};
+
 },{"./_designer.js":3,"./_option.js":4,"wolfy87-eventemitter":5}],3:[function(require,module,exports){
 var Designer = function($, Option, events) {
 
