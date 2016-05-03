@@ -24,9 +24,6 @@ body {
 .boxzilla {
 	position: fixed;
 	z-index: 999999;
-	-webkit-box-shadow: 0 0 10px 1px #333;
-	-moz-box-shadow: 0 0 10px 1px #333;
-	box-shadow: 0 0 10px 1px #333;
 	margin: 0;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
