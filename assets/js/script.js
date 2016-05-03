@@ -442,10 +442,7 @@ function checkTimeCriteria() {
         if( ! box.mayAutoShow() || box.config.trigger.method !== 'time_on_site' ) {
             return;
         }
-
-        console.log(timeOnSite);
-        console.log(box.config.trigger.value);
-
+        
         if( timeOnSite > box.config.trigger.value ) {
             box.trigger();
         }
