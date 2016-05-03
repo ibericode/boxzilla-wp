@@ -87,6 +87,7 @@ class Box {
 			'trigger' => 'percentage',
 			'trigger_percentage' => 65,
 			'trigger_element' => '',
+			'trigger_time' => 0,
 			'animation' => 'fade',
 			'auto_hide' => 0,
 			'hide_on_screen_size' => '',
@@ -99,9 +100,6 @@ class Box {
 
 		// merge options with default options
 		$options = array_replace_recursive( $defaults, $options );
-
-		// set value of auto_show
-		$options['auto_show'] = ! empty( $options['trigger'] );
 
 		// allow others to filter the final array of options
 		/**
@@ -189,19 +187,23 @@ class Box {
 
 	public function get_client_options() {
 		$box = $this;
+
+		$trigger = false;
+		if( $box->options['trigger'] ) {
+			$trigger = array(
+				'method' => $this->options['trigger'],
+				'value' => $this->options[ 'trigger_' . $this->options['trigger'] ]
+			);
+		}
 		return array(
 			'id' => $box->ID,
-			'title' => $box->title,
 			'icon' => $box->get_close_icon(),
 			'content' => $box->get_content(),
 			'css' => array_filter( $box->options['css'] ),
-			'trigger' => $box->options['trigger'],
-			'triggerPercentage' => absint( $box->options['trigger_percentage'] ),
-			'triggerElementSelector' => $box->options['trigger_element'],
+			'trigger' => $trigger,
 			'animation' => $box->options['animation'],
 			'cookieTime' => absint( $box->options['cookie'] ),
-			'autoHide' => (bool) $box->options['auto_hide'],
-			'autoShow' => (bool) $box->options['auto_show'],
+			'rehide' => (bool) $box->options['auto_hide'],
 			'position' => $box->options['css']['position'],
 			'minimumScreenWidth' => $box->get_minimum_screen_size(),
 			'unclosable' => $box->options['unclosable'],
