@@ -124,7 +124,7 @@ Box.prototype.events = function() {
     // maybe show box right away
     if( this.config.trigger.method === "time_on_page" && this.mayAutoShow() ) {
         window.setTimeout(this.trigger.bind(this), this.config.trigger.value * 1000 );
-    // auto-show the box if box is referenced from URL
+        // auto-show the box if box is referenced from URL
     } else if( this.fits() && this.locationHashRefersBox() ) {
         $(window).load(this.show.bind(this));
     }
@@ -322,7 +322,7 @@ Box.prototype.fits = function() {
         return true;
     }
 
-   return window.innerWidth > this.config.minimumScreenWidth
+    return window.innerWidth > this.config.minimumScreenWidth
 };
 
 // is this box enabled?

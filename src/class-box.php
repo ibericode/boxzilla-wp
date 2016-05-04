@@ -191,11 +191,14 @@ class Box {
 
 		$trigger = false;
 		if( $box->options['trigger'] ) {
-			$trigger = array(
-				'method' => $this->options['trigger'],
-				'value' => $this->options[ 'trigger_' . $this->options['trigger'] ]
-			);
+
+			$trigger = array( 'method' => $this->options['trigger'] );
+
+			if( isset( $this->options[ 'trigger_' . $this->options['trigger'] ] ) ) {
+				$trigger['value'] = $this->options[ 'trigger_' . $this->options['trigger'] ];
+			}
 		}
+		
 		return array(
 			'id' => $box->ID,
 			'icon' => $box->get_close_icon(),
