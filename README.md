@@ -1,9 +1,9 @@
 Boxzilla for WordPress
 ======================
-![Build](https://img.shields.io/travis/ibericode/boxzilla-wp.svg)
-![Version](https://img.shields.io/wordpress/plugin/v/boxzilla.svg)
-![Downloads](https://img.shields.io/wordpress/plugin/dt/boxzilla.svg)
-![Rating](https://img.shields.io/wordpress/plugin/r/boxzilla.svg)
+[![Build](https://img.shields.io/travis/ibericode/boxzilla-wp.svg)](https://travis-ci.org/ibericode/boxzilla-wp)
+[![Version](https://img.shields.io/wordpress/plugin/v/boxzilla.svg)](https://wordpress.org/plugins/boxzilla/changelog/)
+[![Downloads](https://img.shields.io/wordpress/plugin/dt/boxzilla.svg)](https://wordpress.org/plugins/boxzilla/)
+[![Rating](https://img.shields.io/wordpress/plugin/r/boxzilla.svg)](https://wordpress.org/support/view/plugin-reviews/boxzilla/)
 
 Here, you can browse the source code of the [Boxzilla plugin for WordPress](https://wordpress.org/plugins/boxzilla/), find and discuss open issues or contribute code to the plugin yourself.
 
