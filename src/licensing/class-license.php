@@ -170,7 +170,7 @@ class License {
 	}
 
 	/**
-	 *
+	 * @return void
 	 */
 	public function activate() {
 		$this->activated = true;
@@ -178,7 +178,7 @@ class License {
 	}
 
 	/**
-	 *
+	 * @return void
 	 */
 	public function deactivate() {
 		$this->activated = false;
