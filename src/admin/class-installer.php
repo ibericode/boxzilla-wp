@@ -23,7 +23,19 @@ class Installer {
 			return;
 		}
 
+		$this->transfer_from_stb();
 		$this->create_sample_box();
+	}
+
+	/**
+	 *
+	 */
+	public function transfer_from_stb() {
+		global $wpdb;
+
+		// transfer post types
+		$query = $wpdb->prepare( "UPDATE  {$wpdb->posts} SET post_type = %s WHERE  post_type = %s", 'boxzilla-box', 'scroll-triggered-box' );
+		$wpdb->query( $query );
 	}
 
 	/**
