@@ -15,7 +15,7 @@ class LicenseServiceProvider implements ServiceProviderInterface {
 	public function register( Container $container ) {
 
 		$container['api_url'] = function( $container ) {
-			return 'http://api.boxzilla.dev/v1';
+			return 'https://api.boxzillaplugin.com/v1';
 		};
 
 		$container['license'] = function( $container ) {
