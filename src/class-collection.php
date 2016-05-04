@@ -2,7 +2,10 @@
 
 namespace Boxzilla;
 
-class Collection implements \Iterator, \Countable {
+use Iterator;
+use Countable;
+
+class Collection implements Iterator, Countable {
 
 	protected $elements = array();
 	private $position = 0;

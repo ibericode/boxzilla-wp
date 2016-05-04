@@ -6,5 +6,6 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    '1cedb515ccfe9010b8261ab2ce98eaec' => $baseDir . '/src/functions.php',
+    '1d1b89d124cc9cb8219922c9d5569199' => $vendorDir . '/hamcrest/hamcrest-php/hamcrest/Hamcrest.php',
+    '94cc07ee52e9ca5ddcd07a46efdfe8cc' => $baseDir . '/src/functions.php',
 );

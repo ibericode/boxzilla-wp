@@ -1,7 +1,5 @@
 <?php
 
-defined( 'ABSPATH' ) or exit;
-
 use Boxzilla\Boxzilla;
 
 /**
