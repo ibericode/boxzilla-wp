@@ -6,8 +6,12 @@
 	<div class="error inline">
 		<p>
 			<strong><?php _e( 'Warning! You are <u>not</u> receiving plugin updates for the following plugin(s):', 'boxzilla' ); ?></strong>
-			<?php echo join( ', ', $this->extensions->map(function($p) { return $p->name(); }) ); ?>.
-			To fix this, please activate your license.
+		</p>
+		<ul class="ul-square">
+			<li><?php echo join( '</li><li>', $this->extensions->map(function($p) { return $p->name(); }) ); ?></li>
+		</ul>
+		<p>
+			To fix this, please activate your license using the form below.
 		</p>
 	</div>
 <?php } ?>
