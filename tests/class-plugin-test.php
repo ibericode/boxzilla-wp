@@ -42,8 +42,9 @@ class PluginTest extends WP_Test_Case {
 
     public function test_url() {
         Functions::when('plugins_url')->returnArg();
-
         self::assertEquals( $this->instance->url(), '' );
+
+        Functions::when('plugins_url')->returnArg();
         self::assertEquals( $this->instance->url('/here'), '/here' );
     }
 
