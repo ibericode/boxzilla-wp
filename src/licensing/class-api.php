@@ -3,7 +3,6 @@
 namespace Boxzilla\Licensing;
 
 use Boxzilla\Admin\Notices;
-use Boxzilla\Collection;
 use Boxzilla\Plugin;
 use WP_Error;
 
@@ -94,7 +93,7 @@ class API {
 	 * @return object
 	 */
 	public function get_plugin( Plugin $plugin ) {
-		$endpoint = sprintf( '/plugins/%d?format=wp', $plugin->id() );
+		$endpoint = sprintf( '/plugins/%s?format=wp', $plugin->id() );
 		return $this->request( 'GET', $endpoint );
 	}
 
@@ -104,8 +103,8 @@ class API {
 	 */
 	public function get_plugins( $plugins ) {
 		// create array of plugin ID's
-		$plugin_ids = $plugins->map(function( $p ) { return $p->id(); });
-		$endpoint = add_query_arg( array( 'ids' => implode(',', $plugin_ids ), 'format' => 'wp' ), '/plugins' );
+		$plugin_slugs = $plugins->map(function( $p ) { return $p->id(); });
+		$endpoint = add_query_arg( array( 'sids' => implode(',', $plugin_slugs ), 'format' => 'wp' ), '/plugins' );
 		return $this->request( 'GET', $endpoint );
 	}
 
