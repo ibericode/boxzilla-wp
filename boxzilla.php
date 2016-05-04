@@ -42,8 +42,8 @@ function __load_boxzilla() {
 
 	// Load PHP 5.2 fallback
 	if( version_compare( PHP_VERSION, '5.3', '<' ) ) {
-		require dirname( __FILE__ ) . '/fallback.php';
-		new STB_PHP_Fallback( 'Boxzilla', plugin_basename( __FILE__ ) );
+		require dirname( __FILE__ ) . '/src/class-php-fallback.php';
+		new Boxzilla_PHP_Fallback( 'Boxzilla', plugin_basename( __FILE__ ) );
 		return;
 	}
 

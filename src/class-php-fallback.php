@@ -1,6 +1,6 @@
 <?php
 
-class STB_PHP_Fallback {
+class Boxzilla_PHP_Fallback {
 
 	/**
 	 * @var string
