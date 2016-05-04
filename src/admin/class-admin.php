@@ -38,6 +38,7 @@ class Admin {
 
 		// action hooks
 		$this->add_hooks();
+		$this->run_migrations();
 	}
 
 	/**
@@ -59,6 +60,26 @@ class Admin {
 			$this->boxzilla['update_manager']->add_hooks();
 			$this->boxzilla['api_authenticator']->add_hooks();
 		}
+	}
+
+	/**
+	 * Checks current version against stored version & runs necessary update routines.
+	 *
+	 * @return bool
+	 */
+	protected function run_migrations() {
+
+		// Only run if db option is at older version than code constant
+		$previous_version = get_option( 'boxzilla_version', '0' );
+		$current_version =  $this->plugin->version();
+
+		if( version_compare( $current_version, $previous_version, '<=' ) ) {
+			return false;
+		}
+
+		$upgrade_routines = new Migrations( $previous_version, $current_version, __DIR__ . '/migrations' );
+		$upgrade_routines->run();
+		update_option( 'boxzilla_version', $current_version );
 	}
 
 	public function lazy_add_hooks() {
