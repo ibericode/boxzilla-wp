@@ -1,5 +1,6 @@
 Boxzilla for WordPress
 ======================
+![Build](https://img.shields.io/travis/ibericode/boxzilla-wp.svg)
 ![Version](https://img.shields.io/wordpress/plugin/v/boxzilla.svg)
 ![Downloads](https://img.shields.io/wordpress/plugin/dt/boxzilla.svg)
 ![Rating](https://img.shields.io/wordpress/plugin/r/boxzilla.svg)
