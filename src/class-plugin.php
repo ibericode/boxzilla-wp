@@ -41,15 +41,19 @@ class Plugin {
 	 * @param string $name
 	 * @param string $version
 	 * @param string $file
-	 * @param string $dir
+	 * @param string $dir (optional)
 	 */
-	public function __construct( $id, $name, $version, $file, $dir ) {
+	public function __construct( $id, $name, $version, $file, $dir  = '' ) {
 		$this->id = $id;
 		$this->name = $name;
 		$this->version = $version;
 		$this->file = $file;
 		$this->dir = $dir;
 		$this->slug = plugin_basename( $file );
+
+		if( empty( $dir ) ) {
+			$this->dir = dirname( $file );
+		}
 	}
 
 	/**
