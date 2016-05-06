@@ -32,11 +32,6 @@ class Box {
 	public $enabled = false;
 
 	/**
-	 * @var bool
-	 */
-	public $css_printed = false;
-
-	/**
 	 * @param WP_Post|int $post
 	 */
 	public function __construct( $post ) {
@@ -198,8 +193,8 @@ class Box {
 				$trigger['value'] = $this->options[ 'trigger_' . $this->options['trigger'] ];
 			}
 		}
-		
-		return array(
+
+		$client_options = array(
 			'id' => $box->ID,
 			'icon' => $box->get_close_icon(),
 			'content' => $box->get_content(),
@@ -212,6 +207,16 @@ class Box {
 			'minimumScreenWidth' => $box->get_minimum_screen_size(),
 			'unclosable' => $box->options['unclosable'],
 		);
+
+		/**
+		 * Filter the final options for the JS Boxzilla client.
+		 *
+		 * @param array $client_options
+		 * @param Box $box
+		 */
+		$client_options = apply_filters( 'boxzilla_box_client_options', $client_options, $box );
+
+		return $client_options;
 	}
 
 }
