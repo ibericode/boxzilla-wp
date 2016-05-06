@@ -13,22 +13,44 @@ if( isLoggedIn && options.testMode ) {
 // init boxzilla
 Boxzilla.init();
 
+// create boxes from options
 for( var i=0; i < options.boxes.length; i++ ) {
+    // get opts
     var boxOpts = options.boxes[i];
     boxOpts.testMode = isLoggedIn && options.testMode;
-    Boxzilla.create( boxOpts.id, boxOpts);
+
+    // create box
+    var box = Boxzilla.create( boxOpts.id, boxOpts);
+    
+    // add custom css to box
+    css(box.element, boxOpts.css);
 }
-// // init on document.ready OR in 5 seconds in case event pipeline is broken
-// $(document).ready(init);
-// window.setTimeout(init, 5000);
 
-Boxzilla.create( 'custom-box', {
-    content: "Well hello",
-    trigger: "percentage",
-    triggerPercentage: 50,
-    position: "top-right"
-});
+function css(element, styles) {
+    if( styles.background_color ) {
+        element.style.background = styles.background_color;
+    }
 
+    if( styles.color ) {
+        element.style.color = styles.color;
+    }
+
+    if( styles.border_color ) {
+        element.style.borderColor = styles.border_color;
+    }
+
+    if( styles.border_width ) {
+        element.style.borderWidth = parseInt(styles.border_width) + "px";
+    }
+
+    if( styles.border_style ) {
+        element.style.borderStyle = styles.border_style;
+    }
+
+    if( styles.width ) {
+        element.style.maxWidth = parseInt(styles.width) + "px";
+    }
+}
 window.Boxzilla = Boxzilla;
 },{"boxzilla":3}],2:[function(require,module,exports){
 'use strict';
@@ -91,10 +113,7 @@ var Box = function( id, config ) {
     // create dom element for this box
     this.element = this.dom();
     this.$element = $(this.element);
-
-    // setup custom styling
-    this.css();
-
+    
     // further initialise the box
     this.events();
 };
@@ -129,35 +148,6 @@ Box.prototype.events = function() {
         $(window).load(this.show.bind(this));
     }
 
-};
-
-Box.prototype.css = function() {
-
-    var css = this.config.css;
-
-    if( css.background_color ) {
-        this.element.style.background = css.background_color;
-    }
-
-    if( css.color ) {
-        this.element.style.color = css.color;
-    }
-
-    if( css.border_color ) {
-        this.element.style.borderColor = css.border_color;
-    }
-
-    if( css.border_width ) {
-        this.element.style.borderWidth = parseInt(css.border_width) + "px";
-    }
-
-    if( css.border_style ) {
-        this.element.style.borderStyle = css.border_style;
-    }
-
-    if( css.width ) {
-        this.element.style.maxWidth = parseInt(css.width) + "px";
-    }
 };
 
 // generate dom elements for this box

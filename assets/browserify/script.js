@@ -12,20 +12,43 @@ if( isLoggedIn && options.testMode ) {
 // init boxzilla
 Boxzilla.init();
 
+// create boxes from options
 for( var i=0; i < options.boxes.length; i++ ) {
+    // get opts
     var boxOpts = options.boxes[i];
     boxOpts.testMode = isLoggedIn && options.testMode;
-    Boxzilla.create( boxOpts.id, boxOpts);
-}
-// // init on document.ready OR in 5 seconds in case event pipeline is broken
-// $(document).ready(init);
-// window.setTimeout(init, 5000);
 
-Boxzilla.create( 'custom-box', {
-    content: "Well hello",
-    trigger: "percentage",
-    triggerPercentage: 50,
-    position: "top-right"
-});
+    // create box
+    var box = Boxzilla.create( boxOpts.id, boxOpts);
+    
+    // add custom css to box
+    css(box.element, boxOpts.css);
+}
+
+function css(element, styles) {
+    if( styles.background_color ) {
+        element.style.background = styles.background_color;
+    }
+
+    if( styles.color ) {
+        element.style.color = styles.color;
+    }
+
+    if( styles.border_color ) {
+        element.style.borderColor = styles.border_color;
+    }
+
+    if( styles.border_width ) {
+        element.style.borderWidth = parseInt(styles.border_width) + "px";
+    }
+
+    if( styles.border_style ) {
+        element.style.borderStyle = styles.border_style;
+    }
+
+    if( styles.width ) {
+        element.style.maxWidth = parseInt(styles.width) + "px";
+    }
+}
 
 window.Boxzilla = Boxzilla;
