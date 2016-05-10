@@ -10,12 +10,12 @@ defined( 'ABSPATH' ) or exit;
 $rule_options = array(
 	'' => __( "Select a condition", 'boxzilla' ),
 	'everywhere' => __( 'everywhere', 'boxzilla' ),
-	'is_page' => __( 'if page is', 'boxzilla' ),
-	'is_single' => __( 'if post is', 'boxzilla' ),
-	'is_post_in_category' => __( 'if is post in category', 'boxzilla' ),
-	'is_post_type' => __( 'if post type is', 'boxzilla' ),
-	'is_url' => __( 'if URL is', 'boxzilla' ),
-	'is_referer' => __( 'if referer is', 'boxzilla' ),
+	'is_page' => __( 'if page', 'boxzilla' ),
+	'is_single' => __( 'if post', 'boxzilla' ),
+	'is_post_in_category' => __( 'if post category', 'boxzilla' ),
+	'is_post_type' => __( 'if post type', 'boxzilla' ),
+	'is_url' => __( 'if URL', 'boxzilla' ),
+	'is_referer' => __( 'if referer', 'boxzilla' ),
 );
 
 $box_positions = array(
@@ -34,7 +34,7 @@ $box_positions = array(
 	?>
 	<tr>
 		<th><?php _e( 'Load this box if', 'boxzilla' ); ?></th>
-		<td colspan="3">
+		<td>
 			<label>
 				<?php _e( 'Request matches', 'boxzilla' ); ?>
 				<select name="boxzilla_box[rules_comparision]">
@@ -53,15 +53,19 @@ $box_positions = array(
 			<th style="text-align: right; font-weight: normal;">
 				<span class="boxzilla-close boxzilla-remove-rule"><span class="dashicons dashicons-dismiss"></span></span>
 			</th>
-			<td class="boxzilla-sm">
-				<select class="widefat boxzilla-rule-condition" name="boxzilla_box[rules][<?php echo $key; ?>][condition]">
+			<td>
+				<select class="boxzilla-rule-condition" name="boxzilla_box[rules][<?php echo $key; ?>][condition]">
 					<?php foreach( $rule_options as $value => $label ) {
 						printf( '<option value="%s" %s %s>%s</option>', $value, disabled( $value, '', false ), selected( $rule['condition'], $value ), $label );
 					} ?>
 				</select>
-			</td>
-			<td colspan="2">
-				<input class="boxzilla-rule-value widefat" name="boxzilla_box[rules][<?php echo $key; ?>][value]" type="text" value="<?php echo esc_attr( $rule['value'] ); ?>" placeholder="<?php _e( 'Leave empty for any or enter (comma-separated) names or ID\'s', 'boxzilla' ); ?>" style="<?php if( in_array( $rule['condition'], array( '', 'everywhere' ) ) ) { echo 'display: none;'; } ?>" />
+
+				<select class="boxzilla-rule-qualifier" name="boxzilla_box[rules][<?php echo $key; ?>][qualifier]">
+					<option value="1" <?php selected( ! isset( $rule['qualifier'] ) || $rule['qualifier'] ); ?>><?php _e( 'is', 'boxzilla' ); ?></option>
+					<option value="0" <?php selected( isset( $rule['qualifier'] ) && !$rule['qualifier'] ); ?>><?php _e( 'is not', 'boxzilla' ); ?></option>
+				</select>
+
+				<input class="boxzilla-rule-value regular-text" name="boxzilla_box[rules][<?php echo $key; ?>][value]" type="text" value="<?php echo esc_attr( $rule['value'] ); ?>" placeholder="<?php _e( 'Leave empty for any or enter (comma-separated) names or ID\'s', 'boxzilla' ); ?>" style="<?php if( in_array( $rule['condition'], array( '', 'everywhere' ) ) ) { echo 'display: none;'; } ?>" />
 			</td>
 		</tr>
 	<?php $key++;
@@ -69,22 +73,21 @@ $box_positions = array(
 	</tbody>
 	<tr>
 		<th></th>
-		<td colspan="3"><button type="button" class="button boxzilla-add-rule"><?php _e( 'Add rule', 'boxzilla' ); ?></button></td>
+		<td><button type="button" class="button boxzilla-add-rule"><?php _e( 'Add rule', 'boxzilla' ); ?></button></td>
 	</tr>
 	<tr valign="top">
 		<th><label for="boxzilla_position"><?php _e( 'Box Position', 'boxzilla' ); ?></label></th>
 		<td>
-			<select id="boxzilla_position" name="boxzilla_box[css][position]" class="widefat">
+			<select id="boxzilla_position" name="boxzilla_box[css][position]">
 				<?php foreach( $box_positions as $value => $label ) {
 					printf( '<option value="%s" %s>%s</option>', $value, selected( $opts['css']['position'], $value ), $label );
 				} ?>
 			</select>
 		</td>
-		<td colspan="2"></td>
 	</tr>
 	<tr valign="top">
 		<th><label><?php _e( 'Animation', 'boxzilla' ); ?></label></th>
-		<td colspan="3">
+		<td>
 			<label><input type="radio" name="boxzilla_box[animation]" value="fade" <?php checked($opts['animation'], 'fade'); ?> /> <?php _e( 'Fade In', 'boxzilla' ); ?></label> &nbsp;
 			<label><input type="radio" name="boxzilla_box[animation]" value="slide" <?php checked($opts['animation'], 'slide'); ?> /> <?php _e( 'Slide In', 'boxzilla' ); ?></label>
 			<p class="help"><?php _e( 'Which animation type should be used to show the box when triggered?', 'boxzilla' ); ?></p>
@@ -92,7 +95,7 @@ $box_positions = array(
 	</tr>
 	<tr valign="top">
 		<th><label for="boxzilla_trigger"><?php _e( 'Auto-show box?', 'boxzilla' ); ?></label></th>
-		<td colspan="3">
+		<td>
 			<label><input type="radio" class="boxzilla-auto-show-trigger" name="boxzilla_box[trigger]" value="" <?php checked( $opts['trigger'], '' ); ?> /> <?php _e( 'Never', 'boxzilla' ); ?></label><br />
 			<label><input type="radio" class="boxzilla-auto-show-trigger" name="boxzilla_box[trigger]" value="time_on_page" <?php checked( $opts['trigger'], 'time_on_page' ); ?> /> <?php printf( __( 'Yes, after %s seconds on the page.', 'boxzilla' ), '<input type="number" name="boxzilla_box[trigger_time_on_page]" min="0" value="' . esc_attr( $opts['trigger_time_on_page'] ) . '" />' ); ?></label><br />
 			<label><input type="radio" class="boxzilla-auto-show-trigger" name="boxzilla_box[trigger]" value="percentage" <?php checked( $opts['trigger'], 'percentage' ); ?> /> <?php printf( __( 'Yes, when at %s of page height', 'boxzilla' ), '<input type="number" name="boxzilla_box[trigger_percentage]" min="0" max="100" value="' . esc_attr( $opts['trigger_percentage'] ) . '" />%' ); ?></label><br />
@@ -103,14 +106,14 @@ $box_positions = array(
 	<tbody class="boxzilla-trigger-options" style="display: <?php echo ( $opts['trigger'] === '' ) ? 'none' : 'table-row-group'; ?>;">
 	<tr valign="top">
 		<th><label for="boxzilla_cookie"><?php _e( 'Cookie expiration days', 'boxzilla' ); ?></label></th>
-		<td colspan="3">
+		<td>
 			<input type="number" id="boxzilla_cookie" name="boxzilla_box[cookie]" min="0" step="1" value="<?php echo esc_attr($opts['cookie']); ?>" />
 			<p class="help"><?php _e( 'After closing the box, how many days should it stay hidden?', 'boxzilla' ); ?></p>
 		</td>
 	</tr>
 	<tr valign="top">
 		<th><label for="boxzilla_hide_on_screen_size"><?php _e( 'Do not auto-show box on small screens?', 'boxzilla' ); ?></label></th>
-		<td colspan="3">
+		<td>
 			<p><?php printf( __( 'Do not auto-show on screens smaller than %s.', 'boxzilla' ), '<input type="number" min="0" name="boxzilla_box[hide_on_screen_size]" value="' . esc_attr( $opts['hide_on_screen_size'] ) . '" style="max-width: 70px;" />px' ); ?></p>
 			<p class="help"><?php _e( 'Leave empty if you <strong>do</strong> want to auto-show the box on small screens.', 'boxzilla' ); ?></p>
 		</td>
@@ -118,7 +121,7 @@ $box_positions = array(
 	</tr>
 	<tr valign="top">
 		<th><label for="boxzilla_auto_hide"><?php _e( 'Auto-hide?', 'boxzilla' ); ?></label></th>
-		<td colspan="3">
+		<td>
 			<label><input type="radio" name="boxzilla_box[auto_hide]" value="1" <?php checked( $opts['auto_hide'], 1 ); ?> /> <?php _e( 'Yes' ); ?></label> &nbsp;
 			<label><input type="radio" name="boxzilla_box[auto_hide]" value="0" <?php checked( $opts['auto_hide'], 0 ); ?> /> <?php _e( 'No' ); ?></label> &nbsp;
 			<p class="help"><?php _e( 'Hide box again when visitors scroll back up?', 'boxzilla' ); ?></p>
@@ -143,14 +146,17 @@ $box_positions = array(
 			<span class="boxzilla-close boxzilla-remove-rule"><span class="dashicons dashicons-dismiss"></span></span>
 		</th>
 		<td class="boxzilla-sm">
-			<select class="widefat boxzilla-rule-condition" name="boxzilla_box[rules][{{{data.key}}}][condition]">
+			<select class="boxzilla-rule-condition" name="boxzilla_box[rules][{{{data.key}}}][condition]">
 				<?php foreach( $rule_options as $value => $label ) {
 					printf( '<option value="%s" %s %s>%s</option>', $value, disabled( $value, '', false ), '', $label );
 				} ?>
 			</select>
-		</td>
-		<td colspan="2">
-			<input class="boxzilla-rule-value widefat" name="boxzilla_box[rules][{{{data.key}}}][value]" type="text" value="" placeholder="<?php _e( 'Leave empty for any or enter (comma-separated) names or ID\'s', 'boxzilla' ); ?>" style="display: none;" />
+			<select class="boxzilla-rule-qualifier" name="boxzilla_box[rules][{{{data.key}}}][qualifier]">
+				<option><?php _e( 'is', 'boxzilla' ); ?></option>
+				<option><?php _e( 'is not', 'boxzilla' ); ?></option>
+			</select>
+
+			<input class="boxzilla-rule-value  regular-text" name="boxzilla_box[rules][{{{data.key}}}][value]" type="text" value="" placeholder="<?php _e( 'Leave empty for any or enter (comma-separated) names or ID\'s', 'boxzilla' ); ?>" style="display: none;" />
 		</td>
 	</tr>
 </script>

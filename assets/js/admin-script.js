@@ -27,7 +27,7 @@ $optionControls.find('.boxzilla-auto-show-trigger').on('change', toggleTriggerOp
 
 $(window).load(function() {
 	if( typeof(window.tinyMCE) === "undefined" ) {
-		document.getElementById('notice-notinymce').style.display = 'block';
+		document.getElementById('notice-notinymce').style.display = '';
 	}
 });
 
@@ -46,7 +46,8 @@ function setContextualHelpers() {
 
 	var context = ( this.tagName.toLowerCase() === "tr" ) ? this : $(this).parents('tr').get(0);
 	var condition = context.querySelector('.boxzilla-rule-condition').value;
-	var valueInput = context.querySelector('input.boxzilla-rule-value');
+	var valueInput = context.querySelector('.boxzilla-rule-value');
+	var qualifierInput = context.querySelector('.boxzilla-rule-qualifier');
 	var betterInput = valueInput.cloneNode(true);
 	var $betterInput = $(betterInput);
 
@@ -55,14 +56,13 @@ function setContextualHelpers() {
 
 	// prepare better input
 	betterInput.removeAttribute('name');
-	betterInput.className += ' boxzilla-helper';
+	betterInput.className = betterInput.className + ' boxzilla-helper';
 	valueInput.parentNode.insertBefore(betterInput, valueInput.nextSibling);
-	betterInput.style.display = 'block';
-	$betterInput.change(function() {
-		valueInput.value = this.value; //.val(this.value);
-	});
+	$betterInput.change(function() { valueInput.value = this.value; });
 
+	betterInput.style.display = '';
 	valueInput.style.display = 'none';
+	qualifierInput.style.display = '';
 
 	// change placeholder for textual help
 	switch(condition) {
@@ -74,6 +74,7 @@ function setContextualHelpers() {
 		case 'everywhere':
 			valueInput.value = '';
 			betterInput.style.display = 'none';
+			qualifierInput.style.display = 'none';
 			break;
 
 		case 'is_single':

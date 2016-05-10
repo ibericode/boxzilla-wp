@@ -91,12 +91,13 @@ class BoxLoader {
 	/**
 	 * Check if this rule passes (conditional matches expected value)
 	 *
-	 * @param $condition
-	 * @param $value
+	 * @param string $condition
+	 * @param string $value
+	 * @param boolean $qualifier
 	 *
-	 * @return bool|mixed
+	 * @return bool
 	 */
-	protected function match_rule( $condition, $value ) {
+	protected function match_rule( $condition, $value, $qualifier = true ) {
 
 		$matched = false;
 
@@ -140,6 +141,11 @@ class BoxLoader {
 
 		}
 
+		// if qualifier is set to false, we need to reverse this value here.
+		if( ! $qualifier ) {
+			$matched = ! $matched;
+		}
+
 		return $matched;
 	}
 
@@ -166,7 +172,8 @@ class BoxLoader {
 					continue;
 				}
 
-				$matched = $this->match_rule( $rule['condition'], $rule['value'] );
+				$qualifier = isset( $rule['qualifier'] ) ? $rule['qualifier'] : true;
+				$matched = $this->match_rule( $rule['condition'], $rule['value'], $qualifier );
 
 				// break out of loop if we've already matched
 				if( $comparision === 'any' && $matched ) {

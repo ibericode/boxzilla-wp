@@ -51,6 +51,7 @@ function css(element, styles) {
         element.style.maxWidth = parseInt(styles.width) + "px";
     }
 }
+
 window.Boxzilla = Boxzilla;
 },{"boxzilla":3}],2:[function(require,module,exports){
 'use strict';
@@ -66,8 +67,7 @@ var $ = window.jQuery,
         'position': 'center',
         'testMode': false,
         'trigger': false,
-        'unclosable': false,
-        'css': {}
+        'unclosable': false
     }, Boxzilla;
 
 /**
@@ -113,7 +113,7 @@ var Box = function( id, config ) {
     // create dom element for this box
     this.element = this.dom();
     this.$element = $(this.element);
-    
+
     // further initialise the box
     this.events();
 };

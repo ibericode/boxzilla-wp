@@ -361,7 +361,7 @@ class Admin {
 		$global_opts = $this->boxzilla->options;
 
 		if ( empty( $opts['rules'] ) ) {
-			$opts['rules'][] = array( 'condition' => '', 'value' => '' );
+			$opts['rules'][] = array( 'condition' => '', 'qualifier' => 1, 'value' => '' );
 		}
 
 		// include view
@@ -499,6 +499,8 @@ class Admin {
 			$rule['value'] = join( ',', $rule['value'] );
 		}
 
+		$rule['qualifier'] = isset( $rule['qualifier'] ) && ! $rule['qualifier'] ? 0 : 1;
+
 		return $rule;
 	}
 
@@ -547,7 +549,7 @@ class Admin {
 			'css' => array()
 		);
 		
-		$opts = array_replace( $defaults, $opts );
+		$opts = array_replace_recursive( $defaults, $opts );
 
 		$opts['rules'] 				= array_map( array( $this, 'sanitize_box_rule' ), $opts['rules'] );
 		$opts['css'] 				= $this->sanitize_box_css( $opts['css'] );
