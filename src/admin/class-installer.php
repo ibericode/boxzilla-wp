@@ -36,6 +36,10 @@ class Installer {
 		// transfer post types
 		$query = $wpdb->prepare( "UPDATE  {$wpdb->posts} SET post_type = %s WHERE  post_type = %s", 'boxzilla-box', 'scroll-triggered-box' );
 		$wpdb->query( $query );
+
+		// transfer post meta
+		$query = $wpdb->prepare( "UPDATE {$wpdb->postmeta} SET meta_key = %s WHERE meta_key = %s", 'boxzilla_options', 'stb_options' );
+		$wpdb->query( $query );
 	}
 
 	/**
