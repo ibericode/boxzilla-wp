@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Scroll Triggered Boxes
-Version: 2.2.2
+Version: 2.2.3
 Plugin URI: https://scrolltriggeredboxes.com/#utm_source=wp-plugin&utm_medium=scroll-triggered-boxes&utm_campaign=plugins-page
 Description: CTA boxes that show up at certain trigger points. Predecessor of the free <a href="https://boxzillaplugin.com/">Boxzilla Plugin</a>.
 Author: ibericode

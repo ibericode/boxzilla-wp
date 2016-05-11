@@ -4,7 +4,7 @@ Donate link: https://scrolltriggeredboxes.com/#utm_source=wp-plugin-repo&utm_med
 Tags: scroll triggered box, cta, social, pop-up, newsletter, call to action, mailchimp, contact form 7, social media,mc4wp
 Requires at least: 3.8
 Tested up to: 4.5.2
-Stable tag: 2.2.2
+Stable tag: 2.2.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -150,12 +150,12 @@ This plugin has been replaced by [Boxzilla](https://wordpress.org/plugins/boxzil
 
 == Changelog ==
 
+
 #### 2.2.3 - May 11, 2016
 
-Scroll Triggered Boxes is now [Boxzilla](https://wordpress.org/plugins/boxzilla/)!
+Scroll Triggered Boxes has a new name & home: [Boxzilla](https://wordpress.org/plugins/boxzilla/)!
 
 You can keep on using Scroll Triggered Boxes, but Boxzilla comes with some neat improvements over this older version. Whenever you're ready to make the switch, please read through the [upgrade guide](https://kb.boxzillaplugin.com/updating-from-scroll-triggered-boxes/) for a full list of changes.
-
 
 #### 2.2.2 - April 11, 2016
 
@@ -387,7 +387,6 @@ If you encounter a bug, please [open an issue on GitHub](https://github.com/iber
 
 ####  1.2 - April 18, 2014 
 * Improved: Plugin is now fully translatable. Fixed various string typo's.
-
 == Upgrade Notice ==
 
 #### 2.1
