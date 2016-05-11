@@ -48,7 +48,7 @@ function __load_boxzilla() {
 	}
 
 	define( 'BOXZILLA_FILE', __FILE__ );
-	define( 'BOXZILLA_VERSION', '2.3' );
+	define( 'BOXZILLA_VERSION', '3.0' );
 
 	require __DIR__ . '/bootstrap.php';
 }
