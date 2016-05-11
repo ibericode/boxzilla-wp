@@ -3,7 +3,7 @@
 Plugin Name: Scroll Triggered Boxes
 Version: 2.2.2
 Plugin URI: https://scrolltriggeredboxes.com/#utm_source=wp-plugin&utm_medium=scroll-triggered-boxes&utm_campaign=plugins-page
-Description: Call-To-Action Boxes that display after visitors scroll down far enough. Unobtrusive, but highly conversing!
+Description: CTA boxes that show up at certain trigger points. Predecessor of the free <a href="https://boxzillaplugin.com/">Boxzilla Plugin</a>.
 Author: ibericode
 Author URI: https://ibericode.com/#utm_source=wp-plugin&utm_medium=scroll-triggered-boxes&utm_campaign=plugins-page
 Text Domain: scroll-triggered-boxes

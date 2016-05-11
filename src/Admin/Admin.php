@@ -56,6 +56,7 @@ class Admin {
 		add_action( 'admin_init', array( $this, 'lazy_add_hooks' ) );
 		add_action( 'admin_init', array( $this, 'register' ) );
 		add_action( 'admin_menu', array( $this, 'menu' ) );
+		add_action( 'admin_notices', array( $this, 'nudge_to_boxzilla' ) );
 
 		add_action( 'save_post_scroll-triggered-box', array( $this, 'save_box_options' ), 20, 2 );
 		add_action( 'trashed_post', array( $this, 'flush_rules' ) );
@@ -703,6 +704,24 @@ class Admin {
 		}
 
 		return $text;
+	}
+
+	/**
+	 *
+	 */
+	public function nudge_to_boxzilla() {
+
+		global $pagenow;
+
+		if( get_post_type() != 'scroll-triggered-box' && ! in_array( $pagenow, array( 'plugins.php', 'update-core.php' ) ) ) {
+			return;
+		}
+
+		if( ! current_user_can( 'install_plugins' ) ) {
+			return;
+		}
+
+		include __DIR__ . '/views/boxzilla-nudge.php';
 	}
 
 }

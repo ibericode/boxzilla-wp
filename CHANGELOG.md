@@ -1,6 +1,12 @@
 Changelog
 ==========
 
+#### 2.2.3 - May 11, 2016
+
+Scroll Triggered Boxes has a new name & home: [Boxzilla](https://wordpress.org/plugins/boxzilla/)!
+
+You can keep on using Scroll Triggered Boxes, but Boxzilla comes with some neat improvements over this older version. Whenever you're ready to make the switch, please read through the [upgrade guide](https://kb.boxzillaplugin.com/updating-from-scroll-triggered-boxes/) for a full list of changes.
+
 #### 2.2.2 - April 11, 2016
 
 **Fixes**
