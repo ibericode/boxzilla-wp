@@ -40,6 +40,10 @@ class Installer {
 		// transfer post meta
 		$query = $wpdb->prepare( "UPDATE {$wpdb->postmeta} SET meta_key = %s WHERE meta_key = %s", 'boxzilla_options', 'stb_options' );
 		$wpdb->query( $query );
+
+		// transfer rules
+		$query = $wpdb->prepare( "UPDATE {$wpdb->options} SET option_name = %s WHERE option_name = %s", 'boxzilla_rules', 'stb_rules' );
+		$wpdb->query( $query );
 	}
 
 	/**
