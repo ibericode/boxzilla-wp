@@ -5,9 +5,10 @@
 /composer.json		export-ignore
 /composer.lock		export-ignore
 /phpunit.xml.dist   export-ignore
-/Gruntfile.js       export-ignore
+/gulpfile.js        export-ignore
 /package.json		export-ignore
 /node_modules/*		export-ignore
 /tests              export-ignore
 /build				export-ignore
 /README.md			export-ignore
+/CHANGELOG.md       export-ignore
