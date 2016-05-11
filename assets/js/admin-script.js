@@ -72,6 +72,7 @@ function setContextualHelpers() {
 
 		case '':
 		case 'everywhere':
+			qualifierInput.value = '';
 			valueInput.value = '';
 			betterInput.style.display = 'none';
 			qualifierInput.style.display = 'none';

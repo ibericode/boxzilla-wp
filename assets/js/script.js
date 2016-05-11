@@ -522,7 +522,7 @@ Boxzilla.init = function() {
     $(window).on('load', recalculateHeights );
     $(document).on('mouseleave', onMouseLeave);
     $(document).on('mouseenter', onMouseEnter);
-    $(document).keyup(onKeyUp);
+    $(document).on('keyup', onKeyUp);
     $(overlay).click(onOverlayClick);
     window.setInterval(checkTimeCriteria, 1000);
 
