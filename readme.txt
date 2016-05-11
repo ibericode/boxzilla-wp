@@ -12,59 +12,54 @@ Flexible call to action boxes, popping up or sliding in at just the right time.
 
 == Description ==
 
-= Call-To-Action Boxes =
+### Boxzilla for WordPress
 
 Boxzilla is a *lightweight* plugin for adding flexible call-to-actions to your WordPress site. Boxes can slide or fade in at any point and can contain whatever content you like.
 
-= Features =
+#### Some of Boxzilla's features
 
-- Create boxes containing whatever content you like: shortcodes, links, custom HTML, anything really.
-- Show boxes automatically after scrolling down based on a percentage point or a certain element (like your comment section).
-- Show boxes using a button or link.
-- Choose the box position: centered or in any corner of the screen.
-- Choose between a fading or sliding animation for showing the box.
-- Customize the box appearance using a few simple color & dimension controls.
-- Only load the box on certain pages, posts, etc.
-- Control how long dismissed boxes should stay hidden.
-- Control whether boxes should show on small screens.
+- Boxes can contain _any_ content you like.
+- Various box triggers:
+    - Scroll percentage
+    - Reaching a certain page element
+    - X amount of time on the page
+    - Exit Intent (premium)
+    - Time on Site (premium)
+    - Manually by clicking a link or button
+- Customizable box position on the screen.
+- Various visibility animations.
+- Advanced page targeting.
+- Full control over how long (and whether) boxes should stay hidden.
+- Customizable box appearance using a simple & intuitive interface.
+- Mobile optimized.
 
 [Read more about Boxzilla](https://boxzillaplugin.com/#utm_source=wp-plugin-repo&utm_medium=boxzilla&utm_campaign=description).
 
-= Documentation =
+#### Documentation
 
-Please have a look at the [frequently asked questions](https://wordpress.org/plugins/boxzilla/faq/).
+Please have a look at the [Boxzilla KB](https://kb.boxzillaplugin.com/).
 
-= Demo =
+#### Demo
 
-There's a [Boxzilla demo site](https://demo.boxzillaplugin.com#utm_source=wp-plugin-repo&utm_medium=boxzilla&utm_campaign=description), showcasing the vast amount of possibilities for you to gather your leads.
+There's a [Boxzilla demo](https://demo.boxzillaplugin.com#utm_source=wp-plugin-repo&utm_medium=boxzilla&utm_campaign=description) with some examples.
 
-= Add-ons =
+#### Add-on plugins
 
-The core Boxzilla plugin is free and always will be. Additional advanced functionality is available through several add-ons. Not only do they extend the core functionality of the plugin, they also help to fund further development of the core (free) plugin.
+The core Boxzilla plugin is and always will be free. Additional advanced functionality is available through several add-ons. Not only do they extend the core functionality of the plugin, they also help to fund further development of the core (free) plugin.
 
 [Browse available add-ons for Boxzilla](https://boxzillaplugin.com/add-ons/#utm_source=wp-plugin-repo&utm_medium=boxzilla&utm_campaign=description).
 
-Some popular add-ons include:
+#### Contributing and reporting bugs=
 
-**[Theme Pack](https://boxzillaplugin.com/add-ons/theme-pack#utm_source=wp-plugin-repo&utm_medium=boxzilla&utm_campaign=description)**
+You can contribute to [Boxzilla on GitHub](https://github.com/ibericode/boxzilla).
 
-A set of beautiful plug & play themes which make your boxes really stand out.
-
-**[MailChimp for WordPress](https://mc4wp.com/)**
-
-An easy way to show a MailChimp sign-up form inside your boxes.
-
-= Contributing and reporting bugs =
-
-You can contribute to this plugin using GitHub: [ibericode/boxzilla](https://github.com/ibericode/boxzilla)
-
-= Support =
+#### Support
 
 Please use the [WordPress.org plugin support forums](https://wordpress.org/support/plugin/boxzilla) for community support where we try to help all users.
 
 If you think you've found a bug, please [report it on GitHub](https://github.com/ibericode/boxzilla/issues).
 
-If you're on [one of the available premium plans](https://boxzillaplugin.com/pricing#utm_source=wp-plugin-repo&utm_medium=boxzilla&utm_campaign=description), please use the support email for a guaranteed & faster response.
+If you're on [one of the available premium plans](https://boxzillaplugin.com/pricing#utm_source=wp-plugin-repo&utm_medium=boxzilla&utm_campaign=description), please use the support email for a faster reply.
 
 == Frequently Asked Questions ==
 
@@ -74,24 +69,11 @@ Have a look at the [Boxzilla demo site](https://demo.boxzillaplugin.com/#utm_sou
 
 = How to display a form in the box? =
 
-The plugin is battle-tested with the plugins below but will work with any plugin that uses shortcodes.
+Boxzilla will work with any plugin that offers shortcodes, like [MailChimp for WordPress](https://wordpress.org/plugins/mailchimp-for-wp/).
 
-- [MailChimp for WordPress](https://wordpress.org/plugins/mailchimp-for-wp/)
-- [Contact Form 7](https://wordpress.org/plugins/contact-form-7/)
+= Can I have a box open after clicking a certain link or button? =
 
-= How to display sharing options in the box? =
-
-The plugin is tested with the plugins below but will work with any plugin that uses shortcodes.
-
-- [Social Sharing By Danny](https://wordpress.org/plugins/dvk-social-sharing/)
-- [Shareaholic](https://wordpress.org/plugins/shareaholic/)
-- [Social Media Feather](https://wordpress.org/plugins/social-media-feather/)
-- [WP Socializer](https://wordpress.org/plugins/wp-socializer/)
-- [Tweet, Like, Google +1 and Share](https://wordpress.org/plugins/only-tweet-like-share-and-google-1/)
-
-= Can I have a box to open after clicking a certain link or button? =
-
-Sure, just link to the box element.
+Sure, by linking to the box element.
 
 *Example (box ID is 94 in this example)*
 `
@@ -107,14 +89,13 @@ Sure, just include `boxzilla-` followed by the box ID in the URL.
 http://your-wordpress-site.com/some-page/#boxzilla-94
 `
 
-= How to set more advanced styling rules =
+= Can I customize the appearance of a box =
 
-If you want more advanced styling, you can use CSS to further style the boxes. Every box gets its own unique #id as well as various CSS classes.
+Boxzilla comes with a simple interface for customizing most colors & borders of the box, but you're in no way limited to apply your own CSS rules.
 
 `
 .boxzilla-{id} { } /* 1 particular box */
 .boxzilla { } /* all boxes */
-.boxzilla-close{ } /* the close button of the box */
 `
 
 = I want to disable auto-paragraphs in the box content =
@@ -130,12 +111,12 @@ remove_filter( 'boxzilla_box_content', 'do_shortcode' );
 remove_filter( 'boxzilla_box_content', 'shortcode_unautop' );
 `
 
-= I want to disable closing of the box =
+= I want to make it impossible to close a box =
 `
-add_filter( 'boxzilla_box_options', function( $opts ) {
+add_filter( 'boxzilla_box_options', function( $opts, $box ) {
 	$opts['closable'] = false;
 	return $opts;
-});
+}, 10, 2 );
 `
 
 == Installation ==
