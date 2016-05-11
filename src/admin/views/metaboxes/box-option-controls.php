@@ -151,12 +151,12 @@ $box_positions = array(
 					printf( '<option value="%s" %s %s>%s</option>', $value, disabled( $value, '', false ), '', $label );
 				} ?>
 			</select>
-			<select class="boxzilla-rule-qualifier" name="boxzilla_box[rules][{{{data.key}}}][qualifier]">
+			<select class="boxzilla-rule-qualifier" name="boxzilla_box[rules][{{{data.key}}}][qualifier]" style="display: none;" >
 				<option><?php _e( 'is', 'boxzilla' ); ?></option>
 				<option><?php _e( 'is not', 'boxzilla' ); ?></option>
 			</select>
 
-			<input class="boxzilla-rule-value  regular-text" name="boxzilla_box[rules][{{{data.key}}}][value]" type="text" value="" placeholder="<?php _e( 'Leave empty for any or enter (comma-separated) names or ID\'s', 'boxzilla' ); ?>" style="display: none;" />
+			<input class="boxzilla-rule-value regular-text" name="boxzilla_box[rules][{{{data.key}}}][value]" type="text" value="" placeholder="<?php _e( 'Leave empty for any or enter (comma-separated) names or ID\'s', 'boxzilla' ); ?>" style="display: none;" />
 		</td>
 	</tr>
 </script>
