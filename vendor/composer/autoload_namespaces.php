@@ -6,7 +6,4 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'phpDocumentor' => array($vendorDir . '/phpdocumentor/reflection-docblock/src'),
-    'Prophecy\\' => array($vendorDir . '/phpspec/prophecy/src'),
-    'Mockery' => array($vendorDir . '/mockery/mockery/library'),
 );
