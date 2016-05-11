@@ -34,7 +34,7 @@ class Installer {
 		global $wpdb;
 
 		// transfer post types
-		$query = $wpdb->prepare( "UPDATE  {$wpdb->posts} SET post_type = %s WHERE  post_type = %s", 'boxzilla-box', 'scroll-triggered-box' );
+		$query = $wpdb->prepare( "UPDATE {$wpdb->posts} SET post_type = %s WHERE  post_type = %s", 'boxzilla-box', 'scroll-triggered-box' );
 		$wpdb->query( $query );
 
 		// transfer post meta
