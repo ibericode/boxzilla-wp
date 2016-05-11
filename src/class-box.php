@@ -87,7 +87,7 @@ class Box {
 			'animation' => 'fade',
 			'auto_hide' => 0,
 			'hide_on_screen_size' => '',
-			'unclosable' => false,
+			'closable' => true,
 		);
 		$box = $this;
 
@@ -205,7 +205,7 @@ class Box {
 			'rehide' => (bool) $box->options['auto_hide'],
 			'position' => $box->options['css']['position'],
 			'minimumScreenWidth' => $box->get_minimum_screen_size(),
-			'unclosable' => $box->options['unclosable'],
+			'closable' => $box->options['closable'],
 		);
 
 		/**

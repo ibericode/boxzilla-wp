@@ -3,12 +3,12 @@ Contributors: Ibericode, DvanKooten, hchouhan, lapzor
 Donate link: https://boxzillaplugin.com/#utm_source=wp-plugin-repo&utm_medium=boxzilla&utm_campaign=donate-link
 Tags: scroll triggered box, cta, social, pop-up, newsletter, call to action, mailchimp, contact form 7, social media,mc4wp
 Requires at least: 3.8
-Tested up to: 4.4.2
-Stable tag: 2.2.2
+Tested up to: 4.5.2
+Stable tag: 3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Flexible call to action boxes, a better alternative to pop-ups.
+Flexible call to action boxes, popping up or sliding in at just the right time.
 
 == Description ==
 
@@ -89,36 +89,22 @@ The plugin is tested with the plugins below but will work with any plugin that u
 - [WP Socializer](https://wordpress.org/plugins/wp-socializer/)
 - [Tweet, Like, Google +1 and Share](https://wordpress.org/plugins/only-tweet-like-share-and-google-1/)
 
-= How do I set more advanced rules for on which pages to show a box? =
-
-You can use [conditional tags](https://codex.wordpress.org/Conditional_Tags) to set super-customized rules.
-
-*Example: only show for posts in category 'cars'*
-`
-is_single() && in_category( 'cars' )
-`
-
-*Example: show everywhere except on pages with slug 'contact' and 'checkout'
-`
-! is_page( array( 'contact', 'checkout' ) )
-`
-
 = Can I have a box to open after clicking a certain link or button? =
 
 Sure, just link to the box element.
 
 *Example (box ID is 94 in this example)*
 `
-<a href="#stb-94">Open Box</a>
+<a href="#boxzilla-94">Open Box</a>
 `
 
 = Can I have a box to open right after opening a page? =
 
-Sure, just include `stb-` followed by the box ID in the URL.
+Sure, just include `boxzilla-` followed by the box ID in the URL.
 
 *Example (box ID is 94 in this example)*
 `
-http://your-wordpress-site.com/some-page/#stb-94
+http://your-wordpress-site.com/some-page/#boxzilla-94
 `
 
 = How to set more advanced styling rules =
@@ -126,9 +112,9 @@ http://your-wordpress-site.com/some-page/#stb-94
 If you want more advanced styling, you can use CSS to further style the boxes. Every box gets its own unique #id as well as various CSS classes.
 
 `
-.stb-{id} { } /* 1 particular box */
-.stb { } /* all boxes */
-.stb-close{ } /* the close button of the box */
+.boxzilla-{id} { } /* 1 particular box */
+.boxzilla { } /* all boxes */
+.boxzilla-close{ } /* the close button of the box */
 `
 
 = I want to disable auto-paragraphs in the box content =
@@ -147,7 +133,7 @@ remove_filter( 'boxzilla_box_content', 'shortcode_unautop' );
 = I want to disable closing of the box =
 `
 add_filter( 'boxzilla_box_options', function( $opts ) {
-	$opts['unclosable'] = true;
+	$opts['closable'] = false;
 	return $opts;
 });
 `
@@ -190,7 +176,7 @@ Have a look at the [frequently asked questions](https://wordpress.org/plugins/bo
 
 - Fallback for box initialization when other script errors.
 - Getting ready for new Exit Intent add-on, to be released soon.
-- Use event bubbling for `#stb-103` style links, so link elements loaded over AJAX can also open boxes.
+- Use event bubbling for `#boxzilla-103` style links, so link elements loaded over AJAX can also open boxes.
 
 
 #### 2.2.1 - March 2, 2016
