@@ -497,17 +497,10 @@ function triggerExitIntent() {
 }
 
 function onMouseLeave(e) {
-    var delay;
+    var delay = 400;
 
     // did mouse leave at top of window?
     if( e.clientY < 0 ) {
-        delay = 800;
-
-        // shorten delay if mouse is leaving near a corner
-        if( e.clientX < 0.25 * window.innerWidth || e.clientX > 0.75 * window.innerWidth ) {
-            delay = 400;
-        }
-
         exitIntentDelayTimer = window.setTimeout(triggerExitIntent, delay);
     }
 }
@@ -521,6 +514,8 @@ function onMouseEnter() {
 
 // initialise & add event listeners
 Boxzilla.init = function() {
+    var html = document.documentElement;
+
     // add overlay element to dom
     overlay.id = 'boxzilla-overlay';
     document.body.appendChild(overlay);
@@ -529,9 +524,9 @@ Boxzilla.init = function() {
     $(window).on('scroll', throttle(checkHeightCriteria));
     $(window).on('resize', throttle(recalculateHeights));
     $(window).on('load', recalculateHeights );
-    $(document).on('mouseleave', onMouseLeave);
-    $(document).on('mouseenter', onMouseEnter);
-    $(document).on('keyup', onKeyUp);
+    $(html).on('mouseleave', onMouseLeave);
+    $(html).on('mouseenter', onMouseEnter);
+    $(html).on('keyup', onKeyUp);
     $(overlay).click(onOverlayClick);
     window.setInterval(checkTimeCriteria, 1000);
 
