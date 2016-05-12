@@ -16,6 +16,8 @@ Flexible call to action boxes, popping up or sliding in at just the right time.
 
 Boxzilla is a *lightweight* plugin for adding flexible call-to-actions to your WordPress site. Boxes can slide or fade in at any point and can contain whatever content you like.
 
+> This is the successor of the old [Scroll Triggered Boxes](https://wordpress.org/plugins/scroll-triggered-boxes/) plugin.
+
 #### Some of Boxzilla's features
 
 - Boxes can contain _any_ content you like.
