@@ -500,7 +500,7 @@ function onMouseLeave(e) {
     var delay = 400;
 
     // did mouse leave at top of window?
-    if( e.clientY < 0 ) {
+    if( e.clientY <= 0 ) {
         exitIntentDelayTimer = window.setTimeout(triggerExitIntent, delay);
     }
 }
@@ -530,7 +530,7 @@ Boxzilla.init = function() {
     $(overlay).click(onOverlayClick);
     window.setInterval(checkTimeCriteria, 1000);
 
-    if(! sessionStorage.getItem('boxzilla_start_time')) {
+    if( ! sessionStorage.getItem('boxzilla_start_time')) {
         sessionStorage.setItem('boxzilla_start_time', Date.now());
     }
 
