@@ -635,7 +635,7 @@ class Admin {
 
 				// add box rules to all rules
 				$rules[ $box->ID ]                = $box_meta['rules'];
-				$rules[ $box->ID ]['comparision'] = $box_meta['rules_comparision'];
+				$rules[ $box->ID ]['comparision'] = isset( $box_meta['rules_comparision'] ) ? $box_meta['rules_comparision'] : 'any';
 
 			}
 
