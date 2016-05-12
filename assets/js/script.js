@@ -497,9 +497,18 @@ function triggerExitIntent() {
 }
 
 function onMouseLeave(e) {
+    var delay;
+
     // did mouse leave at top of window?
     if( e.clientY < 0 ) {
-        exitIntentDelayTimer = window.setTimeout(triggerExitIntent, 1000);
+        delay = 800;
+
+        // shorten delay if mouse is leaving near a corner
+        if( e.clientX < 0.25 * window.innerWidth || e.clientX > 0.75 * window.innerWidth ) {
+            delay = 400;
+        }
+
+        exitIntentDelayTimer = window.setTimeout(triggerExitIntent, delay);
     }
 }
 
