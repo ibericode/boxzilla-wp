@@ -12,6 +12,7 @@ $rule_options = array(
 	'everywhere' => __( 'everywhere', 'boxzilla' ),
 	'is_page' => __( 'if page', 'boxzilla' ),
 	'is_single' => __( 'if post', 'boxzilla' ),
+	'is_post_with_tag' => __( 'if post tag', 'boxzilla' ),
 	'is_post_in_category' => __( 'if post category', 'boxzilla' ),
 	'is_post_type' => __( 'if post type', 'boxzilla' ),
 	'is_url' => __( 'if URL', 'boxzilla' ),
@@ -29,6 +30,10 @@ $box_positions = array(
 ?>
 <table class="form-table">
 	<?php
+
+	/**
+	 * @ignore
+	 */
 	do_action( 'boxzilla_before_box_option_controls', $box, $opts );
 
 	?>
@@ -135,7 +140,12 @@ $box_positions = array(
 			<p class="help"><?php _e( 'If test mode is enabled, all boxes will show up regardless of whether a cookie has been set.', 'boxzilla' ); ?></p>
 		</td>
 	</tr>
-	<?php do_action( 'boxzilla_after_box_option_controls', $box, $opts ); ?>
+	<?php
+
+	/**
+	 * @ignore
+	 */
+	do_action( 'boxzilla_after_box_option_controls', $box, $opts ); ?>
 	</tbody>
 </table>
 
@@ -152,8 +162,8 @@ $box_positions = array(
 				} ?>
 			</select>
 			<select class="boxzilla-rule-qualifier" name="boxzilla_box[rules][{{{data.key}}}][qualifier]" style="display: none;" >
-				<option><?php _e( 'is', 'boxzilla' ); ?></option>
-				<option><?php _e( 'is not', 'boxzilla' ); ?></option>
+				<option value="1" selected><?php _e( 'is', 'boxzilla' ); ?></option>
+				<option value="0"><?php _e( 'is not', 'boxzilla' ); ?></option>
 			</select>
 
 			<input class="boxzilla-rule-value regular-text" name="boxzilla_box[rules][{{{data.key}}}][value]" type="text" value="" placeholder="<?php _e( 'Leave empty for any or enter (comma-separated) names or ID\'s', 'boxzilla' ); ?>" style="display: none;" />

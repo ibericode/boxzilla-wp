@@ -69,7 +69,7 @@ function setContextualHelpers() {
 
 		case '':
 		case 'everywhere':
-			qualifierInput.value = '';
+			qualifierInput.value = '1';
 			valueInput.value = '';
 			betterInput.style.display = 'none';
 			qualifierInput.style.display = 'none';
@@ -97,6 +97,10 @@ function setContextualHelpers() {
 
 		case 'is_post_in_category':
 			$betterInput.suggest(ajaxurl + "?action=boxzilla_autocomplete&type=category", {multiple:true, multipleSep: ","});
+			break;
+
+		case 'is_post_with_tag':
+			$betterInput.suggest(ajaxurl + "?action=boxzilla_autocomplete&type=post_tag", {multiple:true, multipleSep: ","});
 			break;
 	}
 }

@@ -139,6 +139,10 @@ class BoxLoader {
 				$matched = is_page( $value );
 				break;
 
+			case 'is_post_with_tag':
+				$matched = is_singular( 'post' ) && has_tag( $value );
+				break;
+
 		}
 
 		// if qualifier is set to false, we need to reverse this value here.
