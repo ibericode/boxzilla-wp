@@ -1,6 +1,14 @@
 Changelog
 ==========
 
+#### 3.0.1 - Unreleased
+
+**Additions**
+
+- Plugin will now show a notice to deactivate old Scroll Triggered Boxes plugin.
+- Internal changes to dependency container for use in add-on plugins.
+
+
 #### 3.0 - May 11, 2016
 
 Initial release of [Boxzilla](https://boxzillaplugin.com/), formerly known as [Scroll Triggered Boxes](https://wordpress.org/plugins/scroll-triggered-boxes/).
