@@ -3,6 +3,7 @@
 namespace Boxzilla;
 
 use Boxzilla\DI\ContainerWithPropertyAccess;
+use Boxzilla\Licensing\License;
 
 /**
  * Class Boxzilla
@@ -12,5 +13,7 @@ use Boxzilla\DI\ContainerWithPropertyAccess;
  * @property array $options
  * @property Plugin $plugin
  * @property Plugin[] $plugins
+ * @property License $license
+ *
  */
 class Boxzilla extends ContainerWithPropertyAccess {}
