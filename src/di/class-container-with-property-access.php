@@ -31,6 +31,14 @@ class ContainerWithPropertyAccess extends Container {
      * @param string $name
      * @return bool
      */
+    public function __isset( $name ) {
+        return $this->offsetExists( $name );
+    }
+
+    /**
+     * @param string $name
+     * @return bool
+     */
     public function has( $name ) {
         return $this->offsetExists( $name );
     }
