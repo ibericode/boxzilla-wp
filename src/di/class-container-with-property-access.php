@@ -2,6 +2,13 @@
 
 namespace Boxzilla\DI;
 
+/**
+ * Class ContainerWithPropertyAccess
+ *
+ * This modifies Pimple so it is PSR-11 compatible and can be accessed using property accessors.
+ *
+ * @package Boxzilla\DI
+ */
 class ContainerWithPropertyAccess extends Container {
     
    /**
@@ -9,7 +16,7 @@ class ContainerWithPropertyAccess extends Container {
     * @return mixed
     */
    public function __get( $name ) {
-       return $this[ $name ];
+       return $this->offsetGet( $name );
    }
 
    /**
@@ -19,5 +26,21 @@ class ContainerWithPropertyAccess extends Container {
    public function __set( $name, $value ) {
        $this[ $name ] = $value;
    }
+
+    /**
+     * @param string $name
+     * @return bool
+     */
+    public function has( $name ) {
+        return $this->offsetExists( $name );
+    }
+
+    /**
+     * @param string $name
+     * @return mixed
+     */
+    public function get( $name ) {
+        return $this->offsetGet( $name );
+    }
 
 }
