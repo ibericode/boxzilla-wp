@@ -49,6 +49,7 @@ class Admin {
 		add_action( 'admin_init', array( $this, 'lazy_add_hooks' ) );
 		add_action( 'admin_init', array( $this, 'register' ) );
 		add_action( 'admin_menu', array( $this, 'menu' ) );
+		add_action( 'admin_notices', array( $this, 'notices' ) );
 
 		add_action( 'save_post_boxzilla-box', array( $this, 'save_box_options' ), 20, 2 );
 		add_action( 'trashed_post', array( $this, 'flush_rules' ) );
@@ -60,6 +61,27 @@ class Admin {
 			$this->boxzilla['update_manager']->add_hooks();
 			$this->boxzilla['api_authenticator']->add_hooks();
 		}
+	}
+
+	/**
+	 * All logic for admin notices lives here.
+	 */
+	public function notices() {
+		global $pagenow,
+			   $current_screen;
+
+		if( ( $pagenow === 'plugins.php' || ( $current_screen && $current_screen->post_type === 'boxzilla-box' ) )
+			&& current_user_can( 'install_plugins' )
+			&& is_plugin_active( 'scroll-triggered-boxes/index.php' ) ) {
+
+			$url = wp_nonce_url( 'plugins.php?action=deactivate&plugin=scroll-triggered-boxes/index.php', 'deactivate-plugin_' . 'scroll-triggered-boxes/index.php' );
+			?>
+			<div class="notice notice-info">
+				<p><?php printf( __( 'Awesome, you are using Boxzilla! You can now safely <a href="%s">deactivate the Scroll Triggered Boxes plugin</a>.', 'boxzilla' ), $url ); ?></p>
+			</div>
+			<?php
+		}
+
 	}
 
 	/**
