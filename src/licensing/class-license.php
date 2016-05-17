@@ -45,16 +45,6 @@ class License {
 	 */
 	protected $option_name = '';
 
-
-	/**
-	 * @var array
-	 */
-	protected $default_data = array(
-		'key' => '',
-		'activated' => false,
-		'expires_at' => ''
-	);
-
 	/**
 	 * @var bool Loaded?
 	 */
@@ -88,6 +78,7 @@ class License {
 	 */
 	public function __get($name) {
 		if( property_exists( $this, $name ) ) {
+			$this->load();
 			return $this->$name;
 		}
 
@@ -110,11 +101,17 @@ class License {
 	 */
 	public function load() {
 
+		static $defaults = array(
+			'key' => '',
+			'activated' => false,
+			'expires_at' => ''
+		);
+
 		if( ! $this->loaded ) {
 			$data = (array) get_option( $this->option_key, array() );
 
 			if( ! empty( $data ) ) {
-				$data = array_merge( $this->default_data, $data );
+				$data = array_merge( $defaults, $data );
 				$this->key = (string) $data['key'];
 				$this->activated = (bool) $data['activated'];
 				$this->expires_at = (string) $data['expires_at'];
