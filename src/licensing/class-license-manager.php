@@ -45,25 +45,22 @@ class LicenseManager {
 	 * @return bool
 	 */
 	public function init() {
-
-		// do nothing if not authenticated
-		if( ! current_user_can( 'manage_options' ) ) {
-			return false;
-		}
-		
 		// register license key form
 		add_action( 'boxzilla_after_settings', array( $this, 'show_license_form' ) );
 
 		// listen for activation / deactivation requests
 		$this->listen();
-		
-		return true;
 	}
 
 	/**
 	 * @return bool
 	 */
 	protected function listen() {
+
+		// do nothing if not authenticated
+		if( ! current_user_can( 'manage_options' ) ) {
+			return false;
+		}
 
 		// nothing to do
 		if( ! isset( $_POST['boxzilla_license_form'] ) ) {
@@ -75,8 +72,9 @@ class LicenseManager {
 
 		// the form was submitted, let's see..
 		if( $action === 'deactivate' ) {
-			$this->api->delete_license_activation( $this->license );
-			$this->license->deactivate();
+			$this->api->deactivate_license();
+			$this->license->activated = false;
+			$this->license->activation_key = '';
 		}
 
 		// did key change or was "activate" button pressed?
@@ -86,16 +84,16 @@ class LicenseManager {
 			$key_changed = true;
 		}
 
-		if( ! empty( $new_license_key )
-		    && ! $this->license->activated
-		    && ( $action === 'activate' || $key_changed ) ) {
-
-			// let's try to activate it
-			if( $this->api->create_license_activation( $this->license ) ) {
-				$this->license->activate();
+		// try to activate license
+		if( $action === 'activate' || $key_changed ) {
+			$activation_key = $this->api->activate_license();
+			if( $activation_key ) {
+				$this->license->activation_key = $activation_key;
+				$this->license->activated = true;
 			}
 		}
 
+		// save changes
 		$this->license->save();
 		return false;
 	}

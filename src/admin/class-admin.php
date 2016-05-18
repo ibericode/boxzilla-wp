@@ -59,7 +59,6 @@ class Admin {
 		if ( count( $this->boxzilla['plugins'] ) > 0 ) {
 			$this->boxzilla['license_manager']->add_hooks();
 			$this->boxzilla['update_manager']->add_hooks();
-			$this->boxzilla['api_authenticator']->add_hooks();
 		}
 	}
 

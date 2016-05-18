@@ -23,7 +23,7 @@ class LicenseServiceProvider implements ServiceProviderInterface {
 		};
 
 		$container['api'] = function( $container ) {
-			return new API( $container['api_url'], $container['notices'] );
+			return new API( $container['api_url'], $container['license'], $container['notices'] );
 		};
 
 		$container['license_manager'] = function( $container ) {
@@ -33,11 +33,6 @@ class LicenseServiceProvider implements ServiceProviderInterface {
 		$container['update_manager'] = function( $container ) {
 			return new UpdateManager( $container['plugins'], $container['api'], $container['license'] );
 		};
-
-		$container['api_authenticator'] = function( $container ) {
-			return new Authenticator( $container['api_url'], $container['license'] );
-		};
-
 	}
 
 }

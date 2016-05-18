@@ -45,6 +45,28 @@ class UpdateManager {
 	public function add_hooks() {
 		add_filter( 'pre_set_site_transient_update_plugins', array( $this, 'add_updates' ) );
 		add_filter( 'plugins_api', array( $this, 'get_plugin_info' ), 20, 3 );
+		add_filter( 'http_request_args', array( $this, 'add_auth_headers' ), 10, 2 );
+	}
+
+	/**
+	 * This adds the license key header to download package requests.
+	 *
+	 * @param array $args
+	 * @param string $url
+	 *
+	 * @return mixed
+	 */
+	public function add_auth_headers( $args, $url ) {
+		if( strpos( $url, $this->api->url ) !== 0 || strpos( $url, 'download' ) === false ) {
+			return $args;
+		}
+
+		if( empty( $args['headers'] ) ) {
+			$args['headers'] = array();
+		}
+
+		$args['headers']['Authorization'] = 'Bearer ' . urlencode( $this->license->key );
+		return $args;
 	}
 
 	/**
@@ -187,6 +209,9 @@ class UpdateManager {
 			$response->upgrade_notice = sprintf( 'You will need to <a href="%s">activate your license</a> to install this plugin update.', admin_url( 'edit.php?post_type=boxzilla-box&page=boxzilla-settings' ) );
 			$response->sections->changelog = '<p>' . sprintf( 'You will need to <a href="%s" target="_top">activate your license</a> to install this plugin update.', admin_url( 'edit.php?post_type=boxzilla-box&page=boxzilla-settings' ) ) . '</p>' . $response->sections->changelog;
 			$response->package = null;
+		} else {
+			// add activation key to download URL
+			$response->package = add_query_arg( array( 'key' => $this->license->activation_key ), $response->package );
 		}
 
 		// cast subkey objects to array as that is what WP expects

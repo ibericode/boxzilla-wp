@@ -19,9 +19,11 @@ class API {
 	protected $notices;
 
 	/**
+	 * The API url
+	 *
 	 * @var string
 	 */
-	protected $api_url = '';
+	public $url = '';
 
 	/**
 	 * @var int
@@ -39,29 +41,37 @@ class API {
 	protected $last_response;
 
 	/**
-	 * @param string        $api_url
-	 * @param Notices       $notices
+	 * @param string    $url
+	 * @param License 	$license
+	 * @param Notices   $notices
 	 */
-	public function __construct( $api_url, Notices $notices ) {
-		$this->api_url = $api_url;
+	public function __construct( $url, License $license, Notices $notices ) {
+		$this->url = $url;
 		$this->notices = $notices;
+		$this->license = $license;
 	}
 
 	/**
 	 * Logs the current site in to the remote API
 	 *
-	 * @param License $license
-	 * @return bool
+	 * @return string|boolean
 	 */
-	public function create_license_activation( License $license ) {
+	public function activate_license() {
+
+		// bail early if key empty
+		if( empty( $this->license->key ) ) {
+			return false;
+		}
+
 		$endpoint = '/license/activations';
 		$data = array(
-			'site_url' => $license->site
+			'site_url' => $this->license->site
 		);
 		$result = $this->request( 'POST', $endpoint, $data );
+
 		if( $result ) {
 			$this->notices->add( $result->message, 'info' );
-			return true;
+			return $result->key;
 		}
 
 		return false;
@@ -70,13 +80,12 @@ class API {
 	/**
 	 * Logs the current site out of the remote API
 	 *
-	 * @param License $license
 	 * @return bool
 	 */
-	public function delete_license_activation( License $license ) {
+	public function deactivate_license() {
 		$endpoint = '/license/activations';
 		$data = array(
-			'site_url' => $license->site
+			'site_url' => $this->license->site
 		);
 		$result = $this->request( 'DELETE', $endpoint, $data );
 
@@ -116,9 +125,12 @@ class API {
 	 */
 	public function request( $method, $endpoint, $data = array() ) {
 
-		$url = $this->api_url . $endpoint;
+		$url = $this->url . $endpoint;
 		$args = array(
-			'method' => $method
+			'method' => $method,
+			'headers' => array(
+				'Authorization' => 'Bearer ' . urlencode( $this->license->key )
+			),
 		);
 
 		if( in_array( $method, array( 'GET', 'DELETE' ) ) ) {
