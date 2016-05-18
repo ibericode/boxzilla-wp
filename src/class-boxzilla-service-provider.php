@@ -20,7 +20,7 @@ class BoxzillaServiceProvider implements ServiceProviderInterface {
 	public function register( Container $container ) {
 
 		$container['plugin'] = new Plugin(
-			0,
+			'boxzilla',
 			'Boxzilla',
 			BOXZILLA_VERSION,
 			BOXZILLA_FILE,
