@@ -105,6 +105,7 @@ class LicenseManager {
 	 * Shows the license form
 	 */
 	public function show_license_form() {
+		$license = $this->license;
 		require __DIR__ . '/views/license-form.php';
 	}
 
