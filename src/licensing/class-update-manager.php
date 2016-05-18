@@ -180,9 +180,6 @@ class UpdateManager {
 		$response->slug = dirname( $plugin->slug() );
 		$response->plugin = $plugin->slug();
 
-		// load license
-		$this->license->load();
-
 		// add some notices if license is inactive
 		if( ! $this->license->activated ) {
 			$response->upgrade_notice = sprintf( 'You will need to <a href="%s">activate your license</a> to install this plugin update.', admin_url( 'edit.php?post_type=boxzilla-box&page=boxzilla-settings' ) );
