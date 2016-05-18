@@ -99,7 +99,7 @@ class License {
 	 *
 	 * @return License
 	 */
-	public function load() {
+	protected function load() {
 
 		static $defaults = array(
 			'key' => '',

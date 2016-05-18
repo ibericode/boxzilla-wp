@@ -50,10 +50,7 @@ class LicenseManager {
 		if( ! current_user_can( 'manage_options' ) ) {
 			return false;
 		}
-
-		// load license
-		$this->license->load();
-
+		
 		// register license key form
 		add_action( 'boxzilla_after_settings', array( $this, 'show_license_form' ) );
 
@@ -92,7 +89,7 @@ class LicenseManager {
 		if( ! empty( $new_license_key )
 		    && ! $this->license->activated
 		    && ( $action === 'activate' || $key_changed ) ) {
-			
+
 			// let's try to activate it
 			if( $this->api->create_license_activation( $this->license ) ) {
 				$this->license->activate();

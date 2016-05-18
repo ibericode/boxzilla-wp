@@ -44,8 +44,6 @@ class Authenticator {
 			return $args;
 		}
 
-		$this->license->load();
-
 		if( empty( $args['headers'] ) ) {
 			$args['headers'] = array();
 		}
