@@ -73,12 +73,13 @@ class LicenseManager {
 			return false;
 		}
 
+		$action = isset( $_POST['action'] ) ? $_POST['action'] : 'activate';
 		$key_changed = false;
 
 		// the form was submitted, let's see..
-		if( $_POST['action'] === 'deactivate' ) {
-			$this->license->deactivate();
+		if( $action === 'deactivate' ) {
 			$this->api->delete_license_activation( $this->license );
+			$this->license->deactivate();
 		}
 
 		// did key change or was "activate" button pressed?
@@ -90,7 +91,8 @@ class LicenseManager {
 
 		if( ! empty( $new_license_key )
 		    && ! $this->license->activated
-		    && ( $_POST['action'] === 'activate' || $key_changed ) ) {
+		    && ( $action === 'activate' || $key_changed ) ) {
+			
 			// let's try to activate it
 			if( $this->api->create_license_activation( $this->license ) ) {
 				$this->license->activate();
