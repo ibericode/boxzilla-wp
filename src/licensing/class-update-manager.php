@@ -136,19 +136,21 @@ class UpdateManager {
 		foreach( $remote_plugins as $remote_plugin ) {
 
 			// find corresponding local plugin
-			$plugin = $this->extensions->find(
-				function( $p ) use( $remote_plugin ){
-					return $p->id() == $remote_plugin->id;
+			/** @var Plugin $local_plugin */
+			$local_plugin = $this->extensions->find(
+				function( $local_plugin ) use( $remote_plugin ){
+					/** @var Plugin $local_plugin */
+					return $local_plugin->id() == $remote_plugin->sid;
 				}
 			);
 
 			// plugin found and local plugin version not same as remote version?
-			if( ! $plugin || version_compare( $plugin->version(), $remote_plugin->version, '>=' ) ) {
+			if( ! $local_plugin || version_compare( $local_plugin->version(), $remote_plugin->version, '>=' ) ) {
 				continue;
 			}
 
 			// add some dynamic data
-			$available_updates[ $plugin->slug() ] = $this->format_response( $plugin, $remote_plugin );
+			$available_updates[ $local_plugin->slug() ] = $this->format_response( $local_plugin, $remote_plugin );
 		}
 
 		return $available_updates;
