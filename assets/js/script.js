@@ -141,10 +141,7 @@ Box.prototype.events = function() {
     });
 
     // maybe show box right away
-    if( this.config.trigger.method === "time_on_page" && this.mayAutoShow() ) {
-        window.setTimeout(this.trigger.bind(this), this.config.trigger.value * 1000 );
-        // auto-show the box if box is referenced from URL
-    } else if( this.fits() && this.locationHashRefersBox() ) {
+    if( this.fits() && this.locationHashRefersBox() ) {
         $(window).load(this.show.bind(this));
     }
 
@@ -382,11 +379,14 @@ var $ = window.jQuery,
     EventEmitter = require('wolfy87-eventemitter'),
     Boxzilla = Object.create(EventEmitter.prototype),
     Box = require('./Box.js')(Boxzilla),
+    Timer = require('./Timer.js'),
     boxes = {},
     windowHeight = window.innerHeight,
     overlay = document.createElement('div'),
     exitIntentDelayTimer,
-    exitIntentTriggered;
+    exitIntentTriggered,
+    siteTimer = new Timer(sessionStorage.getItem('boxzilla_timer') || 0),
+    pageTimer = new Timer(0);
 
 function each( obj, callback ) {
     for( var key in obj ) {
@@ -426,17 +426,22 @@ function onKeyUp(e) {
 }
 
 function checkTimeCriteria() {
-    var start = sessionStorage.getItem('boxzilla_start_time');
-    var now = Date.now();
-    var timeOnSite = ( now - start ) / 1000;
+
+    console.log("Time on site: " + siteTimer.time );
+    console.log("Time on page: " + pageTimer.time );
 
     each(boxes, function(box) {
-        if( ! box.mayAutoShow() || box.config.trigger.method !== 'time_on_site' ) {
-            return;
-        }
+        if( box.mayAutoShow() ) {
 
-        if( timeOnSite > box.config.trigger.value ) {
-            box.trigger();
+            // check "time on site" trigger
+            if (box.config.trigger.method === 'time_on_site' && siteTimer.time > box.config.trigger.value) {
+                box.trigger();
+            }
+
+            // check "time on page" trigger
+            if (box.config.trigger.method === 'time_on_page' && pageTimer.time > box.config.trigger.value) {
+                box.trigger();
+            }
         }
     });
 }
@@ -512,6 +517,20 @@ function onMouseEnter() {
     }
 }
 
+var timers = {
+    start: function() {
+        var sessionTime = sessionStorage.getItem('boxzilla_timer');
+        if( sessionTime ) siteTimer.time = sessionTime;
+        siteTimer.start();
+        pageTimer.start();
+    },
+    stop: function() {
+        sessionStorage.setItem('boxzilla_timer', siteTimer.time);
+        siteTimer.stop();
+        pageTimer.stop();
+    }
+};
+
 // initialise & add event listeners
 Boxzilla.init = function() {
     var html = document.documentElement;
@@ -530,9 +549,10 @@ Boxzilla.init = function() {
     $(overlay).click(onOverlayClick);
     window.setInterval(checkTimeCriteria, 1000);
 
-    if( ! sessionStorage.getItem('boxzilla_start_time')) {
-        sessionStorage.setItem('boxzilla_start_time', Date.now());
-    }
+    timers.start();
+    $(window).on('focus', timers.start);
+    $(window).on('beforeunload', timers.stop);
+    $(window).on('blur', timers.stop);
 
     Boxzilla.trigger('ready');
 };
@@ -589,7 +609,31 @@ if ( typeof module !== 'undefined' && module.exports ) {
 } else {
     this.Boxzilla = Boxzilla;
 }
-},{"./Box.js":2,"wolfy87-eventemitter":4}],4:[function(require,module,exports){
+},{"./Box.js":2,"./Timer.js":4,"wolfy87-eventemitter":5}],4:[function(require,module,exports){
+'use strict';
+
+var Timer = function(start) {
+    this.time = start;
+    this.interval = 0;
+};
+
+Timer.prototype.tick = function() {
+    this.time++;
+};
+
+Timer.prototype.start = function() {
+    if( ! this.interval ) {
+        this.interval = window.setInterval(this.tick.bind(this), 1000);
+    }
+};
+
+Timer.prototype.stop = function() {
+    window.clearInterval(this.interval);
+    this.interval = 0;
+};
+
+module.exports = Timer;
+},{}],5:[function(require,module,exports){
 /*!
  * EventEmitter v4.2.11 - git.io/ee
  * Unlicense - http://unlicense.org/
