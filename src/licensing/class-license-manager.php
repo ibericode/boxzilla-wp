@@ -2,7 +2,9 @@
 
 namespace Boxzilla\Licensing;
 
+use Boxzilla\Admin\Notices;
 use Boxzilla\Collection;
+use Exception;
 
 class LicenseManager {
 
@@ -22,14 +24,20 @@ class LicenseManager {
 	protected $api;
 
 	/**
+	 * @var Notices
+	 */
+	protected $notices;
+
+	/**
 	 * @param Collection $extensions
 	 * @param API $api
 	 * @param License $license
 	 */
-	public function __construct( Collection $extensions, API $api, License $license ) {
+	public function __construct( Collection $extensions, API $api, License $license, Notices $notices ) {
 		$this->extensions = $extensions;
 		$this->license = $license;
 		$this->api = $api;
+		$this->notices = $notices;
 	}
 
 	/**
@@ -45,6 +53,11 @@ class LicenseManager {
 	 * @return bool
 	 */
 	public function init() {
+		// do nothing if no extensions
+		if( empty( $this->extensions ) ) {
+			return;
+		}
+
 		// register license key form
 		add_action( 'boxzilla_after_settings', array( $this, 'show_license_form' ) );
 
@@ -53,29 +66,22 @@ class LicenseManager {
 	}
 
 	/**
-	 * @return bool
+	 * @return void
 	 */
 	protected function listen() {
 
 		// do nothing if not authenticated
 		if( ! current_user_can( 'manage_options' ) ) {
-			return false;
+			return;
 		}
 
 		// nothing to do
 		if( ! isset( $_POST['boxzilla_license_form'] ) ) {
-			return false;
+			return;
 		}
 
 		$action = isset( $_POST['action'] ) ? $_POST['action'] : 'activate';
 		$key_changed = false;
-
-		// the form was submitted, let's see..
-		if( $action === 'deactivate' ) {
-			$this->api->deactivate_license();
-			$this->license->activated = false;
-			$this->license->activation_key = '';
-		}
 
 		// did key change or was "activate" button pressed?
 		$new_license_key = sanitize_text_field( $_POST['boxzilla_license_key'] );
@@ -84,18 +90,46 @@ class LicenseManager {
 			$key_changed = true;
 		}
 
-		// try to activate license
-		if( $action === 'activate' || $key_changed ) {
-			$activation_key = $this->api->activate_license();
-			if( $activation_key ) {
-				$this->license->activation_key = $activation_key;
-				$this->license->activated = true;
-			}
+		// run actions
+		if( $action === 'deactivate' ) {
+			$this->deactivate_license();
+		} elseif( $action === 'activate' || $key_changed ) {
+			$this->activate_license();
+		}
+	}
+
+	/**
+	 * Deactivate the license
+	 */
+	protected function deactivate_license() {
+		try {
+			$activation = $this->api->deactivate_license();
+			$this->notices->add( $activation->message, 'info' );
+		} catch( API_Exception $e ) {
+			$this->notices->add( $e->getMessage(), 'warning' );
 		}
 
-		// save changes
+		$this->license->activated = false;
+		$this->license->activation_key = '';
 		$this->license->save();
-		return false;
+	}
+
+	/**
+	 * Activate the license
+	 */
+	protected function activate_license() {
+		try {
+			$activation = $this->api->activate_license();
+		} catch( API_Exception $e ) {
+			$this->notices->add( $e->getMessage(), 'warning' );
+			return;
+		}
+
+		$this->license->activation_key = $activation->key;
+		$this->license->activated = true;
+		$this->license->save();
+
+		$this->notices->add( $activation->message, 'info' );
 	}
 
 	/**

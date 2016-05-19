@@ -10,58 +10,38 @@ $boxzilla = boxzilla();
 // register services
 $provider = new BoxzillaServiceProvider();
 $provider->register( $boxzilla );
+$provider = new Licensing\LicenseServiceProvider();
+$provider->register( $boxzilla );
 
-// load default filters
-require __DIR__ . '/src/default-filters.php';
+// Rest of bootstrapping runs at plugins_loaded:90
+add_action( 'plugins_loaded', function() use( $boxzilla ) {
 
-add_action( 'init', function() use( $boxzilla ){
-    // Register custom post type
-    $args = array(
-        'public' => false,
-        'labels'  =>  array(
-            'name'               => __( 'Boxzilla', 'boxzilla' ),
-            'singular_name'      => __( 'Box', 'boxzilla' ),
-            'add_new'            => __( 'Add New', 'boxzilla' ),
-            'add_new_item'       => __( 'Add New Box', 'boxzilla' ),
-            'edit_item'          => __( 'Edit Box', 'boxzilla' ),
-            'new_item'           => __( 'New Box', 'boxzilla' ),
-            'all_items'          => __( 'All Boxes', 'boxzilla' ),
-            'view_item'          => __( 'View Box', 'boxzilla' ),
-            'search_items'       => __( 'Search Boxes', 'boxzilla' ),
-            'not_found'          => __( 'No Boxes found', 'boxzilla' ),
-            'not_found_in_trash' => __( 'No Boxes found in Trash', 'boxzilla' ),
-            'parent_item_colon'  => '',
-            'menu_name'          => __( 'Boxzilla', 'boxzilla' )
-        ),
-        'show_ui' => true,
-        'menu_position' => '108.1337133',
-        'menu_icon' => $boxzilla->plugin->url( '/assets/img/menu-icon.png' ),
-        'query_var' => false
-    );
+    // load default filters
+    require __DIR__ . '/src/default-filters.php';
+    require __DIR__ . '/src/default-actions.php';
 
-    register_post_type( 'boxzilla-box', $args );
-});
-
-if( ! is_admin() ) {
-
-    // PUBLIC
-    add_action( 'template_redirect', function() use( $boxzilla ) {
-        $boxzilla['box_loader']->init();
-    });
-
-} else {
-
-    // ADMIN (and AJAX)
-    $provider = new Licensing\LicenseServiceProvider();
-    $provider->register( $boxzilla );
-
-    if( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) {
-        add_action('init', function() use( $boxzilla ) {
+    // load secction specific code
+    $section = boxzilla_get_section();
+    switch( $section ) {
+        case 'admin':
             $boxzilla['admin']->init();
-        });
-    } else {
-        $boxzilla['filter.autocomplete']->add_hooks();
-    }
-    
-}
+            $boxzilla['license_manager']->add_hooks();
+            $boxzilla['update_manager']->add_hooks();
+            break;
 
+        case 'ajax':
+            // AJAX
+            $boxzilla['filter.autocomplete']->add_hooks();
+            break;
+
+        case 'public':
+            add_action( 'template_redirect', function() use( $boxzilla ) {
+                $boxzilla['box_loader']->init();
+            });
+            break;
+
+        case 'cron':
+            $boxzilla['license_poller']->hook();
+            break;
+    }
+}, 90 );

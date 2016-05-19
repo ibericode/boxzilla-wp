@@ -45,21 +45,13 @@ class Admin {
 	 * Add necessary hooks
 	 */
 	protected function add_hooks() {
-
 		add_action( 'admin_init', array( $this, 'lazy_add_hooks' ) );
 		add_action( 'admin_init', array( $this, 'register' ) );
 		add_action( 'admin_menu', array( $this, 'menu' ) );
 		add_action( 'admin_notices', array( $this, 'notices' ) );
-
 		add_action( 'save_post_boxzilla-box', array( $this, 'save_box_options' ), 20, 2 );
 		add_action( 'trashed_post', array( $this, 'flush_rules' ) );
 		add_action( 'untrashed_post', array( $this, 'flush_rules' ) );
-
-		// if a premium add-on is installed, instantiate dependencies
-		if ( count( $this->boxzilla['plugins'] ) > 0 ) {
-			$this->boxzilla['license_manager']->add_hooks();
-			$this->boxzilla['update_manager']->add_hooks();
-		}
 	}
 
 	/**

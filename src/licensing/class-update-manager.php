@@ -102,8 +102,14 @@ class UpdateManager {
 	 */
 	public function add_updates( $updates ) {
 
+		// do nothing if no plugins registered
+		if( empty( $this->extensions ) ) {
+			return $updates;
+		}
+
+		// failsafe WP bug
 		if( empty( $updates )
-		    || ! isset( $updates->response )
+		    || empty( $updates->response )
 			|| ! is_array( $updates->response ) ) {
 			return $updates;
 		}
@@ -129,16 +135,12 @@ class UpdateManager {
 		}
 
 		// fetch remote info
-		$remote_plugins = $this->api->get_plugins( $this->extensions );
-
-		// start with an empty array
-		$this->available_updates = array();
-
-		// did we get a valid response?
-		if( ! is_array( $remote_plugins  ) ) {
-			return $this->available_updates;
+		try {
+			$remote_plugins = $this->api->get_plugins( $this->extensions );
+		} catch( API_Exception $e ) {
+			return array();
 		}
-
+		
 		// filter remote plugins, we only want the ones with an update available
 		$this->available_updates = $this->filter_remote_plugins( $remote_plugins );
 

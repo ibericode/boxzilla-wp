@@ -87,7 +87,6 @@ class License {
 		if( ! $this->loaded ) {
 			$data = (array) get_option( $this->option_key, array() );
 			$this->data = array_replace( $defaults, $data );
-			$this->data['site'] = get_option( 'siteurl' );
 			$this->loaded = true;
 		}
 	}

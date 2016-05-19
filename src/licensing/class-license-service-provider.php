@@ -14,24 +14,25 @@ class LicenseServiceProvider implements ServiceProviderInterface {
 	 */
 	public function register( Container $container ) {
 
-		$container['api_url'] = function( $container ) {
-			return 'https://api.boxzillaplugin.com/v1';
-		};
-
 		$container['license'] = function( $container ) {
 			return new License( 'boxzilla_license' );
 		};
 
-		$container['api'] = function( $container ) {
-			return new API( $container['api_url'], $container['license'], $container['notices'] );
+		$container['license_api'] = function( $container ) {
+			$api_url = 'https://api.boxzillaplugin.com/v1';
+			return new API( $api_url, $container['license'] );
 		};
 
 		$container['license_manager'] = function( $container ) {
-			return new LicenseManager( $container['plugins'], $container['api'], $container['license'] );
+			return new LicenseManager( $container['plugins'], $container['license_api'], $container['license'], $container['notices'] );
 		};
 
 		$container['update_manager'] = function( $container ) {
-			return new UpdateManager( $container['plugins'], $container['api'], $container['license'] );
+			return new UpdateManager( $container['plugins'], $container['license_api'], $container['license'] );
+		};
+
+		$container['license_poller'] = function( $container ) {
+			return new Poller( $container['license_api'], $container['license'] );
 		};
 	}
 
