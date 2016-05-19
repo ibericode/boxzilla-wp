@@ -141,4 +141,14 @@ class Collection implements Iterator, Countable, ArrayAccess {
 	{
 		unset( $this->elements[ $offset] );
 	}
+
+	/**
+	 * Return a random value out of the collection.
+	 *
+	 * @return mixed
+	 */
+	public function random() {
+		$key = array_rand( $this->elements );
+		return $this->elements[ $key ];
+	}
 }
