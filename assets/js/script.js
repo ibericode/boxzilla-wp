@@ -386,7 +386,8 @@ var $ = window.jQuery,
     exitIntentDelayTimer,
     exitIntentTriggered,
     siteTimer = new Timer(sessionStorage.getItem('boxzilla_timer') || 0),
-    pageTimer = new Timer(0);
+    pageTimer = new Timer(0),
+    pageViews = sessionStorage.getItem('boxzilla_pageviews') || 0;
 
 function each( obj, callback ) {
     for( var key in obj ) {
@@ -425,23 +426,34 @@ function onKeyUp(e) {
     }
 }
 
-function checkTimeCriteria() {
-
-    console.log("Time on site: " + siteTimer.time );
-    console.log("Time on page: " + pageTimer.time );
-
+// check "pageviews" criteria for each box
+function checkPageViewsCriteria() {
     each(boxes, function(box) {
-        if( box.mayAutoShow() ) {
+        if( ! box.mayAutoShow() ) {
+            return;
+        }
 
-            // check "time on site" trigger
-            if (box.config.trigger.method === 'time_on_site' && siteTimer.time > box.config.trigger.value) {
-                box.trigger();
-            }
+        if( box.config.trigger.method === 'pageviews' && pageViews >= box.config.trigger.value ) {
+            box.trigger();
+        }
+    });
+}
 
-            // check "time on page" trigger
-            if (box.config.trigger.method === 'time_on_page' && pageTimer.time > box.config.trigger.value) {
-                box.trigger();
-            }
+// check time trigger criteria for each box
+function checkTimeCriteria() {
+    each(boxes, function(box) {
+        if( ! box.mayAutoShow() ) {
+            return;
+        }
+
+        // check "time on site" trigger
+        if (box.config.trigger.method === 'time_on_site' && siteTimer.time >= box.config.trigger.value) {
+            box.trigger();
+        }
+
+        // check "time on page" trigger
+        if (box.config.trigger.method === 'time_on_page' && pageTimer.time >= box.config.trigger.value) {
+            box.trigger();
         }
     });
 }
@@ -548,10 +560,14 @@ Boxzilla.init = function() {
     $(html).on('keyup', onKeyUp);
     $(overlay).click(onOverlayClick);
     window.setInterval(checkTimeCriteria, 1000);
+    window.setTimeout(checkPageViewsCriteria, 1000 );
 
     timers.start();
     $(window).on('focus', timers.start);
-    $(window).on('beforeunload', timers.stop);
+    $(window).on('beforeunload', function() {
+        timers.stop();
+        sessionStorage.setItem('boxzilla_pageviews', ++pageViews);
+    });
     $(window).on('blur', timers.stop);
 
     Boxzilla.trigger('ready');
