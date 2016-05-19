@@ -32,6 +32,7 @@ class LicenseManager {
 	 * @param Collection $extensions
 	 * @param API $api
 	 * @param License $license
+	 * @param Notices $notices
 	 */
 	public function __construct( Collection $extensions, API $api, License $license, Notices $notices ) {
 		$this->extensions = $extensions;
@@ -41,28 +42,50 @@ class LicenseManager {
 	}
 
 	/**
-	 * Initialise the awesome
+	 * @param mixed $object
+	 * @param string $property
+	 * @param string $default
+	 *
+	 * @return string
 	 */
-	public function add_hooks() {
-		// register license activation form
-		add_action( 'admin_init', array( $this, 'init' ) );
+	protected function get_object_property( $object, $property, $default = '' ) {
+		return isset( $object->$property ) ? $object->$property : $default;
 	}
-
 
 	/**
 	 * @return bool
 	 */
 	public function init() {
-		// do nothing if no extensions
+
+		// do nothing if no extensions are registered at this point
 		if( empty( $this->extensions ) ) {
 			return;
 		}
 
-		// register license key form
+		// hooks
 		add_action( 'boxzilla_after_settings', array( $this, 'show_license_form' ) );
+		add_action( 'admin_notices', array( $this, 'show_notice' ), 1 );
 
 		// listen for activation / deactivation requests
 		$this->listen();
+	}
+
+	/**
+	 * Maybe show notice to activate license.
+	 */
+	public function show_notice() {
+		global $current_screen;
+
+		if( $this->license->activated ) {
+			return;
+		}
+
+		if( $this->get_object_property( $current_screen, 'post_type' ) !== 'boxzilla-box' ) {
+			return;
+		}
+
+		$plugin = $this->extensions->random();
+		$this->notices->add( sprintf( 'Please <a href="%s">activate your Boxzilla license</a> to use %s.', admin_url( 'edit.php?post_type=boxzilla-box&page=boxzilla-settings' ), '<strong>' . $plugin->name() . '</strong>' ), 'warning' );
 	}
 
 	/**

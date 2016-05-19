@@ -25,7 +25,7 @@ add_action( 'plugins_loaded', function() use( $boxzilla ) {
     switch( $section ) {
         case 'admin':
             $boxzilla['admin']->init();
-            $boxzilla['license_manager']->add_hooks();
+            add_action( 'admin_init', array( $boxzilla['license_manager'], 'init' ) );
             $boxzilla['update_manager']->add_hooks();
             break;
 
