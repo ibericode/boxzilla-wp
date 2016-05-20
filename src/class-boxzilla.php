@@ -14,6 +14,7 @@ use Boxzilla\Licensing\License;
  * @property Plugin $plugin
  * @property Plugin[] $plugins
  * @property License $license
+ * @property Bootstrapper $bootstrapper
  *
  */
 class Boxzilla extends ContainerWithPropertyAccess {}

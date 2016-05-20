@@ -20,7 +20,7 @@ add_action( 'plugins_loaded', function() use( $boxzilla ) {
     require __DIR__ . '/src/default-filters.php';
     require __DIR__ . '/src/default-actions.php';
 
-    $bootstrapper = new Bootstrapper();
+    $bootstrapper = $boxzilla->bootstrapper;
 
     $bootstrapper->admin(function() use( $boxzilla ){
         $boxzilla['admin']->init();

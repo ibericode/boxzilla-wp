@@ -19,13 +19,23 @@ class BoxzillaServiceProvider implements ServiceProviderInterface {
 	 */
 	public function register( Container $container ) {
 
-		$container['plugin'] = new Plugin(
-			'boxzilla',
-			'Boxzilla',
-			BOXZILLA_VERSION,
-			BOXZILLA_FILE,
-			dirname( BOXZILLA_FILE )
-		);
+		$container['admin'] = function( $container ) {
+			return new Admin( $container->plugin, $container );
+		};
+
+		$container['bootstrapper'] = new Bootstrapper();
+
+		$container['box_loader'] = function( $container ) {
+			return new BoxLoader( $container->plugin, $container->options );
+		};
+
+		$container['filter.autocomplete'] = function( $container ) {
+			return new Filter\Autocomplete();
+		};
+
+		$container['notices'] = function( $container ) {
+			return new Notices();
+		};
 
 		$container['options'] = function( $container ) {
 			$defaults = array(
@@ -37,25 +47,23 @@ class BoxzillaServiceProvider implements ServiceProviderInterface {
 			return $options;
 		};
 
+		$container['plugin'] = new Plugin(
+			'boxzilla',
+			'Boxzilla',
+			BOXZILLA_VERSION,
+			BOXZILLA_FILE,
+			dirname( BOXZILLA_FILE )
+		);
+
 		$container['plugins'] = function( $container ) {
 			$plugins = (array) apply_filters( 'boxzilla_extensions', array() );
 			return new Collection( $plugins );
 		};
 
-		$container['box_loader'] = function( $container ) {
-			return new BoxLoader( $container->plugin, $container->options );
-		};
 
-		$container['admin'] = function( $container ) {
-			return new Admin( $container->plugin, $container );
-		};
 
-		$container['filter.autocomplete'] = function( $container ) {
-			return new Filter\Autocomplete();
-		};
 
-		$container['notices'] = function( $container ) {
-			return new Notices();
-		};
+
+
 	}
 }
