@@ -8,7 +8,7 @@ use Brain\Monkey\Functions;
 class Bootstrapper_Test extends WP_Test_Case {
 
     /**
-     * @covers Bootstrapper::register
+     * @covers \Boxzilla\Bootstrapper::register
      */
     public function test_register() {
         $instance = new Bootstrapper();
@@ -22,7 +22,7 @@ class Bootstrapper_Test extends WP_Test_Case {
     }
 
     /**
-     * @covers Bootstrapper::run
+     * @covers \Boxzilla\Bootstrapper::run
      */
     public function test_run() {
         $instance = new Bootstrapper();
@@ -52,7 +52,7 @@ class Bootstrapper_Test extends WP_Test_Case {
     }
 
     /**
-     * @covers Bootstrapper::section
+     * @covers \Boxzilla\Bootstrapper::section
      */
     public function test_section() {
         $instance = new Bootstrapper();
@@ -73,7 +73,7 @@ class Bootstrapper_Test extends WP_Test_Case {
     }
 
     /**
-     * @covers Bootstrapper::__call
+     * @covers \Boxzilla\Bootstrapper::__call
      */
     public function test_magic_section_register() {
         $instance = new Bootstrapper();
