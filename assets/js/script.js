@@ -149,7 +149,6 @@ Box.prototype.events = function() {
 
 // generate dom elements for this box
 Box.prototype.dom = function() {
-
     var wrapper = document.createElement('div');
     wrapper.className = 'boxzilla-container boxzilla-' + this.config.position + '-container';
 
@@ -162,6 +161,17 @@ Box.prototype.dom = function() {
     content.className = 'boxzilla-content';
     content.innerHTML = this.config.content;
     box.appendChild(content);
+
+    // remove <script> from box content and append them to head
+    var scripts = content.querySelectorAll('script');
+    if(scripts.length) {
+        var script = document.createElement('script');
+        for( var i=0; i<scripts.length; i++ ) {
+            script.appendChild(document.createTextNode(scripts[i].text));
+            scripts[i].parentNode.removeChild(scripts[i]);
+        }
+        document.head.appendChild(script);
+    }
 
     if( this.config.closable && this.config.icon ) {
         var icon = document.createElement('span');
