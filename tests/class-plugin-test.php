@@ -27,6 +27,13 @@ class PluginTest extends WP_Test_Case {
     }
 
     /**
+     * @covers \Boxzilla\Plugin::slug
+     */
+    public function test_slug() {
+        self::assertEquals( $this->instance->slug(), 'file' );
+    }
+
+    /**
      * @covers \Boxzilla\Plugin::name
      */
     public function test_name() {
