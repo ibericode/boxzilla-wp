@@ -3,7 +3,6 @@
 namespace Boxzilla\Tests;
 
 use Boxzilla\Plugin;
-use Brain\Monkey;
 use Brain\Monkey\Functions;
 
 class PluginTest extends WP_Test_Case {
