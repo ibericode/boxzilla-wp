@@ -42,9 +42,13 @@ class Bootstrapper {
 
     /**
      * Run registered bootstrappers
+     * @param string $section
      */
-    public function run() {
-        $section = $this->section();
+    public function run( $section = '' ) {
+
+        if( ! $section ) {
+            $section = $this->section();
+        }
 
         foreach( $this->bootstrappers['global'] as $callback ) {
             $callback();
