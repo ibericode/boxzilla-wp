@@ -60,7 +60,7 @@ class Bootstrapper {
      *
      * @return string
      */
-    private function section() {
+    public function section() {
         if( is_admin() ) {
             if( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
                 return 'ajax';
