@@ -42,6 +42,7 @@ class Bootstrapper {
 
     /**
      * Run registered bootstrappers
+     *
      * @param string $section
      */
     public function run( $section = '' ) {
