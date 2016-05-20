@@ -24,7 +24,7 @@ class MigrationsTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers Boxzilla\Admin\Migrations::find_migrations
+     * @covers \Boxzilla\Admin\Migrations::find_migrations
      */
     public function test_find_migrations() {
         $instance = new Migrations( '1.0', '1.1', $this->dir );
