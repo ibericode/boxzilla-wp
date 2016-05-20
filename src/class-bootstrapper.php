@@ -22,9 +22,14 @@ class Bootstrapper {
      * @param string $section
      * @param callable $callable
      */
-    public function register( $section, callable $callable ) {
+    public function register( $section, $callable ) {
+
         if( ! isset( $this->bootstrappers[ $section ] ) ) {
             throw new InvalidArgumentException( "Section $section is invalid." );
+        }
+
+        if( ! is_callable( $callable ) ) {
+            throw new InvalidArgumentException( 'Callable argument is not callable.' );
         }
 
         $this->bootstrappers[ $section ][] = $callable;
