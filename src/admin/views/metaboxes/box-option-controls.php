@@ -19,6 +19,11 @@ $rule_options = array(
 	'is_referer' => __( 'if referer', 'boxzilla' ),
 );
 
+/**
+ * @ignore
+ */
+$rule_options = apply_filters( 'boxzilla_rules_options', $rule_options );
+
 $box_positions = array(
 	'bottom-left' => __( 'Bottom Left', 'boxzilla' ),
 	'bottom-right' => __( 'Bottom Right', 'boxzilla' ),

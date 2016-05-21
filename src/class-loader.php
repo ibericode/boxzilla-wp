@@ -142,8 +142,17 @@ class BoxLoader {
 			case 'is_post_with_tag':
 				$matched = is_singular( 'post' ) && has_tag( $value );
 				break;
-
 		}
+
+		/**
+		 * Filters whether a given box rule matches the condition and expected value.
+		 *
+		 * The dynamic portion of the hook, `$condition`, refers to the condition being matched.
+		 *
+		 * @param boolean $matched
+		 * @param array $value
+		 */
+		$matched = apply_filters( 'boxzilla_box_rule_matches_' . $condition, $matched, $value );
 
 		// if qualifier is set to false, we need to reverse this value here.
 		if( ! $qualifier ) {
