@@ -4,6 +4,16 @@ namespace Boxzilla;
 
 use InvalidArgumentException;
 
+/**
+ * Class Bootstrapper
+ * @package Boxzilla
+ *
+ * @method void admin( callable $callback )
+ * @method void cron( callable $callback )
+ * @method void front( callable $callback )
+ * @method void ajax( callable $callback )
+ * @method void cli( callable $callback )
+ */
 class Bootstrapper {
 
     /**
