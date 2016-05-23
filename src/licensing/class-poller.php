@@ -40,12 +40,12 @@ class Poller {
      * Run!
      */
     public function run() {
-
         // don't run if license not active
         if( ! $this->license->activated ) {
             return;
         }
 
+        // assume valid by default, in case of server errors on our side.
         $license_still_valid = true;
 
         try {
