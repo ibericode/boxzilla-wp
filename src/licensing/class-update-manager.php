@@ -103,7 +103,7 @@ class UpdateManager {
 	public function add_updates( $updates ) {
 
 		// do nothing if no plugins registered
-		if( empty( $this->extensions ) ) {
+		if( count( $this->extensions ) === 0 ) {
 			return $updates;
 		}
 
