@@ -42,7 +42,7 @@ class UpdateManager {
 	/**
 	 * Add hooks
 	 */
-	public function add_hooks() {
+	public function hook() {
 		add_filter( 'pre_set_site_transient_update_plugins', array( $this, 'add_updates' ) );
 		add_filter( 'plugins_api', array( $this, 'get_plugin_info' ), 20, 3 );
 		add_filter( 'http_request_args', array( $this, 'add_auth_headers' ), 10, 2 );

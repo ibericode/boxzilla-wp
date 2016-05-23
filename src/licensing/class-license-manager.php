@@ -55,7 +55,7 @@ class LicenseManager {
 	/**
 	 * @return bool
 	 */
-	public function init() {
+	public function hook() {
 
 		// do nothing if no extensions are registered at this point
 		if( empty( $this->extensions ) ) {

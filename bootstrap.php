@@ -24,8 +24,8 @@ add_action( 'plugins_loaded', function() use( $boxzilla ) {
 
     $bootstrapper->admin(function() use( $boxzilla ){
         $boxzilla['admin']->init();
-        $boxzilla['license_manager']->init();
-        $boxzilla['update_manager']->add_hooks();
+        $boxzilla['license_manager']->hook();
+        $boxzilla['update_manager']->hook();
     });
 
     $bootstrapper->ajax(function() use( $boxzilla ) {
