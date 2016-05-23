@@ -1,12 +1,19 @@
 Changelog
 ==========
 
-#### 3.0.1 - Unreleased
+#### 3.0.1 - May 23, 2016
+
+**Improvements**
+
+- You can now use `<script>` tags directly in box content (again).
 
 **Additions**
 
+- Add "post tag is / is not" loading condition.
 - Plugin will now show a notice to deactivate old Scroll Triggered Boxes plugin.
 - Internal changes to dependency container for use in add-on plugins.
+- Add-on: [Boxzilla Pageviews Trigger](https://boxzillaplugin.com/add-ons/pageviews/).
+- Add-on: [Boxzilla WooCommerce](https://boxzillaplugin.com/add-ons/woocommerce/)
 
 
 #### 3.0 - May 11, 2016
