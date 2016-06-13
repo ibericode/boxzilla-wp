@@ -127,6 +127,8 @@ class BoxLoader {
 
 			case 'is_single':
 			case 'is_post':
+				// convert to empty string if array with just empty string in it
+				$value = ( $value === array( '' ) ) ? '' : $value;
 				$matched = is_single( $value );
 				break;
 
@@ -176,7 +178,7 @@ class BoxLoader {
 
 			$matched = false;
 			$comparision = isset( $box_rules['comparision'] ) ? $box_rules['comparision'] : 'any';
-
+			
 			// loop through all rules for all boxes
 			foreach ( $box_rules as $rule ) {
 
