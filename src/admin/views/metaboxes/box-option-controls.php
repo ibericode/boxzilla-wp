@@ -66,7 +66,8 @@ $box_positions = array(
 			<td>
 				<select class="boxzilla-rule-condition" name="boxzilla_box[rules][<?php echo $key; ?>][condition]">
 					<?php foreach( $rule_options as $value => $label ) {
-						printf( '<option value="%s" %s %s>%s</option>', $value, disabled( $value, '', false ), selected( $rule['condition'], $value ), $label );
+						$readonly = $value == '' ? 'readonly': '';
+						printf( '<option value="%s" %s %s>%s</option>', $value, $readonly, selected( $rule['condition'], $value ), $label );
 					} ?>
 				</select>
 
