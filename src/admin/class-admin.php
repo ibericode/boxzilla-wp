@@ -489,6 +489,7 @@ class Admin {
 	 * @return array The sanitized rule array
 	 */
 	public function sanitize_box_rule( $rule) {
+		
 		$rule['value'] = trim( $rule['value'] );
 
 		// convert to array

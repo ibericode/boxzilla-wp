@@ -471,7 +471,7 @@ function checkTimeCriteria() {
 // check triggerHeight criteria for all boxes
 function checkHeightCriteria() {
     var scrollY = window.scrollY;
-    var scrollHeight = scrollY + ( windowHeight * 0.9 );
+    var scrollHeight = scrollY + ( windowHeight * 0.667 );
 
     each(boxes, function(box) {
         if( ! box.mayAutoShow() || box.triggerHeight <= 0 ) {
@@ -630,10 +630,10 @@ Boxzilla.toggle = function(id) {
     }
 };
 
+window.Boxzilla = Boxzilla;
+
 if ( typeof module !== 'undefined' && module.exports ) {
     module.exports = Boxzilla;
-} else {
-    this.Boxzilla = Boxzilla;
 }
 },{"./Box.js":2,"./Timer.js":4,"wolfy87-eventemitter":5}],4:[function(require,module,exports){
 'use strict';
