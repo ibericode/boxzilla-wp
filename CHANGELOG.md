@@ -1,6 +1,21 @@
 Changelog
 ==========
 
+#### 3.0.2 - June 21, 2016
+
+**Fixes**
+
+- Box condition "is post" was not working with an empty value.
+
+**Improvements**
+
+- Prevent PHP notice when saving box without changing box rules.
+
+**Additions**
+
+- Added French translation files, thanks to Benoit Mercusot.
+
+
 #### 3.0.1 - May 23, 2016
 
 **Improvements**
