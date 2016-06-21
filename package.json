@@ -12,10 +12,12 @@
     "gulp": "^3.9.0",
     "gulp-cssmin": "^0.1.7",
     "gulp-rename": "^1.2.2",
+    "gulp-sort": "^2.0.0",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-streamify": "^1.0.2",
     "gulp-uglify": "^1.5.2",
     "gulp-util": "^3.0.7",
+    "gulp-wp-pot": "^1.2.2",
     "gulp-wrap": "^0.11.0",
     "merge-stream": "^1.0.0",
     "through2": "^2.0.1",
@@ -24,6 +26,6 @@
   },
   "dependencies": {
     "wolfy87-eventemitter": "^4.3.0",
-    "boxzilla" : "git://github.com/ibericode/boxzilla.js.git#master"
+    "boxzilla": "git://github.com/ibericode/boxzilla.js.git#master"
   }
 }

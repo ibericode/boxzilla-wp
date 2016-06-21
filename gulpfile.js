@@ -13,8 +13,10 @@ var buffer = require('vinyl-buffer');
 var through = require('through2');
 var sourcemaps = require('gulp-sourcemaps');
 var wrap = require('gulp-wrap');
+var wpPot = require('gulp-wp-pot');
+var sort = require('gulp-sort');
 
-gulp.task('default', ['sass', 'browserify', 'uglify']);
+gulp.task('default', ['sass', 'browserify', 'uglify', 'languages' ]);
 
 gulp.task('sass', function () {
     var files = [ './assets/css/*.css', '!./assets/css/*.min.css' ];
@@ -55,4 +57,14 @@ gulp.task('uglify', ['browserify'], function() {
         .pipe(rename({extname: '.min.js'}))
         .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest('./assets/js'));
+});
+
+gulp.task('languages', function () {
+    return gulp.src('src/**/*.php')
+        .pipe(sort())
+        .pipe(wpPot( {
+            domain: 'boxzilla',
+            destFile:'boxzilla.pot'
+        } ))
+        .pipe(gulp.dest('languages'));
 });
