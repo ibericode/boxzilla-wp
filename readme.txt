@@ -4,7 +4,7 @@ Donate link: https://boxzillaplugin.com/#utm_source=wp-plugin-repo&utm_medium=bo
 Tags: scroll triggered box, cta, social, pop-up, newsletter, call to action, mailchimp, contact form 7, social media, mc4wp, ibericode
 Requires at least: 3.8
 Tested up to: 4.5.2
-Stable tag: 3.0.1
+Stable tag: 3.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -147,6 +147,21 @@ Have a look at the [frequently asked questions](https://wordpress.org/plugins/bo
 4. Configuring and customizing your boxes is easy.
 
 == Changelog ==
+
+
+#### 3.0.2 - June 21, 2016
+
+**Fixes**
+
+- Box condition "is post" was not working with an empty value.
+
+**Improvements**
+
+- Prevent PHP notice when saving box without changing box rules.
+
+**Additions**
+
+- Added French translation files, thanks to Benoit Mercusot.
 
 
 #### 3.0.1 - May 23, 2016
