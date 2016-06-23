@@ -237,15 +237,8 @@ class BoxLoader {
 	public function load_assets() {
 		$pre_suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
-		// stylesheets
-		wp_register_style( 'boxzilla', $this->plugin->url( '/assets/css/styles' . $pre_suffix . '.css' ), array(), $this->plugin->version() );
-
-		// scripts
-		wp_register_script( 'boxzilla',$this->plugin->url( '/assets/js/script' . $pre_suffix . '.js' ), array( 'jquery' ), $this->plugin->version(), true );
-
-		// Finally, enqueue style.
-		wp_enqueue_style( 'boxzilla' );
-		wp_enqueue_script( 'boxzilla' );
+		wp_enqueue_style( 'boxzilla', $this->plugin->url( '/assets/css/styles' . $pre_suffix . '.css' ), array(), $this->plugin->version() );
+		wp_enqueue_script( 'boxzilla', $this->plugin->url( '/assets/js/script' . $pre_suffix . '.js' ), array( 'jquery' ), $this->plugin->version(), true );
 
 		$this->pass_box_options();
 
