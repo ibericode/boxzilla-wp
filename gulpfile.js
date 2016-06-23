@@ -37,7 +37,7 @@ gulp.task('browserify', function () {
             return browserify({entries: [entry]})
                 .bundle()
                 .pipe(source(filename))
-                .pipe(wrap('(function () { var require = undefined; var define = undefined; <%=contents%> })();'))
+                .pipe(wrap('(function () { var require = undefined; var module = undefined; var exports = undefined; var define = undefined; <%=contents%>; })();'))
 
                 // create .js file
                 .pipe(rename({ extname: '.js' }))
