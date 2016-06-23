@@ -17,7 +17,7 @@ for( var i=0; i < options.boxes.length; i++ ) {
     // get opts
     var boxOpts = options.boxes[i];
     boxOpts.testMode = isLoggedIn && options.testMode;
-
+    
     // create box
     var box = Boxzilla.create( boxOpts.id, boxOpts);
     
