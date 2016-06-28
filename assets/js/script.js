@@ -21,7 +21,7 @@ for( var i=0; i < options.boxes.length; i++ ) {
     
     // create box
     var box = Boxzilla.create( boxOpts.id, boxOpts);
-    
+
     // add custom css to box
     css(box.element, boxOpts.css);
 }
@@ -154,6 +154,7 @@ Box.prototype.dom = function() {
     wrapper.className = 'boxzilla-container boxzilla-' + this.config.position + '-container';
 
     var box = document.createElement('div');
+    box.setAttribute('id', 'boxzilla-' + this.id);
     box.className = 'boxzilla boxzilla-' + this.id + ' boxzilla-' + this.config.position;
     box.style.display = 'none';
     wrapper.appendChild(box);

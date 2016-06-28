@@ -20,7 +20,7 @@ for( var i=0; i < options.boxes.length; i++ ) {
     
     // create box
     var box = Boxzilla.create( boxOpts.id, boxOpts);
-    
+        
     // add custom css to box
     css(box.element, boxOpts.css);
 }
