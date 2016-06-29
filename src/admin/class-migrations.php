@@ -51,6 +51,11 @@ class Migrations {
         $files = glob( rtrim( $this->migrations_dir, '/' ) . '/*.php' );
         $migrations =  array();
 
+        // return empty array when glob returns non-array value.
+        if( ! is_array( $files ) ) {
+            return $migrations;
+        }
+
         foreach( $files as $file ) {
             $migration = basename( $file );
             $parts = explode( '-', $migration );
