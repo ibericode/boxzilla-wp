@@ -18,10 +18,15 @@ for( var i=0; i < options.boxes.length; i++ ) {
     // get opts
     var boxOpts = options.boxes[i];
     boxOpts.testMode = isLoggedIn && options.testMode;
-    
+
+    // fix http:// links in box content....
+    if( window.location.origin.substring(0, 5) === "https" ) {
+        boxOpts.content = boxOpts.content.replace(window.location.origin.replace("https", "http"), window.location.origin);
+    }
+
     // create box
     var box = Boxzilla.create( boxOpts.id, boxOpts);
-
+        
     // add custom css to box
     css(box.element, boxOpts.css);
 }
