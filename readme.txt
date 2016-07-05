@@ -4,7 +4,7 @@ Donate link: https://boxzillaplugin.com/#utm_source=wp-plugin-repo&utm_medium=bo
 Tags: scroll triggered box, cta, social, pop-up, newsletter, call to action, mailchimp, contact form 7, social media, mc4wp, ibericode
 Requires at least: 3.8
 Tested up to: 4.5.2
-Stable tag: 3.0.2
+Stable tag: 3.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -147,6 +147,19 @@ Have a look at the [frequently asked questions](https://wordpress.org/plugins/bo
 4. Configuring and customizing your boxes is easy.
 
 == Changelog ==
+
+
+#### 3.0.3 - July 5, 2016
+
+**Improvements**
+
+- Add `id` attribute to box element.
+- Automatically fix links in box content that use HTTP when HTTPS is needed.
+- Restore global jQuery object after running user scripts, to failsafe errors.
+
+**Additions**
+
+- When using [MailChimp for WordPress](https://wordpress.org/plugins/mailchimp-for-wp/) without AJAX, the box will now automatically re-open after reloading the page.
 
 
 #### 3.0.2 - June 21, 2016
