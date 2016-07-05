@@ -1,6 +1,19 @@
 Changelog
 ==========
 
+#### 3.0.3 - July 5, 2016
+
+**Improvements**
+
+- Add `id` attribute to box element.
+- Automatically fix links in box content that use HTTP when HTTPS is needed.
+- Restore global jQuery object after running user scripts, to failsafe errors.
+
+**Additions**
+
+- When using [MailChimp for WordPress](https://wordpress.org/plugins/mailchimp-for-wp/) without AJAX, the box will now automatically re-open after reloading the page.
+
+
 #### 3.0.2 - June 21, 2016
 
 **Fixes**
