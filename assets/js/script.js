@@ -31,6 +31,7 @@ for( var i=0; i < options.boxes.length; i++ ) {
     css(box.element, boxOpts.css);
 }
 
+// helper function for setting CSS styles
 function css(element, styles) {
     if( styles.background_color ) {
         element.style.background = styles.background_color;
@@ -56,6 +57,26 @@ function css(element, styles) {
         element.style.maxWidth = parseInt(styles.width) + "px";
     }
 }
+
+/**
+ * If a MailChimp for WordPress form was submitted, open the box containing that form (if any)
+ *
+ * TODO: Just set location hash from MailChimp for WP?
+ */
+window.addEventListener('load', function() {
+    if( typeof(window.mc4wp_forms_config) === "object" && window.mc4wp_forms_config.submitted_form ) {
+        var selector = '#' + window.mc4wp_forms_config.submitted_form.element_id;
+        var boxes = Boxzilla.boxes;
+        for( var boxId in boxes ) {
+            if(!boxes.hasOwnProperty(boxId)) { continue; }
+            var box = boxes[boxId];
+            if( box.element.querySelector(selector)) {
+                box.show();
+                return;
+            }
+        }
+    }
+});
 
 window.Boxzilla = Boxzilla;
 },{"boxzilla":3}],2:[function(require,module,exports){
