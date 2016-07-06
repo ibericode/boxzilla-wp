@@ -305,10 +305,18 @@ Box.prototype.events = function() {
         Boxzilla.trigger('box.interactions.form', [ box, e.target ]);
     }, false);
 
-    // attach event to all links referring #boxzilla-{box_id}
+    // listen to all "click" events
     document.body.addEventListener('click', function(e) {
-        var href = "#boxzilla-" + box.id;
-        if(e.target.tagName === 'A' && e.target.getAttribute("href").substring(-(href.length)) === href) {
+
+        // only act on links
+        if( e.target.tagName !== 'A' ) {
+            return;
+        }
+
+        // check if link href ends with "#boxzilla-{box.id}
+        var needle = "#boxzilla-" + box.id;
+        var haystack = e.target.getAttribute("href");
+        if( haystack && haystack.substring(-(needle.length)) === needle) {
             box.toggle();
             e.preventDefault();
         }
