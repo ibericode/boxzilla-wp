@@ -15,13 +15,20 @@ var sourcemaps = require('gulp-sourcemaps');
 var wrap = require('gulp-wrap');
 var wpPot = require('gulp-wp-pot');
 var sort = require('gulp-sort');
+var sass = require('gulp-sass');
 
 gulp.task('default', ['sass', 'browserify', 'uglify', 'languages' ]);
 
 gulp.task('sass', function () {
-    var files = [ './assets/css/*.css', '!./assets/css/*.min.css' ];
+    var files = './assets/scss/[^_]*.scss';
 
     return gulp.src(files)
+        // create .css file
+        .pipe(sass())
+        .pipe(rename({ extname: '.css' }))
+        .pipe(gulp.dest('./assets/css'))
+
+        // create .min.css
         .pipe(cssmin())
         .pipe(rename({extname: '.min.css'}))
         .pipe(gulp.dest("./assets/css"));
