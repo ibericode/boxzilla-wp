@@ -81,7 +81,7 @@ $rule_options = apply_filters( 'boxzilla_rules_options', $rule_options );
 	<tr valign="top">
 		<th><label for="boxzilla_position"><?php _e( 'Box Position', 'boxzilla' ); ?></label></th>
 		<td>
-			<table style="border: 1px solid #EEE;">
+			<table class="window-positions">
 				<tr>
 					<td>
 						<?php

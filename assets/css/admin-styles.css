@@ -41,6 +41,12 @@
 .post-type-boxzilla-box .form-table {
   table-layout: fixed; }
 
+.post-type-boxzilla-box .window-positions {
+  border: 1px solid #EEE; }
+  .post-type-boxzilla-box .window-positions td {
+    padding: 3px;
+    margin-bottom: 0; }
+
 .post-type-boxzilla-box .wp-picker-container {
   white-space: nowrap; }
 

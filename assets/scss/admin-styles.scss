@@ -53,6 +53,15 @@
 		table-layout:fixed;
 	}
 
+	.window-positions {
+		border: 1px solid #EEE;
+
+		td {
+			padding: 3px;
+			margin-bottom: 0;
+		}
+	}
+
 	.wp-picker-container{
 		white-space: nowrap;
 	}
