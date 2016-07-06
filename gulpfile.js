@@ -36,6 +36,7 @@ gulp.task('browserify', function () {
             var filename = entry.split('/').pop();
             return browserify({entries: [entry]})
                 .bundle()
+                .on('error', console.log)
                 .pipe(source(filename))
                 .pipe(wrap('(function () { var require = undefined; var module = undefined; var exports = undefined; var define = undefined; <%=contents%>; })();'))
 
@@ -53,7 +54,7 @@ gulp.task('browserify', function () {
 gulp.task('uglify', ['browserify'], function() {
     return gulp.src(['./assets/js/**/*.js','!./assets/js/**/*.min.js'])
         .pipe(sourcemaps.init({loadMaps: true}))
-        .pipe(streamify(uglify()))
+        .pipe(streamify(uglify().on('error', console.log)))
         .pipe(rename({extname: '.min.js'}))
         .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest('./assets/js'));
