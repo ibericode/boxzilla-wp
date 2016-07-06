@@ -1,7 +1,8 @@
 html,
 body {
   min-height: 100%;
-  height: auto; }
+  height: auto;
+}
 
 .boxzilla-center-container {
   position: fixed;
@@ -11,12 +12,14 @@ body {
   height: 0;
   text-align: center;
   z-index: 999999;
-  line-height: 0; }
+  line-height: 0;
+}
 
-.boxzilla-center-container .boxzilla {
+.boxzilla-center-container .boxzilla{
   display: inline-block;
   text-align: left;
-  position: relative; }
+  position: relative;
+}
 
 .boxzilla {
   position: fixed;
@@ -26,44 +29,43 @@ body {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   background: white;
+
   /* reset line-height because of container line-height hack */
   line-height: normal;
-  padding: 25px; }
-  .boxzilla.boxzilla-top-left {
-    top: 0;
-    left: 0;
-    bottom: auto;
-    right: auto; }
-  .boxzilla.boxzilla-top-right {
-    top: 0;
-    right: 0;
-    bottom: auto;
-    left: auto; }
-  .boxzilla.boxzilla-bottom-left {
-    bottom: 0;
-    left: 0;
-    top: auto;
-    right: auto; }
-  .boxzilla.boxzilla-bottom-right {
-    bottom: 0;
-    right: 0;
-    top: auto;
-    left: auto; }
+  padding: 25px;
+
+  &.boxzilla-top-left{
+    top: 0; left: 0; bottom: auto; right: auto;
+  }
+
+  &.boxzilla-top-right{
+    top: 0; right: 0; bottom: auto; left: auto;
+  }
+
+  &.boxzilla-bottom-left{
+    bottom: 0; left: 0; top: auto; right: auto;
+  }
+
+  &.boxzilla-bottom-right{
+    bottom: 0; right: 0; top: auto; left: auto;
+  }
+}
 
 /* remove top & bottom margin from last child element */
 .boxzilla-content > *:first-child {
   margin-top: 0;
-  padding-top: 0; }
-
+  padding-top: 0;
+}
 .boxzilla-content > *:last-child {
   margin-bottom: 0;
-  padding-bottom: 0; }
+  padding-bottom: 0;
+}
 
 .boxzilla-close-icon {
-  position: absolute;
-  right: 0;
+  position:absolute;
+  right :0;
   top: 0;
-  text-align: center;
+  text-align:center;
   padding: 6px;
   cursor: pointer;
   background: transparent;
@@ -74,44 +76,65 @@ body {
   line-height: 20px;
   color: #000;
   opacity: .5;
-  filter: alpha(opacity=50); }
-  .boxzilla-close-icon:hover, .boxzilla-close-icon:focus {
+  filter: alpha(opacity=50);
+
+  &:hover,
+  &:focus {
     color: #000;
     text-decoration: none;
     cursor: pointer;
     opacity: .8;
-    filter: alpha(opacity=80); }
+    filter: alpha(opacity=80);
+  }
+}
 
 #boxzilla-overlay {
   position: fixed;
-  background: rgba(0, 0, 0, 0.65);
+  background: rgba(0,0,0,0.65);
   width: 100%;
   height: 100%;
   z-index: 99999;
   top: 0;
-  left: 0; }
+  left: 0;
+}
 
 .boxzilla-animated {
   -webkit-animation-duration: 1s;
   animation-duration: 1s;
   -webkit-animation-fill-mode: both;
-  animation-fill-mode: both; }
+  animation-fill-mode: both;
+}
 
 @keyframes wobble {
   from {
-    transform: none; }
+    transform: none;
+  }
+
   15% {
-    transform: translate3d(-25%, 0, 0) rotate3d(0, 0, 1, -5deg); }
+    transform: translate3d(-25%, 0, 0) rotate3d(0, 0, 1, -5deg);
+  }
+
   30% {
-    transform: translate3d(20%, 0, 0) rotate3d(0, 0, 1, 3deg); }
+    transform: translate3d(20%, 0, 0) rotate3d(0, 0, 1, 3deg);
+  }
+
   45% {
-    transform: translate3d(-15%, 0, 0) rotate3d(0, 0, 1, -3deg); }
+    transform: translate3d(-15%, 0, 0) rotate3d(0, 0, 1, -3deg);
+  }
+
   60% {
-    transform: translate3d(10%, 0, 0) rotate3d(0, 0, 1, 2deg); }
+    transform: translate3d(10%, 0, 0) rotate3d(0, 0, 1, 2deg);
+  }
+
   75% {
-    transform: translate3d(-5%, 0, 0) rotate3d(0, 0, 1, -1deg); }
+    transform: translate3d(-5%, 0, 0) rotate3d(0, 0, 1, -1deg);
+  }
+
   to {
-    transform: none; } }
+    transform: none;
+  }
+}
 
 .boxzilla-animation-wobble {
-  animation-name: wobble; }
+  animation-name: wobble;
+}

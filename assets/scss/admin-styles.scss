@@ -1,0 +1,154 @@
+/* first row can't be deleted */
+.boxzilla-rule-row-0 .boxzilla-close{
+	visibility: hidden;
+}
+
+.column-box_id {
+	width: 80px;
+}
+
+.boxzilla-sm { 
+	width:150px;
+}
+
+.boxzilla-xsm {
+	width: 15px;
+}
+
+.boxzilla-title{ 
+	margin-top:2em !important;
+}
+
+.boxzilla-label{
+	display:block;
+	font-weight: bold;
+	margin-bottom:6px;
+}
+
+.boxzilla-close{ 
+	padding: 0;
+	cursor: pointer;
+	background: transparent;
+	border: 0;
+	-webkit-appearance: none;
+	font-size: 21px;
+	font-weight: bold;
+	line-height: 26px;
+	text-shadow: 0 1px 0 #fff;
+	opacity: .3;
+	filter: alpha(opacity=30);
+}
+
+.boxzilla-close:hover, .boxzilla-close:focus {
+	color: #000;
+	text-decoration: none;
+	cursor: pointer;
+	opacity: .6;
+	filter: alpha(opacity=60);
+}
+
+.post-type-boxzilla-box .form-table{
+	table-layout:fixed;
+}
+
+.post-type-boxzilla-box .wp-picker-container{
+	white-space: nowrap;
+}
+
+.post-type-boxzilla-box .wp-picker-clear,
+.post-type-boxzilla-box .wp-picker-holder,
+.post-type-boxzilla-box .wp-picker-input-wrap {
+	background:white;
+	z-index: 999 !important;
+	position: absolute !important;
+}
+
+#boxzilla-admin .status {
+	display: inline-block;
+	padding: 3px 6px;
+	color: white;
+	text-transform: uppercase;
+	font-weight: bold;
+}
+
+#boxzilla-admin .status.positive {
+	background-color: limeGreen;
+}
+
+#boxzilla-admin .status.negative {
+	background: #c3c3c3;
+}
+
+/* Radio Switches */
+.radio-label {
+	font-weight: normal;
+}
+
+.radio-label > input {
+	margin-top: 0 !important;
+}
+
+/** Grid */
+.boxzilla-row{
+	margin: 0 -20px;
+}
+
+.boxzilla-col-one-third,
+.boxzilla-col-two-third {
+	float: left;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	padding: 0 20px;
+}
+
+.boxzilla-col-two-third {
+	width: 66.66%;
+}
+
+.boxzilla-col-one-third{
+	width: 33.33%;
+}
+
+
+/* admin sidebar */
+.boxzilla-sidebar{
+	margin-top: 10px;
+}
+
+.boxzilla-box {
+	background: white;
+	padding: 20px;
+	margin-bottom: 20px;
+	border: 1px solid #ccc;
+}
+
+.boxzilla-box h3,
+.boxzilla-box:first-child {
+	margin-top: 0;
+}
+
+.boxzilla-box:last-child {
+	margin-bottom: 0;
+}
+
+.boxzilla-sidebar form label {
+	display: block;
+	font-weight: bold;
+	margin-bottom: 6px;
+}
+
+@media( max-width: 920px ) {
+	.boxzilla-row {
+		margin: 0;
+	}
+	.boxzilla-col-one-third,
+	.boxzilla-col-two-third {
+		float: none;
+		padding: 0;
+		width: auto;
+	}
+
+	.boxzilla-sidebar {
+		margin-top: 40px;
+	}
+}
