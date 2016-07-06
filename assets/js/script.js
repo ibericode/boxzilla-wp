@@ -427,6 +427,7 @@ Box.prototype.toggle = function(show) {
     // set new visibility status
     this.visible = show;
 
+    // calculate new styling rules
     this.setCustomBoxStyling();
 
     // trigger event
@@ -435,10 +436,12 @@ Box.prototype.toggle = function(show) {
     // show or hide box using selected animation
     if( this.config.position === 'center' ) {
         Animator.toggle(this.overlay, "fade");
-        this.element.className += " boxzilla-animated boxzilla-animation-wobble";
     }
 
     Animator.toggle(this.element, this.config.animation);
+
+    this.element.className = this.element.className.replace('boxzilla-visible', '').replace('boxzilla-hidden', '').trim();
+    this.element.className = this.element.className + " boxzilla-" + ( this.visible ? "visible" : "hidden" );
 
     // focus on first input field in box
     var firstInput = this.element.querySelector('input, textarea');
