@@ -24,14 +24,6 @@ $rule_options = array(
  */
 $rule_options = apply_filters( 'boxzilla_rules_options', $rule_options );
 
-$box_positions = array(
-	'bottom-left' => __( 'Bottom Left', 'boxzilla' ),
-	'bottom-right' => __( 'Bottom Right', 'boxzilla' ),
-	'center' => __( 'Center', 'boxzilla' ),
-	'top-left' => __( 'Top Left', 'boxzilla' ),
-	'top-right' => __( 'Top Right', 'boxzilla' ),
-);
-
 ?>
 <table class="form-table">
 	<?php
@@ -89,11 +81,48 @@ $box_positions = array(
 	<tr valign="top">
 		<th><label for="boxzilla_position"><?php _e( 'Box Position', 'boxzilla' ); ?></label></th>
 		<td>
-			<select id="boxzilla_position" name="boxzilla_box[css][position]">
-				<?php foreach( $box_positions as $value => $label ) {
-					printf( '<option value="%s" %s>%s</option>', $value, selected( $opts['css']['position'], $value ), $label );
-				} ?>
-			</select>
+			<table style="border: 1px solid #EEE;">
+				<tr>
+					<td>
+						<?php
+						$value = 'top-left'; $label = __( 'Top Left', 'boxzilla' );
+						printf( '<label><input type="radio" name="boxzilla_box[css][position]" value="%s" %s> &nbsp; %s</label>', $value, checked( $opts['css']['position'], $value, false ), $label );
+						?>
+					</td>
+					<td></td>
+					<td>
+						<?php
+						$value = 'top-right'; $label = __( 'Top Right', 'boxzilla' );
+						printf( '<label><input type="radio" name="boxzilla_box[css][position]" value="%s" %s> &nbsp; %s</label>', $value, checked( $opts['css']['position'], $value, false ), $label );
+						?>
+					</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>
+						<?php
+						$value = 'center'; $label = __( 'Center', 'boxzilla' );
+						printf( '<label><input type="radio" name="boxzilla_box[css][position]" value="%s" %s> &nbsp; %s</label>', $value, checked( $opts['css']['position'], $value, false ), $label );
+						?>
+					</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>
+						<?php
+						$value = 'bottom-left'; $label = __( 'Bottom Left', 'boxzilla' );
+						printf( '<label><input type="radio" name="boxzilla_box[css][position]" value="%s" %s> &nbsp; %s</label>', $value, checked( $opts['css']['position'], $value, false ), $label );
+						?>
+					</td>
+					<td></td>
+					<td>
+						<?php
+						$value = 'bottom-right'; $label = __( 'Bottom Right', 'boxzilla' );
+						printf( '<label><input type="radio" name="boxzilla_box[css][position]" value="%s" %s> &nbsp; %s</label>', $value, checked( $opts['css']['position'], $value, false ), $label );
+						?>
+					</td>
+				</tr>
+			</table>
 		</td>
 	</tr>
 	<tr valign="top">
