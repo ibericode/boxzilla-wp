@@ -79,11 +79,153 @@ window.addEventListener('load', function() {
 });
 
 window.Boxzilla = Boxzilla;
-},{"boxzilla":3}],2:[function(require,module,exports){
+},{"boxzilla":4}],2:[function(require,module,exports){
+var duration = 320;
+
+function css(element, styles) {
+    for(var property in styles) {
+        element.style[property] = styles[property];
+    }
+}
+
+function initObjectProperties(properties, value) {
+    var newObject = {};
+    for(var i=0; i<properties.length; i++) {
+        newObject[properties[i]] = value;
+    }
+    return newObject;
+}
+
+function copyObjectProperties(properties, object) {
+    var newObject = {}
+    for(var i=0; i<properties.length; i++) {
+        newObject[properties[i]] = object[properties[i]];
+    }
+    return newObject;
+}
+
+/**
+ * Checks if the given element is currently being animated.
+ *
+ * @param element
+ * @returns {boolean}
+ */
+function animated(element) {
+    return element.getAttribute('data-animated') == 1;
+}
+
+/**
+ * Toggles the element using the given animation.
+ *
+ * @param element
+ * @param animation Either "fade" or "slide"
+ */
+function toggle(element, animation) {
+    var visible = element.style.display != 'none' || element.offsetLeft > 0;
+
+    // create clone for reference
+    var clone = element.cloneNode(true);
+    element.setAttribute('data-animated', 1);
+
+    // toggle element visiblity right away if we're making something visible
+    if( ! visible ) {
+        element.style.display = '';
+    }
+
+    // animate properties
+    if( animation === 'slide' ) {
+        var hiddenStyles = initObjectProperties(["height", "borderTopWidth", "borderBottomWidth", "paddingTop", "paddingBottom"], 0);
+        var visibleStyles = {};
+
+        if( ! visible ) {
+            ccss = window.getComputedStyle(element);
+            visibleStyles = copyObjectProperties(["height", "borderTopWidth", "borderBottomWidth", "paddingTop", "paddingBottom"], ccss);
+            css(element, hiddenStyles);
+        }
+
+        // don't show scrollbar during animation
+        element.style.overflowY = 'hidden';
+        animate(element, visible ? hiddenStyles : visibleStyles);
+    } else {
+        var hiddenStyles = { opacity: 0 }
+        var visibleStyles = { opacity: 1 }
+        if( ! visible ) {
+            css(element, hiddenStyles);
+        }
+
+        animate(element, visible ? hiddenStyles : visibleStyles);
+    }
+
+    // clean-up after animation
+    window.setTimeout(function() {
+        element.removeAttribute('data-animated');
+        element.setAttribute('style', clone.getAttribute('style'));
+        element.style.display = visible ? 'none' : '';
+    }, duration * 1.2);
+}
+
+function animate(element, targetStyles) {
+    var start = +new Date();
+    var last = +new Date();
+    var initalStyles = window.getComputedStyle(element);
+    var currentStyles = {};
+    var propSteps = {};
+
+    for(var property in targetStyles) {
+        // make sure we have an object filled with floats
+        targetStyles[property] = parseFloat(targetStyles[property]);
+
+        // calculate step size & current value
+        var to = targetStyles[property];
+        var current = parseFloat(initalStyles[property]);
+        propSteps[property] = ( to - current ) / duration; // points per second
+        currentStyles[property] = current;
+    }
+
+    var tick = function() {
+        var now = +new Date();
+        var timeSinceLastTick = now - last;
+        var done = true;
+
+        for(var property in targetStyles ) {
+            var step = propSteps[property];
+            var to = targetStyles[property];
+            var current = currentStyles[property];
+            var increment =  step * timeSinceLastTick;
+            var newValue = current + increment;
+
+            if( step > 0 && newValue >= to || step < 0 && newValue <= to ) {
+                newValue = to;
+            } else {
+                done = false;
+            }
+
+            currentStyles[property] = newValue;
+
+            var suffix = property !== "opacity" ? "px" : "";
+            element.style[property] = newValue + suffix;
+        }
+
+        last = +new Date();
+
+        // keep going until we're done for all props
+        if(!done) {
+            (window.requestAnimationFrame && requestAnimationFrame(tick)) || setTimeout(tick, 32);
+        }
+    };
+
+    tick();
+}
+
+
+module.exports = {
+    'toggle': toggle,
+    'animated': animated
+}
+},{}],3:[function(require,module,exports){
 'use strict';
 
-var $ = window.jQuery,
-    defaults = {
+var defaults = {
         'animation': 'fade',
         'rehide': false,
         'content': '',
@@ -95,7 +237,8 @@ var $ = window.jQuery,
         'trigger': false,
         'closable': true
     },
-    Boxzilla;
+    Boxzilla,
+    Animator = require('./Animator.js');
 
 /**
  * Merge 2 objects, values of the latter overwriting the former.
@@ -139,7 +282,6 @@ var Box = function( id, config ) {
 
     // create dom element for this box
     this.element = this.dom();
-    this.$element = $(this.element);
 
     // further initialise the box
     this.events();
@@ -150,26 +292,31 @@ Box.prototype.events = function() {
     var box = this;
 
     // attach event to "close" icon inside box
-    this.$element.find('.boxzilla-close-icon').click(box.dismiss.bind(this));
+    this.element.querySelector('.boxzilla-close-icon').addEventListener('click', box.dismiss.bind(this));
 
-    this.$element.on('click', 'a', function(e) {
-        Boxzilla.trigger('box.interactions.link', [ box, e.target ] );
-    });
+    this.element.addEventListener('click', function(e) {
+        if( e.target.tagName === 'A' ) {
+            Boxzilla.trigger('box.interactions.link', [ box, e.target ] );
+        }
+    }, false);
 
-    this.$element.on('submit', 'form', function(e) {
+    this.element.addEventListener('submit', function(e) {
         box.setCookie();
         Boxzilla.trigger('box.interactions.form', [ box, e.target ]);
-    });
+    }, false);
 
     // attach event to all links referring #boxzilla-{box_id}
-    $(document.body).on('click', 'a[href="#boxzilla-' + box.id + '"]', function() {
-        box.toggle();
-        return false;
-    });
+    document.body.addEventListener('click', function(e) {
+        var href = "#boxzilla-" + box.id;
+        if(e.target.tagName === 'A' && e.target.getAttribute("href").substring(-(href.length)) === href) {
+            box.toggle();
+            e.preventDefault();
+        }
+    }, false);
 
     // maybe show box right away
     if( this.fits() && this.locationHashRefersBox() ) {
-        $(window).load(this.show.bind(this));
+        window.addEventListener('load', this.show.bind(this));
     }
 
 };
@@ -200,10 +347,7 @@ Box.prototype.dom = function() {
         }
         document.body.appendChild(script);
     }
-
-    // for safety measure, restore jQuery
-    window.jQuery = $;
-
+    
     if( this.config.closable && this.config.icon ) {
         var icon = document.createElement('span');
         icon.className = "boxzilla-close-icon";
@@ -220,12 +364,14 @@ Box.prototype.dom = function() {
 Box.prototype.setCustomBoxStyling = function() {
 
     // reset element to its initial state
+    var origDisplay = this.element.style.display;
+    this.element.style.display = '';
     this.element.style.overflowY = 'auto';
     this.element.style.maxHeight = 'none';
 
     // get new dimensions
     var windowHeight = window.innerHeight;
-    var boxHeight = this.$element.outerHeight();
+    var boxHeight = this.element.clientHeight;
 
     // add scrollbar to box and limit height
     if( boxHeight > windowHeight ) {
@@ -240,6 +386,7 @@ Box.prototype.setCustomBoxStyling = function() {
         this.element.style.marginTop = newTopMargin + "px";
     }
 
+    this.element.style.display = origDisplay;
 };
 
 // toggle visibility of the box
@@ -250,13 +397,13 @@ Box.prototype.toggle = function(show) {
         show = ! this.visible;
     }
 
-    // do nothing if element is being animated
-    if( this.$element.is(':animated') ) {
+    // is box already at desired visibility?
+    if( show === this.visible ) {
         return false;
     }
 
-    // is box already at desired visibility?
-    if( show === this.visible ) {
+    // is box being animated?
+    if( Animator.animated(this.element) ) {
         return false;
     }
 
@@ -268,26 +415,23 @@ Box.prototype.toggle = function(show) {
     // set new visibility status
     this.visible = show;
 
-    // calculate custom styling for which CSS is "too stupid"
     this.setCustomBoxStyling();
-
-    // fadein / fadeout the overlay if position is "center"
-    if( this.config.position === 'center' ) {
-        $(this.overlay).fadeToggle('slow');
-    }
 
     // trigger event
     Boxzilla.trigger('box.' + ( show ? 'show' : 'hide' ), [ this ] );
 
     // show or hide box using selected animation
-    if( this.config.animation === 'fade' ) {
-        this.$element.fadeToggle( 'slow' );
-    } else {
-        this.$element.slideToggle( 'slow' );
+    if( this.config.position === 'center' ) {
+        Animator.toggle(this.overlay, "fade");
     }
 
-    // // focus on first input field in box
-    // this.$element.find('input').first().focus();
+    Animator.toggle(this.element, this.config.animation);
+
+    // focus on first input field in box
+    var firstInput = this.element.querySelector('input, textarea');
+    if(firstInput) {
+        firstInput.focus();
+    }
 
     return true;
 };
@@ -307,10 +451,13 @@ Box.prototype.calculateTriggerHeight = function() {
     var triggerHeight = 0;
 
     if( this.config.trigger.method === 'element' ) {
-        var $triggerElement = $(this.config.trigger.value).first();
-        triggerHeight = ( $triggerElement.length > 0 ) ? $triggerElement.offset().top : 0;
+        var triggerElement = document.body.querySelector(this.config.trigger.value);
+        if( triggerElement ) {
+            var offset = triggerElement.getBoundingClientRect();
+            triggerHeight = offset.top;
+        }
     } else if( this.config.trigger.method === 'percentage' ) {
-        triggerHeight = ( this.config.trigger.value / 100 * $(document).height() );
+        triggerHeight = ( this.config.trigger.value / 100 * document.body.clientHeight );
     }
 
     return triggerHeight;
@@ -413,22 +560,17 @@ module.exports = function(_Boxzilla) {
     Boxzilla = _Boxzilla;
     return Box;
 };
-},{}],3:[function(require,module,exports){
+},{"./Animator.js":2}],4:[function(require,module,exports){
 'use strict';
 
-var $ = window.jQuery,
-    EventEmitter = require('wolfy87-eventemitter'),
+var EventEmitter = require('wolfy87-eventemitter'),
     Boxzilla = Object.create(EventEmitter.prototype),
     Box = require('./Box.js')(Boxzilla),
     Timer = require('./Timer.js'),
     boxes = {},
-    windowHeight = window.innerHeight,
-    overlay = document.createElement('div'),
-    exitIntentDelayTimer,
-    exitIntentTriggered,
-    siteTimer = new Timer(sessionStorage.getItem('boxzilla_timer') || 0),
-    pageTimer = new Timer(0),
-    pageViews = sessionStorage.getItem('boxzilla_pageviews') || 0;
+    windowHeight, overlay,
+    exitIntentDelayTimer, exitIntentTriggered,
+    siteTimer, pageTimer, pageViews;
 
 function each( obj, callback ) {
     for( var key in obj ) {
@@ -586,30 +728,35 @@ var timers = {
 
 // initialise & add event listeners
 Boxzilla.init = function() {
-    var html = document.documentElement;
+    siteTimer = new Timer(sessionStorage.getItem('boxzilla_timer') || 0);
+    pageTimer = new Timer(0);
+    pageViews = sessionStorage.getItem('boxzilla_pageviews') || 0;
+    windowHeight = window.innerHeight;
 
     // add overlay element to dom
+    overlay = document.createElement('div');
+    overlay.style.display = 'none';
     overlay.id = 'boxzilla-overlay';
     document.body.appendChild(overlay);
 
     // event binds
-    $(window).on('scroll', throttle(checkHeightCriteria));
-    $(window).on('resize', throttle(recalculateHeights));
-    $(window).on('load', recalculateHeights );
-    $(html).on('mouseleave', onMouseLeave);
-    $(html).on('mouseenter', onMouseEnter);
-    $(html).on('keyup', onKeyUp);
-    $(overlay).click(onOverlayClick);
+    window.addEventListener('scroll', throttle(checkHeightCriteria));
+    window.addEventListener('resize', throttle(recalculateHeights));
+    window.addEventListener('load', recalculateHeights );
+    window.addEventListener('mouseleave', onMouseLeave);
+    window.addEventListener('mouseenter', onMouseEnter);
+    window.addEventListener('keyup', onKeyUp);
+    overlay.addEventListener('click', onOverlayClick);
     window.setInterval(checkTimeCriteria, 1000);
     window.setTimeout(checkPageViewsCriteria, 1000 );
 
     timers.start();
-    $(window).on('focus', timers.start);
-    $(window).on('beforeunload', function() {
+    window.addEventListener('focus', timers.start);
+    window.addEventListener('beforeunload', function() {
         timers.stop();
         sessionStorage.setItem('boxzilla_pageviews', ++pageViews);
     });
-    $(window).on('blur', timers.stop);
+    window.addEventListener('blur', timers.stop);
 
     Boxzilla.trigger('ready');
 };
@@ -666,7 +813,7 @@ window.Boxzilla = Boxzilla;
 if ( typeof module !== 'undefined' && module.exports ) {
     module.exports = Boxzilla;
 }
-},{"./Box.js":2,"./Timer.js":4,"wolfy87-eventemitter":5}],4:[function(require,module,exports){
+},{"./Box.js":3,"./Timer.js":5,"wolfy87-eventemitter":6}],5:[function(require,module,exports){
 'use strict';
 
 var Timer = function(start) {
@@ -690,7 +837,7 @@ Timer.prototype.stop = function() {
 };
 
 module.exports = Timer;
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 /*!
  * EventEmitter v4.2.11 - git.io/ee
  * Unlicense - http://unlicense.org/
