@@ -111,7 +111,7 @@ function copyObjectProperties(properties, object) {
  * @returns {boolean}
  */
 function animated(element) {
-    return element.getAttribute('data-animated') == 1;
+    return !! element.getAttribute('data-animated');
 }
 
 /**
@@ -121,53 +121,56 @@ function animated(element) {
  * @param animation Either "fade" or "slide"
  */
 function toggle(element, animation) {
-    var visible = element.style.display != 'none' || element.offsetLeft > 0;
+    var nowVisible = element.style.display != 'none' || element.offsetLeft > 0;
 
     // create clone for reference
     var clone = element.cloneNode(true);
-    element.setAttribute('data-animated', 1);
+
+    // store attribute so everyone knows we're animating this element
+    element.setAttribute('data-animated', "true");
 
     // toggle element visiblity right away if we're making something visible
-    if( ! visible ) {
+    if( ! nowVisible ) {
         element.style.display = '';
     }
 
+    var hiddenStyles, visibleStyles;
+
     // animate properties
     if( animation === 'slide' ) {
-        var hiddenStyles = initObjectProperties(["height", "borderTopWidth", "borderBottomWidth", "paddingTop", "paddingBottom"], 0);
-        var visibleStyles = {};
+        hiddenStyles = initObjectProperties(["height", "borderTopWidth", "borderBottomWidth", "paddingTop", "paddingBottom"], 0);
+        visibleStyles = {};
 
-        if( ! visible ) {
-            ccss = window.getComputedStyle(element);
-            visibleStyles = copyObjectProperties(["height", "borderTopWidth", "borderBottomWidth", "paddingTop", "paddingBottom"], ccss);
+        if( ! nowVisible ) {
+            var computedStyles = window.getComputedStyle(element);
+            visibleStyles = copyObjectProperties(["height", "borderTopWidth", "borderBottomWidth", "paddingTop", "paddingBottom"], computedStyles);
             css(element, hiddenStyles);
         }
 
-        // don't show scrollbar during animation
+        // don't show a scrollbar during animation
         element.style.overflowY = 'hidden';
-        animate(element, visible ? hiddenStyles : visibleStyles);
+        animate(element, nowVisible ? hiddenStyles : visibleStyles);
     } else {
-        var hiddenStyles = { opacity: 0 }
-        var visibleStyles = { opacity: 1 }
-        if( ! visible ) {
+        hiddenStyles = { opacity: 0 };
+        visibleStyles = { opacity: 1 };
+        if( ! nowVisible ) {
             css(element, hiddenStyles);
         }
 
-        animate(element, visible ? hiddenStyles : visibleStyles);
+        animate(element, nowVisible ? hiddenStyles : visibleStyles);
     }
 
     // clean-up after animation
     window.setTimeout(function() {
         element.removeAttribute('data-animated');
         element.setAttribute('style', clone.getAttribute('style'));
-        element.style.display = visible ? 'none' : '';
+        element.style.display = nowVisible ? 'none' : '';
     }, duration * 1.2);
 }
 
 function animate(element, targetStyles) {
-    var start = +new Date();
     var last = +new Date();
-    var initalStyles = window.getComputedStyle(element);
+    var initialStyles = window.getComputedStyle(element);
     var currentStyles = {};
     var propSteps = {};
 
@@ -177,7 +180,7 @@ function animate(element, targetStyles) {
 
         // calculate step size & current value
         var to = targetStyles[property];
-        var current = parseFloat(initalStyles[property]);
+        var current = parseFloat(initialStyles[property]);
         propSteps[property] = ( to - current ) / duration; // points per second
         currentStyles[property] = current;
     }
@@ -187,12 +190,12 @@ function animate(element, targetStyles) {
         var timeSinceLastTick = now - last;
         var done = true;
 
+        var step, to, increment, newValue;
         for(var property in targetStyles ) {
-            var step = propSteps[property];
-            var to = targetStyles[property];
-            var current = currentStyles[property];
-            var increment =  step * timeSinceLastTick;
-            var newValue = current + increment;
+            step = propSteps[property];
+            to = targetStyles[property];
+            increment =  step * timeSinceLastTick;
+            newValue = currentStyles[property] + increment;
 
             if( step > 0 && newValue >= to || step < 0 && newValue <= to ) {
                 newValue = to;
