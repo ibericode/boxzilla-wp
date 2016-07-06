@@ -743,12 +743,12 @@ Boxzilla.init = function() {
     window.addEventListener('scroll', throttle(checkHeightCriteria));
     window.addEventListener('resize', throttle(recalculateHeights));
     window.addEventListener('load', recalculateHeights );
-    window.addEventListener('mouseleave', onMouseLeave);
-    window.addEventListener('mouseenter', onMouseEnter);
-    window.addEventListener('keyup', onKeyUp);
     overlay.addEventListener('click', onOverlayClick);
     window.setInterval(checkTimeCriteria, 1000);
     window.setTimeout(checkPageViewsCriteria, 1000 );
+    document.addEventListener('mouseleave', onMouseLeave);
+    document.addEventListener('mouseenter', onMouseEnter);
+    document.addEventListener('keyup', onKeyUp);
 
     timers.start();
     window.addEventListener('focus', timers.start);
