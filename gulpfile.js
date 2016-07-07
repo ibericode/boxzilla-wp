@@ -1,21 +1,22 @@
 'use strict';
 
-var gulp = require('gulp');
-var uglify = require('gulp-uglify');
-var rename = require("gulp-rename");
-var cssmin = require('gulp-cssmin');
-var source = require('vinyl-source-stream');
-var browserify = require('browserify');
-var merge = require('merge-stream');
-var streamify = require('gulp-streamify');
-var globby = require('globby');
-var buffer = require('vinyl-buffer');
-var through = require('through2');
-var sourcemaps = require('gulp-sourcemaps');
-var wrap = require('gulp-wrap');
-var wpPot = require('gulp-wp-pot');
-var sort = require('gulp-sort');
-var sass = require('gulp-sass');
+const gulp = require('gulp');
+const uglify = require('gulp-uglify');
+const rename = require("gulp-rename");
+const cssmin = require('gulp-cssmin');
+const source = require('vinyl-source-stream');
+const browserify = require('browserify');
+const merge = require('merge-stream');
+const streamify = require('gulp-streamify');
+const globby = require('globby');
+const buffer = require('vinyl-buffer');
+const through = require('through2');
+const sourcemaps = require('gulp-sourcemaps');
+const wrap = require('gulp-wrap');
+const wpPot = require('gulp-wp-pot');
+const sort = require('gulp-sort');
+const sass = require('gulp-sass');
+const babel = require('gulp-babel');
 
 gulp.task('default', ['sass', 'browserify', 'uglify', 'languages' ]);
 
@@ -60,6 +61,9 @@ gulp.task('browserify', function () {
 
 gulp.task('uglify', ['browserify'], function() {
     return gulp.src(['./assets/js/**/*.js','!./assets/js/**/*.min.js'])
+        .pipe(babel({
+            presets: ['es2015']
+        }))
         .pipe(sourcemaps.init({loadMaps: true}))
         .pipe(streamify(uglify().on('error', console.log)))
         .pipe(rename({extname: '.min.js'}))
