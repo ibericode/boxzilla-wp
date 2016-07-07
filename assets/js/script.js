@@ -582,7 +582,6 @@ var EventEmitter = require('wolfy87-eventemitter'),
     Boxzilla = Object.create(EventEmitter.prototype),
     Box = require('./box.js')(Boxzilla),
     Timer = require('./timer.js'),
-    css = require('./css.js'),
     boxes = {},
     windowHeight, overlay,
     exitIntentDelayTimer, exitIntentTriggered,
@@ -758,16 +757,7 @@ Boxzilla.init = function() {
 
     // add overlay element to dom
     overlay = document.createElement('div');
-    css(overlay, {
-        'display': 'none',
-        'position': 'fixed',
-        'background': 'rgba(0,0,0,0.65)',
-        'width': '100%',
-        'height': '100%',
-        'z-index': 99999,
-        'top': 0,
-        'left': 0
-    });
+    overlay.style.display = 'none';
     overlay.id = 'boxzilla-overlay';
     document.body.appendChild(overlay);
 
@@ -845,22 +835,10 @@ window.Boxzilla = Boxzilla;
 if ( typeof module !== 'undefined' && module.exports ) {
     module.exports = Boxzilla;
 }
-},{"./box.js":3,"./css.js":5,"./styles.js":6,"./timer.js":7,"wolfy87-eventemitter":8}],5:[function(require,module,exports){
-function camelCase(string) {
-    return string.replace('-', '');
-}
-
-function css(element, styles) {
-    for(var prop in styles) {
-        element.style[camelCase(prop)] = styles[prop];
-    }
-}
-
-module.exports = css;
-},{}],6:[function(require,module,exports){
-const styles = `.boxzilla-center-container{position:fixed;top:0;left:0;right:0;height:0;text-align:center;z-index:999999;line-height:0}.boxzilla-center-container .boxzilla{display:inline-block;text-align:left;position:relative;line-height:normal}.boxzilla{position:fixed;z-index:999999;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;background:#fff;padding:25px}.boxzilla.boxzilla-top-left{top:0;left:0}.boxzilla.boxzilla-top-right{top:0;right:0}.boxzilla.boxzilla-bottom-left{bottom:0;left:0}.boxzilla.boxzilla-bottom-right{bottom:0;right:0}.boxzilla-content>:first-child{margin-top:0;padding-top:0}.boxzilla-content>:last-child{margin-bottom:0;padding-bottom:0}.boxzilla-close-icon{position:absolute;right:0;top:0;text-align:center;padding:6px;cursor:pointer;-webkit-appearance:none;font-size:28px;font-weight:700;line-height:20px;color:#000;opacity:.5}.boxzilla-close-icon:focus,.boxzilla-close-icon:hover{opacity:.8}`; 
+},{"./box.js":3,"./styles.js":5,"./timer.js":6,"wolfy87-eventemitter":7}],5:[function(require,module,exports){
+const styles = `#boxzilla-overlay{position:fixed;background:rgba(0,0,0,.65);width:100%;height:100%;left:0;top:0;z-index:99999}.boxzilla-center-container{position:fixed;top:0;left:0;right:0;height:0;text-align:center;z-index:999999;line-height:0}.boxzilla-center-container .boxzilla{display:inline-block;text-align:left;position:relative;line-height:normal}.boxzilla{position:fixed;z-index:999999;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;background:#fff;padding:25px}.boxzilla.boxzilla-top-left{top:0;left:0}.boxzilla.boxzilla-top-right{top:0;right:0}.boxzilla.boxzilla-bottom-left{bottom:0;left:0}.boxzilla.boxzilla-bottom-right{bottom:0;right:0}.boxzilla-content>:first-child{margin-top:0;padding-top:0}.boxzilla-content>:last-child{margin-bottom:0;padding-bottom:0}.boxzilla-close-icon{position:absolute;right:0;top:0;text-align:center;padding:6px;cursor:pointer;-webkit-appearance:none;font-size:28px;font-weight:700;line-height:20px;color:#000;opacity:.5}.boxzilla-close-icon:focus,.boxzilla-close-icon:hover{opacity:.8}`; 
 module.exports = styles;
-},{}],7:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 'use strict';
 
 var Timer = function(start) {
@@ -884,7 +862,7 @@ Timer.prototype.stop = function() {
 };
 
 module.exports = Timer;
-},{}],8:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 /*!
  * EventEmitter v4.2.11 - git.io/ee
  * Unlicense - http://unlicense.org/
