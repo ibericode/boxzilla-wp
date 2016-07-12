@@ -93,11 +93,11 @@ http://your-wordpress-site.com/some-page/#boxzilla-94
 
 = Can I customize the appearance of a box =
 
-Boxzilla comes with a simple interface for customizing most colors & borders of the box, but you're in no way limited to apply your own CSS rules.
+Boxzilla comes with a simple interface for customizing most box colors & borders. You can apply your own CSS by utilizing any of the following element selectors.
 
 `
-.boxzilla-{id} { } /* 1 particular box */
 .boxzilla { } /* all boxes */
+.boxzilla-5 { } /* box with ID 5 */
 `
 
 = I want to disable auto-paragraphs in the box content =
