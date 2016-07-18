@@ -145,7 +145,7 @@ $rule_options = apply_filters( 'boxzilla_rules_options', $rule_options );
 	</tr>
 	<tbody class="boxzilla-trigger-options" style="display: <?php echo ( $opts['trigger'] === '' ) ? 'none' : 'table-row-group'; ?>;">
 	<tr valign="top">
-		<th><label for="boxzilla_cookie"><?php _e( 'Cookie expiration days', 'boxzilla' ); ?></label></th>
+		<th><label for="boxzilla_cookie"><?php _e( 'Cookie expiration', 'boxzilla' ); ?></label></th>
 		<td>
 			<div style="display: inline-block;">
 				<label for="boxzilla_cookie_trigger" style="font-weight: bold; display: block;">Triggered</label>
@@ -157,7 +157,7 @@ $rule_options = apply_filters( 'boxzilla_rules_options', $rule_options );
 			</div>
 			<br />
 
-			<p class="help"><?php _e( 'After this box is triggered or dismissed, how many days should it stay hidden?', 'boxzilla' ); ?></p>
+			<p class="help"><?php _e( 'After this box is triggered or dismissed, how many hours should it stay hidden?', 'boxzilla' ); ?></p>
 		</td>
 	</tr>
 	<tr valign="top">
