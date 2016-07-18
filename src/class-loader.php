@@ -287,7 +287,7 @@ class BoxLoader {
 		$boxes = $this->get_matched_boxes();
 
 		$data = array(
-			'testMode' => (boolean) $plugin_options['test_mode'],
+			'testMode' => (bool) $plugin_options['test_mode'],
 			'boxes' => array_map( function(Box $box) { return $box->get_client_options(); }, $boxes ),
 		);
 

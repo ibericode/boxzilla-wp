@@ -75,10 +75,16 @@ class Box {
 				'position' => 'bottom-right',
 			),
 			'rules' => array(
-				0 => array('condition' => '', 'value' => '')
+				0 => array(
+					'condition' => '',
+					'value' => '',
+				),
 			),
 			'rules_comparision' => 'any',
-			'cookie' => 0,
+			'cookie' => array(
+				'trigger' => 0,
+				'dismiss' => 0,
+			),
 			'trigger' => 'percentage',
 			'trigger_percentage' => 65,
 			'trigger_element' => '',
@@ -201,7 +207,10 @@ class Box {
 			'css' => array_filter( $box->options['css'] ),
 			'trigger' => $trigger,
 			'animation' => $box->options['animation'],
-			'cookieTime' => absint( $box->options['cookie'] ),
+			'cookie' => array(
+				'trigger' => absint( $box->options['cookie']['trigger'] ),
+				'dismiss' => absint( $box->options['cookie']['dismiss'] ),
+			),
 			'rehide' => (bool) $box->options['auto_hide'],
 			'position' => $box->options['css']['position'],
 			'minimumScreenWidth' => $box->get_minimum_screen_size(),

@@ -568,7 +568,8 @@ class Admin {
 
 		$opts['rules'] 				= array_map( array( $this, 'sanitize_box_rule' ), $opts['rules'] );
 		$opts['css'] 				= $this->sanitize_box_css( $opts['css'] );
-		$opts['cookie']             = absint( $opts['cookie'] );
+		$opts['cookie']['trigger']             = absint( $opts['cookie']['trigger'] );
+		$opts['cookie']['dismiss']             = absint( $opts['cookie']['dismiss'] );
 		$opts['trigger']            = sanitize_text_field( $opts['trigger'] );
 		$opts['trigger_percentage'] = absint( $opts['trigger_percentage'] );
 		$opts['trigger_element']    = sanitize_text_field( $opts['trigger_element'] );

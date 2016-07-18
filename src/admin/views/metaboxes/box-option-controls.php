@@ -147,7 +147,7 @@ $rule_options = apply_filters( 'boxzilla_rules_options', $rule_options );
 	<tr valign="top">
 		<th><label for="boxzilla_cookie"><?php _e( 'Cookie expiration days', 'boxzilla' ); ?></label></th>
 		<td>
-			<input type="number" id="boxzilla_cookie" name="boxzilla_box[cookie]" min="0" step="1" value="<?php echo esc_attr($opts['cookie']); ?>" />
+			<input type="number" id="boxzilla_cookie" name="boxzilla_box[cookie][dismiss]" min="0" step="1" value="<?php echo esc_attr($opts['cookie']['dismiss']); ?>" />
 			<p class="help"><?php _e( 'After closing the box, how many days should it stay hidden?', 'boxzilla' ); ?></p>
 		</td>
 	</tr>
