@@ -147,8 +147,17 @@ $rule_options = apply_filters( 'boxzilla_rules_options', $rule_options );
 	<tr valign="top">
 		<th><label for="boxzilla_cookie"><?php _e( 'Cookie expiration days', 'boxzilla' ); ?></label></th>
 		<td>
-			<input type="number" id="boxzilla_cookie" name="boxzilla_box[cookie][dismiss]" min="0" step="1" value="<?php echo esc_attr($opts['cookie']['dismiss']); ?>" />
-			<p class="help"><?php _e( 'After closing the box, how many days should it stay hidden?', 'boxzilla' ); ?></p>
+			<div style="display: inline-block;">
+				<label for="boxzilla_cookie_trigger" style="font-weight: bold; display: block;">Triggered</label>
+				<input type="number" id="boxzilla_cookie_trigger" name="boxzilla_box[cookie][trigger]" min="0" step="1" value="<?php echo esc_attr($opts['cookie']['trigger']); ?>" />
+			</div>
+			<div style="display: inline-block;">
+				<label for="boxzilla_cookie_dismiss" style="font-weight: bold; display: block;">Dismissed</label>
+				<input type="number" id="boxzilla_cookie_dismiss" name="boxzilla_box[cookie][dismiss]" min="0" step="1" value="<?php echo esc_attr($opts['cookie']['dismiss']); ?>" />
+			</div>
+			<br />
+
+			<p class="help"><?php _e( 'After this box is triggered or dismissed, how many days should it stay hidden?', 'boxzilla' ); ?></p>
 		</td>
 	</tr>
 	<tr valign="top">
