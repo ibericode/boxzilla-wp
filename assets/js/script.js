@@ -279,7 +279,7 @@ var Box = function( id, config ) {
 
     // state
     this.visible 	= false;
-    this.closed 	= false;
+    this.dismissed 	= false;
     this.triggered 	= false;
     this.triggerHeight = 0;
     this.cookieSet = false;
@@ -515,6 +515,10 @@ Box.prototype.fits = function() {
 // is this box enabled?
 Box.prototype.mayAutoShow = function() {
 
+    if( this.dismissed ) {
+        return false;
+    }
+
     // check if box fits on given minimum screen width
     if( ! this.fits() ) {
         return false;
@@ -539,8 +543,8 @@ Box.prototype.isCookieSet = function() {
         return false;
     }
 
-    // check for cookie
-    if(!this.config.cookie) {
+    // if either cookie is null or trigger & dismiss are both falsey, don't bother checking.
+    if(!this.config.cookie || ( ! this.config.cookie.triggered && ! this.config.cookie.dismissed ) ) {
         return false;
     }
 
@@ -549,9 +553,9 @@ Box.prototype.isCookieSet = function() {
 };
 
 // set cookie that disables automatically showing the box
-Box.prototype.setCookie = function(days) {
+Box.prototype.setCookie = function(hours) {
     var expiryDate = new Date();
-    expiryDate.setDate( expiryDate.getDate() + days);
+    expiryDate.setHours( expiryDate.getHours() + hours);
     document.cookie = 'boxzilla_box_'+ this.id + '=true; expires='+ expiryDate.toUTCString() +'; path=/';
 };
 
@@ -562,19 +566,19 @@ Box.prototype.trigger = function() {
     }
 
     this.triggered = true;
-    if(this.config.cookie && this.config.cookie.trigger) {
-        this.setCookie(this.config.cookie.trigger);
+    if(this.config.cookie && this.config.cookie.triggered) {
+        this.setCookie(this.config.cookie.triggered);
     }
 };
 
 Box.prototype.dismiss = function() {
     this.hide();
 
-    if(this.config.cookie && this.config.cookie.dismiss) {
-        this.setCookie(this.config.cookie.dismiss);
+    if(this.config.cookie && this.config.cookie.dismissed) {
+        this.setCookie(this.config.cookie.dismissed);
     }
 
-    this.closed = true;
+    this.dismissed = true;
     Boxzilla.trigger('box.dismiss', [ this ]);
 };
 

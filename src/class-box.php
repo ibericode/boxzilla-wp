@@ -82,8 +82,8 @@ class Box {
 			),
 			'rules_comparision' => 'any',
 			'cookie' => array(
-				'trigger' => 0,
-				'dismiss' => 0,
+				'triggered' => 0,
+				'dismissed' => 0,
 			),
 			'trigger' => 'percentage',
 			'trigger_percentage' => 65,
@@ -208,8 +208,8 @@ class Box {
 			'trigger' => $trigger,
 			'animation' => $box->options['animation'],
 			'cookie' => array(
-				'trigger' => absint( $box->options['cookie']['trigger'] ),
-				'dismiss' => absint( $box->options['cookie']['dismiss'] ),
+				'triggered' => absint( $box->options['cookie']['triggered'] ),
+				'dismissed' => absint( $box->options['cookie']['dismissed'] ),
 			),
 			'rehide' => (bool) $box->options['auto_hide'],
 			'position' => $box->options['css']['position'],

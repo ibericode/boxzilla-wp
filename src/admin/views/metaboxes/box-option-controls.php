@@ -148,12 +148,12 @@ $rule_options = apply_filters( 'boxzilla_rules_options', $rule_options );
 		<th><label for="boxzilla_cookie"><?php _e( 'Cookie expiration', 'boxzilla' ); ?></label></th>
 		<td>
 			<div style="display: inline-block;">
-				<label for="boxzilla_cookie_trigger" style="font-weight: bold; display: block;">Triggered</label>
-				<input type="number" id="boxzilla_cookie_trigger" name="boxzilla_box[cookie][trigger]" min="0" step="1" value="<?php echo esc_attr($opts['cookie']['trigger']); ?>" />
+				<label for="boxzilla_cookie_triggered" style="font-weight: bold; display: block;">Triggered</label>
+				<input type="number" id="boxzilla_cookie_triggered" name="boxzilla_box[cookie][triggered]" min="0" step="1" value="<?php echo esc_attr($opts['cookie']['triggered']); ?>" />
 			</div>
 			<div style="display: inline-block;">
-				<label for="boxzilla_cookie_dismiss" style="font-weight: bold; display: block;">Dismissed</label>
-				<input type="number" id="boxzilla_cookie_dismiss" name="boxzilla_box[cookie][dismiss]" min="0" step="1" value="<?php echo esc_attr($opts['cookie']['dismiss']); ?>" />
+				<label for="boxzilla_cookie_dismissed" style="font-weight: bold; display: block;">Dismissed</label>
+				<input type="number" id="boxzilla_cookie_dismissed" name="boxzilla_box[cookie][dismissed]" min="0" step="1" value="<?php echo esc_attr($opts['cookie']['dismissed']); ?>" />
 			</div>
 			<br />
 

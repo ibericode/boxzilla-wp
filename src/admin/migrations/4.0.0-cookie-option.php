@@ -16,7 +16,7 @@ if( ! empty( $posts ) ) {
         $settings['cookie'] = $settings['cookie'] * 24;
 
         // store in new location
-        $settings['cookie']['dismiss'] = $settings['cookie'];
+        $settings['cookie']['dismissed'] = $settings['cookie'];
         update_post_meta( $post->ID, 'boxzilla_options', $settings );
     }
 }
