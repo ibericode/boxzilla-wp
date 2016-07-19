@@ -1,6 +1,20 @@
 Changelog
 ==========
 
+#### 3.1 - July 19, 2016
+
+**Improvements**
+
+- Completely removed jQuery dependency, resulting in better performance & smoother animations.
+- Completely removed CSS file dependency.
+- Box position is now visually hinted in box settings.
+- Event binding improvements for [Exit Intent detection](https://boxzillaplugin.com/add-ons/exit-intent/).
+
+**Additions**
+
+- You can now set a cookie after the box is triggered, to prevent consecutively showing the box if a visitor does not explicitly dismiss it.
+
+
 #### 3.0.3 - July 5, 2016
 
 **Improvements**
