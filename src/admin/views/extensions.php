@@ -12,11 +12,11 @@
 	<?php if( empty( $extensions ) ) : ?>
 		<script>
 			window.setTimeout( function() {
-				window.location.href = 'https://Boxzilla.com/plugins#utm_source=wp-plugin&utm_medium=boxzilla&utm_campaign=extensions-page';
+				window.location.href = 'https://boxzillaplugin.com/add-ons/#utm_source=wp-plugin&utm_medium=boxzilla&utm_campaign=extensions-page';
 			}, 2000 );
 		</script>
 		<p><?php _e( 'You will be redirected to the Boxzilla site in a few seconds..', 'boxzilla' ); ?></p>
-		<p><?php printf( __( 'If not, please click here: %s.', 'boxzilla' ), '<a href="https://boxzillaplugin.com/add-ons#utm_source=wp-plugin&utm_medium=boxzilla&utm_campaign=extensions-page" target="_blank">View add-on plugins</a>' ); ?></p>
+		<p><?php printf( __( 'If not, please click here: %s.', 'boxzilla' ), '<a href="https://boxzillaplugin.com/add-ons/#utm_source=wp-plugin&utm_medium=boxzilla&utm_campaign=extensions-page" target="_blank">View add-on plugins</a>' ); ?></p>
 	<?php else : ?>
 
 		<?php foreach( $extensions as $plugin ) : ?>
