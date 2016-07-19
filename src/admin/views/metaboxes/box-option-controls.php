@@ -147,13 +147,15 @@ $rule_options = apply_filters( 'boxzilla_rules_options', $rule_options );
 	<tr valign="top">
 		<th><label for="boxzilla_cookie"><?php _e( 'Cookie expiration', 'boxzilla' ); ?></label></th>
 		<td>
-			<div style="display: inline-block;">
-				<label for="boxzilla_cookie_triggered" style="font-weight: bold; display: block;">Triggered</label>
+			<div style="display: inline-block; margin-right: 20px;">
+				<label for="boxzilla_cookie_triggered" style="font-weight: bold; display: block;"><?php esc_html_e( 'Triggered', 'mailchimp-for-wp' ); ?></label>
 				<input type="number" id="boxzilla_cookie_triggered" name="boxzilla_box[cookie][triggered]" min="0" step="1" value="<?php echo esc_attr($opts['cookie']['triggered']); ?>" />
+				<small><?php _e( 'hours', 'boxzilla' ); ?></small>
 			</div>
 			<div style="display: inline-block;">
-				<label for="boxzilla_cookie_dismissed" style="font-weight: bold; display: block;">Dismissed</label>
+				<label for="boxzilla_cookie_dismissed" style="font-weight: bold; display: block;"><?php esc_html_e( 'Dismissed', 'mailchimp-for-wp' ); ?></label>
 				<input type="number" id="boxzilla_cookie_dismissed" name="boxzilla_box[cookie][dismissed]" min="0" step="1" value="<?php echo esc_attr($opts['cookie']['dismissed']); ?>" />
+				<small><?php _e( 'hours', 'boxzilla' ); ?></small>
 			</div>
 			<br />
 
