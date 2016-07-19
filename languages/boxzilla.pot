@@ -302,6 +302,10 @@ msgstr ""
 msgid "If test mode is enabled, all boxes will show up regardless of whether a cookie has been set."
 msgstr ""
 
+#: src/admin/views/metaboxes/need-help.php:2
+msgid "Please make sure to look at the following available resources."
+msgstr ""
+
 #: src/default-actions.php:12, src/default-actions.php:24
 msgid "Boxzilla"
 msgstr ""
