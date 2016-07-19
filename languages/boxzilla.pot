@@ -182,15 +182,15 @@ msgstr ""
 msgid "of the following conditions."
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:133, src/admin/views/metaboxes/box-option-controls.php:417
+#: src/admin/views/metaboxes/box-option-controls.php:133, src/admin/views/metaboxes/box-option-controls.php:421
 msgid "is"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:135, src/admin/views/metaboxes/box-option-controls.php:419
+#: src/admin/views/metaboxes/box-option-controls.php:135, src/admin/views/metaboxes/box-option-controls.php:423
 msgid "is not"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:141, src/admin/views/metaboxes/box-option-controls.php:425
+#: src/admin/views/metaboxes/box-option-controls.php:141, src/admin/views/metaboxes/box-option-controls.php:429
 msgid "Leave empty for any or enter (comma-separated) names or ID's"
 msgstr ""
 
@@ -266,35 +266,39 @@ msgstr ""
 msgid "Cookie expiration"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:319
+#: src/admin/views/metaboxes/box-option-controls.php:305, src/admin/views/metaboxes/box-option-controls.php:315
+msgid "hours"
+msgstr ""
+
+#: src/admin/views/metaboxes/box-option-controls.php:323
 msgid "After this box is triggered or dismissed, how many hours should it stay hidden?"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:327
+#: src/admin/views/metaboxes/box-option-controls.php:331
 msgid "Do not auto-show box on small screens?"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:331
+#: src/admin/views/metaboxes/box-option-controls.php:335
 msgid "Do not auto-show on screens smaller than %s."
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:333
+#: src/admin/views/metaboxes/box-option-controls.php:337
 msgid "Leave empty if you <strong>do</strong> want to auto-show the box on small screens."
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:343
+#: src/admin/views/metaboxes/box-option-controls.php:347
 msgid "Auto-hide?"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:351
+#: src/admin/views/metaboxes/box-option-controls.php:355
 msgid "Hide box again when visitors scroll back up?"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:359, src/admin/views/settings.php:20
+#: src/admin/views/metaboxes/box-option-controls.php:363, src/admin/views/settings.php:20
 msgid "Enable test mode?"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:367, src/admin/views/settings.php:24
+#: src/admin/views/metaboxes/box-option-controls.php:371, src/admin/views/settings.php:24
 msgid "If test mode is enabled, all boxes will show up regardless of whether a cookie has been set."
 msgstr ""
 
