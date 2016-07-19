@@ -13,10 +13,12 @@ if( ! empty( $posts ) ) {
         }
 
         // translate from days to hours
-        $settings['cookie'] = $settings['cookie'] * 24;
+        $new_value = intval( $settings['cookie'] ) * 24;
 
         // store in new location
-        $settings['cookie']['dismissed'] = $settings['cookie'];
+        $settings['cookie'] = array(
+            'dismissed' => $new_value
+        );
         update_post_meta( $post->ID, 'boxzilla_options', $settings );
     }
 }
