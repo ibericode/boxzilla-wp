@@ -319,23 +319,13 @@ Box.prototype.events = function() {
         box.setCookie();
         Boxzilla.trigger('box.interactions.form', [ box, e.target ]);
     }, false);
-
-    // listen to all "click" events
-    document.body.addEventListener('click', function(e) {
-
-        // only act on links
-        if( e.target.tagName !== 'A' ) {
-            return;
-        }
-
-        // check if link href ends with "#boxzilla-{box.id}
+    
+    window.addEventListener("hashchange", function() {
         var needle = "#boxzilla-" + box.id;
-        var haystack = e.target.getAttribute("href");
-        if( haystack && haystack.substring(-(needle.length)) === needle) {
+        if( location.hash === needle ) {
             box.toggle();
-            e.preventDefault();
         }
-    }, false);
+    });
 
     // maybe show box right away
     if( this.fits() && this.locationHashRefersBox() ) {
