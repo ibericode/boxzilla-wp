@@ -267,6 +267,20 @@ function merge( obj1, obj2 ) {
     return obj3;
 }
 
+/**
+ * Get the real height of entire document.
+ * @returns {number}
+ */
+function getDocumentHeight() {
+    var body = document.body,
+        html = document.documentElement;
+
+    var height = Math.max( body.scrollHeight, body.offsetHeight,
+        html.clientHeight, html.scrollHeight, html.offsetHeight );
+
+    return height;
+}
+
 // Box Object
 var Box = function( id, config ) {
     this.id 		= id;
@@ -471,7 +485,7 @@ Box.prototype.calculateTriggerHeight = function() {
             triggerHeight = offset.top;
         }
     } else if( this.config.trigger.method === 'percentage' ) {
-        triggerHeight = ( this.config.trigger.value / 100 * document.body.clientHeight );
+        triggerHeight = ( this.config.trigger.value / 100 * getDocumentHeight() );
     }
 
     return triggerHeight;
