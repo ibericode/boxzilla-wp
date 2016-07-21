@@ -584,7 +584,7 @@ var EventEmitter = require('wolfy87-eventemitter'),
     Box = require('./box.js')(Boxzilla),
     Timer = require('./timer.js'),
     boxes = {},
-    windowHeight, overlay,
+    overlay,
     exitIntentDelayTimer, exitIntentTriggered,
     siteTimer, pageTimer, pageViews;
 
@@ -659,15 +659,15 @@ function checkTimeCriteria() {
 
 // check triggerHeight criteria for all boxes
 function checkHeightCriteria() {
-    var scrollY = window.scrollY;
-    var scrollHeight = scrollY + ( windowHeight * 0.667 );
+    var scrollY = ( window.scrollY || window.pageYOffset ) + window.innerHeight * 0.75;
 
     each(boxes, function(box) {
+
         if( ! box.mayAutoShow() || box.triggerHeight <= 0 ) {
             return;
         }
 
-        if( scrollHeight > box.triggerHeight ) {
+        if( scrollY > box.triggerHeight ) {
             box.trigger();
         } else if( box.mayRehide() ) {
             box.hide();
@@ -677,8 +677,6 @@ function checkHeightCriteria() {
 
 // recalculate heights and variables based on height
 function recalculateHeights() {
-    windowHeight = window.innerHeight;
-
     each(boxes, function(box) {
         box.setCustomBoxStyling();
     });
@@ -747,7 +745,6 @@ Boxzilla.init = function() {
     siteTimer = new Timer(sessionStorage.getItem('boxzilla_timer') || 0);
     pageTimer = new Timer(0);
     pageViews = sessionStorage.getItem('boxzilla_pageviews') || 0;
-    windowHeight = window.innerHeight;
 
     // insert styles into DOM
     var styles = require('./styles.js');
