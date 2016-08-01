@@ -1,6 +1,18 @@
 Changelog
 ==========
 
+#### 3.1.1 - August 1, 2016
+
+**Fixes**
+
+- Scroll triggers not working in IE11.
+
+**Improvements**
+
+- Allow `<img>` elements inside links that open boxes.
+- Better page height detection.
+
+
 #### 3.1 - July 19, 2016
 
 **Improvements**
