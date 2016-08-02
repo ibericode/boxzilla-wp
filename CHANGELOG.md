@@ -1,6 +1,13 @@
 Changelog
 ==========
 
+#### 3.1.2 - August 2, 2016
+
+**Fixes**
+
+- Exit-Intent not working in Safari & Firefox.
+
+
 #### 3.1.1 - August 1, 2016
 
 **Fixes**
