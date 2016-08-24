@@ -78,8 +78,13 @@ class Bootstrapper_Test extends WP_Test_Case {
     public function test_magic_section_register() {
         $instance = new Bootstrapper();
         $callable = new Test_Callable();
-        $instance->global(array( $callable, 'call' ) );
-        $instance->run();
+        $instance->global(array( $callable, 'call' ));
+        $instance->run('cron');
+        self::assertTrue( $callable->called );
+
+        $callable = new Test_Callable();
+        $instance->global(array( $callable, 'call' ));
+        $instance->run('cli');
         self::assertTrue( $callable->called );
     }
 }
