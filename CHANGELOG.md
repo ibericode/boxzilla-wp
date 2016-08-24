@@ -1,6 +1,14 @@
 Changelog
 ==========
 
+#### 3.1.3 - August 24, 2016
+
+**Improvements**
+
+- Don't trigger any new boxes when a box is currently open.
+- Fail more gracefully when not running PHP 5.3 or higher.
+
+
 #### 3.1.2 - August 2, 2016
 
 **Fixes**
