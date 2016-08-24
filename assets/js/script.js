@@ -841,6 +841,8 @@ Boxzilla.get = function(id) {
             return box;
         }
     }
+
+    throw new Error("No box exists with ID " + id);
 }
 
 // dismiss a single box (or all by omitting id param)
@@ -864,7 +866,7 @@ Boxzilla.hide = function(id) {
 Boxzilla.show = function(id) {
     if( typeof(id) === "undefined" ) {
         boxes.forEach(function(box) { box.show(); });
-    } else if( typeof( boxes[id] ) === "object" ) {
+    } else {
         Boxzilla.get(id).show();
     }
 };
@@ -872,7 +874,7 @@ Boxzilla.show = function(id) {
 Boxzilla.toggle = function(id) {
     if( typeof(id) === "undefined" ) {
         boxes.forEach(function(box) { box.toggle(); });
-    } else if( typeof( boxes[id] ) === "object" ) {
+    } else {
         Boxzilla.get(id).toggle();
     }
 };
