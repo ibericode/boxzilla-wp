@@ -746,7 +746,10 @@ function onMouseLeave(e) {
 }
 
 function isAnyBoxVisible() {
-    for( var box in boxes ) {
+
+    for( var i=0; i<boxes.length; i++ ) {
+        var box = boxes[i];
+
         if( box.visible ) {
             return true;
         }
@@ -832,7 +835,8 @@ Boxzilla.create = function(id, opts) {
 };
 
 Boxzilla.get = function(id) {
-    for(var box in boxes) {
+    for( var i=0; i<boxes.length; i++) {
+        var box = boxes[i];
         if( box.id == id ) {
             return box;
         }
