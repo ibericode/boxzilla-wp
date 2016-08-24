@@ -1,6 +1,13 @@
 Changelog
 ==========
 
+#### 3.1.4 - August 24, 2016
+
+**Fixes**
+
+- `Boxzilla.show(123)` no longer working in previous update.
+
+
 #### 3.1.3 - August 24, 2016
 
 **Improvements**
