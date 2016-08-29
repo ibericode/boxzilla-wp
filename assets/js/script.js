@@ -679,11 +679,6 @@ function checkTimeCriteria() {
 function checkHeightCriteria() {
     var scrollY = ( window.scrollY || window.pageYOffset ) + window.innerHeight * 0.75;
 
-    // don't bother if another box is currently open
-    if( isAnyBoxVisible() ) {
-        return;
-    }
-
     boxes.forEach(function(box) {
 
         if( ! box.mayAutoShow() || box.triggerHeight <= 0 ) {
@@ -691,6 +686,12 @@ function checkHeightCriteria() {
         }
 
         if( scrollY > box.triggerHeight ) {
+            // don't bother if another box is currently open
+            if( isAnyBoxVisible() ) {
+                return;
+            }
+
+            // trigger box
             box.trigger();
         } else if( box.mayRehide() ) {
             box.hide();
