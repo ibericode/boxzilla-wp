@@ -29,6 +29,9 @@ for( var i=0; i < options.boxes.length; i++ ) {
         
     // add custom css to box
     css(box.element, boxOpts.css);
+
+    box.element.firstChild.firstChild.className += " first-child";
+    box.element.firstChild.lastChild.className += " last-child";
 }
 
 // helper function for setting CSS styles
