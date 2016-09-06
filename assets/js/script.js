@@ -578,7 +578,10 @@ Box.prototype.trigger = function() {
     }
 };
 
-Box.prototype.dismiss = function() {
+Box.prototype.dismiss = function(e) {
+    // prevent default action
+    e && e.preventDefault();
+
     this.hide();
 
     if(this.config.cookie && this.config.cookie.dismissed) {
