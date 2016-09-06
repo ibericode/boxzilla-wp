@@ -1,6 +1,20 @@
 Changelog
 ==========
 
+
+#### 3.1.5 - September 6, 2016
+
+**Fixes**
+
+- Box cookies were being set for _all_ boxes when dismissing a box using the overlay or ESCAPE key.
+- Auto-close not working since version 3.1.3
+
+**Improvements**
+
+- Prevent default click event action when clicking close icon.
+- Add helper classes for the [Boxzilla - Theme Pack add-on](https://boxzillaplugin.com/add-ons/theme-pack/).
+
+
 #### 3.1.4 - August 24, 2016
 
 **Fixes**
@@ -13,7 +27,7 @@ Changelog
 **Improvements**
 
 - Don't trigger any new boxes when a box is currently open.
-- Fail more gracefully when not running PHP 5.3 or higher.
+- Fail gracefully when not running PHP 5.3 or higher.
 
 
 #### 3.1.2 - August 2, 2016
