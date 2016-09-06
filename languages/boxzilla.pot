@@ -17,55 +17,55 @@ msgstr ""
 msgid "Awesome, you are using Boxzilla! You can now safely <a href=\"%s\">deactivate the Scroll Triggered Boxes plugin</a>."
 msgstr ""
 
-#: src/admin/class-admin.php:285
+#: src/admin/class-admin.php:277
 msgid "Box ID"
 msgstr ""
 
-#: src/admin/class-admin.php:291
+#: src/admin/class-admin.php:283
 msgid "Box Title"
 msgstr ""
 
-#: src/admin/class-admin.php:359, src/admin/class-admin.php:361, src/admin/views/settings.php:7
+#: src/admin/class-admin.php:351, src/admin/class-admin.php:353, src/admin/views/settings.php:7
 msgid "Settings"
 msgstr ""
 
-#: src/admin/class-admin.php:371, src/admin/class-admin.php:373
+#: src/admin/class-admin.php:363, src/admin/class-admin.php:365
 msgid "Extensions"
 msgstr ""
 
-#: src/admin/class-admin.php:559
+#: src/admin/class-admin.php:551
 msgid "Enter a comma-separated list of values."
 msgstr ""
 
-#: src/admin/class-admin.php:561
+#: src/admin/class-admin.php:553
 msgid "Enter a comma-separated list of post slugs or post ID's.."
 msgstr ""
 
-#: src/admin/class-admin.php:563
+#: src/admin/class-admin.php:555
 msgid "Enter a comma-separated list of page slugs or page ID's.."
 msgstr ""
 
-#: src/admin/class-admin.php:565
+#: src/admin/class-admin.php:557
 msgid "Enter a comma-separated list of post types.."
 msgstr ""
 
-#: src/admin/class-admin.php:567
+#: src/admin/class-admin.php:559
 msgid "Enter a comma-separated list of relative URL's, eg /contact/"
 msgstr ""
 
-#: src/admin/class-admin.php:633
+#: src/admin/class-admin.php:625
 msgid "Box Appearance"
 msgstr ""
 
-#: src/admin/class-admin.php:651
+#: src/admin/class-admin.php:643
 msgid "Box Options"
 msgstr ""
 
-#: src/admin/class-admin.php:669
+#: src/admin/class-admin.php:661
 msgid "Looking for help?"
 msgstr ""
 
-#: src/admin/class-admin.php:685
+#: src/admin/class-admin.php:677
 msgid "Subscribe to our newsletter"
 msgstr ""
 
