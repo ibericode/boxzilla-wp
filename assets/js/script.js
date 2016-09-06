@@ -578,18 +578,32 @@ Box.prototype.trigger = function() {
     }
 };
 
+/**
+ * Dismisses the box and optionally sets a cookie.
+ *
+ * @param e The event that triggered this dismissal.
+ * @returns {boolean}
+ */
 Box.prototype.dismiss = function(e) {
     // prevent default action
     e && e.preventDefault();
 
+    // only dismiss box if it's currently open.
+    if( ! this.visible ) {
+        return false;
+    }
+
+    // hide box element
     this.hide();
 
+    // set cookie
     if(this.config.cookie && this.config.cookie.dismissed) {
         this.setCookie(this.config.cookie.dismissed);
     }
 
     this.dismissed = true;
     Boxzilla.trigger('box.dismiss', [ this ]);
+    return true;
 };
 
 module.exports = function(_Boxzilla) {
