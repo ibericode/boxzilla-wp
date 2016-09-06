@@ -66,10 +66,12 @@ class Bootstrapper {
             $section = $this->section();
         }
 
+        // call all global callbacks
         foreach( $this->bootstrappers['global'] as $callback ) {
             $callback();
         }
 
+        // call section specific callbacks
         foreach( $this->bootstrappers[ $section ] as $callback ) {
             $callback();
         }

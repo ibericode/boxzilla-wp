@@ -103,12 +103,8 @@ class Admin {
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
 		add_filter( 'tiny_mce_before_init', array( $this, 'tinymce_init' ) );
 		add_filter( 'manage_edit-boxzilla-box_columns', array( $this, 'post_type_column_titles' ) );
-		add_action( 'manage_boxzilla-box_posts_custom_column', array(
-			$this,
-			'post_type_column_content'
-		), 10, 2 );
+		add_action( 'manage_boxzilla-box_posts_custom_column', array( $this, 'post_type_column_content' ), 10, 2 );
 		add_filter( 'admin_footer_text', array( $this, 'admin_footer_text' ) );
-
 
 		if ( $pagenow === 'plugins.php' ) {
 			add_filter( 'plugin_action_links', array( $this, 'add_plugin_settings_link' ), 10, 2 );
