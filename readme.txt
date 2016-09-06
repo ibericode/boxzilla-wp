@@ -4,7 +4,7 @@ Donate link: https://boxzillaplugin.com/#utm_source=wp-plugin-repo&utm_medium=bo
 Tags: scroll triggered box, cta, social, pop-up, newsletter, call to action, mailchimp, contact form 7, social media, mc4wp, ibericode
 Requires at least: 3.8
 Tested up to: 4.6
-Stable tag: 3.1.4
+Stable tag: 3.1.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -149,6 +149,20 @@ Have a look at the [frequently asked questions](https://wordpress.org/plugins/bo
 == Changelog ==
 
 
+
+#### 3.1.5 - September 6, 2016
+
+**Fixes**
+
+- Box cookies were being set for _all_ boxes when dismissing a box using the overlay or ESCAPE key.
+- Auto-close not working since version 3.1.3
+
+**Improvements**
+
+- Prevent default click event action when clicking close icon.
+- Add helper classes for the [Boxzilla - Theme Pack add-on](https://boxzillaplugin.com/add-ons/theme-pack/).
+
+
 #### 3.1.4 - August 24, 2016
 
 **Fixes**
@@ -161,7 +175,7 @@ Have a look at the [frequently asked questions](https://wordpress.org/plugins/bo
 **Improvements**
 
 - Don't trigger any new boxes when a box is currently open.
-- Fail more gracefully when not running PHP 5.3 or higher.
+- Fail gracefully when not running PHP 5.3 or higher.
 
 
 #### 3.1.2 - August 2, 2016
