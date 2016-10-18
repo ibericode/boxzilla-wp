@@ -2,6 +2,17 @@ Changelog
 ==========
 
 
+#### 3.1.6 - October 18, 2016
+
+**Fixes**
+
+- Scroll to bottom when closing box in MobileSafari browsers.
+
+**Improvements**
+
+- Failsafe against including the Boxzilla script twice, to prevent duplicate elements.
+
+
 #### 3.1.5 - September 6, 2016
 
 **Fixes**
