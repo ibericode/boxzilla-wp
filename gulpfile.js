@@ -80,3 +80,9 @@ gulp.task('languages', function () {
         } ))
         .pipe(gulp.dest('languages'));
 });
+
+
+gulp.task('watch', function () {
+    gulp.watch('./*/assets/sass/**/*.scss', ['sass']);
+    gulp.watch('./*/assets/browserify/**/*.js', ['browserify']);
+});
