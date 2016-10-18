@@ -4,7 +4,7 @@ Donate link: https://boxzillaplugin.com/#utm_source=wp-plugin-repo&utm_medium=bo
 Tags: scroll triggered box, cta, social, pop-up, newsletter, call to action, mailchimp, contact form 7, social media, mc4wp, ibericode
 Requires at least: 3.8
 Tested up to: 4.6.1
-Stable tag: 3.1.5
+Stable tag: 3.1.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -148,6 +148,17 @@ Have a look at the [frequently asked questions](https://wordpress.org/plugins/bo
 
 == Changelog ==
 
+
+
+#### 3.1.6 - October 18, 2016
+
+**Fixes**
+
+- Scroll to bottom when closing box in MobileSafari browsers.
+
+**Improvements**
+
+- Failsafe against including the Boxzilla script twice, to prevent duplicate elements.
 
 
 #### 3.1.5 - September 6, 2016
