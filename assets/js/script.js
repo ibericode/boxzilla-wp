@@ -613,6 +613,11 @@ module.exports = function(_Boxzilla) {
 },{"./animator.js":2}],4:[function(require,module,exports){
 'use strict';
 
+// failsafe against loading script twice...
+if( window.Boxzilla ) {
+    return;
+}
+
 var EventEmitter = require('wolfy87-eventemitter'),
     Boxzilla = Object.create(EventEmitter.prototype),
     Box = require('./box.js')(Boxzilla),
