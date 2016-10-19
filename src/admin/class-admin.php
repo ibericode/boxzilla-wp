@@ -21,12 +21,18 @@ class Admin {
 	protected $boxzilla;
 
 	/**
+	 * @var ReviewNotice
+	 */
+	protected $review_notice;
+
+	/**
 	 * @param Plugin $plugin
 	 * @param Boxzilla $boxzilla
 	 */
 	public function __construct( Plugin $plugin, Boxzilla $boxzilla ) {
 		$this->plugin = $plugin;
 		$this->boxzilla = $boxzilla;
+		$this->review_notice = new ReviewNotice();
 	}
 
 	/**
@@ -48,11 +54,37 @@ class Admin {
 	protected function add_hooks() {
 		add_action( 'admin_init', array( $this, 'lazy_add_hooks' ) );
 		add_action( 'admin_init', array( $this, 'register' ) );
+		add_action( 'init', array( $this, 'listen_for_actions' ) );
 		add_action( 'admin_menu', array( $this, 'menu' ) );
 		add_action( 'admin_notices', array( $this, 'notices' ) );
 		add_action( 'save_post_boxzilla-box', array( $this, 'save_box_options' ), 20, 2 );
 		add_action( 'trashed_post', array( $this, 'flush_rules' ) );
 		add_action( 'untrashed_post', array( $this, 'flush_rules' ) );
+
+		$this->review_notice->add_hooks();
+	}
+
+	/**
+	 * Listen for admin actions.
+	 */
+	public function listen_for_actions() {
+
+		// triggered?
+		$vars = array_merge( $_POST, $_GET );
+		if( empty( $vars['_boxzilla_admin_action'] ) ) {
+			return false;
+		}
+
+		// authorized?
+		if( ! current_user_can( 'edit_posts' ) ) {
+			return false;
+		}
+
+		// fire action
+		$action = $vars['_boxzilla_admin_action'];
+		do_action( 'boxzilla_admin_' . $action );
+
+		return true;
 	}
 
 	/**

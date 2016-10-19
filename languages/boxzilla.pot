@@ -13,60 +13,72 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-#: src/admin/class-admin.php:143
+#: src/admin/class-admin.php:159
 msgid "Awesome, you are using Boxzilla! You can now safely <a href=\"%s\">deactivate the Scroll Triggered Boxes plugin</a>."
 msgstr ""
 
-#: src/admin/class-admin.php:277
+#: src/admin/class-admin.php:293
 msgid "Box ID"
 msgstr ""
 
-#: src/admin/class-admin.php:283
+#: src/admin/class-admin.php:299
 msgid "Box Title"
 msgstr ""
 
-#: src/admin/class-admin.php:351, src/admin/class-admin.php:353, src/admin/views/settings.php:7
+#: src/admin/class-admin.php:367, src/admin/class-admin.php:369, src/admin/views/settings.php:7
 msgid "Settings"
 msgstr ""
 
-#: src/admin/class-admin.php:363, src/admin/class-admin.php:365
+#: src/admin/class-admin.php:379, src/admin/class-admin.php:381
 msgid "Extensions"
 msgstr ""
 
-#: src/admin/class-admin.php:551
+#: src/admin/class-admin.php:567
 msgid "Enter a comma-separated list of values."
 msgstr ""
 
-#: src/admin/class-admin.php:553
+#: src/admin/class-admin.php:569
 msgid "Enter a comma-separated list of post slugs or post ID's.."
 msgstr ""
 
-#: src/admin/class-admin.php:555
+#: src/admin/class-admin.php:571
 msgid "Enter a comma-separated list of page slugs or page ID's.."
 msgstr ""
 
-#: src/admin/class-admin.php:557
+#: src/admin/class-admin.php:573
 msgid "Enter a comma-separated list of post types.."
 msgstr ""
 
-#: src/admin/class-admin.php:559
+#: src/admin/class-admin.php:575
 msgid "Enter a comma-separated list of relative URL's, eg /contact/"
 msgstr ""
 
-#: src/admin/class-admin.php:625
+#: src/admin/class-admin.php:641
 msgid "Box Appearance"
 msgstr ""
 
-#: src/admin/class-admin.php:643
+#: src/admin/class-admin.php:659
 msgid "Box Options"
 msgstr ""
 
-#: src/admin/class-admin.php:661
+#: src/admin/class-admin.php:677
 msgid "Looking for help?"
 msgstr ""
 
-#: src/admin/class-admin.php:677
+#: src/admin/class-admin.php:693
 msgid "Subscribe to our newsletter"
+msgstr ""
+
+#: src/admin/class-review-notice.php:69
+msgid "You've been using Boxzilla for some time now; we hope you love it!"
+msgstr ""
+
+#: src/admin/class-review-notice.php:70
+msgid "If you do, please <a href=\"%s\">leave us a 5★ rating on WordPress.org</a>. It would be of great help to us."
+msgstr ""
+
+#: src/admin/class-review-notice.php:72
+msgid "Dismiss this notice."
 msgstr ""
 
 #: src/admin/views/extensions.php:4
