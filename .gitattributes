@@ -1,12 +1,11 @@
 /languages/*        linguist-vendored
 /.tx/*              linguist-vendored
 /.*                 export-ignore
+/*.lock		        export-ignore
+/*.json             export-ignore
 /codesniffer.xml    export-ignore
-/composer.json		export-ignore
-/composer.lock		export-ignore
 /phpunit.xml.dist   export-ignore
 /gulpfile.js        export-ignore
-/package.json		export-ignore
 /node_modules/*		export-ignore
 /tests              export-ignore
 /build				export-ignore
