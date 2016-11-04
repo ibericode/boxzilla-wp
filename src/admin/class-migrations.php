@@ -61,9 +61,18 @@ class Migrations {
             $parts = explode( '-', $migration );
             $version = $parts[0];
 
-            if( version_compare( $this->version_from, $version, '<' ) ) {
-                $migrations[] = $file;
+            // check if migration file is not for an even higher version
+            if( version_compare( $version, $this->version_to, '>' ) ) {
+                continue;
             }
+
+            // check if we ran migration file before.
+            if( version_compare( $this->version_from, $version, '>=' ) ) {
+                continue;
+            }
+
+            // schedule migration file for running
+            $migrations[] = $file;
         }
 
         return $migrations;
