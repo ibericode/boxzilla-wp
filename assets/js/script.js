@@ -826,6 +826,7 @@ Boxzilla.init = function() {
     document.body.appendChild(overlay);
 
     // event binds
+    window.addEventListener('touchmove', throttle(checkHeightCriteria));
     window.addEventListener('scroll', throttle(checkHeightCriteria));
     window.addEventListener('resize', throttle(recalculateHeights));
     window.addEventListener('load', recalculateHeights );
