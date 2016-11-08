@@ -1,12 +1,20 @@
 Changelog
 ==========
 
-
-#### 3.1.6 - October 18, 2016
+#### 3.1.7 - November 8, 2016
 
 **Fixes**
 
+- Cookie length value was reset on every plugin update.
 - Scroll to bottom when closing box in MobileSafari browsers.
+
+**Improvements**
+
+- Add CSS class to overlay when box is toggled.
+- Ask for [plugin review](https://wordpress.org/support/plugin/boxzilla/reviews/#new-post) after 2 weeks of usage.
+
+
+#### 3.1.6 - October 18, 2016
 
 **Improvements**
 
