@@ -455,7 +455,6 @@ Box.prototype.toggle = function(show) {
 
     // show or hide box using selected animation
     if( this.config.position === 'center' ) {
-        this.overlay.classList.toggle('boxzilla-' + this.id + '-overlay');
         Animator.toggle(this.overlay, "fade");
     }
 
@@ -828,7 +827,6 @@ Boxzilla.init = function() {
     document.body.appendChild(overlay);
 
     // event binds
-    window.addEventListener('touchmove', throttle(checkHeightCriteria));
     window.addEventListener('scroll', throttle(checkHeightCriteria));
     window.addEventListener('resize', throttle(recalculateHeights));
     window.addEventListener('load', recalculateHeights );
