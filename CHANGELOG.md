@@ -1,6 +1,14 @@
 Changelog
 ==========
 
+
+#### 3.1.8 - November 8, 2017
+
+**Fixes**
+
+- JS error on sites running HTTPS, introduced by v3.1.7.
+
+
 #### 3.1.7 - November 8, 2016
 
 **Fixes**
