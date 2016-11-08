@@ -16,7 +16,8 @@ const wrap = require('gulp-wrap');
 const wpPot = require('gulp-wp-pot');
 const sort = require('gulp-sort');
 const sass = require('gulp-sass');
-const babel = require('gulp-babel');
+const babelify = require('babelify');
+const fs = require("fs");
 
 gulp.task('default', ['sass', 'browserify', 'uglify', 'languages' ]);
 
@@ -41,13 +42,20 @@ gulp.task('browserify', function () {
 
     globby("./assets/browserify/[^_]*.js").then(function(entries) {
         merge(entries.map(function(entry) {
-            var filename = entry.split('/').pop();
-            return browserify({entries: [entry]})
-                .bundle()
-                .on('error', console.log)
-                .pipe(source(filename))
-                .pipe(wrap('(function () { var require = undefined; var module = undefined; var exports = undefined; var define = undefined; <%=contents%>; })();'))
+            var bundler = browserify({entries: [entry]})
+                .transform(babelify, {
+                    global: true,
+                    ignore: /\/node_modules\/(?!boxzilla\/)/,
+                    presets: ["es2015"]
+                });
 
+            var filename = entry.split('/').pop();
+
+            return bundler
+                .bundle()
+                .pipe(source(filename))
+                .pipe(buffer())
+                .pipe(wrap('(function () { var require = undefined; var module = undefined; var exports = undefined; var define = undefined; <%=contents%>; })();'))
                 // create .js file
                 .pipe(rename({ extname: '.js' }))
                 .pipe(gulp.dest('./assets/js'));
@@ -61,9 +69,6 @@ gulp.task('browserify', function () {
 
 gulp.task('uglify', ['browserify'], function() {
     return gulp.src(['./assets/js/**/*.js','!./assets/js/**/*.min.js'])
-        .pipe(babel({
-            presets: ['es2015']
-        }))
         .pipe(sourcemaps.init({loadMaps: true}))
         .pipe(streamify(uglify().on('error', console.log)))
         .pipe(rename({extname: '.min.js'}))
