@@ -32,7 +32,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         // fix http:// links in box content....
         if (window.location.protocol === "https:" && window.location.host) {
             var o = "http://" + window.location.host;
-            var n = old.replace('http://', 'https://');
+            var n = o.replace('http://', 'https://');
             boxOpts.content = boxOpts.content.replace(o, n);
         }
 
