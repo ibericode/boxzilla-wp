@@ -19,8 +19,10 @@ for( var i=0; i < options.boxes.length; i++ ) {
     boxOpts.testMode = isLoggedIn && options.testMode;
 
     // fix http:// links in box content....
-    if( window.location.origin.substring(0, 5) === "https" ) {
-        boxOpts.content = boxOpts.content.replace(window.location.origin.replace("https", "http"), window.location.origin);
+    if( window.location.protocol === "https:" && window.location.host ) {
+        var o = "http://" + window.location.host;
+        var n = old.replace('http://', 'https://');
+        boxOpts.content = boxOpts.content.replace(o, n);
     }
 
     // create box
