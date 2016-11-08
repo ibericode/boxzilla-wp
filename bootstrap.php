@@ -13,6 +13,8 @@ $provider->register( $boxzilla );
 $provider = new Licensing\LicenseServiceProvider();
 $provider->register( $boxzilla );
 
+
+
 // Rest of bootstrapping runs at plugins_loaded:90
 add_action( 'plugins_loaded', function() use( $boxzilla ) {
 

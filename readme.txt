@@ -4,7 +4,7 @@ Donate link: https://boxzillaplugin.com/#utm_source=wp-plugin-repo&utm_medium=bo
 Tags: scroll triggered box, cta, social, pop-up, newsletter, call to action, mailchimp, contact form 7, social media, mc4wp, ibericode
 Requires at least: 3.8
 Tested up to: 4.6.1
-Stable tag: 3.1.6
+Stable tag: 3.1.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -149,12 +149,20 @@ Have a look at the [frequently asked questions](https://wordpress.org/plugins/bo
 == Changelog ==
 
 
-
-#### 3.1.6 - October 18, 2016
+#### 3.1.7 - November 8, 2016
 
 **Fixes**
 
+- Cookie length value was reset on every plugin update.
 - Scroll to bottom when closing box in MobileSafari browsers.
+
+**Improvements**
+
+- Add CSS class to overlay when box is toggled.
+- Ask for [plugin review](https://wordpress.org/support/plugin/boxzilla/reviews/#new-post) after 2 weeks of usage.
+
+
+#### 3.1.6 - October 18, 2016
 
 **Improvements**
 
