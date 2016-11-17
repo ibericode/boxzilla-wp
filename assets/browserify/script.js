@@ -15,7 +15,34 @@
         }
     }
 
-    ready(function() {
+    // helper function for setting CSS styles
+    function css(element, styles) {
+        if( styles.background_color ) {
+            element.style.background = styles.background_color;
+        }
+
+        if( styles.color ) {
+            element.style.color = styles.color;
+        }
+
+        if( styles.border_color ) {
+            element.style.borderColor = styles.border_color;
+        }
+
+        if( styles.border_width ) {
+            element.style.borderWidth = parseInt(styles.border_width) + "px";
+        }
+
+        if( styles.border_style ) {
+            element.style.borderStyle = styles.border_style;
+        }
+
+        if( styles.width ) {
+            element.style.maxWidth = parseInt(styles.width) + "px";
+        }
+    }
+
+    function createBoxesFromConfig() {
         var isLoggedIn = document.body.className.indexOf('logged-in') > -1;
 
         // failsafe against including script twice.
@@ -54,53 +81,34 @@
             box.element.firstChild.lastChild.className += " last-child";
         }
 
-        // helper function for setting CSS styles
-        function css(element, styles) {
-            if( styles.background_color ) {
-                element.style.background = styles.background_color;
-            }
-
-            if( styles.color ) {
-                element.style.color = styles.color;
-            }
-
-            if( styles.border_color ) {
-                element.style.borderColor = styles.border_color;
-            }
-
-            if( styles.border_width ) {
-                element.style.borderWidth = parseInt(styles.border_width) + "px";
-            }
-
-            if( styles.border_style ) {
-                element.style.borderStyle = styles.border_style;
-            }
-
-            if( styles.width ) {
-                element.style.maxWidth = parseInt(styles.width) + "px";
-            }
-        }
-
         /**
          * If a MailChimp for WordPress form was submitted, open the box containing that form (if any)
          *
          * TODO: Just set location hash from MailChimp for WP?
          */
-        window.addEventListener('load', function() {
-            if( typeof(window.mc4wp_forms_config) === "object" && window.mc4wp_forms_config.submitted_form ) {
-                var selector = '#' + window.mc4wp_forms_config.submitted_form.element_id;
-                var boxes = Boxzilla.boxes;
-                for( var boxId in boxes ) {
-                    if(!boxes.hasOwnProperty(boxId)) { continue; }
-                    var box = boxes[boxId];
-                    if( box.element.querySelector(selector)) {
-                        box.show();
-                        return;
-                    }
-                }
-            }
-        });
+        window.addEventListener('load', openMailChimpForWordPressBox);
 
         options.inited = true;
-    });
+
+        // trigger "done" event.
+        Boxzilla.trigger('done');
+    }
+
+    function openMailChimpForWordPressBox() {
+        if( typeof(window.mc4wp_forms_config) === "object" && window.mc4wp_forms_config.submitted_form ) {
+            var selector = '#' + window.mc4wp_forms_config.submitted_form.element_id;
+            var boxes = Boxzilla.boxes;
+            for( var boxId in boxes ) {
+                if(!boxes.hasOwnProperty(boxId)) { continue; }
+                var box = boxes[boxId];
+                if( box.element.querySelector(selector)) {
+                    box.show();
+                    return;
+                }
+            }
+        }
+    }
+
+    // create boxes as soon as document.ready fires
+    ready(createBoxesFromConfig);
 })();
