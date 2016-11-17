@@ -380,13 +380,6 @@ Box.prototype.events = function () {
         Boxzilla.trigger('box.interactions.form', [box, e.target]);
     }, false);
 
-    window.addEventListener("hashchange", function () {
-        var needle = "#boxzilla-" + box.id;
-        if (location.hash === needle) {
-            box.toggle();
-        }
-    });
-
     // maybe show box right away
     if (this.fits() && this.locationHashRefersBox()) {
         window.addEventListener('load', this.show.bind(this));
@@ -834,6 +827,14 @@ function onMouseEnter() {
     }
 }
 
+function onElementClick(e) {
+    var el = e.target || e.srcElement;
+    if (el && el.tagName === 'A' && el.getAttribute('href').indexOf('#boxzilla-') === 0) {
+        var boxId = e.target.getAttribute('href').substring("#boxzilla-".length);
+        Boxzilla.toggle(boxId);
+    }
+}
+
 var timers = {
     start: function start() {
         var sessionTime = sessionStorage.getItem('boxzilla_timer');
@@ -850,6 +851,7 @@ var timers = {
 
 // initialise & add event listeners
 Boxzilla.init = function () {
+    window.addEventListener('click', onElementClick, false);
     siteTimer = new Timer(sessionStorage.getItem('boxzilla_timer') || 0);
     pageTimer = new Timer(0);
     pageViews = sessionStorage.getItem('boxzilla_pageviews') || 0;
