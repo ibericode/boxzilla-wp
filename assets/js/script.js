@@ -79,6 +79,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             // create box
             var box = Boxzilla.create(boxOpts.id, boxOpts);
 
+            // add box slug to box element as classname
+            box.element.className = box.element.className + ' boxzilla-' + boxOpts.post.slug;
+
             // add custom css to box
             css(box.element, boxOpts.css);
 

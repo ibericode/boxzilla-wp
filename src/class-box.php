@@ -31,6 +31,11 @@ class Box {
 	 */
 	public $enabled = false;
 
+    /**
+     * @var WP_Post
+     */
+    private $post;
+
 	/**
 	 * @param WP_Post|int $post
 	 */
@@ -40,6 +45,9 @@ class Box {
 		if( ! $post instanceof WP_Post ) {
 			$post = get_post( $post );
 		}
+
+		// store ref to post
+		$this->post = $post;
 
 		// store ID in property for quick access
 		$this->ID = $post->ID;
@@ -187,13 +195,19 @@ class Box {
 		return $minimum_screen_size;
 	}
 
+    /**
+     * Get options object for JS script.
+     *
+     * @return array
+     */
 	public function get_client_options() {
 		$box = $this;
 
 		$trigger = false;
 		if( $box->options['trigger'] ) {
-
-			$trigger = array( 'method' => $this->options['trigger'] );
+			$trigger = array(
+			    'method' => $this->options['trigger']
+            );
 
 			if( isset( $this->options[ 'trigger_' . $this->options['trigger'] ] ) ) {
 				$trigger['value'] = $this->options[ 'trigger_' . $this->options['trigger'] ];
@@ -215,6 +229,11 @@ class Box {
 			'position' => $box->options['css']['position'],
 			'minimumScreenWidth' => $box->get_minimum_screen_size(),
 			'closable' => $box->options['closable'],
+            'post' => array(
+                'id' => $this->post->ID,
+                'title' => $this->post->post_title,
+                'slug' => $this->post->post_name,
+            ),
 		);
 
 		/**
