@@ -370,7 +370,10 @@ Box.prototype.events = function () {
     var box = this;
 
     // attach event to "close" icon inside box
-    this.closeIcon && this.closeIcon.addEventListener('click', box.dismiss.bind(this));
+    this.closeIcon && this.closeIcon.addEventListener('click', function () {
+        this.element.style.position = "absolute"; // set absolute position to prevent page jump
+        this.dismiss();
+    }.bind(this));
 
     this.element.addEventListener('click', function (e) {
         if (e.target.tagName === 'A') {
