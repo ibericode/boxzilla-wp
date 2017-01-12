@@ -370,10 +370,9 @@ Box.prototype.events = function () {
     var box = this;
 
     // attach event to "close" icon inside box
-    this.closeIcon && this.closeIcon.addEventListener('click', function () {
-        this.element.style.position = "absolute"; // set absolute position to prevent page jump
-        this.dismiss();
-    }.bind(this));
+    if (this.closeIcon) {
+        this.closeIcon.addEventListener('click', this.dismiss.bind(this));
+    }
 
     this.element.addEventListener('click', function (e) {
         if (e.target.tagName === 'A') {
@@ -862,6 +861,12 @@ Boxzilla.init = function () {
     pageTimer = new Timer(0);
     pageViews = sessionStorage.getItem('boxzilla_pageviews') || 0;
 
+    // sniff user agent for mobile safari fix...(https://stackoverflow.com/questions/29001977/safari-in-ios8-is-scrolling-screen-when-fixed-elements-get-focus#29064810)
+    var ua = navigator.userAgent.toLowerCase();
+    if (ua.indexOf('safari') > -1 && ua.indexOf('mobile') > -1) {
+        document.body.className = document.body.className + ' mobile-safari';
+    }
+
     // insert styles into DOM
     var styles = require('./styles.js');
     var styleElement = document.createElement('style');
@@ -977,7 +982,7 @@ if (typeof module !== 'undefined' && module.exports) {
 },{"./box.js":3,"./styles.js":5,"./timer.js":6,"wolfy87-eventemitter":7}],5:[function(require,module,exports){
 "use strict";
 
-var styles = "@media(max-width:780px){body,html{-webkit-overflow-scrolling:touch!important}}#boxzilla-overlay{position:fixed;background:rgba(0,0,0,.65);width:100%;height:100%;left:0;top:0;z-index:99999}.boxzilla-center-container{position:fixed;top:0;left:0;right:0;height:0;text-align:center;z-index:999999;line-height:0}.boxzilla-center-container .boxzilla{display:inline-block;text-align:left;position:relative;line-height:normal}.boxzilla{position:fixed;z-index:999999;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;background:#fff;padding:25px}.boxzilla.boxzilla-top-left{top:0;left:0}.boxzilla.boxzilla-top-right{top:0;right:0}.boxzilla.boxzilla-bottom-left{bottom:0;left:0}.boxzilla.boxzilla-bottom-right{bottom:0;right:0}.boxzilla-content>:first-child{margin-top:0;padding-top:0}.boxzilla-content>:last-child{margin-bottom:0;padding-bottom:0}.boxzilla-close-icon{position:absolute;right:0;top:0;text-align:center;padding:6px;cursor:pointer;-webkit-appearance:none;font-size:28px;font-weight:700;line-height:20px;color:#000;opacity:.5}.boxzilla-close-icon:focus,.boxzilla-close-icon:hover{opacity:.8}";
+var styles = ".mobile-safari,.mobile-safari body{-webkit-overflow-scrolling:touch!important;overflow:auto!important;height:100%!important;position:static!important}.mobile-safari .boxzilla,.mobile-safari .boxzilla-center-container{position:absolute}.mobile-safari .boxzilla-center-container .boxzilla{position:relative}#boxzilla-overlay{position:fixed;background:rgba(0,0,0,.65);width:100%;height:100%;left:0;top:0;z-index:99999}.boxzilla-center-container{position:fixed;top:0;left:0;right:0;height:0;text-align:center;z-index:999999;line-height:0}.boxzilla-center-container .boxzilla{display:inline-block;text-align:left;position:relative;line-height:normal}.boxzilla{position:fixed;z-index:999999;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;background:#fff;padding:25px}.boxzilla.boxzilla-top-left{top:0;left:0}.boxzilla.boxzilla-top-right{top:0;right:0}.boxzilla.boxzilla-bottom-left{bottom:0;left:0}.boxzilla.boxzilla-bottom-right{bottom:0;right:0}.boxzilla-content>:first-child{margin-top:0;padding-top:0}.boxzilla-content>:last-child{margin-bottom:0;padding-bottom:0}.boxzilla-close-icon{position:absolute;right:0;top:0;text-align:center;padding:6px;cursor:pointer;-webkit-appearance:none;font-size:28px;font-weight:700;line-height:20px;color:#000;opacity:.5}.boxzilla-close-icon:focus,.boxzilla-close-icon:hover{opacity:.8}";
 module.exports = styles;
 
 },{}],6:[function(require,module,exports){
