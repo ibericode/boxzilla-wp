@@ -834,8 +834,8 @@ function onMouseEnter() {
 
 function onElementClick(e) {
     var el = e.target || e.srcElement;
-    if (el && el.tagName === 'A' && el.getAttribute('href').indexOf('#boxzilla-') === 0) {
-        var boxId = e.target.getAttribute('href').substring("#boxzilla-".length);
+    if (el && el.tagName === 'A' && el.getAttribute('href').toLowerCase().indexOf('#boxzilla-') === 0) {
+        var boxId = e.target.getAttribute('href').toLowerCase().substring("#boxzilla-".length);
         Boxzilla.toggle(boxId);
     }
 }
@@ -856,7 +856,7 @@ var timers = {
 
 // initialise & add event listeners
 Boxzilla.init = function () {
-    window.addEventListener('click', onElementClick, false);
+    document.body.addEventListener('click', onElementClick, false);
     siteTimer = new Timer(sessionStorage.getItem('boxzilla_timer') || 0);
     pageTimer = new Timer(0);
     pageViews = sessionStorage.getItem('boxzilla_pageviews') || 0;
