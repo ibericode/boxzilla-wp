@@ -38,7 +38,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @ignore
  * @internal
  */
-function __load_boxzilla() {
+function _load_boxzilla() {
 
 	define( 'BOXZILLA_FILE', __FILE__ );
 	define( 'BOXZILLA_VERSION', '3.1.8-trunk' );
@@ -62,7 +62,7 @@ if( ! function_exists( 'boxzilla' ) ) {
 register_activation_hook( __FILE__, array( 'Boxzilla\\Admin\\Installer', 'run' ) );
 
 // hook into plugins_loaded for boostrapping
-add_action( 'plugins_loaded', '__load_boxzilla', 8 );
+add_action( 'plugins_loaded', '_load_boxzilla', 8 );
 
 
 
