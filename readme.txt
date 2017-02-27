@@ -4,7 +4,7 @@ Donate link: https://boxzillaplugin.com/#utm_source=wp-plugin-repo&utm_medium=bo
 Tags: scroll triggered box, cta, social, pop-up, newsletter, call to action, mailchimp, contact form 7, social media, mc4wp, ibericode
 Requires at least: 4.1
 Tested up to: 4.7
-Stable tag: 3.1.8-trunk
+Stable tag: 3.1.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -149,8 +149,22 @@ Have a look at the [frequently asked questions](https://wordpress.org/plugins/bo
 == Changelog ==
 
 
+#### 3.1.9 - February 27, 2017
 
-#### 3.1.8 - November 8, 2017
+**Fixes**
+
+- Compatibility error with PHP 7.1 because of function name with double underscore prefix.
+
+**Improvements**
+
+- Removed autofocus when box shows because of mobile browser issues & popping up keyboard.
+
+**Additions**
+
+- Added Romanian language files.
+
+
+#### 3.1.8 - November 8, 2016
 
 **Fixes**
 
