@@ -1,8 +1,22 @@
 Changelog
 ==========
 
+#### 3.1.9 - February 27, 2017
 
-#### 3.1.8 - November 8, 2017
+**Fixes**
+
+- Compatibility error with PHP 7.1 because of function name with double underscore prefix.
+
+**Improvements**
+
+- Removed autofocus when box shows because of mobile browser issues & popping up keyboard.
+
+**Additions**
+
+- Added Romanian language files.
+
+
+#### 3.1.8 - November 8, 2016
 
 **Fixes**
 
