@@ -1,0 +1,468 @@
+# Copyright (C) 2016 boxzilla
+# This file is distributed under the same license as the boxzilla package.
+msgid ""
+msgstr ""
+"Project-Id-Version: boxzilla\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2017-02-22 19:48+0200\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?"
+"2:1));\n"
+"POT-Creation-Date: \n"
+"Language-Team: \n"
+"X-Generator: Poedit 1.8.12\n"
+"Last-Translator: \n"
+"Language: ro\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: src/admin/class-admin.php:207
+msgid ""
+"Awesome, you are using Boxzilla! You can now safely <a href=\"%s"
+"\">deactivate the Scroll Triggered Boxes plugin</a>."
+msgstr ""
+"Super, folosești Boxzilla! Acum poți <a href=\"%s\">dezactiva în siguranță "
+"modulul Scroll Triggered Boxes</a>."
+
+#: src/admin/class-admin.php:341
+msgid "Box ID"
+msgstr "ID Casetă"
+
+#: src/admin/class-admin.php:347
+msgid "Box Title"
+msgstr "Titlu Casetă"
+
+#: src/admin/class-admin.php:415, src/admin/class-admin.php:417,
+#: src/admin/views/settings.php:7
+msgid "Settings"
+msgstr "Setări"
+
+#: src/admin/class-admin.php:427, src/admin/class-admin.php:429
+msgid "Extensions"
+msgstr "Extensii"
+
+#: src/admin/class-admin.php:615
+msgid "Enter a comma-separated list of values."
+msgstr "Introdu o listă de valori separate prin virgule."
+
+#: src/admin/class-admin.php:617
+msgid "Enter a comma-separated list of post slugs or post ID's.."
+msgstr ""
+"Introdu o listă de post slugs sau ID-uri ale postărilor separate prin "
+"virgule.."
+
+#: src/admin/class-admin.php:619
+msgid "Enter a comma-separated list of page slugs or page ID's.."
+msgstr ""
+"Introdu o listă de page slugs sau ID-uri ale paginilior separate prin "
+"virgule.."
+
+#: src/admin/class-admin.php:621
+msgid "Enter a comma-separated list of post types.."
+msgstr "Introdu o listă de tipuri de postări separate prin virgule.."
+
+#: src/admin/class-admin.php:623
+msgid "Enter a comma-separated list of relative URL's, eg /contact/"
+msgstr ""
+"Introdu o listă de link-uri relative, cum ar fi /contact/ separate prin "
+"virgule."
+
+#: src/admin/class-admin.php:689
+msgid "Box Appearance"
+msgstr "Aspect casetă"
+
+#: src/admin/class-admin.php:707
+msgid "Box Options"
+msgstr "Opțiuni casetă"
+
+#: src/admin/class-admin.php:725
+msgid "Looking for help?"
+msgstr "Cauți ajutor?"
+
+#: src/admin/class-admin.php:741
+msgid "Subscribe to our newsletter"
+msgstr "Abonează-te la noutăți"
+
+#: src/admin/class-review-notice.php:74
+msgid "You've been using Boxzilla for some time now; we hope you love it!"
+msgstr "Folosești Boxzilla de ceva timp; sperăm că îți place!"
+
+#: src/admin/class-review-notice.php:75
+msgid ""
+"If you do, please <a href=\"%s\">leave us a 5★ rating on WordPress.org</a>. "
+"It would be of great help to us."
+msgstr ""
+"Dacă da, te rugăm <a href=\"%s\">lasă-ne 5★ pe WordPress.org</a>. Ne-ar fi "
+"de mare ajutor."
+
+#: src/admin/class-review-notice.php:77
+msgid "Dismiss this notice."
+msgstr "Înlătură această notificare."
+
+#: src/admin/views/extensions.php:4
+msgid "Available Add-On Plugins"
+msgstr "Module Add-On disponibile"
+
+#: src/admin/views/extensions.php:6
+msgid ""
+"There are various add-ons available for Boxzilla which further enhance the "
+"functionality of the core plugin."
+msgstr ""
+"Sunt disponibile diferite add-on-uri disponibile pentru Boxzilla care vor "
+"îmbunătăți funcționalitatea modulului de bază."
+
+#: src/admin/views/extensions.php:9
+msgid ""
+"To gain instant access the premium add-on plugins listed here, <a href=\"%s"
+"\">have a look at our pricing</a>."
+msgstr ""
+"Pentru a primi acces instant la lista de module add-on premium listate aici, "
+"<a href=\"%s\">uită-te la prețurile noastre</a>."
+
+#: src/admin/views/extensions.php:18
+msgid "You will be redirected to the Boxzilla site in a few seconds.."
+msgstr "Vei fi redirecționat la site-ul Boxzilla în câteva secunde.."
+
+#: src/admin/views/extensions.php:19
+msgid "If not, please click here: %s."
+msgstr "Dacă nu, te rugam dă click aici: %s."
+
+#: src/admin/views/metaboxes/box-appearance-controls.php:2
+msgid ""
+"For the best experience when styling your box, please use the default "
+"WordPress visual editor."
+msgstr ""
+"Pentru cea mai bună experiență când iți stilizezi caseta, te rugăm folosește "
+"editorul vizual implicit al WordPress."
+
+#: src/admin/views/metaboxes/box-appearance-controls.php:8
+msgid "Background color"
+msgstr "Culoare de fundal"
+
+#: src/admin/views/metaboxes/box-appearance-controls.php:12
+msgid "Text color"
+msgstr "Culoare text"
+
+#: src/admin/views/metaboxes/box-appearance-controls.php:16
+msgid "Box width"
+msgstr "Lățime casetă"
+
+#: src/admin/views/metaboxes/box-appearance-controls.php:18,
+#: src/admin/views/metaboxes/box-appearance-controls.php:29
+msgid "Width in px"
+msgstr "Lățime în px"
+
+#: src/admin/views/metaboxes/box-appearance-controls.php:23
+msgid "Border color"
+msgstr "Culoare bordură"
+
+#: src/admin/views/metaboxes/box-appearance-controls.php:27
+msgid "Border width"
+msgstr "Lățime bordură"
+
+#: src/admin/views/metaboxes/box-appearance-controls.php:32,
+#: src/admin/views/metaboxes/box-appearance-controls.php:40
+msgid "Border style"
+msgstr "Stil bordură"
+
+#: src/admin/views/metaboxes/box-appearance-controls.php:46
+msgid "<a href=\"%s\">Click here to reset all styling settings</a>."
+msgstr ""
+"<a href=\"%s\">Apasă aici pentru a reseta toate setările de stilizare</a>."
+
+#: src/admin/views/metaboxes/box-option-controls.php:21
+msgid "Select a condition"
+msgstr "Alege o condiție"
+
+#: src/admin/views/metaboxes/box-option-controls.php:23
+msgid "everywhere"
+msgstr "peste tot"
+
+#: src/admin/views/metaboxes/box-option-controls.php:25
+msgid "if page"
+msgstr "dacă pagina"
+
+#: src/admin/views/metaboxes/box-option-controls.php:27
+msgid "if post"
+msgstr "dacă postarea"
+
+#: src/admin/views/metaboxes/box-option-controls.php:29
+msgid "if post tag"
+msgstr "dacă eticheta postării"
+
+#: src/admin/views/metaboxes/box-option-controls.php:31
+msgid "if post category"
+msgstr "dacă categoria postării"
+
+#: src/admin/views/metaboxes/box-option-controls.php:33
+msgid "if post type"
+msgstr "dacă tipul postării"
+
+#: src/admin/views/metaboxes/box-option-controls.php:35
+msgid "if URL"
+msgstr "dacă URL-ul"
+
+#: src/admin/views/metaboxes/box-option-controls.php:37
+msgid "if referer"
+msgstr "dacă referer-ul"
+
+#: src/admin/views/metaboxes/box-option-controls.php:75
+msgid "Load this box if"
+msgstr "Încarcă această casetă dacă"
+
+#: src/admin/views/metaboxes/box-option-controls.php:81
+msgid "Request matches"
+msgstr "Necesită potriviri"
+
+#: src/admin/views/metaboxes/box-option-controls.php:85
+msgid "any"
+msgstr "oricare"
+
+#: src/admin/views/metaboxes/box-option-controls.php:87
+msgid "all"
+msgstr "toate"
+
+#: src/admin/views/metaboxes/box-option-controls.php:91
+msgid "of the following conditions."
+msgstr "dintre următoarele condiții"
+
+#: src/admin/views/metaboxes/box-option-controls.php:133,
+#: src/admin/views/metaboxes/box-option-controls.php:421
+msgid "is"
+msgstr "este"
+
+#: src/admin/views/metaboxes/box-option-controls.php:135,
+#: src/admin/views/metaboxes/box-option-controls.php:423
+msgid "is not"
+msgstr "nu este"
+
+#: src/admin/views/metaboxes/box-option-controls.php:141,
+#: src/admin/views/metaboxes/box-option-controls.php:429
+msgid "Leave empty for any or enter (comma-separated) names or ID's"
+msgstr ""
+"Lăsați gol pentru oricare sau introdu (separate prin virgule) nume sau ID-uri"
+
+#: src/admin/views/metaboxes/box-option-controls.php:157
+msgid "Add rule"
+msgstr "Adaugă regulă"
+
+#: src/admin/views/metaboxes/box-option-controls.php:163
+msgid "Box Position"
+msgstr "Poziția casetei"
+
+#: src/admin/views/metaboxes/box-option-controls.php:175
+msgid "Top Left"
+msgstr "Stânga sus"
+
+#: src/admin/views/metaboxes/box-option-controls.php:189
+msgid "Top Right"
+msgstr "Dreapta sus"
+
+#: src/admin/views/metaboxes/box-option-controls.php:207
+msgid "Center"
+msgstr "Centru"
+
+#: src/admin/views/metaboxes/box-option-controls.php:225
+msgid "Bottom Left"
+msgstr "Stânga jos"
+
+#: src/admin/views/metaboxes/box-option-controls.php:239
+msgid "Bottom Right"
+msgstr "Dreapta jos"
+
+#: src/admin/views/metaboxes/box-option-controls.php:257
+msgid "Animation"
+msgstr "Animatie"
+
+#: src/admin/views/metaboxes/box-option-controls.php:261
+msgid "Fade In"
+msgstr "Decolorare"
+
+#: src/admin/views/metaboxes/box-option-controls.php:263
+msgid "Slide In"
+msgstr "Glisare"
+
+#: src/admin/views/metaboxes/box-option-controls.php:265
+msgid "Which animation type should be used to show the box when triggered?"
+msgstr "Cu ce animație ar trebui să apară caseta când este activată?"
+
+#: src/admin/views/metaboxes/box-option-controls.php:273
+msgid "Auto-show box?"
+msgstr "Arată automat caseta?"
+
+#: src/admin/views/metaboxes/box-option-controls.php:277
+msgid "Never"
+msgstr "Niciodată."
+
+#: src/admin/views/metaboxes/box-option-controls.php:279
+msgid "Yes, after %s seconds on the page."
+msgstr "Da, după %s secunde pe pagină."
+
+#: src/admin/views/metaboxes/box-option-controls.php:281
+msgid "Yes, when at %s of page height"
+msgstr "Da, când este la %s din înălțimea paginii"
+
+#: src/admin/views/metaboxes/box-option-controls.php:283
+msgid "Yes, when at element %s"
+msgstr "Da, când este la elementul %s"
+
+#: src/admin/views/metaboxes/box-option-controls.php:283
+msgid "Example: #comments"
+msgstr "Exemplu: #comments"
+
+#: src/admin/views/metaboxes/box-option-controls.php:295
+msgid "Cookie expiration"
+msgstr "Expirare cookie"
+
+#: src/admin/views/metaboxes/box-option-controls.php:305,
+#: src/admin/views/metaboxes/box-option-controls.php:315
+msgid "hours"
+msgstr "ore"
+
+#: src/admin/views/metaboxes/box-option-controls.php:323
+msgid ""
+"After this box is triggered or dismissed, how many hours should it stay "
+"hidden?"
+msgstr ""
+"După ce caseta este activată sau înlăturată, câte ore trebuie să fie ascunsă?"
+
+#: src/admin/views/metaboxes/box-option-controls.php:331
+msgid "Do not auto-show box on small screens?"
+msgstr "Nu arăta automat casetele pe ecranele mici?"
+
+#: src/admin/views/metaboxes/box-option-controls.php:335
+msgid "Do not auto-show on screens smaller than %s."
+msgstr "Nu arăta automat pe ecrane mai mici de %s."
+
+#: src/admin/views/metaboxes/box-option-controls.php:337
+msgid ""
+"Leave empty if you <strong>do</strong> want to auto-show the box on small "
+"screens."
+msgstr ""
+"Lasă gol dacă <strong>vrei</strong>să apară automat caseta pe ecranele mici."
+
+#: src/admin/views/metaboxes/box-option-controls.php:347
+msgid "Auto-hide?"
+msgstr "Ascunde automat?"
+
+#: src/admin/views/metaboxes/box-option-controls.php:355
+msgid "Hide box again when visitors scroll back up?"
+msgstr "Ascunde caseta când utilizatorii derulează sus?"
+
+#: src/admin/views/metaboxes/box-option-controls.php:363,
+#: src/admin/views/settings.php:20
+msgid "Enable test mode?"
+msgstr "Activează modul de test?"
+
+#: src/admin/views/metaboxes/box-option-controls.php:371,
+#: src/admin/views/settings.php:24
+msgid ""
+"If test mode is enabled, all boxes will show up regardless of whether a "
+"cookie has been set."
+msgstr ""
+"Dacă modul de test este activat, toate castele vor apărea chiar dacă un "
+"fișier cookie a fost setat."
+
+#: src/admin/views/metaboxes/need-help.php:2
+msgid "Please make sure to look at the following available resources."
+msgstr "Te rugăm să te uiți la următoarele resurse disponibile."
+
+#: src/default-actions.php:12, src/default-actions.php:24
+msgid "Boxzilla"
+msgstr "Boxzilla"
+
+#: src/default-actions.php:13
+msgid "Box"
+msgstr "Casetă"
+
+#: src/default-actions.php:14
+msgid "Add New"
+msgstr "Adaugă"
+
+#: src/default-actions.php:15
+msgid "Add New Box"
+msgstr "Adaugă o casetă noua"
+
+#: src/default-actions.php:16
+msgid "Edit Box"
+msgstr "Editează o casetă"
+
+#: src/default-actions.php:17
+msgid "New Box"
+msgstr "Casetă nouă"
+
+#: src/default-actions.php:18
+msgid "All Boxes"
+msgstr "Toate casetele"
+
+#: src/default-actions.php:19
+msgid "View Box"
+msgstr "Vezi caseta"
+
+#: src/default-actions.php:20
+msgid "Search Boxes"
+msgstr "Caută casete"
+
+#: src/default-actions.php:21
+msgid "No Boxes found"
+msgstr "Nicio casetă găsită"
+
+#: src/default-actions.php:22
+msgid "No Boxes found in Trash"
+msgstr "Nicio casetă găsită la gunoi"
+
+#: src/licensing/class-api.php:162
+msgid "The Boxzilla server returned an invalid response."
+msgstr "Serverul Boxzilla a întors un răspuns invalid."
+
+#: src/licensing/views/license-form.php:8
+msgid "License & Plugin Updates"
+msgstr "Licență & actualizări modul."
+
+#: src/licensing/views/license-form.php:13
+msgid ""
+"Warning! You are <u>not</u> receiving plugin updates for the following "
+"plugin(s):"
+msgstr "Atenție! <u>Nu</u> primești actualizări pentru următoarele module:"
+
+#: src/licensing/views/license-form.php:27
+msgid "License Key"
+msgstr "Licență"
+
+#: src/licensing/views/license-form.php:29
+msgid "Enter your license key.."
+msgstr "Introdu codul.."
+
+#: src/licensing/views/license-form.php:32
+msgid ""
+"The license key received when purchasing your premium Boxzilla plan. <a href="
+"\"%s\">You can find it here</a>."
+msgstr ""
+"Licența este primită când achiziționezi varianta premium a BoxZilla. <a href="
+"\"%s\">Îl poți găsi aici</a>."
+
+#: src/licensing/views/license-form.php:37
+msgid "License Status"
+msgstr "Status licență"
+
+#: src/licensing/views/license-form.php:41
+msgid "ACTIVE"
+msgstr "ACTIVĂ"
+
+#: src/licensing/views/license-form.php:41
+msgid "you are receiving plugin updates"
+msgstr "primești actualizări"
+
+#: src/licensing/views/license-form.php:43
+msgid "INACTIVE"
+msgstr "INACTIVĂ"
+
+#: src/licensing/views/license-form.php:43
+msgid "you are <strong>not</strong> receiving plugin updates"
+msgstr "<strong>nu</strong> primești acutalizări"
