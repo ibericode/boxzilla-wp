@@ -139,178 +139,178 @@ msgid "<a href=\"%s\">Click here to reset all styling settings</a>."
 msgstr ""
 
 #: src/admin/views/metaboxes/box-option-controls.php:21
-msgid "Select a condition"
-msgstr ""
-
-#: src/admin/views/metaboxes/box-option-controls.php:23
 msgid "everywhere"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:25
+#: src/admin/views/metaboxes/box-option-controls.php:23
 msgid "if page"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:27
+#: src/admin/views/metaboxes/box-option-controls.php:25
 msgid "if post"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:29
+#: src/admin/views/metaboxes/box-option-controls.php:27
 msgid "if post tag"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:31
+#: src/admin/views/metaboxes/box-option-controls.php:29
 msgid "if post category"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:33
+#: src/admin/views/metaboxes/box-option-controls.php:31
 msgid "if post type"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:35
+#: src/admin/views/metaboxes/box-option-controls.php:33
 msgid "if URL"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:37
+#: src/admin/views/metaboxes/box-option-controls.php:35
 msgid "if referer"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:75
+#: src/admin/views/metaboxes/box-option-controls.php:73
 msgid "Load this box if"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:81
+#: src/admin/views/metaboxes/box-option-controls.php:79
 msgid "Request matches"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:85
+#: src/admin/views/metaboxes/box-option-controls.php:83
 msgid "any"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:87
+#: src/admin/views/metaboxes/box-option-controls.php:85
 msgid "all"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:91
+#: src/admin/views/metaboxes/box-option-controls.php:89
 msgid "of the following conditions."
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:133, src/admin/views/metaboxes/box-option-controls.php:421
+#: src/admin/views/metaboxes/box-option-controls.php:109, src/admin/views/metaboxes/box-option-controls.php:399
+msgid "Remove rule"
+msgstr ""
+
+#: src/admin/views/metaboxes/box-option-controls.php:129, src/admin/views/metaboxes/box-option-controls.php:417
 msgid "is"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:135, src/admin/views/metaboxes/box-option-controls.php:423
+#: src/admin/views/metaboxes/box-option-controls.php:131, src/admin/views/metaboxes/box-option-controls.php:419
 msgid "is not"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:141, src/admin/views/metaboxes/box-option-controls.php:429
+#: src/admin/views/metaboxes/box-option-controls.php:137, src/admin/views/metaboxes/box-option-controls.php:425
 msgid "Leave empty for any or enter (comma-separated) names or ID's"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:157
+#: src/admin/views/metaboxes/box-option-controls.php:153
 msgid "Add rule"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:163
+#: src/admin/views/metaboxes/box-option-controls.php:159
 msgid "Box Position"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:175
+#: src/admin/views/metaboxes/box-option-controls.php:171
 msgid "Top Left"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:189
+#: src/admin/views/metaboxes/box-option-controls.php:185
 msgid "Top Right"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:207
+#: src/admin/views/metaboxes/box-option-controls.php:203
 msgid "Center"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:225
+#: src/admin/views/metaboxes/box-option-controls.php:221
 msgid "Bottom Left"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:239
+#: src/admin/views/metaboxes/box-option-controls.php:235
 msgid "Bottom Right"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:257
+#: src/admin/views/metaboxes/box-option-controls.php:253
 msgid "Animation"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:261
+#: src/admin/views/metaboxes/box-option-controls.php:257
 msgid "Fade In"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:263
+#: src/admin/views/metaboxes/box-option-controls.php:259
 msgid "Slide In"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:265
+#: src/admin/views/metaboxes/box-option-controls.php:261
 msgid "Which animation type should be used to show the box when triggered?"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:273
+#: src/admin/views/metaboxes/box-option-controls.php:269
 msgid "Auto-show box?"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:277
+#: src/admin/views/metaboxes/box-option-controls.php:273
 msgid "Never"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:279
+#: src/admin/views/metaboxes/box-option-controls.php:275
 msgid "Yes, after %s seconds on the page."
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:281
+#: src/admin/views/metaboxes/box-option-controls.php:277
 msgid "Yes, when at %s of page height"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:283
+#: src/admin/views/metaboxes/box-option-controls.php:279
 msgid "Yes, when at element %s"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:283
+#: src/admin/views/metaboxes/box-option-controls.php:279
 msgid "Example: #comments"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:295
+#: src/admin/views/metaboxes/box-option-controls.php:291
 msgid "Cookie expiration"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:305, src/admin/views/metaboxes/box-option-controls.php:315
+#: src/admin/views/metaboxes/box-option-controls.php:301, src/admin/views/metaboxes/box-option-controls.php:311
 msgid "hours"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:323
+#: src/admin/views/metaboxes/box-option-controls.php:319
 msgid "After this box is triggered or dismissed, how many hours should it stay hidden?"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:331
+#: src/admin/views/metaboxes/box-option-controls.php:327
 msgid "Do not auto-show box on small screens?"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:335
+#: src/admin/views/metaboxes/box-option-controls.php:331
 msgid "Do not auto-show on screens smaller than %s."
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:337
+#: src/admin/views/metaboxes/box-option-controls.php:333
 msgid "Leave empty if you <strong>do</strong> want to auto-show the box on small screens."
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:347
+#: src/admin/views/metaboxes/box-option-controls.php:343
 msgid "Auto-hide?"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:355
+#: src/admin/views/metaboxes/box-option-controls.php:351
 msgid "Hide box again when visitors scroll back up?"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:363, src/admin/views/settings.php:20
+#: src/admin/views/metaboxes/box-option-controls.php:359, src/admin/views/settings.php:20
 msgid "Enable test mode?"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:371, src/admin/views/settings.php:24
+#: src/admin/views/metaboxes/box-option-controls.php:367, src/admin/views/settings.php:24
 msgid "If test mode is enabled, all boxes will show up regardless of whether a cookie has been set."
 msgstr ""
 
