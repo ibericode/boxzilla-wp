@@ -10,6 +10,7 @@ Changelog
 **Improvements**
 
 - Reduced overlay click error margin to 40px (instead of % based).
+- Minor UX improvements for "edit box" screen.
 
 
 #### 3.1.9 - February 27, 2017
