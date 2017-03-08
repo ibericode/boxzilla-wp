@@ -772,10 +772,10 @@ function onOverlayClick(e) {
     var x = e.offsetX;
     var y = e.offsetY;
 
-    // calculate if click was near a box to avoid closing it (click error margin)
+    // calculate if click was less than 40px outside box to avoid closing it by accident
     boxes.forEach(function (box) {
         var rect = box.element.getBoundingClientRect();
-        var margin = 100 + window.innerWidth * 0.05;
+        var margin = 40;
 
         // if click was not anywhere near box, dismiss it.
         if (x < rect.left - margin || x > rect.right + margin || y < rect.top - margin || y > rect.bottom + margin) {
@@ -972,6 +972,7 @@ Boxzilla.toggle = function (id) {
 // expose each individual box.
 Boxzilla.boxes = boxes;
 
+// expose boxzilla object
 window.Boxzilla = Boxzilla;
 
 if (typeof module !== 'undefined' && module.exports) {

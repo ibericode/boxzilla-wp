@@ -8,7 +8,6 @@ defined( 'ABSPATH' ) or exit;
 
 /** @var array $rule_options */
 $rule_options = array(
-	'' => __( "Select a condition", 'boxzilla' ),
 	'everywhere' => __( 'everywhere', 'boxzilla' ),
 	'is_page' => __( 'if page', 'boxzilla' ),
 	'is_single' => __( 'if post', 'boxzilla' ),
@@ -53,13 +52,12 @@ $rule_options = apply_filters( 'boxzilla_rules_options', $rule_options );
 	foreach( $opts['rules'] as $rule ) { if( ! array_key_exists( 'condition', $rule ) ) { continue; } ?>
 		<tr valign="top" class="boxzilla-rule-row boxzilla-rule-row-<?php echo $key; ?>">
 			<th style="text-align: right; font-weight: normal;">
-				<span class="boxzilla-close boxzilla-remove-rule"><span class="dashicons dashicons-dismiss"></span></span>
+				<span class="boxzilla-close boxzilla-remove-rule" title="<?php esc_attr_e( 'Remove rule', 'boxzilla' ); ?>"><span class="dashicons dashicons-dismiss"></span></span>
 			</th>
 			<td>
 				<select class="boxzilla-rule-condition" name="boxzilla_box[rules][<?php echo $key; ?>][condition]">
 					<?php foreach( $rule_options as $value => $label ) {
-						$readonly = $value == '' ? 'readonly': '';
-						printf( '<option value="%s" %s %s>%s</option>', $value, $readonly, selected( $rule['condition'], $value ), $label );
+						printf( '<option value="%s" %s>%s</option>', $value, selected( $rule['condition'], $value ), $label );
 					} ?>
 				</select>
 
@@ -199,7 +197,7 @@ $rule_options = apply_filters( 'boxzilla_rules_options', $rule_options );
 <script type="text/html" id="tmpl-rule-row-template">
 	<tr valign="top" class="boxzilla-rule-row boxzilla-rule-row-{{{data.key}}}">
 		<th style="text-align: right; font-weight: normal;">
-			<span class="boxzilla-close boxzilla-remove-rule"><span class="dashicons dashicons-dismiss"></span></span>
+			<span class="boxzilla-close boxzilla-remove-rule" title="<?php esc_attr_e( 'Remove rule', 'boxzilla' ); ?>"><span class="dashicons dashicons-dismiss"></span></span>
 		</th>
 		<td class="boxzilla-sm">
 			<select class="boxzilla-rule-condition" name="boxzilla_box[rules][{{{data.key}}}][condition]">

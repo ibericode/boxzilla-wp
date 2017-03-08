@@ -1,6 +1,17 @@
 Changelog
 ==========
 
+#### 3.1.10 - March 8, 2017
+
+**Fixes**
+
+- Debugging statement that would log to console on every scroll event.
+
+**Improvements**
+
+- Reduced overlay click error margin to 40px (instead of % based).
+
+
 #### 3.1.9 - February 27, 2017
 
 **Fixes**
