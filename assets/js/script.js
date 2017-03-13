@@ -829,10 +829,19 @@ function onMouseEnter() {
 }
 
 function onElementClick(e) {
+    // find <a> element in up to 3 parent elements
     var el = e.target || e.srcElement;
+    var depth = 3;
+    for (var i = 0; i <= depth; i++) {
+        if (!el || el.tagName === 'A') {
+            break;
+        }
+
+        el = el.parentElement;
+    }
+
     if (el && el.tagName === 'A' && el.getAttribute('href').toLowerCase().indexOf('#boxzilla-') === 0) {
-        window.a = el;
-        var boxId = e.target.getAttribute('href').toLowerCase().substring("#boxzilla-".length);
+        var boxId = el.getAttribute('href').toLowerCase().substring("#boxzilla-".length);
         Boxzilla.toggle(boxId);
     }
 }
