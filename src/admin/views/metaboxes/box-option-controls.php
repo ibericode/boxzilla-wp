@@ -161,10 +161,14 @@ $rule_options = apply_filters( 'boxzilla_rules_options', $rule_options );
 		</td>
 	</tr>
 	<tr valign="top">
-		<th><label for="boxzilla_hide_on_screen_size"><?php _e( 'Do not auto-show box on small screens?', 'boxzilla' ); ?></label></th>
+		<th><label for="boxzilla_hide_on_screen_size"><?php _e( 'Screen width', 'boxzilla' ); ?></label></th>
 		<td>
-			<p><?php printf( __( 'Do not auto-show on screens smaller than %s.', 'boxzilla' ), '<input type="number" min="0" name="boxzilla_box[hide_on_screen_size]" value="' . esc_attr( $opts['hide_on_screen_size'] ) . '" style="max-width: 70px;" />px' ); ?></p>
-			<p class="help"><?php _e( 'Leave empty if you <strong>do</strong> want to auto-show the box on small screens.', 'boxzilla' ); ?></p>
+            <?php
+            $condition_type = $opts['screen_size_condition']['condition'];
+            $condition_value = $opts['screen_size_condition']['value'];
+            $condition_select = '<select name="boxzilla_box[screen_size_condition][condition]"><option '. ( $condition_type === 'larger' ? 'selected' : '' ) .'>' . __( 'larger', 'boxzilla' ) . '</option><option '. ( $condition_type === 'smaller' ? 'selected' : '' ) .'>' . __( 'smaller', 'boxzilla' ) . '</option></select>'; ?>
+			<p><?php printf( __( 'Only show on screens %s than %s.', 'boxzilla' ), $condition_select, '<input type="number" min="0" name="boxzilla_box[screen_size_condition][value]" value="' . esc_attr( $condition_value ) . '" style="max-width: 70px;" />px' ); ?></p>
+			<p class="help"><?php _e( 'Leave empty if you want to show the box on all screen sizes.', 'boxzilla' ); ?></p>
 		</td>
 
 	</tr>

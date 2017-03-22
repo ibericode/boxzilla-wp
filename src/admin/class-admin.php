@@ -601,6 +601,7 @@ class Admin {
 		$opts['trigger']            = sanitize_text_field( $opts['trigger'] );
 		$opts['trigger_percentage'] = absint( $opts['trigger_percentage'] );
 		$opts['trigger_element']    = sanitize_text_field( $opts['trigger_element'] );
+		$opts['screen_size_condition']['value'] = intval( $opts['screen_size_condition']['value'] );
 
 		return $opts;
 	}

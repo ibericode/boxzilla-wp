@@ -190,19 +190,19 @@ msgstr ""
 msgid "of the following conditions."
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:109, src/admin/views/metaboxes/box-option-controls.php:399
+#: src/admin/views/metaboxes/box-option-controls.php:109, src/admin/views/metaboxes/box-option-controls.php:405
 msgid "Remove rule"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:129, src/admin/views/metaboxes/box-option-controls.php:417
+#: src/admin/views/metaboxes/box-option-controls.php:129, src/admin/views/metaboxes/box-option-controls.php:423
 msgid "is"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:131, src/admin/views/metaboxes/box-option-controls.php:419
+#: src/admin/views/metaboxes/box-option-controls.php:131, src/admin/views/metaboxes/box-option-controls.php:425
 msgid "is not"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:137, src/admin/views/metaboxes/box-option-controls.php:425
+#: src/admin/views/metaboxes/box-option-controls.php:137, src/admin/views/metaboxes/box-option-controls.php:431
 msgid "Leave empty for any or enter (comma-separated) names or ID's"
 msgstr ""
 
@@ -287,30 +287,38 @@ msgid "After this box is triggered or dismissed, how many hours should it stay h
 msgstr ""
 
 #: src/admin/views/metaboxes/box-option-controls.php:327
-msgid "Do not auto-show box on small screens?"
+msgid "Screen width"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:331
-msgid "Do not auto-show on screens smaller than %s."
+#: src/admin/views/metaboxes/box-option-controls.php:335
+msgid "larger"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:333
-msgid "Leave empty if you <strong>do</strong> want to auto-show the box on small screens."
+#: src/admin/views/metaboxes/box-option-controls.php:335
+msgid "smaller"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:343
+#: src/admin/views/metaboxes/box-option-controls.php:337
+msgid "Only show on screens %s than %s."
+msgstr ""
+
+#: src/admin/views/metaboxes/box-option-controls.php:339
+msgid "Leave empty if you want to show the box on all screen sizes."
+msgstr ""
+
+#: src/admin/views/metaboxes/box-option-controls.php:349
 msgid "Auto-hide?"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:351
+#: src/admin/views/metaboxes/box-option-controls.php:357
 msgid "Hide box again when visitors scroll back up?"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:359, src/admin/views/settings.php:20
+#: src/admin/views/metaboxes/box-option-controls.php:365, src/admin/views/settings.php:20
 msgid "Enable test mode?"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:367, src/admin/views/settings.php:24
+#: src/admin/views/metaboxes/box-option-controls.php:373, src/admin/views/settings.php:24
 msgid "If test mode is enabled, all boxes will show up regardless of whether a cookie has been set."
 msgstr ""
 

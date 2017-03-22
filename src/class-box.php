@@ -100,7 +100,10 @@ class Box {
 			'trigger_time_on_page' => 0,
 			'animation' => 'fade',
 			'auto_hide' => 0,
-			'hide_on_screen_size' => '',
+            'screen_size_condition' => array(
+                'condition' => 'larger',
+                'value' => 0,
+            ),
 			'closable' => true,
 		);
 		$box = $this;
@@ -163,7 +166,7 @@ class Box {
 	/**
 	 * Get the content of this box
 	 *
-	 * @return mixed|void
+	 * @return string
 	 */
 	public function get_content() {
 		$content = $this->content;
@@ -177,22 +180,6 @@ class Box {
 		 */
 		$content = apply_filters( 'boxzilla_box_content', $content, $box );
 		return $content;
-	}
-
-	/**
-	 * Get the minimum allowed screen size for this box
-	 *
-	 * @return int
-	 */
-	public function get_minimum_screen_size() {
-
-		if( $this->options['hide_on_screen_size'] > 0 ) {
-			$minimum_screen_size = absint( $this->options['hide_on_screen_size'] );
-		} else {
-			$minimum_screen_size = 0;
-		}
-
-		return $minimum_screen_size;
 	}
 
     /**
@@ -214,6 +201,15 @@ class Box {
 			}
 		}
 
+		// build screenWidthCondition object (or null)
+		$screen_width_condition = null;
+	    if( $box->options['screen_size_condition']['value'] > 0 ) {
+            $screen_width_condition = array(
+                'condition' => $box->options['screen_size_condition']['condition'],
+                'value' => intval( $box->options['screen_size_condition']['value'] ),
+            );
+        }
+
 		$client_options = array(
 			'id' => $box->ID,
 			'icon' => $box->get_close_icon(),
@@ -227,7 +223,7 @@ class Box {
 			),
 			'rehide' => (bool) $box->options['auto_hide'],
 			'position' => $box->options['css']['position'],
-			'minimumScreenWidth' => $box->get_minimum_screen_size(),
+            'screenWidthCondition' => $screen_width_condition,
 			'closable' => $box->options['closable'],
             'post' => array(
                 'id' => $this->post->ID,
