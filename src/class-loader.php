@@ -72,6 +72,7 @@ class BoxLoader {
 
 		foreach( $patterns as $pattern ) {
 
+		    $pattern = rtrim( $pattern, '/' );
 			$pattern = strtolower( $pattern );
 
 			if( function_exists( 'fnmatch' ) ) {
@@ -87,6 +88,22 @@ class BoxLoader {
 
 		return false;
 	}
+
+    /**
+     * @return string
+     */
+	protected function get_request_url() {
+        // strip trailing slashes
+        $request_uri = rtrim( $_SERVER['REQUEST_URI'], '/' );
+
+        // strip ? and query string
+        $qpos = strpos( $request_uri, '?' );
+        if( $qpos ) {
+            $request_uri = substr( $request_uri, 0, $qpos );
+        }
+
+        return $request_uri;
+    }
 
 	/**
 	 * Check if this rule passes (conditional matches expected value)
@@ -110,7 +127,7 @@ class BoxLoader {
 				break;
 
 			case 'is_url':
-				$matched = $this->match_patterns( $_SERVER['REQUEST_URI'], $value );
+				$matched = $this->match_patterns( $this->get_request_url(), $value );
 				break;
 
 			case 'is_referer':
