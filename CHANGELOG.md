@@ -1,6 +1,18 @@
 Changelog
 ==========
 
+#### 3.1.11 - March 22, 2017
+
+**Fixes**
+
+- `#boxzilla-321` link not working when link has a nested image element.
+
+**Improvements**
+
+- Added the option to show on screens smaller than a certain width.
+- Improved URL matching for "is url" rule.
+
+
 #### 3.1.10 - March 8, 2017
 
 **Fixes**
