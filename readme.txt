@@ -4,7 +4,7 @@ Donate link: https://boxzillaplugin.com/#utm_source=wp-plugin-repo&utm_medium=bo
 Tags: scroll triggered box, cta, social, pop-up, newsletter, call to action, mailchimp, contact form 7, social media, mc4wp, ibericode
 Requires at least: 4.1
 Tested up to: 4.7.3
-Stable tag: 3.1.10
+Stable tag: 3.1.11
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -147,6 +147,18 @@ Have a look at the [frequently asked questions](https://wordpress.org/plugins/bo
 4. Configuring and customizing your boxes is easy.
 
 == Changelog ==
+
+
+#### 3.1.11 - March 22, 2017
+
+**Fixes**
+
+- `#boxzilla-321` link not working when link has a nested image element.
+
+**Improvements**
+
+- Added the option to show on screens smaller than a certain width.
+- Improved URL matching for "is url" rule.
 
 
 #### 3.1.10 - March 8, 2017
