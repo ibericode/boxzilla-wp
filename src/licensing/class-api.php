@@ -126,6 +126,7 @@ class API {
 			'method' => $method,
 			'headers' => array(
 			    'Content-Type' => 'application/json',
+                'Accepts' => 'application/json',
             ),
 		);
 
@@ -164,7 +165,7 @@ class API {
 		if( empty( $body) ) {
 		    return null;
         }
-        
+
 		$json = json_decode( $body, false );
 		if( ! is_object( $json ) ) {
 			throw new API_Exception( __( "The Boxzilla server returned an invalid response.", 'boxzilla' ) );
