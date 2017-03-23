@@ -161,7 +161,7 @@ $rule_options = apply_filters( 'boxzilla_rules_options', $rule_options );
 		</td>
 	</tr>
 	<tr valign="top">
-		<th><label for="boxzilla_hide_on_screen_size"><?php _e( 'Screen width', 'boxzilla' ); ?></label></th>
+		<th><label><?php _e( 'Screen width', 'boxzilla' ); ?></label></th>
 		<td>
             <?php
             $condition_type = $opts['screen_size_condition']['condition'];

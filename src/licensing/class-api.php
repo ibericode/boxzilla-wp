@@ -124,7 +124,9 @@ class API {
 		$url = $this->url . $endpoint;
 		$args = array(
 			'method' => $method,
-			'headers' => array(),
+			'headers' => array(
+			    'Content-Type' => 'application/json',
+            ),
 		);
 
 		// add license key to headers if set
@@ -132,11 +134,13 @@ class API {
 			$args['headers']['Authorization'] = 'Bearer ' . urlencode( $this->license->key );
 		}
 
-		if( in_array( $method, array( 'GET', 'DELETE' ) ) ) {
-			$url = add_query_arg( $data, $url );
-		} else {
-			$args['body'] = $data;
-		}
+		if( ! empty( $data ) ) {
+            if( in_array( $method, array( 'GET', 'DELETE' ) ) ) {
+                $url = add_query_arg( $data, $url );
+            } else {
+                $args['body'] = json_encode( $data );
+            }
+        }
 
 		$response = wp_remote_request( $url, $args );
 		return $this->parse_response( $response );
@@ -157,18 +161,22 @@ class API {
 
 		// retrieve response body
 		$body = wp_remote_retrieve_body( $response );
-		$json = json_decode( $body );
+		if( empty( $body) ) {
+		    return null;
+        }
+        
+		$json = json_decode( $body, false );
 		if( ! is_object( $json ) ) {
 			throw new API_Exception( __( "The Boxzilla server returned an invalid response.", 'boxzilla' ) );
 		}
 
 		// did request return an error response?
-		if( isset( $json->error ) ) {
-			throw new API_Exception( $json->error->message, $json->error->code );
-		}
+        if( wp_remote_retrieve_response_code( $response ) > 300 ) {
+            throw new API_Exception( $json->message, $json->code );
+        }
 
 		// return actual response data
-		return $json->data;
+		return $json;
 	}
 
 }

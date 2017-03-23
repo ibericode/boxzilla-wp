@@ -53,7 +53,7 @@ class LicenseManager {
 	}
 
 	/**
-	 * @return bool
+	 * @return void
 	 */
 	public function hook() {
 
@@ -126,8 +126,8 @@ class LicenseManager {
 	 */
 	protected function deactivate_license() {
 		try {
-			$activation = $this->api->deactivate_license();
-			$this->notices->add( $activation->message, 'info' );
+			$this->api->deactivate_license();
+			$this->notices->add( 'Your license was successfully deactivated!', 'info' );
 		} catch( API_Exception $e ) {
 			$this->notices->add( $e->getMessage(), 'warning' );
 		}
@@ -148,11 +148,11 @@ class LicenseManager {
 			return;
 		}
 
-		$this->license->activation_key = $activation->key;
+		$this->license->activation_key = $activation->token;
 		$this->license->activated = true;
 		$this->license->save();
 
-		$this->notices->add( $activation->message, 'info' );
+		$this->notices->add( 'Your license was successfully activated!', 'info' );
 	}
 
 	/**
