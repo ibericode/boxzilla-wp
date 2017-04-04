@@ -132,13 +132,21 @@ class UpdateManager {
 
 		if( is_array( $this->available_updates ) ) {
 			return $this->available_updates;
-		}
+        }
+
+        // don't try if we failed a request recently.
+        $failed_at = get_transient( 'boxzilla_request_failed' );
+        if( ! empty( $failed_at ) && ( (strtotime('now') - 300) < $failed_at ) ) {
+            return array();
+        }
 
 		// fetch remote info
 		try {
 			$remote_plugins = $this->api->get_plugins( $this->extensions );
-		} catch( API_Exception $e ) {
-			return array();
+        } catch( API_Exception $e ) {
+            // set flag for 5 minutes
+            set_transient( 'boxzilla_request_failed', strtotime('now'), 300 );
+            return array();
 		}
 		
 		// filter remote plugins, we only want the ones with an update available
