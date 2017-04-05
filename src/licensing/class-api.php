@@ -150,13 +150,13 @@ class API {
 	 * @throws API_Exception
 	 */
 	public function parse_response( $response ) {
-		// test for wp errors
-		if( $response instanceof WP_Error) {
+		// test for wp errors (request failures)
+        if( $response instanceof WP_Error) {
 			throw new API_Exception( $response->get_error_message() );
 		}
 
 		// retrieve response body
-		$body = wp_remote_retrieve_body( $response );
+        $body = wp_remote_retrieve_body( $response );
 		$json = json_decode( $body );
 		if( ! is_object( $json ) ) {
 			throw new API_Exception( __( "The Boxzilla server returned an invalid response.", 'boxzilla' ) );
