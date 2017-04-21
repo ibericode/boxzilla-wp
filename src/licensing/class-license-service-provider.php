@@ -19,7 +19,7 @@ class LicenseServiceProvider implements ServiceProviderInterface {
 		};
 
 		$container['license_api'] = function( $container ) {
-			$api_url = 'https://api.boxzillaplugin.com/v1';
+			$api_url = 'https://platform.boxzillaplugin.com/api/v1';
 			return new API( $api_url, $container['license'] );
 		};
 
