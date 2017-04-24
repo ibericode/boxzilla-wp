@@ -19,7 +19,7 @@
 		<p><?php printf( __( 'If not, please click here: %s.', 'boxzilla' ), '<a href="https://boxzillaplugin.com/add-ons/#utm_source=wp-plugin&utm_medium=boxzilla&utm_campaign=extensions-page" target="_blank">View add-on plugins</a>' ); ?></p>
 	<?php else : ?>
 
-		<?php foreach( $extensions as $plugin ) : ?>
+		<?php foreach( $extensions as $i => $plugin ) : ?>
 		<div class="plugin">
 			<a href="<?php echo esc_url( $plugin->page_url ); ?>" class="unstyled"><img src="<?php echo esc_url( $plugin->image_url ); ?>" alt="<?php echo $plugin->name; ?>" width="280" height="220"></a>
 			<div class="caption">
@@ -31,7 +31,7 @@
 				</p>
 			</div>
 		</div>
-
+		<?php if(($i+1) % 4 === 0) { echo '<div style="clear: both;"></div>'; } ?>
 		<?php endforeach; ?>
 
 		<br style="clear: both;" />
