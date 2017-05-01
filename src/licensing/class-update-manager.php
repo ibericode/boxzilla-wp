@@ -210,7 +210,6 @@ class UpdateManager {
 	 * @return mixed
 	 */
 	protected function format_response( Plugin $plugin, $response ) {
-		$response->new_version = $response->version;
 		$response->slug = dirname( $plugin->slug() );
 		$response->plugin = $plugin->slug();
 
