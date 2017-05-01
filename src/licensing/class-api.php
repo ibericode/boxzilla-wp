@@ -155,8 +155,8 @@ class API {
 	 * @throws API_Exception
 	 */
 	public function parse_response( $response ) {
-		// test for wp errors
-		if( $response instanceof WP_Error) {
+		// test for wp errors (request failures)
+        if( $response instanceof WP_Error) {
 			throw new API_Exception( $response->get_error_message() );
 		}
 

@@ -410,12 +410,15 @@ Box.prototype.dom = function () {
     // remove <script> from box content and append them to the document body
     var scripts = content.querySelectorAll('script');
     if (scripts.length) {
-        var script = document.createElement('script');
         for (var i = 0; i < scripts.length; i++) {
+            var script = document.createElement('script');
+            if (scripts[i].src) {
+                script.src = scripts[i].src;
+            }
             script.appendChild(document.createTextNode(scripts[i].text));
             scripts[i].parentNode.removeChild(scripts[i]);
+            document.body.appendChild(script);
         }
-        document.body.appendChild(script);
     }
 
     if (this.config.closable && this.config.icon) {

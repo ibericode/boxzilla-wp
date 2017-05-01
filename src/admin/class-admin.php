@@ -237,7 +237,7 @@ class Admin {
 	 * Shows the extensions page
 	 */
 	public function show_extensions_page() {
-		$extensions = $this->fetch_extensions();
+        $extensions = $this->fetch_extensions();
 		require __DIR__ . '/views/extensions.php';
 	}
 
@@ -695,12 +695,11 @@ class Admin {
 	 * @return array
 	 */
 	protected function fetch_extensions() {
-
+        
 		$extensions = get_transient( 'boxzilla_remote_extensions' );
 		if ( $extensions ) {
 			return $extensions;
 		}
-
 		$request = wp_remote_get( 'https://api.boxzillaplugin.com/v1/plugins' );
 
 		if ( is_wp_error( $request ) ) {

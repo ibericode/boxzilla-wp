@@ -1,6 +1,13 @@
 Changelog
 ==========
 
+#### 3.1.12 - April 24, 2017
+
+**Improvements**
+
+- Update endpoint URL for license API requests.
+
+
 #### 3.1.11 - March 22, 2017
 
 **Fixes**
