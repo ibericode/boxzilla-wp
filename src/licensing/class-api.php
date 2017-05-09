@@ -101,12 +101,6 @@ class API {
 			'format' => 'wp',
 		);
 
-		// create array of plugin sids if given
-		if( $plugins ) {
-			$plugin_slugs = $plugins->map(function( $p ) { return $p->id(); });
-			$args['sids'] = implode(',', $plugin_slugs );
-		}
-
 		$endpoint = add_query_arg( $args, '/plugins' );
 		$response = $this->request( 'GET', $endpoint );
 		return $response;
@@ -172,7 +166,7 @@ class API {
 		}
 
 		// did request return an error response?
-        if( wp_remote_retrieve_response_code( $response ) > 300 ) {
+        if( wp_remote_retrieve_response_code( $response ) >= 400 ) {
             throw new API_Exception( $json->message, $json->code );
         }
 
