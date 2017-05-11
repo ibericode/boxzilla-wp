@@ -119,6 +119,8 @@ class LicenseManager {
 		} elseif( $action === 'activate' || $key_changed ) {
 			$this->activate_license();
 		}
+
+		$this->license->save();
 	}
 
 	/**
@@ -134,7 +136,6 @@ class LicenseManager {
 
 		$this->license->activated = false;
 		$this->license->activation_key = '';
-		$this->license->save();
 	}
 
 	/**
@@ -150,7 +151,6 @@ class LicenseManager {
 
 		$this->license->activation_key = $activation->token;
 		$this->license->activated = true;
-		$this->license->save();
 
 		$this->notices->add( 'Your license was successfully activated!', 'info' );
 	}
