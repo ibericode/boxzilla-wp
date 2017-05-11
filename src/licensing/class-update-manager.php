@@ -57,15 +57,21 @@ class UpdateManager {
 	 * @return mixed
 	 */
 	public function add_auth_headers( $args, $url ) {
+		// only act on download request's
 		if( strpos( $url, $this->api->url ) !== 0 || strpos( $url, 'download' ) === false ) {
 			return $args;
 		}
+
+		// only add if activation key not empty
+		if( empty( $this->license->activation_key ) ) {
+			return $args;
+		}	
 
 		if( empty( $args['headers'] ) ) {
 			$args['headers'] = array();
 		}
 
-		$args['headers']['Authorization'] = 'Bearer ' . urlencode( $this->license->key );
+		$args['headers']['Authorization'] = 'Bearer ' . urlencode( $this->license->activation_key );
 		return $args;
 	}
 
@@ -143,7 +149,7 @@ class UpdateManager {
 		// fetch remote info
 		try {
 			$remote_plugins = $this->api->get_plugins( $this->extensions );
-        } catch( API_Exception $e ) {
+		} catch( API_Exception $e ) {
             // set flag for 5 minutes
             set_transient( 'boxzilla_request_failed', strtotime('now'), 300 );
             return array();
@@ -177,7 +183,7 @@ class UpdateManager {
 			);
 
 			// plugin found and local plugin version not same as remote version?
-			if( ! $local_plugin || version_compare( $local_plugin->version(), $remote_plugin->version, '>=' ) ) {
+			if( ! $local_plugin || version_compare( $local_plugin->version(), $remote_plugin->new_version, '>=' ) ) {
 				continue;
 			}
 
@@ -218,10 +224,7 @@ class UpdateManager {
 			$response->upgrade_notice = sprintf( 'You will need to <a href="%s">activate your license</a> to install this plugin update.', admin_url( 'edit.php?post_type=boxzilla-box&page=boxzilla-settings' ) );
 			$response->sections->changelog = '<p>' . sprintf( 'You will need to <a href="%s" target="_top">activate your license</a> to install this plugin update.', admin_url( 'edit.php?post_type=boxzilla-box&page=boxzilla-settings' ) ) . '</p>' . $response->sections->changelog;
 			$response->package = null;
-		} else {
-			// add activation key to download URL
-			$response->package = add_query_arg( array( 'key' => $this->license->activation_key ), $response->package );
-		}
+		} 
 
 		// cast subkey objects to array as that is what WP expects
 		$response->sections = get_object_vars( $response->sections );
