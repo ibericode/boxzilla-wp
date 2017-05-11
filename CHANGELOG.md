@@ -1,6 +1,14 @@
 Changelog
 ==========
 
+#### 3.1.13 - May 11, 2017
+
+**Improvements**
+
+- Allow for script resources in Boxzilla box content (instead of just inline script elements).
+- Reset box content when box is dismissed, eg to stop YouTube video's from playing.
+
+
 #### 3.1.12 - April 24, 2017
 
 **Improvements**
