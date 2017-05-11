@@ -166,7 +166,7 @@ function animated(element) {
  * @param element
  * @param animation Either "fade" or "slide"
  */
-function toggle(element, animation) {
+function toggle(element, animation, callbackFn) {
     var nowVisible = element.style.display != 'none' || element.offsetLeft > 0;
 
     // create clone for reference
@@ -175,6 +175,9 @@ function toggle(element, animation) {
         element.removeAttribute('data-animated');
         element.setAttribute('style', clone.getAttribute('style'));
         element.style.display = nowVisible ? 'none' : '';
+        if (callbackFn) {
+            callbackFn();
+        }
     };
 
     // store attribute so everyone knows we're animating this element
@@ -347,6 +350,7 @@ var Box = function Box(id, config) {
     this.triggerHeight = 0;
     this.cookieSet = false;
     this.element = null;
+    this.contentElement = null;
     this.closeIcon = null;
 
     // if a trigger was given, calculate values once and store
@@ -430,6 +434,7 @@ Box.prototype.dom = function () {
     }
 
     document.body.appendChild(wrapper);
+    this.contentElement = content;
     this.element = box;
 };
 
@@ -500,7 +505,12 @@ Box.prototype.toggle = function (show) {
         Animator.toggle(this.overlay, "fade");
     }
 
-    Animator.toggle(this.element, this.config.animation);
+    Animator.toggle(this.element, this.config.animation, function () {
+        if (this.visible) {
+            return;
+        }
+        this.contentElement.innerHTML = this.contentElement.innerHTML;
+    }.bind(this));
 
     return true;
 };
