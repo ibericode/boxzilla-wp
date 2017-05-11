@@ -370,7 +370,7 @@ msgstr ""
 msgid "No Boxes found in Trash"
 msgstr ""
 
-#: src/licensing/class-api.php:162
+#: src/licensing/class-api.php:165
 msgid "The Boxzilla server returned an invalid response."
 msgstr ""
 
