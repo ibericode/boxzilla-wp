@@ -166,7 +166,7 @@ class API {
 		}
 
 		// did request return an error response?
-        if( wp_remote_retrieve_response_code( $response ) >= 400 ) {
+        if( wp_remote_retrieve_response_code( $response ) >= 403 ) {
             throw new API_Exception( $json->message, $json->code );
         }
 

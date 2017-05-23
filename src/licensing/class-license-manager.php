@@ -145,7 +145,11 @@ class LicenseManager {
 		try {
 			$activation = $this->api->activate_license();
 		} catch( API_Exception $e ) {
-			$this->notices->add( $e->getMessage(), 'warning' );
+			$message = $e->getMessage();
+			if( $e->getApiCode() == 'license_at_limit' ) {
+				$message .= ' You can <a href="https://platform.boxzillaplugin.com/licenses">manage your site activations here</a>.';
+			}
+			$this->notices->add( $message, 'warning' );
 			return;
 		}
 
