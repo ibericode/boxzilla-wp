@@ -24,9 +24,9 @@ class LicenseManager {
 	protected $api;
 
 	/**
-	 * @var Notices
-	 */
-	protected $notices;
+	* @var array
+	*/
+	protected $notices = array();
 
 	/**
 	 * @param Collection $extensions
@@ -34,11 +34,10 @@ class LicenseManager {
 	 * @param License $license
 	 * @param Notices $notices
 	 */
-	public function __construct( Collection $extensions, API $api, License $license, Notices $notices ) {
+	public function __construct( Collection $extensions, API $api, License $license ) {
 		$this->extensions = $extensions;
 		$this->license = $license;
 		$this->api = $api;
-		$this->notices = $notices;
 	}
 
 	/**
@@ -85,7 +84,8 @@ class LicenseManager {
 		}
 
 		$plugin = $this->extensions->random();
-		$this->notices->add( sprintf( 'Please <a href="%s">activate your Boxzilla license</a> to use %s.', admin_url( 'edit.php?post_type=boxzilla-box&page=boxzilla-settings' ), '<strong>' . $plugin->name() . '</strong>' ), 'warning' );
+		$message = sprintf( 'Please <a href="%s">activate your Boxzilla license</a> to use %s.', admin_url( 'edit.php?post_type=boxzilla-box&page=boxzilla-settings' ), '<strong>' . $plugin->name() . '</strong>' );
+		echo sprintf( '<div class="notice notice-%s"><p>%s</p></div>', 'warning', $message );
 	}
 
 	/**
@@ -129,9 +129,15 @@ class LicenseManager {
 	protected function deactivate_license() {
 		try {
 			$this->api->deactivate_license();
-			$this->notices->add( 'Your license was successfully deactivated!', 'info' );
+			$this->notices[] = array(
+				'type' => 'info',
+				'message' => 'Your license was successfully deactivated!',
+			);
 		} catch( API_Exception $e ) {
-			$this->notices->add( $e->getMessage(), 'warning' );
+			$this->notices[] = array(
+				'type' => 'warning',
+				'message' => $e->getMessage(),
+			);
 		}
 
 		$this->license->activated = false;
@@ -149,14 +155,20 @@ class LicenseManager {
 			if( $e->getApiCode() == 'license_at_limit' ) {
 				$message .= ' You can <a href="https://platform.boxzillaplugin.com/licenses">manage your site activations here</a>.';
 			}
-			$this->notices->add( $message, 'warning' );
+			$this->notices[] = array(
+				'type' => 'warning',
+				'message' => $message,
+			);
 			return;
 		}
 
 		$this->license->activation_key = $activation->token;
 		$this->license->activated = true;
 
-		$this->notices->add( 'Your license was successfully activated!', 'info' );
+		$this->notices[] = array(
+			'type' => 'info',
+			'message' => 'Your license was successfully activated!',
+		);
 	}
 
 	/**

@@ -9,46 +9,46 @@ use WP_Error;
 class API {
 
 	/**
-	 * @var License
-	 */
+	* @var License
+	*/
 	protected $license;
 
 	/**
-	 * The API url
-	 *
-	 * @var string
-	 */
+	* The API url
+	*
+	* @var string
+	*/
 	public $url = '';
 
 	/**
-	 * @var int
-	 */
+	* @var int
+	*/
 	protected $error_code = 0;
 
 	/**
-	 * @var string
-	 */
+	* @var string
+	*/
 	protected $error_message = '';
 
 	/**
-	 * @var
-	 */
+	* @var
+	*/
 	protected $last_response;
 
 	/**
-	 * @param string    $url
-	 * @param License 	$license
-	 */
+	* @param string    $url
+	* @param License 	$license
+	*/
 	public function __construct( $url, License $license ) {
 		$this->url = $url;
 		$this->license = $license;
 	}
 
 	/**
-	 * Gets license status
-	 *
-	 * @return object
-	 */
+	* Gets license status
+	*
+	* @return object
+	*/
 	public function get_license() {
 		$endpoint = '/license';
 		$response = $this->request( 'GET', $endpoint );
@@ -57,10 +57,10 @@ class API {
 
 
 	/**
-	 * Logs the current site in to the remote API
-	 *
-	 * @return object
-	 */
+	* Logs the current site in to the remote API
+	*
+	* @return object
+	*/
 	public function activate_license() {
 		$endpoint = '/license/activations';
 		$args = array(
@@ -71,10 +71,10 @@ class API {
 	}
 
 	/**
-	 * Logs the current site out of the remote API
-	 *
-	 * @return object
-	 */
+	* Logs the current site out of the remote API
+	*
+	* @return object
+	*/
 	public function deactivate_license() {
 		$endpoint = sprintf( '/license/activations/%s', $this->license->activation_key );
 		$response = $this->request( 'DELETE', $endpoint );
@@ -82,9 +82,9 @@ class API {
 	}
 
 	/**
-	 * @param Plugin $plugin
-	 * @return object
-	 */
+	* @param Plugin $plugin
+	* @return object
+	*/
 	public function get_plugin( Plugin $plugin ) {
 		$endpoint = sprintf( '/plugins/%s?format=wp', $plugin->id() );
 		$response = $this->request( 'GET', $endpoint );
@@ -92,9 +92,9 @@ class API {
 	}
 
 	/**
-	 * @param Plugin[] $plugins 	(optional)
-	 * @return object
-	 */
+	* @param Plugin[] $plugins 	(optional)
+	* @return object
+	*/
 	public function get_plugins( $plugins = null ) {
 
 		$args = array(
@@ -107,21 +107,21 @@ class API {
 	}
 
 	/**
-	 * @param string $method
-	 * @param string $endpoint
-	 * @param array $data
-	 *
-	 * @return object|array
-	 */
+	* @param string $method
+	* @param string $endpoint
+	* @param array $data
+	*
+	* @return object|array
+	*/
 	public function request( $method, $endpoint, $data = array() ) {
 
 		$url = $this->url . $endpoint;
 		$args = array(
 			'method' => $method,
 			'headers' => array(
-			    'Content-Type' => 'application/json',
-                'Accepts' => 'application/json',
-            ),
+				'Content-Type' => 'application/json',
+				'Accepts' => 'application/json',
+			),
 		);
 
 		// add license key to headers if set
@@ -130,35 +130,35 @@ class API {
 		}
 
 		if( ! empty( $data ) ) {
-            if( in_array( $method, array( 'GET', 'DELETE' ) ) ) {
-                $url = add_query_arg( $data, $url );
-            } else {
-                $args['body'] = json_encode( $data );
-            }
-        }
+			if( in_array( $method, array( 'GET', 'DELETE' ) ) ) {
+				$url = add_query_arg( $data, $url );
+			} else {
+				$args['body'] = json_encode( $data );
+			}
+		}
 
 		$response = wp_remote_request( $url, $args );
 		return $this->parse_response( $response );
 	}
 
 	/**
-	 * @param mixed $response
-	 *
-	 * @return object|null
-	 *
-	 * @throws API_Exception
-	 */
+	* @param mixed $response
+	*
+	* @return object|null
+	*
+	* @throws API_Exception
+	*/
 	public function parse_response( $response ) {
 		// test for wp errors (request failures)
-        if( $response instanceof WP_Error) {
+		if( $response instanceof WP_Error) {
 			throw new API_Exception( $response->get_error_message() );
 		}
 
 		// retrieve response body
 		$body = wp_remote_retrieve_body( $response );
 		if( empty( $body) ) {
-		    return null;
-        }
+			return null;
+		}
 
 		$json = json_decode( $body, false );
 		if( is_null( $json ) ) {
@@ -166,9 +166,9 @@ class API {
 		}
 
 		// did request return an error response?
-        if( wp_remote_retrieve_response_code( $response ) >= 403 ) {
-            throw new API_Exception( $json->message, $json->code );
-        }
+		if( wp_remote_retrieve_response_code( $response ) >= 400 ) {
+			throw new API_Exception( $json->message, $json->code );
+		}
 
 		// return actual response data
 		return $json;

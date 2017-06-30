@@ -24,7 +24,7 @@ class LicenseServiceProvider implements ServiceProviderInterface {
 		};
 
 		$container['license_manager'] = function( $container ) {
-			return new LicenseManager( $container['plugins'], $container['license_api'], $container['license'], $container['notices'] );
+			return new LicenseManager( $container['plugins'], $container['license_api'], $container['license'] );
 		};
 
 		$container['update_manager'] = function( $container ) {

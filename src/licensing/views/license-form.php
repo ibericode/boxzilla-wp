@@ -21,6 +21,12 @@ defined( 'ABSPATH' ) or exit;
 	</div>
 <?php } ?>
 
+<?php foreach( $this->notices as $notice ) { ?>
+	<div class="notice notice-<?php echo $notice['type']; ?> inline">
+		<p><?php echo $notice['message']; ?></p>
+	</div>
+<?php } ?>
+
 <form method="post">
 	<table class="form-table">
 		<tr valign="top">
