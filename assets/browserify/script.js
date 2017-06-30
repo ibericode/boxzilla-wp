@@ -7,14 +7,6 @@
     // expose Boxzilla object to window
     window.Boxzilla = Boxzilla;
 
-    function ready(fn) {
-        if (document.readyState != 'loading'){
-            fn();
-        } else {
-            document.addEventListener('DOMContentLoaded', fn);
-        }
-    }
-
     // helper function for setting CSS styles
     function css(element, styles) {
         if( styles.background_color ) {
@@ -84,13 +76,7 @@
             box.element.firstChild.lastChild.className += " last-child";
         }
 
-        /**
-         * If a MailChimp for WordPress form was submitted, open the box containing that form (if any)
-         *
-         * TODO: Just set location hash from MailChimp for WP?
-         */
-        window.addEventListener('load', openMailChimpForWordPressBox);
-
+        // set flag to prevent initialising twice
         options.inited = true;
 
         // trigger "done" event.
@@ -112,6 +98,6 @@
         }
     }
 
-    // create boxes as soon as document.ready fires
-    ready(createBoxesFromConfig);
+    window.addEventListener('load', openMailChimpForWordPressBox);
+    createBoxesFromConfig();
 })();
