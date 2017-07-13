@@ -4,7 +4,7 @@ Donate link: https://boxzillaplugin.com/#utm_source=wp-plugin-repo&utm_medium=bo
 Tags: scroll triggered box, cta, social, pop-up, newsletter, call to action, mailchimp, contact form 7, social media, mc4wp, ibericode
 Requires at least: 4.1
 Tested up to: 4.8
-Stable tag: 3.1.13
+Stable tag: 3.1.14
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -147,6 +147,17 @@ Have a look at the [frequently asked questions](https://wordpress.org/plugins/bo
 4. Configuring and customizing your boxes is easy.
 
 == Changelog ==
+
+
+#### 3.1.14 - July 13, 2017
+
+**Fixes**
+
+- IE Edge issue with sliding box animation.
+
+**Improvements**
+
+- Don't wait for document.ready event to initialise boxes. Fixes issues with plugins not delegaging AJAX event listeners.
 
 
 #### 3.1.13 - May 11, 2017
@@ -339,7 +350,6 @@ Have a look at the [frequently asked questions](https://wordpress.org/plugins/bo
 Initial release of [Boxzilla](https://boxzillaplugin.com/), formerly known as [Scroll Triggered Boxes](https://wordpress.org/plugins/scroll-triggered-boxes/).
 
 If you're upgrading from the old plugin, please check [updating to Boxzilla from Scroll Triggered Boxes](https://kb.boxzillaplugin.com/updating-from-scroll-triggered-boxes/) for a list of changes you should be aware of.
-
 
 == Upgrade Notice ==
 
