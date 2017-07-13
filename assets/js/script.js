@@ -183,13 +183,11 @@ function toggle(element, animation, callbackFn) {
 
         if (!nowVisible) {
             var computedStyles = window.getComputedStyle(element);
-            console.log("Computed styles: ");
-            console.log(computedStyles);
             visibleStyles = copyObjectProperties(["height", "borderTopWidth", "borderBottomWidth", "paddingTop", "paddingBottom"], computedStyles);
+
+            // in some browsers, getComputedStyle returns "auto" value. this falls back to getBoundingClientRect() in those browsers since we need an actual height.
             if (!isFinite(visibleStyles.height)) {
                 var clientRect = element.getBoundingClientRect();
-                console.log("Client recht: ");
-                console.log(clientRect);
                 visibleStyles.height = clientRect.height;
             }
             css(element, hiddenStyles);
