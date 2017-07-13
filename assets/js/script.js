@@ -184,6 +184,10 @@ function toggle(element, animation, callbackFn) {
         if (!nowVisible) {
             var computedStyles = window.getComputedStyle(element);
             visibleStyles = copyObjectProperties(["height", "borderTopWidth", "borderBottomWidth", "paddingTop", "paddingBottom"], computedStyles);
+            if (!isFinite(visibleStyles.height)) {
+                var clientRect = element.getBoundingClientRect();
+                visibleStyles.heigth = clientRect.height;
+            }
             css(element, hiddenStyles);
         }
 
