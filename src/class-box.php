@@ -172,7 +172,12 @@ class Box {
 		$content = $this->content;
 		$box = $this;
 
-		/**
+		// replace boxzilla specific shortcodes
+        $content = str_replace( '[boxzilla-close]', '<a href="javascript:Boxzilla.dismiss();">', $content );
+        $content = str_replace( '[/boxzilla-close]', '</a>', $content );
+
+
+        /**
 		 * Filters the HTML for the box content
 		 *
 		 * @param string $content
