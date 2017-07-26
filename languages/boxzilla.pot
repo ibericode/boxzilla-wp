@@ -194,19 +194,19 @@ msgstr ""
 msgid "of the following conditions."
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:111, src/admin/views/metaboxes/box-option-controls.php:409
+#: src/admin/views/metaboxes/box-option-controls.php:111, src/admin/views/metaboxes/box-option-controls.php:431
 msgid "Remove rule"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:131, src/admin/views/metaboxes/box-option-controls.php:427
+#: src/admin/views/metaboxes/box-option-controls.php:131, src/admin/views/metaboxes/box-option-controls.php:449
 msgid "is"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:133, src/admin/views/metaboxes/box-option-controls.php:429
+#: src/admin/views/metaboxes/box-option-controls.php:133, src/admin/views/metaboxes/box-option-controls.php:451
 msgid "is not"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:139, src/admin/views/metaboxes/box-option-controls.php:435
+#: src/admin/views/metaboxes/box-option-controls.php:139, src/admin/views/metaboxes/box-option-controls.php:457
 msgid "Leave empty for any or enter (comma-separated) names or ID's"
 msgstr ""
 
@@ -318,11 +318,23 @@ msgstr ""
 msgid "Hide box again when visitors scroll back up?"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:369, src/admin/views/settings.php:20
+#: src/admin/views/metaboxes/box-option-controls.php:369
+msgid "Show close icon?"
+msgstr ""
+
+#: src/admin/views/metaboxes/box-option-controls.php:379
+msgid "<strong>Caution: </strong> if you hide the close icon make sure to offer an alternative way to close the box."
+msgstr ""
+
+#: src/admin/views/metaboxes/box-option-controls.php:381
+msgid "Example: "
+msgstr ""
+
+#: src/admin/views/metaboxes/box-option-controls.php:391, src/admin/views/settings.php:20
 msgid "Enable test mode?"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:377, src/admin/views/settings.php:24
+#: src/admin/views/metaboxes/box-option-controls.php:399, src/admin/views/settings.php:24
 msgid "If test mode is enabled, all boxes will show up regardless of whether a cookie has been set."
 msgstr ""
 

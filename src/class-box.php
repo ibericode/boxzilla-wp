@@ -104,12 +104,14 @@ class Box {
                 'condition' => 'larger',
                 'value' => 0,
             ),
-			'closable' => true,
+			'closable' => 1,
+            'show_close_icon' => 1,
 		);
 		$box = $this;
 
 		$options = get_post_meta( $this->ID, 'boxzilla_options', true );
 		$options = is_array( $options ) ? $options : array();
+
 
 		// merge options with default options
 		$options = array_replace_recursive( $defaults, $options );
@@ -149,6 +151,10 @@ class Box {
 	 */
 	public function get_close_icon() {
 
+	    if( ! $this->options['show_close_icon'] ) {
+	        return '';
+        }
+
 		$box = $this;
 		$html = '&times;';
 
@@ -173,7 +179,8 @@ class Box {
 		$box = $this;
 
 		// replace boxzilla specific shortcodes
-        $content = str_replace( '[boxzilla-close]', '<a href="javascript:Boxzilla.dismiss();">', $content );
+        $close_link = sprintf('<a href="javascript:Boxzilla.dismiss(%d);">', $this->ID );
+        $content = str_replace( '[boxzilla-close]', $close_link, $content );
         $content = str_replace( '[/boxzilla-close]', '</a>', $content );
 
 
@@ -229,7 +236,7 @@ class Box {
 			'rehide' => (bool) $box->options['auto_hide'],
 			'position' => $box->options['css']['position'],
             'screenWidthCondition' => $screen_width_condition,
-			'closable' => $box->options['closable'],
+			'closable' => !!$box->options['closable'],
             'post' => array(
                 'id' => $this->post->ID,
                 'title' => $this->post->post_title,

@@ -181,6 +181,17 @@ $rule_options = apply_filters( 'boxzilla_rules_options', $rule_options );
 			<p class="help"><?php _e( 'Hide box again when visitors scroll back up?', 'boxzilla' ); ?></p>
 		</td>
 	</tr>
+    <tr valign="top">
+        <th><label for="boxzilla_closable"><?php _e( 'Show close icon?', 'boxzilla' ); ?></label></th>
+        <td>
+            <label><input type="radio" id="boxzilla_closable_1" name="boxzilla_box[show_close_icon]" value="1" <?php checked( $opts['show_close_icon'], 1 ); ?> /> <?php _e( 'Yes' ); ?></label> &nbsp;
+            <label><input type="radio" id="boxzilla_closable_0" name="boxzilla_box[show_close_icon]" value="0" <?php checked( $opts['show_close_icon'], 0 ); ?> /> <?php _e( 'No' ); ?></label> &nbsp;
+            <p class="help">
+                <?php _e( 'If you decide to hide the close icon, make sure to offer an alternative way to close the box.', 'boxzilla' ); ?><br />
+                <?php _e ( 'Example: ', 'boxzilla' ); ?> <code>[boxzilla-close]No, thanks![/boxzilla-close]</code>
+            </p>
+        </td>
+    </tr>
 	<tr valign="top">
 		<th><label for="boxzilla_test_mode"><?php _e( 'Enable test mode?', 'boxzilla' ); ?></label></th>
 		<td>
