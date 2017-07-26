@@ -1,6 +1,15 @@
 Changelog
 ==========
 
+#### 3.1.15 - July 26, 2017
+
+**Additions**
+
+- Added `[boxzilla-close]text here[/boxzilla-close]` shortcode to insert a link to close the box.
+- Added setting to hide the close icon.
+- Added setting to hide or show box for logged-in users.
+
+
 #### 3.1.14 - July 13, 2017
 
 **Fixes**
