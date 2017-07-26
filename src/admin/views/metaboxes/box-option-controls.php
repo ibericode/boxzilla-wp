@@ -16,6 +16,7 @@ $rule_options = array(
 	'is_post_type' => __( 'if post type', 'boxzilla' ),
 	'is_url' => __( 'if URL', 'boxzilla' ),
 	'is_referer' => __( 'if referer', 'boxzilla' ),
+    'is_user_logged_in' => __( 'if user', 'boxzilla' ),
 );
 
 /**

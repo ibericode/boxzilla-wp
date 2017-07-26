@@ -170,155 +170,159 @@ msgstr ""
 msgid "if referer"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:73
+#: src/admin/views/metaboxes/box-option-controls.php:37
+msgid "if user"
+msgstr ""
+
+#: src/admin/views/metaboxes/box-option-controls.php:75
 msgid "Load this box if"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:79
+#: src/admin/views/metaboxes/box-option-controls.php:81
 msgid "Request matches"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:83
+#: src/admin/views/metaboxes/box-option-controls.php:85
 msgid "any"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:85
+#: src/admin/views/metaboxes/box-option-controls.php:87
 msgid "all"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:89
+#: src/admin/views/metaboxes/box-option-controls.php:91
 msgid "of the following conditions."
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:109, src/admin/views/metaboxes/box-option-controls.php:407
+#: src/admin/views/metaboxes/box-option-controls.php:111, src/admin/views/metaboxes/box-option-controls.php:409
 msgid "Remove rule"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:129, src/admin/views/metaboxes/box-option-controls.php:425
+#: src/admin/views/metaboxes/box-option-controls.php:131, src/admin/views/metaboxes/box-option-controls.php:427
 msgid "is"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:131, src/admin/views/metaboxes/box-option-controls.php:427
+#: src/admin/views/metaboxes/box-option-controls.php:133, src/admin/views/metaboxes/box-option-controls.php:429
 msgid "is not"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:137, src/admin/views/metaboxes/box-option-controls.php:433
+#: src/admin/views/metaboxes/box-option-controls.php:139, src/admin/views/metaboxes/box-option-controls.php:435
 msgid "Leave empty for any or enter (comma-separated) names or ID's"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:153
+#: src/admin/views/metaboxes/box-option-controls.php:155
 msgid "Add rule"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:159
+#: src/admin/views/metaboxes/box-option-controls.php:161
 msgid "Box Position"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:171
+#: src/admin/views/metaboxes/box-option-controls.php:173
 msgid "Top Left"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:185
+#: src/admin/views/metaboxes/box-option-controls.php:187
 msgid "Top Right"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:203
+#: src/admin/views/metaboxes/box-option-controls.php:205
 msgid "Center"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:221
+#: src/admin/views/metaboxes/box-option-controls.php:223
 msgid "Bottom Left"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:235
+#: src/admin/views/metaboxes/box-option-controls.php:237
 msgid "Bottom Right"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:253
+#: src/admin/views/metaboxes/box-option-controls.php:255
 msgid "Animation"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:257
+#: src/admin/views/metaboxes/box-option-controls.php:259
 msgid "Fade In"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:259
+#: src/admin/views/metaboxes/box-option-controls.php:261
 msgid "Slide In"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:261
+#: src/admin/views/metaboxes/box-option-controls.php:263
 msgid "Which animation type should be used to show the box when triggered?"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:269
+#: src/admin/views/metaboxes/box-option-controls.php:271
 msgid "Auto-show box?"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:273
+#: src/admin/views/metaboxes/box-option-controls.php:275
 msgid "Never"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:275
+#: src/admin/views/metaboxes/box-option-controls.php:277
 msgid "Yes, after %s seconds on the page."
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:277
+#: src/admin/views/metaboxes/box-option-controls.php:279
 msgid "Yes, when at %s of page height"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:279
+#: src/admin/views/metaboxes/box-option-controls.php:281
 msgid "Yes, when at element %s"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:279
+#: src/admin/views/metaboxes/box-option-controls.php:281
 msgid "Example: #comments"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:291
+#: src/admin/views/metaboxes/box-option-controls.php:293
 msgid "Cookie expiration"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:301, src/admin/views/metaboxes/box-option-controls.php:311
+#: src/admin/views/metaboxes/box-option-controls.php:303, src/admin/views/metaboxes/box-option-controls.php:313
 msgid "hours"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:319
+#: src/admin/views/metaboxes/box-option-controls.php:321
 msgid "After this box is triggered or dismissed, how many hours should it stay hidden?"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:327
+#: src/admin/views/metaboxes/box-option-controls.php:329
 msgid "Screen width"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:337
+#: src/admin/views/metaboxes/box-option-controls.php:339
 msgid "larger"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:337
+#: src/admin/views/metaboxes/box-option-controls.php:339
 msgid "smaller"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:339
+#: src/admin/views/metaboxes/box-option-controls.php:341
 msgid "Only show on screens %s than %s."
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:341
+#: src/admin/views/metaboxes/box-option-controls.php:343
 msgid "Leave empty if you want to show the box on all screen sizes."
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:351
+#: src/admin/views/metaboxes/box-option-controls.php:353
 msgid "Auto-hide?"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:359
+#: src/admin/views/metaboxes/box-option-controls.php:361
 msgid "Hide box again when visitors scroll back up?"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:367, src/admin/views/settings.php:20
+#: src/admin/views/metaboxes/box-option-controls.php:369, src/admin/views/settings.php:20
 msgid "Enable test mode?"
 msgstr ""
 
-#: src/admin/views/metaboxes/box-option-controls.php:375, src/admin/views/settings.php:24
+#: src/admin/views/metaboxes/box-option-controls.php:377, src/admin/views/settings.php:24
 msgid "If test mode is enabled, all boxes will show up regardless of whether a cookie has been set."
 msgstr ""
 

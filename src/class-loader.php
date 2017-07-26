@@ -161,6 +161,10 @@ class BoxLoader {
 			case 'is_post_with_tag':
 				$matched = is_singular( 'post' ) && has_tag( $value );
 				break;
+
+            case 'is_user_logged_in':
+                $matched = is_user_logged_in();
+                break;
 		}
 
 		/**

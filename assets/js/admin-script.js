@@ -13,6 +13,7 @@ window.Boxzilla_Admin = require('./admin/_admin.js');
 	var Option = require('./_option.js');
 	var optionControls = document.getElementById('boxzilla-box-options-controls');
 	var $optionControls = $(optionControls);
+	var tnLoggedIn = document.createTextNode(' logged in');
 
 	// sanity check, are we on the correct page?
 	if ($optionControls.length === 0) {
@@ -49,7 +50,6 @@ window.Boxzilla_Admin = require('./admin/_admin.js');
 	}
 
 	function setContextualHelpers() {
-
 		var context = this.tagName.toLowerCase() === "tr" ? this : $(this).parents('tr').get(0);
 		var condition = context.querySelector('.boxzilla-rule-condition').value;
 		var valueInput = context.querySelector('.boxzilla-rule-value');
@@ -71,6 +71,9 @@ window.Boxzilla_Admin = require('./admin/_admin.js');
 		betterInput.style.display = '';
 		valueInput.style.display = 'none';
 		qualifierInput.style.display = '';
+		if (tnLoggedIn.parentNode) {
+			tnLoggedIn.parentNode.removeChild(tnLoggedIn);
+		}
 
 		// change placeholder for textual help
 		switch (condition) {
@@ -113,6 +116,12 @@ window.Boxzilla_Admin = require('./admin/_admin.js');
 			case 'is_post_with_tag':
 				$betterInput.suggest(ajaxurl + "?action=boxzilla_autocomplete&type=post_tag", { multiple: true, multipleSep: "," });
 				break;
+
+			case 'is_user_logged_in':
+				betterInput.style.display = 'none';
+				valueInput.parentNode.insertBefore(tnLoggedIn, valueInput.nextSibling);
+				break;
+
 		}
 	}
 
