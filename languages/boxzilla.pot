@@ -323,7 +323,7 @@ msgid "Show close icon?"
 msgstr ""
 
 #: src/admin/views/metaboxes/box-option-controls.php:379
-msgid "<strong>Caution: </strong> if you hide the close icon make sure to offer an alternative way to close the box."
+msgid "If you decide to hide the close icon, make sure to offer an alternative way to close the box."
 msgstr ""
 
 #: src/admin/views/metaboxes/box-option-controls.php:381
