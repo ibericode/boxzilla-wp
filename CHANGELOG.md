@@ -1,6 +1,13 @@
 Changelog
 ==========
 
+#### 3.1.16 - August 2, 2017
+
+**Fixes**
+
+- JavaScript error when clicking `<a>` elements without `href` attributes.
+
+
 #### 3.1.15 - July 26, 2017
 
 **Additions**
