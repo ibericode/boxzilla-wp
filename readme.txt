@@ -7,6 +7,7 @@ Tested up to: 4.8.1
 Stable tag: 3.1.16
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Requires PHP: 5.3
 
 Flexible call to action boxes, popping up or sliding in at just the right time.
 
