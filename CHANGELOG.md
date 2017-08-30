@@ -1,6 +1,13 @@
 Changelog
 ==========
 
+#### 3.1.17 - August 30, 2017
+
+**Fixes**
+
+- IE11 issue with scroll triggered pop-ups never showing up.
+
+
 #### 3.1.16 - August 2, 2017
 
 **Fixes**
