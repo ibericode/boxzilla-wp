@@ -180,9 +180,15 @@ class Box {
 
 		// replace boxzilla specific shortcodes
         $close_link = sprintf('<a href="javascript:Boxzilla.dismiss(%d);">', $this->ID );
-        $content = str_replace( '[boxzilla-close]', $close_link, $content );
-        $content = str_replace( '[/boxzilla-close]', '</a>', $content );
 
+        $replacements = array(
+            '[boxzilla_close]' => $close_link, // accept underscore and dash here for consistency with other shortcode
+            '[boxzilla-close]' => $close_link,
+            '[/boxzilla_close]' => '</a>',
+            '[/boxzilla-close]' => '</a>',
+        );
+
+        $content = str_replace( array_keys( $replacements ), array_values( $replacements ), $content );
 
         /**
 		 * Filters the HTML for the box content
