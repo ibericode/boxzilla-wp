@@ -30,4 +30,19 @@ add_action( 'init', function() use( $boxzilla ){
     );
 
     register_post_type( 'boxzilla-box', $args );
+
+    add_shortcode( 'boxzilla_link', 'boxzilla_get_link_html' );
 });
+
+function boxzilla_get_link_html( $args = array(), $content = '' ) {
+    $valid_actions = array(
+        'show',
+        'toggle',
+        'hide',
+        'dismiss'
+    );
+    $box_id = empty( $args['box'] ) ? '' : absint( $args['box'] );
+    $class_attr = empty( $args['class'] ) ? '' : esc_attr( $args['class'] );
+    $action = empty( $args['action'] ) || ! in_array( $args['action'], $valid_actions ) ? 'show' : $args['action'];
+    return sprintf( '<a href="javascript:Boxzilla.%s(%s)" class="%s">', $action, $box_id, $class_attr ) . $content . '</a>';
+}
