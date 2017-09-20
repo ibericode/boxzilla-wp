@@ -5,7 +5,7 @@ Changelog
 
 **Additions**
 
-- Added `[boxzilla_link]` shortcode to generate the correct HTML for a link to show/toggle/hide/dismiss a box](https://kb.boxzillaplugin.com/shortcode-boxzilla-link/). 
+- Added [`[boxzilla_link]` shortcode to generate the correct HTML for a link to show/toggle/hide/dismiss a box](https://kb.boxzillaplugin.com/shortcode-boxzilla-link/). 
 
 
 #### 3.1.17 - August 30, 2017
