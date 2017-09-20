@@ -1,6 +1,13 @@
 Changelog
 ==========
 
+#### 3.1.19 - September 20, 2017
+
+**Improvements**
+
+- Trigger points based on height (scroll %, element) will now be recalculated when the page height changes.
+
+
 #### 3.1.18 - September 7, 2017
 
 **Additions**
