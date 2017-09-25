@@ -107,6 +107,28 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
     window.addEventListener('load', openMailChimpForWordPressBox);
     createBoxesFromConfig();
+
+    // navigator.userAgent.match(/(iPod|iPhone|iPad)/) && navigator.userAgent.match(/AppleWebKit/)
+    if (true && window.jQuery) {
+        var css = '.fixfixed { position: absolute; }',
+            style = document.createElement('style');
+
+        style.type = 'text/css';
+        if (style.styleSheet) {
+            style.styleSheet.cssText = css;
+        } else {
+            style.appendChild(document.createTextNode(css));
+        }
+
+        document.head.appendChild(style);
+
+        var $body = jQuery('body');
+        jQuery(document).on('focus', 'input', function () {
+            $body.addClass('fixfixed');
+        }).on('blur', 'input', function () {
+            $body.removeClass('fixfixed');
+        });
+    }
 })();
 
 },{"boxzilla":4}],2:[function(require,module,exports){
