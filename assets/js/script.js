@@ -108,8 +108,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     window.addEventListener('load', openMailChimpForWordPressBox);
     createBoxesFromConfig();
 
-    // navigator.userAgent.match(/(iPod|iPhone|iPad)/) && navigator.userAgent.match(/AppleWebKit/)
-    if (true && window.jQuery) {
+    if (navigator.userAgent.match(/iP(ad|hone|od).+Version\/[\d\.]+.*Safari/i) && window.jQuery && window.innerWidth <= 1080) {
         var css = '.fixfixed { position: absolute; }',
             style = document.createElement('style');
 
