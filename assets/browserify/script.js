@@ -99,26 +99,5 @@
     }
 
     window.addEventListener('load', openMailChimpForWordPressBox);
-    createBoxesFromConfig();
-
-    if( navigator.userAgent.match(/iP(ad|hone|od).+Version\/[\d\.]+.*Safari/i) && window.jQuery && window.innerWidth <= 1080 ) {
-        var css = '.fixfixed { position: absolute; }',
-            style = document.createElement('style');
-
-        style.type = 'text/css';
-        if (style.styleSheet){
-            style.styleSheet.cssText = css;
-        } else {
-            style.appendChild(document.createTextNode(css));
-        }
-
-        document.head.appendChild(style);
-
-        var $body = jQuery('body');
-        jQuery(document).on('focus', 'input', function() {
-            $body.addClass('fixfixed');
-         }).on('blur', 'input', function() {
-            $body.removeClass('fixfixed');
-        });
-    }
+    window.setTimeout(createBoxesFromConfig, 1);
 })();
