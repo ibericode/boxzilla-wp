@@ -28,11 +28,34 @@ add_action( 'init', function() use( $boxzilla ){
         'menu_icon' => $boxzilla->plugin->url( '/assets/img/menu-icon.png' ),
         'query_var' => false,
         'capability_type' => 'box',
+        'capabilities' => array(
+            'edit_post' => 'edit_box',
+            'edit_posts' => 'edit_boxes',
+            'edit_others_posts' => 'edit_other_boxes',
+            'publish_posts' => 'publish_boxes',
+            'read_post' => 'read_box',
+            'read_private_posts' => 'read_private_box',
+            'delete_post' => 'delete_box',
+        ),
     );
 
     register_post_type( 'boxzilla-box', $args );
 
     add_shortcode( 'boxzilla_link', 'boxzilla_get_link_html' );
+});
+
+add_action( 'admin_init', function() {
+    $admins = get_role( 'administrator' );
+
+    if( ! $admins->has_cap( 'edit_box' ) ) {
+        $admins->add_cap('edit_box');
+        $admins->add_cap('edit_boxes');
+        $admins->add_cap('edit_other_boxes');
+        $admins->add_cap('publish_boxes');
+        $admins->add_cap('read_box');
+        $admins->add_cap('read_private_box');
+        $admins->add_cap('delete_box');
+    }
 });
 
 function boxzilla_get_link_html( $args = array(), $content = '' ) {
