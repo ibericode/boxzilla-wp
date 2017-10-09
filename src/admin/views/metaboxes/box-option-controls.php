@@ -167,7 +167,7 @@ $rule_options = apply_filters( 'boxzilla_rules_options', $rule_options );
             <?php
             $condition_type = $opts['screen_size_condition']['condition'];
             $condition_value = $opts['screen_size_condition']['value'];
-            $condition_select = '<select name="boxzilla_box[screen_size_condition][condition]"><option '. ( $condition_type === 'larger' ? 'selected' : '' ) .'>' . __( 'larger', 'boxzilla' ) . '</option><option '. ( $condition_type === 'smaller' ? 'selected' : '' ) .'>' . __( 'smaller', 'boxzilla' ) . '</option></select>'; ?>
+            $condition_select = '<select name="boxzilla_box[screen_size_condition][condition]"><option value="larger" '. ( $condition_type === 'larger' ? 'selected' : '' ) .'>' . __( 'larger', 'boxzilla' ) . '</option><option value="smaller" '. ( $condition_type === 'smaller' ? 'selected' : '' ) .'>' . __( 'smaller', 'boxzilla' ) . '</option></select>'; ?>
 			<p><?php printf( __( 'Only show on screens %s than %s.', 'boxzilla' ), $condition_select, '<input type="number" min="0" name="boxzilla_box[screen_size_condition][value]" value="' . esc_attr( $condition_value ) . '" style="max-width: 70px;" />px' ); ?></p>
 			<p class="help"><?php _e( 'Leave empty if you want to show the box on all screen sizes.', 'boxzilla' ); ?></p>
 		</td>
