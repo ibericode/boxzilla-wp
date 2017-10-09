@@ -1,6 +1,13 @@
 Changelog
 ==========
 
+#### 3.1.21 - October 10, 2017
+
+**Fixes**
+
+- Ensure that administrators can always edit boxes.
+
+
 #### 3.1.20 - October 9, 2017
 
 **Fixes**
