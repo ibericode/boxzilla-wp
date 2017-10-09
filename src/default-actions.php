@@ -26,7 +26,8 @@ add_action( 'init', function() use( $boxzilla ){
         'show_ui' => true,
         'menu_position' => '108.1337133',
         'menu_icon' => $boxzilla->plugin->url( '/assets/img/menu-icon.png' ),
-        'query_var' => false
+        'query_var' => false,
+        'capability_type' => 'box',
     );
 
     register_post_type( 'boxzilla-box', $args );
