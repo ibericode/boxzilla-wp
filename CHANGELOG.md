@@ -1,6 +1,17 @@
 Changelog
 ==========
 
+#### 3.1.20 - October 9, 2017
+
+**Fixes**
+
+- Screen width condition not working when using WordPress in language other than English.
+
+**Improvements**
+
+- Use custom capability type so access to Boxzilla boxes can be modified using a role manager plugin.
+
+
 #### 3.1.19 - September 20, 2017
 
 **Improvements**
