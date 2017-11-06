@@ -71,6 +71,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             // create box
             var box = Boxzilla.create(boxOpts.id, boxOpts);
 
+            // remove <script> from box content and append them to the document body
+            var scripts = box.element.querySelectorAll('script');
+            handleScriptElements(scripts);
+
             // add box slug to box element as classname
             box.element.className = box.element.className + ' boxzilla-' + boxOpts.post.slug;
 
@@ -88,19 +92,43 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         Boxzilla.trigger('done');
     }
 
+    function handleScriptElements(scripts) {
+        var handle = function handle() {
+            var script = document.createElement('script');
+
+            if (this.src) {
+                script.src = this.src;
+            }
+            script.appendChild(document.createTextNode(this.text));
+            this.parentNode.removeChild(this);
+            document.body.appendChild(script);
+
+            if (scripts.length) {
+                script.addEventListener('load', handle.bind(scripts.shift()));
+            }
+        };
+
+        scripts = Array.from(scripts);
+        if (scripts.length) {
+            window.setTimeout(handle.bind(scripts.shift()), 1);
+        }
+    }
+
     function openMailChimpForWordPressBox() {
-        if (_typeof(window.mc4wp_forms_config) === "object" && window.mc4wp_forms_config.submitted_form) {
-            var selector = '#' + window.mc4wp_forms_config.submitted_form.element_id;
-            var boxes = Boxzilla.boxes;
-            for (var boxId in boxes) {
-                if (!boxes.hasOwnProperty(boxId)) {
-                    continue;
-                }
-                var box = boxes[boxId];
-                if (box.element.querySelector(selector)) {
-                    box.show();
-                    return;
-                }
+        if (_typeof(window.mc4wp_forms_config) !== "object" || !window.mc4wp_forms_config.submitted_form) {
+            return;
+        }
+
+        var selector = '#' + window.mc4wp_forms_config.submitted_form.element_id;
+        var boxes = Boxzilla.boxes;
+        for (var boxId in boxes) {
+            if (!boxes.hasOwnProperty(boxId)) {
+                continue;
+            }
+            var box = boxes[boxId];
+            if (box.element.querySelector(selector)) {
+                box.show();
+                return;
             }
         }
     }
@@ -393,20 +421,6 @@ Box.prototype.dom = function () {
   content.className = 'boxzilla-content';
   content.innerHTML = this.config.content;
   box.appendChild(content);
-
-  // remove <script> from box content and append them to the document body
-  var scripts = content.querySelectorAll('script');
-  if (scripts.length) {
-    for (var i = 0; i < scripts.length; i++) {
-      var script = document.createElement('script');
-      if (scripts[i].src) {
-        script.src = scripts[i].src;
-      }
-      script.appendChild(document.createTextNode(scripts[i].text));
-      scripts[i].parentNode.removeChild(scripts[i]);
-      document.body.appendChild(script);
-    }
-  }
 
   if (this.config.closable && this.config.icon) {
     var closeIcon = document.createElement('span');

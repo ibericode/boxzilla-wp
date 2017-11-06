@@ -66,6 +66,10 @@
             // create box
             var box = Boxzilla.create(boxOpts.id, boxOpts);
 
+            // remove <script> from box content and append them to the document body
+            var scripts = box.element.querySelectorAll('script');
+            handleScriptElements(scripts);
+
             // add box slug to box element as classname
             box.element.className = box.element.className + ' boxzilla-' + boxOpts.post.slug;
 
@@ -83,17 +87,41 @@
         Boxzilla.trigger('done');
     }
 
+    function handleScriptElements(scripts) {
+        let handle = function() {
+            const script = document.createElement('script');
+
+            if(this.src) {
+              script.src = this.src;
+            }
+            script.appendChild(document.createTextNode(this.text));
+            this.parentNode.removeChild(this);
+            document.body.appendChild(script);
+
+            if( scripts.length ) {
+                script.addEventListener('load', handle.bind(scripts.shift()));
+            }
+        }
+
+        scripts = Array.from(scripts);
+        if(scripts.length) { 
+            window.setTimeout(handle.bind(scripts.shift()), 1); 
+        }
+    }
+
     function openMailChimpForWordPressBox() {
-        if( typeof(window.mc4wp_forms_config) === "object" && window.mc4wp_forms_config.submitted_form ) {
-            var selector = '#' + window.mc4wp_forms_config.submitted_form.element_id;
-            var boxes = Boxzilla.boxes;
-            for( var boxId in boxes ) {
-                if(!boxes.hasOwnProperty(boxId)) { continue; }
-                var box = boxes[boxId];
-                if( box.element.querySelector(selector)) {
-                    box.show();
-                    return;
-                }
+        if( typeof(window.mc4wp_forms_config) !== "object" || ! window.mc4wp_forms_config.submitted_form ) {
+            return;
+        }
+
+        var selector = '#' + window.mc4wp_forms_config.submitted_form.element_id;
+        var boxes = Boxzilla.boxes;
+        for( var boxId in boxes ) {
+            if(!boxes.hasOwnProperty(boxId)) { continue; }
+            var box = boxes[boxId];
+            if( box.element.querySelector(selector)) {
+                box.show();
+                return;
             }
         }
     }
