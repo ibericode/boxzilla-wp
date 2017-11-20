@@ -78,6 +78,11 @@
 
             box.element.firstChild.firstChild.className += " first-child";
             box.element.firstChild.lastChild.className += " last-child";
+
+            // maybe show box right away
+            if( box.fits() && locationHashRefersBox(box) ) {
+              window.addEventListener('load', box.show.bind(box));
+            }
         }
 
         // set flag to prevent initialising twice
@@ -85,6 +90,28 @@
 
         // trigger "done" event.
         Boxzilla.trigger('done');
+    }
+
+    function locationHashRefersBox(box) {
+        if( ! window.location.hash || 0 === window.location.hash.length ) {
+          return false;
+        }
+
+        var elementId = window.location.hash.substring(1);
+
+        // only attempt on strings looking like an ID 
+        var regex = /^[a-zA-Z\-\_0-9]+$/;
+        if( ! regex.test(elementId) ) {
+          return false;
+        }
+
+        if( elementId === box.element.id ) {
+          return true;
+        } else if( box.element.querySelector('#' + elementId) ) {
+          return true;
+        }
+
+        return false;
     }
 
     function handleScriptElements(scripts) {
@@ -125,6 +152,8 @@
             }
         }
     }
+
+
 
     window.addEventListener('load', openMailChimpForWordPressBox);
     window.setTimeout(createBoxesFromConfig, 1);
