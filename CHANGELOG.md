@@ -1,6 +1,17 @@
 Changelog
 ==========
 
+#### 3.1.22 - November 20, 2017
+
+**Fixes**
+
+- Showing box by location hash wasn't working.
+
+**Improvements**
+
+- Load `<script>` in box content synchronously so libraries get a chance to load before they're used.
+
+
 #### 3.1.21 - October 10, 2017
 
 **Fixes**
