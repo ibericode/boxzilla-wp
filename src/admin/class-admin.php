@@ -615,7 +615,7 @@ class Admin {
 	 * @return array
 	 */
 	public function add_plugin_settings_link( $links, $slug ) {
-		if ( $slug !== $this->plugin->slug() ) {
+		if ( $slug !== $this->plugin->slug() || ! is_array( $links ) ) {
 			return $links;
 		}
 
