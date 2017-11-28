@@ -35,7 +35,7 @@ add_action( 'init', function() use( $boxzilla ){
             'publish_posts' => 'publish_boxes',
             'read_post' => 'read_box',
             'read_private_posts' => 'read_private_box',
-            'delete_post' => 'delete_box',
+            'delete_posts' => 'delete_box',
         ),
     );
 
