@@ -156,8 +156,9 @@ class Admin {
 	 * @param $post_id
 	 */
 	public function post_type_column_content( $column, $post_id ) {
-		if ( method_exists( $this, 'post_type_column_' . $column . '_content' ) ) {
-			call_user_func( array( $this, 'post_type_column_' . $column . '_content' ), $post_id );
+		$method_name = 'post_type_column_' . $column . '_content';
+		if ( method_exists( $this, $method_name ) ) {
+			call_user_func( array( $this, $method_name ), $post_id );
 		}
 	}
 
@@ -293,7 +294,6 @@ class Admin {
 		}
 
 		if ( $screen->base === 'edit' && $screen->post_type === 'boxzilla-box' ) {
-			// load stylesheets
 			wp_enqueue_style( 'boxzilla-admin' );
 		}
 
@@ -304,14 +304,14 @@ class Admin {
 			// load scripts
 			wp_enqueue_script( 'boxzilla-admin' );
 
-			wp_localize_script( 'boxzilla-admin' ,'boxzilla_i18n', array(
-					'enterCommaSeparatedValues' => __( 'Enter a comma-separated list of values.', 'boxzilla' ),
-					'enterCommaSeparatedPosts' => __( "Enter a comma-separated list of post slugs or post ID's..", 'boxzilla' ),
-					'enterCommaSeparatedPages' => __( "Enter a comma-separated list of page slugs or page ID's..", 'boxzilla' ),
-					'enterCommaSeparatedPostTypes' => __( "Enter a comma-separated list of post types..", 'boxzilla' ),
-					'enterCommaSeparatedRelativeUrls' => __( "Enter a comma-separated list of relative URL's, eg /contact/", 'boxzilla' ),
-				)
+			$data = array(
+				'enterCommaSeparatedValues' => __( 'Enter a comma-separated list of values.', 'boxzilla' ),
+				'enterCommaSeparatedPosts' => __( "Enter a comma-separated list of post slugs or post ID's..", 'boxzilla' ),
+				'enterCommaSeparatedPages' => __( "Enter a comma-separated list of page slugs or page ID's..", 'boxzilla' ),
+				'enterCommaSeparatedPostTypes' => __( "Enter a comma-separated list of post types..", 'boxzilla' ),
+				'enterCommaSeparatedRelativeUrls' => __( "Enter a comma-separated list of relative URL's, eg /contact/", 'boxzilla' ),
 			);
+			wp_localize_script( 'boxzilla-admin' ,'boxzilla_i18n', $data );
 
 			// load stylesheets
 			wp_enqueue_style( 'boxzilla-admin' );
@@ -321,7 +321,6 @@ class Admin {
 		}
 
 		if ( isset( $_GET['page'] ) && $_GET['page'] === 'boxzilla-settings' ) {
-			// load stylesheets
 			wp_enqueue_style( 'boxzilla-admin' );
 		}
 
@@ -655,7 +654,7 @@ class Admin {
 
 		// only act on our own post type
 		$post = get_post( $post_id );
-		if ( $post instanceof WP_Post && $post->post_type !== 'boxzilla-box' ) {
+		if ( ! $post instanceof WP_Post || $post->post_type !== 'boxzilla-box' ) {
 			return;
 		}
 
@@ -710,7 +709,7 @@ class Admin {
 		$response = json_decode( $response );
 
 		if ( is_array( $response->data ) ) {
-			set_transient( 'boxzilla_remote_extensions', $response->data, HOUR_IN_SECONDS );
+			set_transient( 'boxzilla_remote_extensions', $response->data, 24 * HOUR_IN_SECONDS );
 
 			return $response->data;
 		}
