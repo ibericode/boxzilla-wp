@@ -1,11 +1,18 @@
 Changelog
 ==========
 
+#### 3.1.23 - December 13, 2017
+
+**Fixes**
+
+- Event listener for hyperlinks referencing `#boxzilla-123`. We recommend using `[boxzilla_link]to generate your links though[/boxzilla_link]`. [Here's how that works](https://kb.boxzillaplugin.com/shortcode-boxzilla-link/).
+
+
 #### 3.1.22 - November 20, 2017
 
 **Fixes**
 
-- Showing box by location hash wasn't working.
+- Showing box by location hash after page load wasn't working.
 
 **Improvements**
 
