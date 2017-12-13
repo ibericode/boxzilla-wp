@@ -4,7 +4,7 @@ Donate link: https://boxzillaplugin.com/#utm_source=wp-plugin-repo&utm_medium=bo
 Tags: scroll triggered box, cta, social, pop-up, newsletter, call to action, mailchimp, contact form 7, social media, mc4wp, ibericode
 Requires at least: 4.1
 Tested up to: 4.9.1
-Stable tag: 3.1.22
+Stable tag: 3.1.23
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 5.3
@@ -150,11 +150,18 @@ Have a look at the [frequently asked questions](https://wordpress.org/plugins/bo
 == Changelog ==
 
 
+#### 3.1.23 - December 13, 2017
+
+**Fixes**
+
+- Event listener for hyperlinks referencing `#boxzilla-123`. We recommend using `[boxzilla_link]to generate your links though[/boxzilla_link]`. [Here's how that works](https://kb.boxzillaplugin.com/shortcode-boxzilla-link/).
+
+
 #### 3.1.22 - November 20, 2017
 
 **Fixes**
 
-- Showing box by location hash wasn't working.
+- Showing box by location hash after page load wasn't working.
 
 **Improvements**
 
