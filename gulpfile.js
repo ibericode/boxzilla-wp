@@ -83,7 +83,7 @@ gulp.task('languages', function () {
             domain: 'boxzilla',
             destFile:'boxzilla.pot'
         } ))
-        .pipe(gulp.dest('languages'));
+        .pipe(gulp.dest('./languages/.'));
 });
 
 
