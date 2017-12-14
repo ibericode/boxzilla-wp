@@ -280,7 +280,7 @@ class BoxLoader {
 			}
 
 			// query Box posts
-			$boxes = get_posts(
+			$posts = get_posts(
 				array(
 					'post_type' => 'boxzilla-box',
 					'post_status' => 'publish',
@@ -290,8 +290,14 @@ class BoxLoader {
 			);
 
 			// create `Box` instances out of \WP_Post instances
-			foreach ( $boxes as $key => $box ) {
-				$boxes[ $key ] = new Box( $box );
+			$boxes = array();
+			foreach ( $posts as $key => $post ) {
+				// skip posts with no content
+				if( empty( trim( $post->post_content ) ) ) {
+					continue;
+				}
+
+				$boxes[ $key ] = new Box( $post );
 			}
 		}
 
