@@ -231,7 +231,7 @@ class Box {
 		$client_options = array(
 			'id' => $box->ID,
 			'icon' => $box->get_close_icon(),
-			'content' => $box->get_content(),
+			'content' => '', // we grab this later from an HTML element
 			'css' => array_filter( $box->options['css'] ),
 			'trigger' => $trigger,
 			'animation' => $box->options['animation'],
