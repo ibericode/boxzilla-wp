@@ -1,6 +1,17 @@
 Changelog
 ==========
 
+#### 3.2 - March 5, 2018
+
+**Fixes**
+
+- Compatibility with plugins that use JavaScript rendering.
+
+**Improvements**
+
+- Skip boxes with empty content.
+
+
 #### 3.1.23 - December 13, 2017
 
 **Fixes**

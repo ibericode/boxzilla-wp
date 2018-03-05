@@ -1,4 +1,4 @@
-# Copyright (C) 2017 boxzilla
+# Copyright (C) 2018 boxzilla
 # This file is distributed under the same license as the boxzilla package.
 msgid ""
 msgstr ""
@@ -6,341 +6,12 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2017-MO-DA HO:MI+ZONE\n"
 "X-Poedit-Basepath: ..\n"
-"X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
+"X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-#: src/admin/class-admin.php:207
-msgid "Awesome, you are using Boxzilla! You can now safely <a href=\"%s\">deactivate the Scroll Triggered Boxes plugin</a>."
-msgstr ""
-
-#: src/admin/class-admin.php:341
-msgid "Box ID"
-msgstr ""
-
-#: src/admin/class-admin.php:347
-msgid "Box Title"
-msgstr ""
-
-#: src/admin/class-admin.php:415, src/admin/class-admin.php:417, src/admin/views/settings.php:7
-msgid "Settings"
-msgstr ""
-
-#: src/admin/class-admin.php:427, src/admin/class-admin.php:429
-msgid "Extensions"
-msgstr ""
-
-#: src/admin/class-admin.php:615
-msgid "Enter a comma-separated list of values."
-msgstr ""
-
-#: src/admin/class-admin.php:617
-msgid "Enter a comma-separated list of post slugs or post ID's.."
-msgstr ""
-
-#: src/admin/class-admin.php:619
-msgid "Enter a comma-separated list of page slugs or page ID's.."
-msgstr ""
-
-#: src/admin/class-admin.php:621
-msgid "Enter a comma-separated list of post types.."
-msgstr ""
-
-#: src/admin/class-admin.php:623
-msgid "Enter a comma-separated list of relative URL's, eg /contact/"
-msgstr ""
-
-#: src/admin/class-admin.php:689
-msgid "Box Appearance"
-msgstr ""
-
-#: src/admin/class-admin.php:707
-msgid "Box Options"
-msgstr ""
-
-#: src/admin/class-admin.php:725
-msgid "Looking for help?"
-msgstr ""
-
-#: src/admin/class-admin.php:741
-msgid "Subscribe to our newsletter"
-msgstr ""
-
-#: src/admin/class-review-notice.php:74
-msgid "You've been using Boxzilla for some time now; we hope you love it!"
-msgstr ""
-
-#: src/admin/class-review-notice.php:75
-msgid "If you do, please <a href=\"%s\">leave us a 5★ rating on WordPress.org</a>. It would be of great help to us."
-msgstr ""
-
-#: src/admin/class-review-notice.php:77
-msgid "Dismiss this notice."
-msgstr ""
-
-#: src/admin/views/extensions.php:4
-msgid "Available Add-On Plugins"
-msgstr ""
-
-#: src/admin/views/extensions.php:6
-msgid "There are various add-ons available for Boxzilla which further enhance the functionality of the core plugin."
-msgstr ""
-
-#: src/admin/views/extensions.php:9
-msgid "To gain instant access the premium add-on plugins listed here, <a href=\"%s\">have a look at our pricing</a>."
-msgstr ""
-
-#: src/admin/views/extensions.php:18
-msgid "You will be redirected to the Boxzilla site in a few seconds.."
-msgstr ""
-
-#: src/admin/views/extensions.php:19
-msgid "If not, please click here: %s."
-msgstr ""
-
-#: src/admin/views/metaboxes/box-appearance-controls.php:2
-msgid "For the best experience when styling your box, please use the default WordPress visual editor."
-msgstr ""
-
-#: src/admin/views/metaboxes/box-appearance-controls.php:8
-msgid "Background color"
-msgstr ""
-
-#: src/admin/views/metaboxes/box-appearance-controls.php:12
-msgid "Text color"
-msgstr ""
-
-#: src/admin/views/metaboxes/box-appearance-controls.php:16
-msgid "Box width"
-msgstr ""
-
-#: src/admin/views/metaboxes/box-appearance-controls.php:18, src/admin/views/metaboxes/box-appearance-controls.php:29
-msgid "Width in px"
-msgstr ""
-
-#: src/admin/views/metaboxes/box-appearance-controls.php:23
-msgid "Border color"
-msgstr ""
-
-#: src/admin/views/metaboxes/box-appearance-controls.php:27
-msgid "Border width"
-msgstr ""
-
-#: src/admin/views/metaboxes/box-appearance-controls.php:32, src/admin/views/metaboxes/box-appearance-controls.php:40
-msgid "Border style"
-msgstr ""
-
-#: src/admin/views/metaboxes/box-appearance-controls.php:46
-msgid "<a href=\"%s\">Click here to reset all styling settings</a>."
-msgstr ""
-
-#: src/admin/views/metaboxes/box-option-controls.php:21
-msgid "everywhere"
-msgstr ""
-
-#: src/admin/views/metaboxes/box-option-controls.php:23
-msgid "if page"
-msgstr ""
-
-#: src/admin/views/metaboxes/box-option-controls.php:25
-msgid "if post"
-msgstr ""
-
-#: src/admin/views/metaboxes/box-option-controls.php:27
-msgid "if post tag"
-msgstr ""
-
-#: src/admin/views/metaboxes/box-option-controls.php:29
-msgid "if post category"
-msgstr ""
-
-#: src/admin/views/metaboxes/box-option-controls.php:31
-msgid "if post type"
-msgstr ""
-
-#: src/admin/views/metaboxes/box-option-controls.php:33
-msgid "if URL"
-msgstr ""
-
-#: src/admin/views/metaboxes/box-option-controls.php:35
-msgid "if referer"
-msgstr ""
-
-#: src/admin/views/metaboxes/box-option-controls.php:37
-msgid "if user"
-msgstr ""
-
-#: src/admin/views/metaboxes/box-option-controls.php:75
-msgid "Load this box if"
-msgstr ""
-
-#: src/admin/views/metaboxes/box-option-controls.php:81
-msgid "Request matches"
-msgstr ""
-
-#: src/admin/views/metaboxes/box-option-controls.php:85
-msgid "any"
-msgstr ""
-
-#: src/admin/views/metaboxes/box-option-controls.php:87
-msgid "all"
-msgstr ""
-
-#: src/admin/views/metaboxes/box-option-controls.php:91
-msgid "of the following conditions."
-msgstr ""
-
-#: src/admin/views/metaboxes/box-option-controls.php:111, src/admin/views/metaboxes/box-option-controls.php:431
-msgid "Remove rule"
-msgstr ""
-
-#: src/admin/views/metaboxes/box-option-controls.php:131, src/admin/views/metaboxes/box-option-controls.php:449
-msgid "is"
-msgstr ""
-
-#: src/admin/views/metaboxes/box-option-controls.php:133, src/admin/views/metaboxes/box-option-controls.php:451
-msgid "is not"
-msgstr ""
-
-#: src/admin/views/metaboxes/box-option-controls.php:139, src/admin/views/metaboxes/box-option-controls.php:457
-msgid "Leave empty for any or enter (comma-separated) names or ID's"
-msgstr ""
-
-#: src/admin/views/metaboxes/box-option-controls.php:155
-msgid "Add rule"
-msgstr ""
-
-#: src/admin/views/metaboxes/box-option-controls.php:161
-msgid "Box Position"
-msgstr ""
-
-#: src/admin/views/metaboxes/box-option-controls.php:173
-msgid "Top Left"
-msgstr ""
-
-#: src/admin/views/metaboxes/box-option-controls.php:187
-msgid "Top Right"
-msgstr ""
-
-#: src/admin/views/metaboxes/box-option-controls.php:205
-msgid "Center"
-msgstr ""
-
-#: src/admin/views/metaboxes/box-option-controls.php:223
-msgid "Bottom Left"
-msgstr ""
-
-#: src/admin/views/metaboxes/box-option-controls.php:237
-msgid "Bottom Right"
-msgstr ""
-
-#: src/admin/views/metaboxes/box-option-controls.php:255
-msgid "Animation"
-msgstr ""
-
-#: src/admin/views/metaboxes/box-option-controls.php:259
-msgid "Fade In"
-msgstr ""
-
-#: src/admin/views/metaboxes/box-option-controls.php:261
-msgid "Slide In"
-msgstr ""
-
-#: src/admin/views/metaboxes/box-option-controls.php:263
-msgid "Which animation type should be used to show the box when triggered?"
-msgstr ""
-
-#: src/admin/views/metaboxes/box-option-controls.php:271
-msgid "Auto-show box?"
-msgstr ""
-
-#: src/admin/views/metaboxes/box-option-controls.php:275
-msgid "Never"
-msgstr ""
-
-#: src/admin/views/metaboxes/box-option-controls.php:277
-msgid "Yes, after %s seconds on the page."
-msgstr ""
-
-#: src/admin/views/metaboxes/box-option-controls.php:279
-msgid "Yes, when at %s of page height"
-msgstr ""
-
-#: src/admin/views/metaboxes/box-option-controls.php:281
-msgid "Yes, when at element %s"
-msgstr ""
-
-#: src/admin/views/metaboxes/box-option-controls.php:281
-msgid "Example: #comments"
-msgstr ""
-
-#: src/admin/views/metaboxes/box-option-controls.php:293
-msgid "Cookie expiration"
-msgstr ""
-
-#: src/admin/views/metaboxes/box-option-controls.php:303, src/admin/views/metaboxes/box-option-controls.php:313
-msgid "hours"
-msgstr ""
-
-#: src/admin/views/metaboxes/box-option-controls.php:321
-msgid "After this box is triggered or dismissed, how many hours should it stay hidden?"
-msgstr ""
-
-#: src/admin/views/metaboxes/box-option-controls.php:329
-msgid "Screen width"
-msgstr ""
-
-#: src/admin/views/metaboxes/box-option-controls.php:339
-msgid "larger"
-msgstr ""
-
-#: src/admin/views/metaboxes/box-option-controls.php:339
-msgid "smaller"
-msgstr ""
-
-#: src/admin/views/metaboxes/box-option-controls.php:341
-msgid "Only show on screens %s than %s."
-msgstr ""
-
-#: src/admin/views/metaboxes/box-option-controls.php:343
-msgid "Leave empty if you want to show the box on all screen sizes."
-msgstr ""
-
-#: src/admin/views/metaboxes/box-option-controls.php:353
-msgid "Auto-hide?"
-msgstr ""
-
-#: src/admin/views/metaboxes/box-option-controls.php:361
-msgid "Hide box again when visitors scroll back up?"
-msgstr ""
-
-#: src/admin/views/metaboxes/box-option-controls.php:369
-msgid "Show close icon?"
-msgstr ""
-
-#: src/admin/views/metaboxes/box-option-controls.php:379
-msgid "If you decide to hide the close icon, make sure to offer an alternative way to close the box."
-msgstr ""
-
-#: src/admin/views/metaboxes/box-option-controls.php:381
-msgid "Example: "
-msgstr ""
-
-#: src/admin/views/metaboxes/box-option-controls.php:391, src/admin/views/settings.php:20
-msgid "Enable test mode?"
-msgstr ""
-
-#: src/admin/views/metaboxes/box-option-controls.php:399, src/admin/views/settings.php:24
-msgid "If test mode is enabled, all boxes will show up regardless of whether a cookie has been set."
-msgstr ""
-
-#: src/admin/views/metaboxes/need-help.php:2
-msgid "Please make sure to look at the following available resources."
-msgstr ""
 
 #: src/default-actions.php:12, src/default-actions.php:24
 msgid "Boxzilla"
@@ -386,8 +57,104 @@ msgstr ""
 msgid "No Boxes found in Trash"
 msgstr ""
 
+#: src/admin/class-admin.php:104
+msgid "Awesome, you are using Boxzilla! You can now safely <a href=\"%s\">deactivate the Scroll Triggered Boxes plugin</a>."
+msgstr ""
+
+#: src/admin/class-admin.php:172
+msgid "Box ID"
+msgstr ""
+
+#: src/admin/class-admin.php:175
+msgid "Box Title"
+msgstr ""
+
+#: src/admin/class-admin.php:209, src/admin/class-admin.php:210, src/admin/views/settings.php:7
+msgid "Settings"
+msgstr ""
+
+#: src/admin/class-admin.php:215, src/admin/class-admin.php:216
+msgid "Extensions"
+msgstr ""
+
+#: src/admin/class-admin.php:308
+msgid "Enter a comma-separated list of values."
+msgstr ""
+
+#: src/admin/class-admin.php:309
+msgid "Enter a comma-separated list of post slugs or post ID's.."
+msgstr ""
+
+#: src/admin/class-admin.php:310
+msgid "Enter a comma-separated list of page slugs or page ID's.."
+msgstr ""
+
+#: src/admin/class-admin.php:311
+msgid "Enter a comma-separated list of post types.."
+msgstr ""
+
+#: src/admin/class-admin.php:312
+msgid "Enter a comma-separated list of relative URL's, eg /contact/"
+msgstr ""
+
+#: src/admin/class-admin.php:344
+msgid "Box Appearance"
+msgstr ""
+
+#: src/admin/class-admin.php:353
+msgid "Box Options"
+msgstr ""
+
+#: src/admin/class-admin.php:362
+msgid "Looking for help?"
+msgstr ""
+
+#: src/admin/class-admin.php:370
+msgid "Subscribe to our newsletter"
+msgstr ""
+
+#: src/admin/class-review-notice.php:74
+msgid "You've been using Boxzilla for some time now; we hope you love it!"
+msgstr ""
+
+#: src/admin/class-review-notice.php:75
+msgid "If you do, please <a href=\"%s\">leave us a 5★ rating on WordPress.org</a>. It would be of great help to us."
+msgstr ""
+
+#: src/admin/class-review-notice.php:77
+msgid "Dismiss this notice."
+msgstr ""
+
 #: src/licensing/class-api.php:165
 msgid "The Boxzilla server returned an invalid response."
+msgstr ""
+
+#: src/admin/views/extensions.php:4
+msgid "Available Add-On Plugins"
+msgstr ""
+
+#: src/admin/views/extensions.php:6
+msgid "There are various add-ons available for Boxzilla which further enhance the functionality of the core plugin."
+msgstr ""
+
+#: src/admin/views/extensions.php:9
+msgid "To gain instant access the premium add-on plugins listed here, <a href=\"%s\">have a look at our pricing</a>."
+msgstr ""
+
+#: src/admin/views/extensions.php:18
+msgid "You will be redirected to the Boxzilla site in a few seconds.."
+msgstr ""
+
+#: src/admin/views/extensions.php:19
+msgid "If not, please click here: %s."
+msgstr ""
+
+#: src/admin/views/settings.php:20, src/admin/views/metaboxes/box-option-controls.php:196
+msgid "Enable test mode?"
+msgstr ""
+
+#: src/admin/views/settings.php:24, src/admin/views/metaboxes/box-option-controls.php:200
+msgid "If test mode is enabled, all boxes will show up regardless of whether a cookie has been set."
 msgstr ""
 
 #: src/licensing/views/license-form.php:8
@@ -428,4 +195,236 @@ msgstr ""
 
 #: src/licensing/views/license-form.php:49
 msgid "you are <strong>not</strong> receiving plugin updates"
+msgstr ""
+
+#: src/admin/views/metaboxes/box-appearance-controls.php:2
+msgid "For the best experience when styling your box, please use the default WordPress visual editor."
+msgstr ""
+
+#: src/admin/views/metaboxes/box-appearance-controls.php:8
+msgid "Background color"
+msgstr ""
+
+#: src/admin/views/metaboxes/box-appearance-controls.php:12
+msgid "Text color"
+msgstr ""
+
+#: src/admin/views/metaboxes/box-appearance-controls.php:16
+msgid "Box width"
+msgstr ""
+
+#: src/admin/views/metaboxes/box-appearance-controls.php:18, src/admin/views/metaboxes/box-appearance-controls.php:29
+msgid "Width in px"
+msgstr ""
+
+#: src/admin/views/metaboxes/box-appearance-controls.php:23
+msgid "Border color"
+msgstr ""
+
+#: src/admin/views/metaboxes/box-appearance-controls.php:27
+msgid "Border width"
+msgstr ""
+
+#: src/admin/views/metaboxes/box-appearance-controls.php:32, src/admin/views/metaboxes/box-appearance-controls.php:40
+msgid "Border style"
+msgstr ""
+
+#: src/admin/views/metaboxes/box-appearance-controls.php:46
+msgid "<a href=\"%s\">Click here to reset all styling settings</a>."
+msgstr ""
+
+#: src/admin/views/metaboxes/box-option-controls.php:11
+msgid "everywhere"
+msgstr ""
+
+#: src/admin/views/metaboxes/box-option-controls.php:12
+msgid "if page"
+msgstr ""
+
+#: src/admin/views/metaboxes/box-option-controls.php:13
+msgid "if post"
+msgstr ""
+
+#: src/admin/views/metaboxes/box-option-controls.php:14
+msgid "if post tag"
+msgstr ""
+
+#: src/admin/views/metaboxes/box-option-controls.php:15
+msgid "if post category"
+msgstr ""
+
+#: src/admin/views/metaboxes/box-option-controls.php:16
+msgid "if post type"
+msgstr ""
+
+#: src/admin/views/metaboxes/box-option-controls.php:17
+msgid "if URL"
+msgstr ""
+
+#: src/admin/views/metaboxes/box-option-controls.php:18
+msgid "if referer"
+msgstr ""
+
+#: src/admin/views/metaboxes/box-option-controls.php:19
+msgid "if user"
+msgstr ""
+
+#: src/admin/views/metaboxes/box-option-controls.php:38
+msgid "Load this box if"
+msgstr ""
+
+#: src/admin/views/metaboxes/box-option-controls.php:41
+msgid "Request matches"
+msgstr ""
+
+#: src/admin/views/metaboxes/box-option-controls.php:43
+msgid "any"
+msgstr ""
+
+#: src/admin/views/metaboxes/box-option-controls.php:44
+msgid "all"
+msgstr ""
+
+#: src/admin/views/metaboxes/box-option-controls.php:46
+msgid "of the following conditions."
+msgstr ""
+
+#: src/admin/views/metaboxes/box-option-controls.php:56, src/admin/views/metaboxes/box-option-controls.php:216
+msgid "Remove rule"
+msgstr ""
+
+#: src/admin/views/metaboxes/box-option-controls.php:66, src/admin/views/metaboxes/box-option-controls.php:225
+msgid "is"
+msgstr ""
+
+#: src/admin/views/metaboxes/box-option-controls.php:67, src/admin/views/metaboxes/box-option-controls.php:226
+msgid "is not"
+msgstr ""
+
+#: src/admin/views/metaboxes/box-option-controls.php:70, src/admin/views/metaboxes/box-option-controls.php:229
+msgid "Leave empty for any or enter (comma-separated) names or ID's"
+msgstr ""
+
+#: src/admin/views/metaboxes/box-option-controls.php:78
+msgid "Add rule"
+msgstr ""
+
+#: src/admin/views/metaboxes/box-option-controls.php:81
+msgid "Box Position"
+msgstr ""
+
+#: src/admin/views/metaboxes/box-option-controls.php:87
+msgid "Top Left"
+msgstr ""
+
+#: src/admin/views/metaboxes/box-option-controls.php:94
+msgid "Top Right"
+msgstr ""
+
+#: src/admin/views/metaboxes/box-option-controls.php:103
+msgid "Center"
+msgstr ""
+
+#: src/admin/views/metaboxes/box-option-controls.php:112
+msgid "Bottom Left"
+msgstr ""
+
+#: src/admin/views/metaboxes/box-option-controls.php:119
+msgid "Bottom Right"
+msgstr ""
+
+#: src/admin/views/metaboxes/box-option-controls.php:128
+msgid "Animation"
+msgstr ""
+
+#: src/admin/views/metaboxes/box-option-controls.php:130
+msgid "Fade In"
+msgstr ""
+
+#: src/admin/views/metaboxes/box-option-controls.php:131
+msgid "Slide In"
+msgstr ""
+
+#: src/admin/views/metaboxes/box-option-controls.php:132
+msgid "Which animation type should be used to show the box when triggered?"
+msgstr ""
+
+#: src/admin/views/metaboxes/box-option-controls.php:136
+msgid "Auto-show box?"
+msgstr ""
+
+#: src/admin/views/metaboxes/box-option-controls.php:138
+msgid "Never"
+msgstr ""
+
+#: src/admin/views/metaboxes/box-option-controls.php:139
+msgid "Yes, after %s seconds on the page."
+msgstr ""
+
+#: src/admin/views/metaboxes/box-option-controls.php:140
+msgid "Yes, when at %s of page height"
+msgstr ""
+
+#: src/admin/views/metaboxes/box-option-controls.php:141
+msgid "Yes, when at element %s"
+msgstr ""
+
+#: src/admin/views/metaboxes/box-option-controls.php:141
+msgid "Example: #comments"
+msgstr ""
+
+#: src/admin/views/metaboxes/box-option-controls.php:147
+msgid "Cookie expiration"
+msgstr ""
+
+#: src/admin/views/metaboxes/box-option-controls.php:152, src/admin/views/metaboxes/box-option-controls.php:157
+msgid "hours"
+msgstr ""
+
+#: src/admin/views/metaboxes/box-option-controls.php:161
+msgid "After this box is triggered or dismissed, how many hours should it stay hidden?"
+msgstr ""
+
+#: src/admin/views/metaboxes/box-option-controls.php:165
+msgid "Screen width"
+msgstr ""
+
+#: src/admin/views/metaboxes/box-option-controls.php:170
+msgid "larger"
+msgstr ""
+
+#: src/admin/views/metaboxes/box-option-controls.php:170
+msgid "smaller"
+msgstr ""
+
+#: src/admin/views/metaboxes/box-option-controls.php:171
+msgid "Only show on screens %s than %s."
+msgstr ""
+
+#: src/admin/views/metaboxes/box-option-controls.php:172
+msgid "Leave empty if you want to show the box on all screen sizes."
+msgstr ""
+
+#: src/admin/views/metaboxes/box-option-controls.php:177
+msgid "Auto-hide?"
+msgstr ""
+
+#: src/admin/views/metaboxes/box-option-controls.php:181
+msgid "Hide box again when visitors scroll back up?"
+msgstr ""
+
+#: src/admin/views/metaboxes/box-option-controls.php:185
+msgid "Show close icon?"
+msgstr ""
+
+#: src/admin/views/metaboxes/box-option-controls.php:190
+msgid "If you decide to hide the close icon, make sure to offer an alternative way to close the box."
+msgstr ""
+
+#: src/admin/views/metaboxes/box-option-controls.php:191
+msgid "Example: "
+msgstr ""
+
+#: src/admin/views/metaboxes/need-help.php:2
+msgid "Please make sure to look at the following available resources."
 msgstr ""

@@ -77,15 +77,11 @@ gulp.task('uglify', ['browserify'], function() {
 });
 
 gulp.task('languages', function () {
-    return gulp.src('src/**/*.php')
-        .pipe(sort())
-        .pipe(wpPot( {
-            domain: 'boxzilla',
-            destFile:'boxzilla.pot'
-        } ))
-        .pipe(gulp.dest('./languages/.'));
+    const domain = 'boxzilla';
+    return gulp.src('src/**/**/*.php')
+        .pipe(wpPot({ domain: domain}))
+        .pipe(gulp.dest(`languages/${domain}.pot`));
 });
-
 
 gulp.task('watch', function () {
     gulp.watch('./*/assets/sass/**/*.scss', ['sass']);
