@@ -35,20 +35,11 @@
     }
 
     function createBoxesFromConfig() {
-        var isLoggedIn = document.body.className.indexOf('logged-in') > -1;
-
+        
         // failsafe against including script twice.
         if( options.inited ) {
             return;
         }
-
-        // print message when test mode is enabled
-        if( isLoggedIn && options.testMode ) {
-            console.log( 'Boxzilla: Test mode is enabled. Please disable test mode if you\'re done testing.' );
-        }
-
-        // init boxzilla
-        Boxzilla.init();
 
         // create boxes from options
         for( var i=0; i < options.boxes.length; i++ ) {
@@ -56,19 +47,11 @@
             var boxOpts = options.boxes[i];
             boxOpts.testMode = isLoggedIn && options.testMode;
 
-            // fix http:// links in box content....
-            if( window.location.protocol === "https:" && window.location.host ) {
-                var o = "http://" + window.location.host;
-                var n = o.replace('http://', 'https://');
-                boxOpts.content = boxOpts.content.replace(o, n);
-            }
+            // set box content element
+            boxOpts.content = document.getElementById('boxzilla-box-'+ boxOpts.id +'-content');
 
             // create box
             var box = Boxzilla.create(boxOpts.id, boxOpts);
-
-            // remove <script> from box content and append them to the document body
-            var scripts = box.element.querySelectorAll('script');
-            handleScriptElements(scripts);
 
             // add box slug to box element as classname
             box.element.className = box.element.className + ' boxzilla-' + boxOpts.post.slug;
@@ -81,7 +64,7 @@
 
             // maybe show box right away
             if( box.fits() && locationHashRefersBox(box) ) {
-              window.addEventListener('load', box.show.bind(box));
+              box.show();
             }
         }
 
@@ -90,6 +73,9 @@
 
         // trigger "done" event.
         Boxzilla.trigger('done');
+
+        // maybe open box with MC4WP form in it
+        maybeOpenMailChimpForWordPressBox();
     }
 
     function locationHashRefersBox(box) {
@@ -114,29 +100,7 @@
         return false;
     }
 
-    function handleScriptElements(scripts) {
-        let handle = function() {
-            const script = document.createElement('script');
-
-            if(this.src) {
-              script.src = this.src;
-            }
-            script.appendChild(document.createTextNode(this.text));
-            this.parentNode.removeChild(this);
-            document.body.appendChild(script);
-
-            if( scripts.length ) {
-                script.addEventListener('load', handle.bind(scripts.shift()));
-            }
-        }
-
-        scripts = Array.from(scripts);
-        if(scripts.length) { 
-            window.setTimeout(handle.bind(scripts.shift()), 1); 
-        }
-    }
-
-    function openMailChimpForWordPressBox() {
+    function maybeOpenMailChimpForWordPressBox() {
         if( typeof(window.mc4wp_forms_config) !== "object" || ! window.mc4wp_forms_config.submitted_form ) {
             return;
         }
@@ -151,10 +115,17 @@
                 return;
             }
         }
+    }   
+
+    // print message when test mode is enabled
+    var isLoggedIn = document.body.className.indexOf('logged-in') > -1;
+    if( isLoggedIn && options.testMode ) {
+        console.log( 'Boxzilla: Test mode is enabled. Please disable test mode if you\'re done testing.' );
     }
 
+    // init boxzilla
+    Boxzilla.init();
 
-
-    window.addEventListener('load', openMailChimpForWordPressBox);
-    window.setTimeout(createBoxesFromConfig, 1);
+    // on window.load, create DOM elements for boxes
+    window.addEventListener('load', createBoxesFromConfig);
 })();

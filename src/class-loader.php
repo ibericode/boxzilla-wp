@@ -39,6 +39,7 @@ class BoxLoader {
 
 		// Only add other hooks if necessary
 		if( count( $this->box_ids_to_load ) > 0 ) {
+			add_action( 'wp_footer', array( $this, 'print_boxes_content' ) );
 			add_action( 'wp_enqueue_scripts', array( $this, 'load_assets' ), 90 );
 		}
 	}
@@ -259,9 +260,31 @@ class BoxLoader {
 		$pre_suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 		wp_enqueue_script('boxzilla', $this->plugin->url('/assets/js/script' . $pre_suffix . '.js' ), array(), $this->plugin->version(), true );
 
-		$this->pass_box_options();
+		// create boxzilla_Global_Options object
+		$plugin_options = $this->options;
+		$boxes = $this->get_matched_boxes();
+
+		$data = array(
+			'testMode' => (bool) $plugin_options['test_mode'],
+			'boxes' => array_map( function(Box $box) { return $box->get_client_options(); }, $boxes ),
+		);
+
+		wp_localize_script( 'boxzilla', 'boxzilla_options', $data );
 
 		do_action( 'boxzilla_load_assets', $this );
+	}
+
+	public function print_boxes_content() {
+		$boxes = $this->get_matched_boxes();
+		if( empty( $boxes ) ) {
+			return;
+		}
+
+		echo '<div style="display: none;">';
+		foreach( $boxes as $box ) {
+			echo sprintf( '<div id="boxzilla-box-%d-content">', $box->ID ) . $box->get_content() . '</div>';
+		}
+		echo '</div>';
 	}
 
 	/**
@@ -302,23 +325,6 @@ class BoxLoader {
 		}
 
 		return $boxes;
-	}
-
-	/**
-	 * Create array of Box options and pass it to JavaScript script.
-	 */
-	public function pass_box_options() {
-
-		// create boxzilla_Global_Options object
-		$plugin_options = $this->options;
-		$boxes = $this->get_matched_boxes();
-
-		$data = array(
-			'testMode' => (bool) $plugin_options['test_mode'],
-			'boxes' => array_map( function(Box $box) { return $box->get_client_options(); }, $boxes ),
-		);
-
-		wp_localize_script( 'boxzilla', 'boxzilla_options', $data );
 	}
 
 }
