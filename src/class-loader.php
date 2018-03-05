@@ -316,7 +316,8 @@ class BoxLoader {
 			$boxes = array();
 			foreach ( $posts as $key => $post ) {
 				// skip posts with no content
-				if( empty( trim( $post->post_content ) ) ) {
+				$post_content = trim( $post->post_content );
+				if( empty( $post_content ) ) {
 					continue;
 				}
 

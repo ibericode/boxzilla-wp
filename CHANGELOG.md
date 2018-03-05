@@ -1,6 +1,14 @@
 Changelog
 ==========
 
+#### 3.2.1 - March 5, 2018
+
+**Fixes**
+
+- Can't use return value in write context error, introduced in v3.2.
+
+
+
 #### 3.2 - March 5, 2018
 
 **Fixes**
