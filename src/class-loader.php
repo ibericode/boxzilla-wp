@@ -39,7 +39,7 @@ class BoxLoader {
 
 		// Only add other hooks if necessary
 		if( count( $this->box_ids_to_load ) > 0 ) {
-			add_action( 'wp_footer', array( $this, 'print_boxes_content' ) );
+			add_action( 'wp_footer', array( $this, 'print_boxes_content' ), 1 );
 			add_action( 'wp_enqueue_scripts', array( $this, 'load_assets' ), 90 );
 		}
 	}
