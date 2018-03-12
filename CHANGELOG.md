@@ -1,6 +1,13 @@
 Changelog
 ==========
 
+#### 3.2.2 - March 12, 2018
+
+**Improvements**
+
+- Print box contents at an earlier footer hook, so it works with "smart enqueue" methods in other plugins like MailChimp for WordPress or Maxbuttons.
+
+
 #### 3.2.1 - March 5, 2018
 
 **Fixes**
