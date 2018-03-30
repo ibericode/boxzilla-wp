@@ -57,6 +57,7 @@ class UpdateManager {
 	 * @return mixed
 	 */
 	public function add_auth_headers( $args, $url ) {
+		
 		// only act on download request's
 		if( strpos( $url, $this->api->url ) !== 0 || strpos( $url, 'download' ) === false ) {
 			return $args;
