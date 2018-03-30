@@ -77,18 +77,20 @@ class License {
 	 * Load the license data from the database
 	 */
 	protected function load() {
-		static $defaults = array(
+		if( $this->loaded ) {
+			return;
+		}
+
+		$defaults = array(
 			'key' => '',
 			'activation_key' => '',
 			'activated' => false,
 			'expires_at' => ''
 		);
 
-		if( ! $this->loaded ) {
-			$data = (array) get_option( $this->option_key, array() );
-			$this->data = array_replace( $defaults, $data );
-			$this->loaded = true;
-		}
+		$data = (array) get_option( $this->option_key, array() );
+		$this->data = array_replace( $defaults, $data );
+		$this->loaded = true;
 	}
 
 	/**
@@ -105,10 +107,12 @@ class License {
 	 * @return License
 	 */
 	public function save() {
-		if( $this->dirty ) {
-			update_option( $this->option_key, $this->data );
-			$this->dirty = false;
+		if( ! $this->dirty ) {
+			return;
 		}
+
+		update_option( $this->option_key, $this->data );
+		$this->dirty = false;
 	}
 
 }
