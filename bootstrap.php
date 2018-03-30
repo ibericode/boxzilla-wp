@@ -26,20 +26,10 @@ add_action( 'plugins_loaded', function() use( $boxzilla ) {
 
     $bootstrapper->admin(function() use( $boxzilla ){
         $boxzilla['admin']->init();
-
-        if( count( $boxzilla->plugins ) > 0 ) {
-            $boxzilla['license_manager']->hook();
-            $boxzilla['update_manager']->hook();
-        }
     });
 
     $bootstrapper->ajax(function() use( $boxzilla ) {
         $boxzilla['filter.autocomplete']->add_hooks();
-
-        if( count( $boxzilla->plugins ) > 0 ) {
-            $boxzilla['license_manager']->hook();
-            $boxzilla['update_manager']->hook();
-        }
     });
 
     $bootstrapper->front(function() use( $boxzilla ) {
@@ -51,6 +41,13 @@ add_action( 'plugins_loaded', function() use( $boxzilla ) {
     $bootstrapper->cron(function() use( $boxzilla ) {
         $boxzilla['license_poller']->hook();
     });
+
+    if( is_admin() || (  defined( 'DOING_CRON' ) && DOING_CRON ) || ( defined( 'WP_CLI' ) && WP_CLI ) ) {
+         if( count( $boxzilla->plugins ) > 0 ) {
+            $boxzilla['license_manager']->hook();
+            $boxzilla['update_manager']->hook();
+        }
+    }
 
     $bootstrapper->run();
 }, 90 );
