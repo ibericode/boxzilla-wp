@@ -47,8 +47,14 @@
             var boxOpts = options.boxes[i];
             boxOpts.testMode = isLoggedIn && options.testMode;
 
-            // set box content element
-            boxOpts.content = document.getElementById('boxzilla-box-'+ boxOpts.id +'-content');
+            // find box content element, bail if not found
+            var boxContentElement = document.getElementById('boxzilla-box-'+ boxOpts.id +'-content');
+            if( ! boxContentElement) {
+                continue;
+            }
+
+            // use element as content option
+            boxOpts.content = boxContentElement;
 
             // create box
             var box = Boxzilla.create(boxOpts.id, boxOpts);
