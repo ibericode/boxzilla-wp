@@ -1,0 +1,491 @@
+# Copyright (C) 2018 boxzilla
+# This file is distributed under the same license as the boxzilla package.
+msgid ""
+msgstr ""
+"Project-Id-Version: boxzilla\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;"
+"_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;"
+"esc_html_e;esc_html_x:1,2c\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Language-Team: Webstudio <webstudio@petrbok.cz>\n"
+"X-Generator: Poedit 1.8.9\n"
+"Last-Translator: Webstudio Petrbok <webstudio@petrbok.cz>\n"
+"Language: cs_CZ\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: src/default-actions.php:12, src/default-actions.php:24
+msgid "Boxzilla"
+msgstr "Boxzilla"
+
+#: src/default-actions.php:13
+msgid "Box"
+msgstr "Box"
+
+#: src/default-actions.php:14
+msgid "Add New"
+msgstr "Přidat nový"
+
+#: src/default-actions.php:15
+msgid "Add New Box"
+msgstr "Přidat nový box"
+
+#: src/default-actions.php:16
+msgid "Edit Box"
+msgstr "Upravit box"
+
+#: src/default-actions.php:17
+msgid "New Box"
+msgstr "Nový box"
+
+#: src/default-actions.php:18
+msgid "All Boxes"
+msgstr "Všechny boxy"
+
+#: src/default-actions.php:19
+msgid "View Box"
+msgstr "Zobrazit box"
+
+#: src/default-actions.php:20
+msgid "Search Boxes"
+msgstr "Hledat box"
+
+#: src/default-actions.php:21
+msgid "No Boxes found"
+msgstr "Nenalezen žádný box"
+
+#: src/default-actions.php:22
+msgid "No Boxes found in Trash"
+msgstr "V koši nenalezen žádný box"
+
+#: src/admin/class-admin.php:104
+msgid ""
+"Awesome, you are using Boxzilla! You can now safely <a href=\"%s"
+"\">deactivate the Scroll Triggered Boxes plugin</a>."
+msgstr ""
+"Skvělé, používáte Boxzilla! Nyní můžete bezpečně  <a href=\"%s\">deaktivovat "
+"plugin Scroll Triggered Boxes"
+
+#: src/admin/class-admin.php:172
+msgid "Box ID"
+msgstr "Box ID"
+
+#: src/admin/class-admin.php:175
+msgid "Box Title"
+msgstr "Název boxu"
+
+#: src/admin/class-admin.php:209, src/admin/class-admin.php:210,
+#: src/admin/views/settings.php:7
+msgid "Settings"
+msgstr "Nastavení"
+
+#: src/admin/class-admin.php:215, src/admin/class-admin.php:216
+msgid "Extensions"
+msgstr "Rozšíření"
+
+#: src/admin/class-admin.php:308
+msgid "Enter a comma-separated list of values."
+msgstr "Zadejte seznam hodnot oddělených čárkami."
+
+#: src/admin/class-admin.php:309
+msgid "Enter a comma-separated list of post slugs or post ID's.."
+msgstr "Zadejte seznam příspěvků nebo ID příspěvků oddělených čárkami.."
+
+#: src/admin/class-admin.php:310
+msgid "Enter a comma-separated list of page slugs or page ID's.."
+msgstr "Zadejte seznam stránek nebo ID stránek, oddělených čárkami.."
+
+#: src/admin/class-admin.php:311
+msgid "Enter a comma-separated list of post types.."
+msgstr "Zadejte seznam typů příspěvků oddělených čárkami.."
+
+#: src/admin/class-admin.php:312
+msgid "Enter a comma-separated list of relative URL's, eg /contact/"
+msgstr ""
+"Zadejte seznam relativních adres URL oddělených čárkami, např. / kontakt /"
+
+#: src/admin/class-admin.php:344
+msgid "Box Appearance"
+msgstr "Vzhled boxu"
+
+#: src/admin/class-admin.php:353
+msgid "Box Options"
+msgstr "Možnosti boxu"
+
+#: src/admin/class-admin.php:362
+msgid "Looking for help?"
+msgstr "Hledáte pomoc?"
+
+#: src/admin/class-admin.php:370
+msgid "Subscribe to our newsletter"
+msgstr "Přihlásit se k odběru novinek"
+
+#: src/admin/class-review-notice.php:74
+msgid "You've been using Boxzilla for some time now; we hope you love it!"
+msgstr "Používáte Boxzilla už nějakou dobu; Doufáme, že ji milujete!"
+
+#: src/admin/class-review-notice.php:75
+msgid ""
+"If you do, please <a href=\"%s\">leave us a 5★ rating on WordPress.org</a>. "
+"It would be of great help to us."
+msgstr ""
+"Pokud můžete, prosím <a href=\"%s\">ohodnoťte nás 5★ na WordPress.org</a>. "
+"Byl by pro nás velkou pomocí."
+
+#: src/admin/class-review-notice.php:77
+msgid "Dismiss this notice."
+msgstr "Zrušit toto oznámení."
+
+#: src/licensing/class-api.php:165
+msgid "The Boxzilla server returned an invalid response."
+msgstr "Server Boxzilla vrátil neplatnou odpověď."
+
+#: src/admin/views/extensions.php:4
+msgid "Available Add-On Plugins"
+msgstr "Dostupné doplňky pro pluginy"
+
+#: src/admin/views/extensions.php:6
+msgid ""
+"There are various add-ons available for Boxzilla which further enhance the "
+"functionality of the core plugin."
+msgstr ""
+"K dispozici jsou různé doplňky pro Boxzilla, které dále zvyšují funkčnost "
+"hlavního pluginu."
+
+#: src/admin/views/extensions.php:9
+msgid ""
+"To gain instant access the premium add-on plugins listed here, <a href=\"%s"
+"\">have a look at our pricing</a>."
+msgstr ""
+"Chcete-li získat okamžitý přístup k přídavným modulům plug-in Premium "
+"uvedených zde, <a href=\"%s\"> podívejte se na naše ceny</a>."
+
+#: src/admin/views/extensions.php:18
+msgid "You will be redirected to the Boxzilla site in a few seconds.."
+msgstr "Budete přesměrováni na stránku Boxzilla během několika sekund .."
+
+#: src/admin/views/extensions.php:19
+msgid "If not, please click here: %s."
+msgstr "Pokud ne, klikněte zde: %s."
+
+#: src/admin/views/settings.php:20,
+#: src/admin/views/metaboxes/box-option-controls.php:196
+msgid "Enable test mode?"
+msgstr "Povolit testovací režim?"
+
+#: src/admin/views/settings.php:24,
+#: src/admin/views/metaboxes/box-option-controls.php:200
+msgid ""
+"If test mode is enabled, all boxes will show up regardless of whether a "
+"cookie has been set."
+msgstr ""
+"Je-li testovací režim zapnutý, zobrazí se všechna pole bez ohledu na to, zda "
+"byl nastaven soubor cookie."
+
+#: src/licensing/views/license-form.php:8
+msgid "License & Plugin Updates"
+msgstr "Licence & aktualizace pluginu"
+
+#: src/licensing/views/license-form.php:13
+msgid ""
+"Warning! You are <u>not</u> receiving plugin updates for the following "
+"plugin(s):"
+msgstr ""
+"Varování! Nemůžete <u> obdržet </ u> aktualizace pluginů pro následující "
+"zásuvný modul(y):"
+
+#: src/licensing/views/license-form.php:33
+msgid "License Key"
+msgstr "Licenční klíč"
+
+#: src/licensing/views/license-form.php:35
+msgid "Enter your license key.."
+msgstr "Zadejte váš licenční klíč.."
+
+#: src/licensing/views/license-form.php:38
+msgid ""
+"The license key received when purchasing your premium Boxzilla plan. <a href="
+"\"%s\">You can find it here</a>."
+msgstr ""
+"Licenční klíč byl přijat při nákupu vašeho prémium Boxzilla planu. <a href="
+"\"%s\">Naleznete ho zde</a>."
+
+#: src/licensing/views/license-form.php:43
+msgid "License Status"
+msgstr "Stav licence"
+
+#: src/licensing/views/license-form.php:47
+msgid "ACTIVE"
+msgstr "AKTIVNÍ"
+
+#: src/licensing/views/license-form.php:47
+msgid "you are receiving plugin updates"
+msgstr "obdržíte aktualizace pluginu"
+
+#: src/licensing/views/license-form.php:49
+msgid "INACTIVE"
+msgstr "NEAKTIVNÍ"
+
+#: src/licensing/views/license-form.php:49
+msgid "you are <strong>not</strong> receiving plugin updates"
+msgstr "Vy <strong>neobdržíte</strong> aktualizace pluginů"
+
+#: src/admin/views/metaboxes/box-appearance-controls.php:2
+msgid ""
+"For the best experience when styling your box, please use the default "
+"WordPress visual editor."
+msgstr ""
+"Pro nejlepší zážitek při úpravě stylu vašeho boxu použijte výchozí vizuální "
+"editor WordPress."
+
+#: src/admin/views/metaboxes/box-appearance-controls.php:8
+msgid "Background color"
+msgstr "Barva pozadí"
+
+#: src/admin/views/metaboxes/box-appearance-controls.php:12
+msgid "Text color"
+msgstr "Barva textu"
+
+#: src/admin/views/metaboxes/box-appearance-controls.php:16
+msgid "Box width"
+msgstr "Box šířka"
+
+#: src/admin/views/metaboxes/box-appearance-controls.php:18,
+#: src/admin/views/metaboxes/box-appearance-controls.php:29
+msgid "Width in px"
+msgstr "Šířka v px"
+
+#: src/admin/views/metaboxes/box-appearance-controls.php:23
+msgid "Border color"
+msgstr "Barva ohraničení"
+
+#: src/admin/views/metaboxes/box-appearance-controls.php:27
+msgid "Border width"
+msgstr "Šířka ohraničení"
+
+#: src/admin/views/metaboxes/box-appearance-controls.php:32,
+#: src/admin/views/metaboxes/box-appearance-controls.php:40
+msgid "Border style"
+msgstr "Styl ohraničení"
+
+#: src/admin/views/metaboxes/box-appearance-controls.php:46
+msgid "<a href=\"%s\">Click here to reset all styling settings</a>."
+msgstr ""
+"<a href=\"%s\">Chcete-li obnovit všechna nastavení stylů klikněte zde</a>."
+
+#: src/admin/views/metaboxes/box-option-controls.php:11
+msgid "everywhere"
+msgstr "všude"
+
+#: src/admin/views/metaboxes/box-option-controls.php:12
+msgid "if page"
+msgstr "pokud stránka"
+
+#: src/admin/views/metaboxes/box-option-controls.php:13
+msgid "if post"
+msgstr "pokud příspěvek"
+
+#: src/admin/views/metaboxes/box-option-controls.php:14
+msgid "if post tag"
+msgstr "pokud tag příspěvku"
+
+#: src/admin/views/metaboxes/box-option-controls.php:15
+msgid "if post category"
+msgstr "pokud kategorie"
+
+#: src/admin/views/metaboxes/box-option-controls.php:16
+msgid "if post type"
+msgstr "pokud typ příspěvku"
+
+#: src/admin/views/metaboxes/box-option-controls.php:17
+msgid "if URL"
+msgstr "pokud URL"
+
+#: src/admin/views/metaboxes/box-option-controls.php:18
+msgid "if referer"
+msgstr "pokud referer"
+
+#: src/admin/views/metaboxes/box-option-controls.php:19
+msgid "if user"
+msgstr "pokud uživatel"
+
+#: src/admin/views/metaboxes/box-option-controls.php:38
+msgid "Load this box if"
+msgstr "Načíst tento box pokud"
+
+#: src/admin/views/metaboxes/box-option-controls.php:41
+msgid "Request matches"
+msgstr "Požádat o shodu"
+
+#: src/admin/views/metaboxes/box-option-controls.php:43
+msgid "any"
+msgstr "žádný"
+
+#: src/admin/views/metaboxes/box-option-controls.php:44
+msgid "all"
+msgstr "vše"
+
+#: src/admin/views/metaboxes/box-option-controls.php:46
+msgid "of the following conditions."
+msgstr "za následujících podmínek."
+
+#: src/admin/views/metaboxes/box-option-controls.php:56,
+#: src/admin/views/metaboxes/box-option-controls.php:216
+msgid "Remove rule"
+msgstr "Odstranit pravidlo"
+
+#: src/admin/views/metaboxes/box-option-controls.php:66,
+#: src/admin/views/metaboxes/box-option-controls.php:225
+msgid "is"
+msgstr "je"
+
+#: src/admin/views/metaboxes/box-option-controls.php:67,
+#: src/admin/views/metaboxes/box-option-controls.php:226
+msgid "is not"
+msgstr "není"
+
+#: src/admin/views/metaboxes/box-option-controls.php:70,
+#: src/admin/views/metaboxes/box-option-controls.php:229
+msgid "Leave empty for any or enter (comma-separated) names or ID's"
+msgstr ""
+"Ponechte prázdné pro všechny nebo zadejte (oddělené čárkami) jména nebo ID"
+
+#: src/admin/views/metaboxes/box-option-controls.php:78
+msgid "Add rule"
+msgstr "Přidat pravidlo"
+
+#: src/admin/views/metaboxes/box-option-controls.php:81
+msgid "Box Position"
+msgstr "Umístění boxu"
+
+#: src/admin/views/metaboxes/box-option-controls.php:87
+msgid "Top Left"
+msgstr "Vlevo nahoře"
+
+#: src/admin/views/metaboxes/box-option-controls.php:94
+msgid "Top Right"
+msgstr "Vpravo nahoře"
+
+#: src/admin/views/metaboxes/box-option-controls.php:103
+msgid "Center"
+msgstr "Střed"
+
+#: src/admin/views/metaboxes/box-option-controls.php:112
+msgid "Bottom Left"
+msgstr "Vlevo dole"
+
+#: src/admin/views/metaboxes/box-option-controls.php:119
+msgid "Bottom Right"
+msgstr "Vpravo dole"
+
+#: src/admin/views/metaboxes/box-option-controls.php:128
+msgid "Animation"
+msgstr "Animace"
+
+#: src/admin/views/metaboxes/box-option-controls.php:130
+msgid "Fade In"
+msgstr "pozvolna sílit"
+
+#: src/admin/views/metaboxes/box-option-controls.php:131
+msgid "Slide In"
+msgstr "zasunout"
+
+#: src/admin/views/metaboxes/box-option-controls.php:132
+msgid "Which animation type should be used to show the box when triggered?"
+msgstr "Který typ animace by měl být použit při zobrazení spouštěcího boxu?"
+
+#: src/admin/views/metaboxes/box-option-controls.php:136
+msgid "Auto-show box?"
+msgstr "Automatické zobrazení boxu?"
+
+#: src/admin/views/metaboxes/box-option-controls.php:138
+msgid "Never"
+msgstr "Nikdy"
+
+#: src/admin/views/metaboxes/box-option-controls.php:139
+msgid "Yes, after %s seconds on the page."
+msgstr "Ano, po %s sekundách na stránce."
+
+#: src/admin/views/metaboxes/box-option-controls.php:140
+msgid "Yes, when at %s of page height"
+msgstr "Ano, při %s výšky stránky"
+
+#: src/admin/views/metaboxes/box-option-controls.php:141
+msgid "Yes, when at element %s"
+msgstr "Ano, když na prvku %s"
+
+#: src/admin/views/metaboxes/box-option-controls.php:141
+msgid "Example: #comments"
+msgstr "Příklad: #comentáře"
+
+#: src/admin/views/metaboxes/box-option-controls.php:147
+msgid "Cookie expiration"
+msgstr "Vypršení platnosti cookie"
+
+#: src/admin/views/metaboxes/box-option-controls.php:152,
+#: src/admin/views/metaboxes/box-option-controls.php:157
+msgid "hours"
+msgstr "hodin"
+
+#: src/admin/views/metaboxes/box-option-controls.php:161
+msgid ""
+"After this box is triggered or dismissed, how many hours should it stay "
+"hidden?"
+msgstr ""
+"Po spuštění nebo odmítnutí tohoto boxu, kolik hodin by mělo zůstat skryto?"
+
+#: src/admin/views/metaboxes/box-option-controls.php:165
+msgid "Screen width"
+msgstr "Šířka obrazovky"
+
+#: src/admin/views/metaboxes/box-option-controls.php:170
+msgid "larger"
+msgstr "větší"
+
+#: src/admin/views/metaboxes/box-option-controls.php:170
+msgid "smaller"
+msgstr "menší"
+
+#: src/admin/views/metaboxes/box-option-controls.php:171
+msgid "Only show on screens %s than %s."
+msgstr "Zobrazovat se pouze na obrazovkách %s než %s."
+
+#: src/admin/views/metaboxes/box-option-controls.php:172
+msgid "Leave empty if you want to show the box on all screen sizes."
+msgstr ""
+"Ponechte prázdné, chcete-li zobrazit pole na všech velikostech obrazovky."
+
+#: src/admin/views/metaboxes/box-option-controls.php:177
+msgid "Auto-hide?"
+msgstr "Auto-skrývání?"
+
+#: src/admin/views/metaboxes/box-option-controls.php:181
+msgid "Hide box again when visitors scroll back up?"
+msgstr "Skrýt box znovu, když se návštěvníci posouvají zpět?"
+
+#: src/admin/views/metaboxes/box-option-controls.php:185
+msgid "Show close icon?"
+msgstr "Zobrazit ikonu zavřít?"
+
+#: src/admin/views/metaboxes/box-option-controls.php:190
+msgid ""
+"If you decide to hide the close icon, make sure to offer an alternative way "
+"to close the box."
+msgstr ""
+"Pokud se rozhodnete skrýt ikonu zavření, ujistěte se, že nabízíte "
+"alternativní způsob uzavření boxu."
+
+#: src/admin/views/metaboxes/box-option-controls.php:191
+msgid "Example: "
+msgstr "Příklad: "
+
+#: src/admin/views/metaboxes/need-help.php:2
+msgid "Please make sure to look at the following available resources."
+msgstr "Nezapomeňte se podívat na následující dostupné zdroje."
