@@ -190,6 +190,13 @@ class Box {
 
         $content = str_replace( array_keys( $replacements ), array_values( $replacements ), $content );
 
+        /** 
+        * Default WordPress filter for post content (so plugins like Jetpack Photon works).
+        *
+        * @param string $content 
+        */
+        $content = apply_filters( 'the_content', $content );
+
         /**
 		 * Filters the HTML for the box content
 		 *
