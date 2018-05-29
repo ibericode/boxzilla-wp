@@ -1,6 +1,19 @@
 Changelog
 ==========
 
+#### 3.2.3 - May 29, 2018
+
+**Improvements**
+
+- Allow "contains" qualifier in URL and referrer conditions.
+- Include query string in URL conditions.
+- Use SVG for the menu ico. Thanks [Kurt Zenisek](https://github.com/KZeni)
+- Added Czech translations. Thanks [Zdenek Petrbok](https://petrbok.cz/)
+- Run the_content filter on Boxzilla post content, to enable plugins like Photon.
+- Ensure content element exists when initialising Boxzilla.
+- Improvements to licensing related code for [Boxzilla Premium](https://boxzillaplugin.com/pricing/) users.
+
+
 #### 3.2.2 - March 12, 2018
 
 **Improvements**
