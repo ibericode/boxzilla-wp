@@ -68,13 +68,18 @@ class BoxLoader {
 	 *
 	 * @return boolean
 	 */
-	protected function match_patterns( $string, $patterns ) {
+	protected function match_patterns( $string, $patterns, $contains = false ) {
 		$string = strtolower( $string );
 
 		foreach( $patterns as $pattern ) {
-
-		    $pattern = rtrim( $pattern, '/' );
+		   $pattern = rtrim( $pattern, '/' );
 			$pattern = strtolower( $pattern );
+
+			// contains means we should do a simple occurence check
+			// does not support wildcards
+			if( $contains ) {
+				return strpos( $string, $pattern ) !== false;
+			}
 
 			if( function_exists( 'fnmatch' ) ) {
 				$match = fnmatch( $pattern, $string );
@@ -94,16 +99,9 @@ class BoxLoader {
      * @return string
      */
 	protected function get_request_url() {
-        // strip trailing slashes
-        $request_uri = rtrim( $_SERVER['REQUEST_URI'], '/' );
-
-        // strip ? and query string
-        $qpos = strpos( $request_uri, '?' );
-        if( $qpos ) {
-            $request_uri = substr( $request_uri, 0, $qpos );
-        }
-
-        return $request_uri;
+     	// strip trailing slashes
+     	$request_uri = rtrim( $_SERVER['REQUEST_URI'], '/' );
+     	return $request_uri;
     }
 
 	/**
@@ -128,13 +126,14 @@ class BoxLoader {
 				break;
 
 			case 'is_url':
-				$matched = $this->match_patterns( $this->get_request_url(), $value );
+				$url = $this->get_request_url();
+				$matched = $this->match_patterns( $url, $value, $qualifier === 'contains' );
 				break;
 
 			case 'is_referer':
 				if( ! empty( $_SERVER['HTTP_REFERER'] ) ) {
 					$referer = $_SERVER['HTTP_REFERER'];
-					$matched = $this->match_patterns( $referer, $value );
+					$matched = $this->match_patterns( $referer, $value, $qualifier === 'contains' );
 				}
 				break;
 
@@ -163,9 +162,9 @@ class BoxLoader {
 				$matched = is_singular( 'post' ) && has_tag( $value );
 				break;
 
-            case 'is_user_logged_in':
-                $matched = is_user_logged_in();
-                break;
+         case 'is_user_logged_in':
+            $matched = is_user_logged_in();
+            break;
 		}
 
 		/**

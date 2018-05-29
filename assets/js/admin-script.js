@@ -71,6 +71,7 @@ window.Boxzilla_Admin = require('./admin/_admin.js');
         betterInput.style.display = '';
         valueInput.style.display = 'none';
         qualifierInput.style.display = '';
+        qualifierInput.querySelector('option[value="contains"]').style.display = 'none';
         if (tnLoggedIn.parentNode) {
             tnLoggedIn.parentNode.removeChild(tnLoggedIn);
         }
@@ -115,6 +116,7 @@ window.Boxzilla_Admin = require('./admin/_admin.js');
                 break;
 
             case 'is_url':
+                qualifierInput.querySelector('option[value="contains"]').style.display = '';
                 betterInput.placeholder = i18n.enterCommaSeparatedRelativeUrls;
                 break;
 
@@ -135,6 +137,10 @@ window.Boxzilla_Admin = require('./admin/_admin.js');
             case 'is_user_logged_in':
                 betterInput.style.display = 'none';
                 valueInput.parentNode.insertBefore(tnLoggedIn, valueInput.nextSibling);
+                break;
+
+            case 'is_referer':
+                qualifierInput.querySelector('option[value="contains"]').style.display = '';
                 break;
 
         }

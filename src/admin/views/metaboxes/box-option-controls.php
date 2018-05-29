@@ -65,6 +65,7 @@ $rule_options = apply_filters( 'boxzilla_rules_options', $rule_options );
 				<select class="boxzilla-rule-qualifier" name="boxzilla_box[rules][<?php echo $key; ?>][qualifier]">
 					<option value="1" <?php selected( ! isset( $rule['qualifier'] ) || $rule['qualifier'] ); ?>><?php _e( 'is', 'boxzilla' ); ?></option>
 					<option value="0" <?php selected( isset( $rule['qualifier'] ) && !$rule['qualifier'] ); ?>><?php _e( 'is not', 'boxzilla' ); ?></option>
+					<option value="contains" <?php selected( isset( $rule['qualifier'] ) && $rule['qualifier'] === 'contains' ); ?> style="display: none;"><?php _e( 'contains', 'boxzilla' ); ?></option>
 				</select>
 
 				<input class="boxzilla-rule-value regular-text" name="boxzilla_box[rules][<?php echo $key; ?>][value]" type="text" value="<?php echo esc_attr( $rule['value'] ); ?>" placeholder="<?php _e( 'Leave empty for any or enter (comma-separated) names or ID\'s', 'boxzilla' ); ?>" style="<?php if( in_array( $rule['condition'], array( '', 'everywhere' ) ) ) { echo 'display: none;'; } ?>" />
@@ -224,6 +225,7 @@ $rule_options = apply_filters( 'boxzilla_rules_options', $rule_options );
 			<select class="boxzilla-rule-qualifier" name="boxzilla_box[rules][{{{data.key}}}][qualifier]" style="display: none;" >
 				<option value="1" selected><?php _e( 'is', 'boxzilla' ); ?></option>
 				<option value="0"><?php _e( 'is not', 'boxzilla' ); ?></option>
+				<option value="contains" style="display: none;"><?php _e( 'contains', 'boxzilla' ); ?></option>
 			</select>
 
 			<input class="boxzilla-rule-value regular-text" name="boxzilla_box[rules][{{{data.key}}}][value]" type="text" value="" placeholder="<?php _e( 'Leave empty for any or enter (comma-separated) names or ID\'s', 'boxzilla' ); ?>" style="display: none;" />

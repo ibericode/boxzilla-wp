@@ -509,7 +509,7 @@ class Admin {
 		}
 
 		// leading slash it
-		return '/' . ltrim( $url_string, '/' );
+		return $url_string;
 	}
 
 	/**
@@ -540,8 +540,6 @@ class Admin {
 		if ( is_array( $rule['value'] ) ) {
 			$rule['value'] = join( ',', $rule['value'] );
 		}
-
-		$rule['qualifier'] = isset( $rule['qualifier'] ) && ! $rule['qualifier'] ? 0 : 1;
 
 		return $rule;
 	}
