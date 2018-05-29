@@ -3,8 +3,8 @@ Contributors: Ibericode, DvanKooten, hchouhan, lapzor
 Donate link: https://boxzillaplugin.com/#utm_source=wp-plugin-repo&utm_medium=boxzilla&utm_campaign=donate-link
 Tags: scroll triggered box, cta, social, pop-up, newsletter, call to action, mailchimp, contact form 7, social media, mc4wp, ibericode
 Requires at least: 4.1
-Tested up to: 4.9.4
-Stable tag: 3.2.2
+Tested up to: 4.9.6
+Stable tag: 3.2.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 5.3
@@ -148,6 +148,19 @@ Have a look at the [frequently asked questions](https://wordpress.org/plugins/bo
 4. Configuring and customizing your boxes is easy.
 
 == Changelog ==
+
+
+#### 3.2.3 - May 29, 2018
+
+**Improvements**
+
+- Allow "contains" qualifier in URL and referrer conditions.
+- Include query string in URL conditions.
+- Use SVG for the menu ico. Thanks [Kurt Zenisek](https://github.com/KZeni)
+- Added Czech translations. Thanks [Zdenek Petrbok](https://petrbok.cz/)
+- Run the_content filter on Boxzilla post content, to enable plugins like Photon.
+- Ensure content element exists when initialising Boxzilla.
+- Improvements to licensing related code for [Boxzilla Premium](https://boxzillaplugin.com/pricing/) users.
 
 
 #### 3.2.2 - March 12, 2018
