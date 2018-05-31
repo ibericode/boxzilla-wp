@@ -1,6 +1,13 @@
 Changelog
 ==========
 
+#### 3.2.4 - May 31, 2018
+
+**Fixes**
+
+- Boxzilla content replicating parts of the page if other plugins "incorrectly" use `the_content` filter. 
+
+
 #### 3.2.3 - May 29, 2018
 
 **Improvements**
