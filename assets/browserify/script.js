@@ -42,9 +42,10 @@
         }
 
         // create boxes from options
-        for( var i=0; i < options.boxes.length; i++ ) {
+        for(var key in options.boxes) {
+
             // get opts
-            var boxOpts = options.boxes[i];
+            var boxOpts = options.boxes[key];
             boxOpts.testMode = isLoggedIn && options.testMode;
 
             // find box content element, bail if not found

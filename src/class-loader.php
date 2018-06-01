@@ -265,7 +265,7 @@ class BoxLoader {
 
 		$data = array(
 			'testMode' => (bool) $plugin_options['test_mode'],
-			'boxes' => array_map( function(Box $box) { return $box->get_client_options(); }, $boxes ),
+			'boxes' => (array) array_map( function(Box $box) { return $box->get_client_options(); }, $boxes ),
 		);
 
 		wp_localize_script( 'boxzilla', 'boxzilla_options', $data );
