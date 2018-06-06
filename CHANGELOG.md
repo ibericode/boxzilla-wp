@@ -1,6 +1,19 @@
 Changelog
 ==========
 
+
+#### 3.2.5 - June 6, 2018
+
+**Fixes**
+
+- Some JSON encoders would print Boxzilla config as object, resulting in no boxes actually being loaded.
+
+**Additions**
+
+- Add "does not contain" qualifier in URL and referrer conditions.
+
+
+
 #### 3.2.4 - May 31, 2018
 
 **Fixes**
