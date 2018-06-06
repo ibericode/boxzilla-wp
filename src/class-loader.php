@@ -75,7 +75,7 @@ class BoxLoader {
 		   $pattern = rtrim( $pattern, '/' );
 			$pattern = strtolower( $pattern );
 
-			// contains means we should do a simple occurence check
+			// contains means we should do a simple occurrence check
 			// does not support wildcards
 			if( $contains ) {
 				return strpos( $string, $pattern ) !== false;
@@ -127,13 +127,13 @@ class BoxLoader {
 
 			case 'is_url':
 				$url = $this->get_request_url();
-				$matched = $this->match_patterns( $url, $value, $qualifier === 'contains' );
+				$matched = $this->match_patterns( $url, $value, $qualifier === 'contains' || $qualifier === 'not_contains' );
 				break;
 
 			case 'is_referer':
 				if( ! empty( $_SERVER['HTTP_REFERER'] ) ) {
 					$referer = $_SERVER['HTTP_REFERER'];
-					$matched = $this->match_patterns( $referer, $value, $qualifier === 'contains' );
+					$matched = $this->match_patterns( $referer, $value, $qualifier === 'contains' || $qualifier === 'not_contains' );
 				}
 				break;
 
@@ -178,7 +178,7 @@ class BoxLoader {
 		$matched = apply_filters( 'boxzilla_box_rule_matches_' . $condition, $matched, $value );
 
 		// if qualifier is set to false, we need to reverse this value here.
-		if( ! $qualifier ) {
+		if( ! $qualifier || $qualifier === 'not_contains' ) {
 			$matched = ! $matched;
 		}
 
