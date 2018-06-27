@@ -55,7 +55,11 @@ window.Boxzilla_Admin = require('./admin/_admin.js');
 
     function removeRule() {
         var row = $(this).parents('tr');
+
+        // delete andor row
         row.prev().remove();
+
+        // delete rule row
         row.remove();
     }
 
