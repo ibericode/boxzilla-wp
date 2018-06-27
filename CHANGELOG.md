@@ -1,6 +1,13 @@
 Changelog
 ==========
 
+#### 3.2.6 - June 27, 2018
+
+**Improvements**
+
+- Show and/or between rules to help clarify rule logic.
+- Consistent line endings in main plugin file.
+
 
 #### 3.2.5 - June 6, 2018
 
