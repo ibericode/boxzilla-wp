@@ -39,7 +39,7 @@ $rule_options = apply_filters( 'boxzilla_rules_options', $rule_options );
 		<td>
 			<label>
 				<?php _e( 'Request matches', 'boxzilla' ); ?>
-				<select name="boxzilla_box[rules_comparision]">
+				<select name="boxzilla_box[rules_comparision]" id="boxzilla-rule-comparison">
 					<option value="any" <?php selected( $opts['rules_comparision'], 'any' ); ?>><?php _e( 'any', 'boxzilla' ); ?></option>
 					<option value="all" <?php selected( $opts['rules_comparision'], 'all' ); ?>><?php _e( 'all', 'boxzilla' ); ?></option>
 				</select>
@@ -50,7 +50,22 @@ $rule_options = apply_filters( 'boxzilla_rules_options', $rule_options );
 	<tbody id="boxzilla-box-rules">
 	<?php
 	$key = 0;
-	foreach( $opts['rules'] as $rule ) { if( ! array_key_exists( 'condition', $rule ) ) { continue; } ?>
+	foreach( $opts['rules'] as $rule ) { 
+		// skip invalid looking rules
+		if( ! array_key_exists( 'condition', $rule ) ) { continue; } 
+
+		// output row showing "and" or "or" between rules
+		if($key > 0) {
+			$or = __( 'or', 'boxzilla' );
+			$and = __( 'and', 'boxzilla' );
+			$text = $opts['rules_comparision'] === 'any' ? $or : $and;
+			
+			echo '<tr>';
+			echo '<th class="boxzilla-no-vpadding"></th>';
+			echo '<td class="boxzilla-no-vpadding"><span class="boxzilla-andor boxzilla-muted">' . $text . '</span></td>';
+			echo '</tr>';
+		}
+		?>
 		<tr valign="top" class="boxzilla-rule-row boxzilla-rule-row-<?php echo $key; ?>">
 			<th style="text-align: right; font-weight: normal;">
 				<span class="boxzilla-close boxzilla-remove-rule" title="<?php esc_attr_e( 'Remove rule', 'boxzilla' ); ?>"><span class="dashicons dashicons-dismiss"></span></span>
@@ -62,7 +77,7 @@ $rule_options = apply_filters( 'boxzilla_rules_options', $rule_options );
 					} ?>
 				</select>
 
-				<select class="boxzilla-rule-qualifier" name="boxzilla_box[rules][<?php echo $key; ?>][qualifier]">
+				<select class="boxzilla-rule-qualifier" name="boxzilla_box[rules][<?php echo $key; ?>][qualifier]" style="min-width: 135px;">
 					<option value="1" <?php selected( ! isset( $rule['qualifier'] ) || $rule['qualifier'] ); ?>><?php _e( 'is', 'boxzilla' ); ?></option>
 					<option value="0" <?php selected( isset( $rule['qualifier'] ) && !$rule['qualifier'] ); ?>><?php _e( 'is not', 'boxzilla' ); ?></option>
 					<option value="contains" <?php selected( isset( $rule['qualifier'] ) && $rule['qualifier'] === 'contains' ); ?> style="display: none;"><?php _e( 'contains', 'boxzilla' ); ?>
@@ -77,7 +92,7 @@ $rule_options = apply_filters( 'boxzilla_rules_options', $rule_options );
 	</tbody>
 	<tr>
 		<th></th>
-		<td><button type="button" class="button boxzilla-add-rule"><?php _e( 'Add rule', 'boxzilla' ); ?></button></td>
+		<td><button type="button" class="button boxzilla-add-rule"><?php _e( 'Add another rule', 'boxzilla' ); ?></button></td>
 	</tr>
 	<tr valign="top">
 		<th><label for="boxzilla_position"><?php _e( 'Box Position', 'boxzilla' ); ?></label></th>
@@ -213,6 +228,10 @@ $rule_options = apply_filters( 'boxzilla_rules_options', $rule_options );
 
 
 <script type="text/html" id="tmpl-rule-row-template">
+	<tr>
+		<th class="boxzilla-no-vpadding"></th>
+		<td class="boxzilla-no-vpadding"><span class="boxzilla-andor boxzilla-muted">{{data.andor}}</span></td>
+	</tr>
 	<tr valign="top" class="boxzilla-rule-row boxzilla-rule-row-{{{data.key}}}">
 		<th style="text-align: right; font-weight: normal;">
 			<span class="boxzilla-close boxzilla-remove-rule" title="<?php esc_attr_e( 'Remove rule', 'boxzilla' ); ?>"><span class="dashicons dashicons-dismiss"></span></span>
@@ -223,7 +242,7 @@ $rule_options = apply_filters( 'boxzilla_rules_options', $rule_options );
 					printf( '<option value="%s" %s %s>%s</option>', $value, disabled( $value, '', false ), '', $label );
 				} ?>
 			</select>
-			<select class="boxzilla-rule-qualifier" name="boxzilla_box[rules][{{{data.key}}}][qualifier]" style="display: none;" >
+			<select class="boxzilla-rule-qualifier" name="boxzilla_box[rules][{{{data.key}}}][qualifier]" style="display: none; min-width: 135px;" >
 				<option value="1" selected><?php _e( 'is', 'boxzilla' ); ?></option>
 				<option value="0"><?php _e( 'is not', 'boxzilla' ); ?></option>
 				<option value="contains" style="display: none;"><?php _e( 'contains', 'boxzilla' ); ?></option>

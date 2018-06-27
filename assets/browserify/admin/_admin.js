@@ -17,12 +17,15 @@
     var Designer = require('./_designer.js')($, Option, events);
     var rowTemplate = wp.template('rule-row-template');
     var i18n = boxzilla_i18n;
+    var ruleComparisonEl = document.getElementById('boxzilla-rule-comparison');
+    var rulesContainerEl = document.getElementById('boxzilla-box-rules');
 
     // events
     $optionControls.on('click', ".boxzilla-add-rule", addRuleFields);
     $optionControls.on('click', ".boxzilla-remove-rule", removeRule);
     $optionControls.on('change', ".boxzilla-rule-condition", setContextualHelpers);
     $optionControls.find('.boxzilla-auto-show-trigger').on('change', toggleTriggerOptions);
+    $(ruleComparisonEl).change(toggleAndOrTexts);
 
     $(window).load(function () {
         if (typeof(window.tinyMCE) === "undefined") {
@@ -32,6 +35,11 @@
 
     // call contextual helper method for each row
     $('.boxzilla-rule-row').each(setContextualHelpers);
+
+    function toggleAndOrTexts() {
+        var newText = ruleComparisonEl.value === 'any' ? i18n.or : i18n.and;
+        $('.boxzilla-andor').text(newText);
+    }
 
     function toggleTriggerOptions() {
         $optionControls.find('.boxzilla-trigger-options').toggle(this.value !== '');
@@ -143,10 +151,11 @@
 
     function addRuleFields() {
         var data = {
-            'key': optionControls.querySelectorAll('.boxzilla-rule-row').length
+            'key': optionControls.querySelectorAll('.boxzilla-rule-row').length,
+            'andor': ruleComparisonEl.value === 'any' ? i18n.or : i18n.and,
         };
         var html = rowTemplate(data);
-        $(document.getElementById('boxzilla-box-rules')).after(html);
+        $(rulesContainerEl).append(html);
         return false;
     }
 

@@ -68,6 +68,13 @@
   #boxzilla-admin .status.negative {
     background: #c3c3c3; }
 
+.boxzilla-muted {
+  color: #888; }
+
+.boxzilla-no-vpadding {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important; }
+
 .boxzilla-is-dismissible {
   padding-right: 38px;
   position: relative; }

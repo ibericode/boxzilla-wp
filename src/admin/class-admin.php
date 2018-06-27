@@ -305,6 +305,8 @@ class Admin {
 			wp_enqueue_script( 'boxzilla-admin' );
 
 			$data = array(
+				'and' => __( 'and', 'boxzilla' ),
+				'or' => __( 'or', 'boxzilla' ),
 				'enterCommaSeparatedValues' => __( 'Enter a comma-separated list of values.', 'boxzilla' ),
 				'enterCommaSeparatedPosts' => __( "Enter a comma-separated list of post slugs or post ID's..", 'boxzilla' ),
 				'enterCommaSeparatedPages' => __( "Enter a comma-separated list of page slugs or page ID's..", 'boxzilla' ),
