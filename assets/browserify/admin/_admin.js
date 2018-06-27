@@ -46,7 +46,9 @@
     }
 
     function removeRule() {
-        $(this).parents('tr').remove();
+        var row = $(this).parents('tr');
+        row.prev().remove();
+        row.remove();
     }
 
     function setContextualHelpers() {
