@@ -153,7 +153,7 @@ class UpdateManager {
 
 		// fetch remote info
 		try {
-			$remote_plugins = $this->api->get_plugins( $this->extensions );
+			$remote_plugins = $this->api->get_plugins();
 		} catch( API_Exception $e ) {
             // set flag for 5 minutes
             set_transient( 'boxzilla_request_failed', strtotime('now'), 300 );
