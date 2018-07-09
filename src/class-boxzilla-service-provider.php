@@ -56,8 +56,13 @@ class BoxzillaServiceProvider implements ServiceProviderInterface {
 		);
 
 		$container['plugins'] = function( $container ) {
-			$plugins = (array) apply_filters( 'boxzilla_extensions', array() );
-			return new Collection( $plugins );
+			$raw = (array) apply_filters( 'boxzilla_extensions', array() );
+
+			$plugins = array();
+			foreach( $raw as $p ) {
+				$plugins[ $p->id() ] = $p;
+			}
+			return $plugins;
 		};
 
 

@@ -29,12 +29,12 @@ class LicenseManager {
 	protected $notices = array();
 
 	/**
-	 * @param Collection $extensions
+	 * @param array $extensions
 	 * @param API $api
 	 * @param License $license
 	 * @param Notices $notices
 	 */
-	public function __construct( Collection $extensions, API $api, License $license ) {
+	public function __construct( array $extensions, API $api, License $license ) {
 		$this->extensions = $extensions;
 		$this->license = $license;
 		$this->api = $api;
@@ -57,7 +57,7 @@ class LicenseManager {
 	public function hook() {
 
 		// do nothing if no extensions are registered at this point
-		if( count( $this->extensions ) === 0 ) {
+		if( empty( $this->extensions ) ) {
 			return;
 		}
 
@@ -83,7 +83,7 @@ class LicenseManager {
 			return;
 		}
 
-		$plugin = $this->extensions->random();
+		$plugin = $this->extensions[ array_rand( $this->extensions ) ];
 		$message = sprintf( 'Please <a href="%s">activate your Boxzilla license</a> to use %s.', admin_url( 'edit.php?post_type=boxzilla-box&page=boxzilla-settings' ), '<strong>' . $plugin->name() . '</strong>' );
 		echo sprintf( '<div class="notice notice-%s"><p>%s</p></div>', 'warning', $message );
 	}

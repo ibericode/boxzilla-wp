@@ -13,7 +13,11 @@ defined( 'ABSPATH' ) or exit;
 			<strong><?php _e( 'Warning! You are <u>not</u> receiving plugin updates for the following plugin(s):', 'boxzilla' ); ?></strong>
 		</p>
 		<ul class="ul-square">
-			<li><?php echo join( '</li><li>', $this->extensions->map(function($p) { return $p->name(); }) ); ?></li>
+			<?php 
+			foreach( $this->extensions as $p ) { 
+				echo '<li>' . esc_html( $p->name() ) . '</li>';
+			} 
+			?>
 		</ul>
 		<p>
 			To fix this, please activate your license using the form below.

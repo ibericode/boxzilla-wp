@@ -9,9 +9,9 @@ use Boxzilla\Collection,
 class UpdateManager {
 
 	/**
-	 * @var Collection
+	 * @var array
 	 */
-	protected $extensions;
+	protected $extensions = array();
 
 	/**
 	 * @var API
@@ -33,7 +33,7 @@ class UpdateManager {
 	 * @param API        $api
 	 * @param License    $license
 	 */
-	public function __construct( Collection $extensions, API $api, License $license ) {
+	public function __construct( array $extensions, API $api, License $license ) {
 		$this->extensions = $extensions;
 		$this->license = $license;
 		$this->api = $api;
@@ -90,13 +90,17 @@ class UpdateManager {
 			return $result;
 		}
 
-		// only act on our plugins
-		$plugin = $this->extensions->find( function( $p ) use($args) {
-			return dirname( $p->slug() ) == $args->slug;
-		});
-
+		$plugin = null;
+		foreach( $this->extensions as $p ) {
+			// find plugin by slug
+			if( dirname( $p->slug() ) == $args->slug ) {
+				$plugin = $p;
+				break;
+			}
+		}
+		
 		// was it a plugin of ours?
-		if( $plugin ) {
+		if( ! empty( $plugin ) ) {
 			return $this->get_update_info( $plugin );
 		}
 
@@ -110,7 +114,7 @@ class UpdateManager {
 	public function add_updates( $updates ) {
 
 		// do nothing if no plugins registered
-		if( count( $this->extensions ) === 0 ) {
+		if( empty( $this->extensions ) ) {
 			return $updates;
 		}
 
@@ -174,14 +178,13 @@ class UpdateManager {
 		// find new versions
 		foreach( $remote_plugins as $remote_plugin ) {
 
+			if( ! isset( $this->extensions[ $remote_plugin->sid ] ) ) {
+				continue;
+			}
+
 			// find corresponding local plugin
 			/** @var Plugin $local_plugin */
-			$local_plugin = $this->extensions->find(
-				function( $local_plugin ) use( $remote_plugin ){
-					/** @var Plugin $local_plugin */
-					return $local_plugin->id() == $remote_plugin->sid;
-				}
-			);
+			$local_plugin = $this->extensions[ $remote_plugin->sid ];
 
 			// plugin found and local plugin version not same as remote version?
 			if( ! $local_plugin || version_compare( $local_plugin->version(), $remote_plugin->new_version, '>=' ) ) {
