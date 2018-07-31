@@ -71,8 +71,7 @@ class Box {
 	 * @return array Array of box options
 	 */
 	protected function load_options() {
-
-		static $defaults = array(
+		$defaults = array(
 			'css' => array(
 				'background_color' => '',
 				'color' => '',
