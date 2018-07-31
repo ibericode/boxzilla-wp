@@ -1,6 +1,13 @@
 Changelog
 ==========
 
+#### 3.2.7 - July 31, 2018
+
+**Fixes**
+
+- Issue with boxes with only an iframe, image or video and no text not being loaded.
+
+
 #### 3.2.6 - June 27, 2018
 
 **Improvements**
