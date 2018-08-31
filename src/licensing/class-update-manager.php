@@ -178,7 +178,13 @@ class UpdateManager {
 		// find new versions
 		foreach( $remote_plugins as $remote_plugin ) {
 
+			// only act on update info of our own plugins
 			if( ! isset( $this->extensions[ $remote_plugin->sid ] ) ) {
+				continue;
+			}
+
+			// sanity check
+			if ( ! isset( $remote_plugin->new_version ) ) {
 				continue;
 			}
 
