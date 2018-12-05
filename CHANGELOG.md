@@ -1,6 +1,14 @@
 Changelog
 ==========
 
+#### 3.2.9 - December 5, 2018
+
+**Improvements**
+
+- Make sure preview updates with correct color values when applying box styles.
+- Use small margin of error to prevent iOS scroll bounce from closing box again.
+
+
 #### 3.2.7 - July 31, 2018
 
 **Fixes**
