@@ -173,35 +173,35 @@ msgstr ""
 msgid "Warning! You are <u>not</u> receiving plugin updates for the following plugin(s):"
 msgstr ""
 
-#: src/licensing/views/license-form.php:33
+#: src/licensing/views/license-form.php:37
 msgid "License Key"
 msgstr ""
 
-#: src/licensing/views/license-form.php:35
+#: src/licensing/views/license-form.php:39
 msgid "Enter your license key.."
 msgstr ""
 
-#: src/licensing/views/license-form.php:38
+#: src/licensing/views/license-form.php:42
 msgid "The license key received when purchasing your premium Boxzilla plan. <a href=\"%s\">You can find it here</a>."
 msgstr ""
 
-#: src/licensing/views/license-form.php:43
+#: src/licensing/views/license-form.php:47
 msgid "License Status"
 msgstr ""
 
-#: src/licensing/views/license-form.php:47
+#: src/licensing/views/license-form.php:51
 msgid "ACTIVE"
 msgstr ""
 
-#: src/licensing/views/license-form.php:47
+#: src/licensing/views/license-form.php:51
 msgid "you are receiving plugin updates"
 msgstr ""
 
-#: src/licensing/views/license-form.php:49
+#: src/licensing/views/license-form.php:53
 msgid "INACTIVE"
 msgstr ""
 
-#: src/licensing/views/license-form.php:49
+#: src/licensing/views/license-form.php:53
 msgid "you are <strong>not</strong> receiving plugin updates"
 msgstr ""
 

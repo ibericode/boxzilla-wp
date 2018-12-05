@@ -14,23 +14,12 @@ const through = require('through2');
 const sourcemaps = require('gulp-sourcemaps');
 const wrap = require('gulp-wrap');
 const wpPot = require('gulp-wp-pot');
-const sort = require('gulp-sort');
-const sass = require('gulp-sass');
 const babelify = require('babelify');
-const fs = require("fs");
 
-gulp.task('default', ['sass', 'browserify', 'uglify', 'languages' ]);
-
-gulp.task('sass', function () {
-    var files = './assets/scss/[^_]*.scss';
+gulp.task('css', function () {
+    var files = './assets/css/*[^\.min].css';
 
     return gulp.src(files)
-        // create .css file
-        .pipe(sass())
-        .pipe(rename({ extname: '.css' }))
-        .pipe(gulp.dest('./assets/css'))
-
-        // create .min.css
         .pipe(cssmin())
         .pipe(rename({extname: '.min.css'}))
         .pipe(gulp.dest("./assets/css"));
@@ -67,14 +56,14 @@ gulp.task('browserify', function () {
     return bundledStream;
 });
 
-gulp.task('uglify', ['browserify'], function() {
+gulp.task('uglify', gulp.series('browserify', function() {
     return gulp.src(['./assets/js/**/*.js','!./assets/js/**/*.min.js'])
         .pipe(sourcemaps.init({loadMaps: true}))
         .pipe(streamify(uglify().on('error', console.log)))
         .pipe(rename({extname: '.min.js'}))
         .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest('./assets/js'));
-});
+}));
 
 gulp.task('languages', function () {
     const domain = 'boxzilla';
@@ -84,6 +73,8 @@ gulp.task('languages', function () {
 });
 
 gulp.task('watch', function () {
-    gulp.watch('./*/assets/sass/**/*.scss', ['sass']);
-    gulp.watch('./*/assets/browserify/**/*.js', ['browserify']);
+    gulp.watch('./*/assets/css/*.css', gulp.series('css'));
+    gulp.watch('./*/assets/browserify/**/*.js', gulp.series('browserify'));
 });
+
+gulp.task('default', gulp.series('css', 'browserify', 'uglify', 'languages' ));
