@@ -1,298 +1,296 @@
 (function () { var require = undefined; var module = undefined; var exports = undefined; var define = undefined; (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
-'use strict';
+"use strict";
 
 window.Boxzilla_Admin = require('./admin/_admin.js');
 
 },{"./admin/_admin.js":2}],2:[function(require,module,exports){
-'use strict';
+"use strict";
 
 (function () {
-    'use strict';
+  'use strict';
 
-    var $ = window.jQuery;
-    var Option = require('./_option.js');
-    var optionControls = document.getElementById('boxzilla-box-options-controls');
-    var $optionControls = $(optionControls);
-    var tnLoggedIn = document.createTextNode(' logged in');
+  var $ = window.jQuery;
 
-    // sanity check, are we on the correct page?
-    if ($optionControls.length === 0) {
-        return;
+  var Option = require('./_option.js');
+
+  var optionControls = document.getElementById('boxzilla-box-options-controls');
+  var $optionControls = $(optionControls);
+  var tnLoggedIn = document.createTextNode(' logged in'); // sanity check, are we on the correct page?
+
+  if ($optionControls.length === 0) {
+    return;
+  }
+
+  var EventEmitter = require('wolfy87-eventemitter');
+
+  var events = new EventEmitter();
+
+  var Designer = require('./_designer.js')($, Option, events);
+
+  var rowTemplate = wp.template('rule-row-template');
+  var i18n = boxzilla_i18n;
+  var ruleComparisonEl = document.getElementById('boxzilla-rule-comparison');
+  var rulesContainerEl = document.getElementById('boxzilla-box-rules'); // events
+
+  $optionControls.on('click', ".boxzilla-add-rule", addRuleFields);
+  $optionControls.on('click', ".boxzilla-remove-rule", removeRule);
+  $optionControls.on('change', ".boxzilla-rule-condition", setContextualHelpers);
+  $optionControls.find('.boxzilla-auto-show-trigger').on('change', toggleTriggerOptions);
+  $(ruleComparisonEl).change(toggleAndOrTexts);
+  $(window).load(function () {
+    if (typeof window.tinyMCE === "undefined") {
+      document.getElementById('notice-notinymce').style.display = '';
     }
+  }); // call contextual helper method for each row
 
-    var EventEmitter = require('wolfy87-eventemitter');
-    var events = new EventEmitter();
-    var Designer = require('./_designer.js')($, Option, events);
-    var rowTemplate = wp.template('rule-row-template');
-    var i18n = boxzilla_i18n;
-    var ruleComparisonEl = document.getElementById('boxzilla-rule-comparison');
-    var rulesContainerEl = document.getElementById('boxzilla-box-rules');
+  $('.boxzilla-rule-row').each(setContextualHelpers);
 
-    // events
-    $optionControls.on('click', ".boxzilla-add-rule", addRuleFields);
-    $optionControls.on('click', ".boxzilla-remove-rule", removeRule);
-    $optionControls.on('change', ".boxzilla-rule-condition", setContextualHelpers);
-    $optionControls.find('.boxzilla-auto-show-trigger').on('change', toggleTriggerOptions);
-    $(ruleComparisonEl).change(toggleAndOrTexts);
+  function toggleAndOrTexts() {
+    var newText = ruleComparisonEl.value === 'any' ? i18n.or : i18n.and;
+    $('.boxzilla-andor').text(newText);
+  }
 
-    $(window).load(function () {
-        if (typeof window.tinyMCE === "undefined") {
-            document.getElementById('notice-notinymce').style.display = '';
-        }
+  function toggleTriggerOptions() {
+    $optionControls.find('.boxzilla-trigger-options').toggle(this.value !== '');
+  }
+
+  function removeRule() {
+    var row = $(this).parents('tr'); // delete andor row
+
+    row.prev().remove(); // delete rule row
+
+    row.remove();
+  }
+
+  function setContextualHelpers() {
+    var context = this.tagName.toLowerCase() === "tr" ? this : $(this).parents('tr').get(0);
+    var condition = context.querySelector('.boxzilla-rule-condition').value;
+    var valueInput = context.querySelector('.boxzilla-rule-value');
+    var qualifierInput = context.querySelector('.boxzilla-rule-qualifier');
+    var betterInput = valueInput.cloneNode(true);
+    var $betterInput = $(betterInput); // remove previously added helpers
+
+    $(context.querySelectorAll('.boxzilla-helper')).remove(); // prepare better input
+
+    betterInput.removeAttribute('name');
+    betterInput.className = betterInput.className + ' boxzilla-helper';
+    valueInput.parentNode.insertBefore(betterInput, valueInput.nextSibling);
+    $betterInput.change(function () {
+      valueInput.value = this.value;
     });
+    betterInput.style.display = '';
+    valueInput.style.display = 'none';
+    qualifierInput.style.display = '';
+    qualifierInput.querySelector('option[value="not_contains"]').style.display = 'none';
+    qualifierInput.querySelector('option[value="contains"]').style.display = 'none';
 
-    // call contextual helper method for each row
-    $('.boxzilla-rule-row').each(setContextualHelpers);
+    if (tnLoggedIn.parentNode) {
+      tnLoggedIn.parentNode.removeChild(tnLoggedIn);
+    } // change placeholder for textual help
 
-    function toggleAndOrTexts() {
-        var newText = ruleComparisonEl.value === 'any' ? i18n.or : i18n.and;
-        $('.boxzilla-andor').text(newText);
-    }
 
-    function toggleTriggerOptions() {
-        $optionControls.find('.boxzilla-trigger-options').toggle(this.value !== '');
-    }
+    switch (condition) {
+      default:
+        betterInput.placeholder = i18n.enterCommaSeparatedValues;
+        break;
 
-    function removeRule() {
-        var row = $(this).parents('tr');
+      case '':
+      case 'everywhere':
+        qualifierInput.value = '1';
+        valueInput.value = '';
+        betterInput.style.display = 'none';
+        qualifierInput.style.display = 'none';
+        break;
 
-        // delete andor row
-        row.prev().remove();
-
-        // delete rule row
-        row.remove();
-    }
-
-    function setContextualHelpers() {
-        var context = this.tagName.toLowerCase() === "tr" ? this : $(this).parents('tr').get(0);
-        var condition = context.querySelector('.boxzilla-rule-condition').value;
-        var valueInput = context.querySelector('.boxzilla-rule-value');
-        var qualifierInput = context.querySelector('.boxzilla-rule-qualifier');
-        var betterInput = valueInput.cloneNode(true);
-        var $betterInput = $(betterInput);
-
-        // remove previously added helpers
-        $(context.querySelectorAll('.boxzilla-helper')).remove();
-
-        // prepare better input
-        betterInput.removeAttribute('name');
-        betterInput.className = betterInput.className + ' boxzilla-helper';
-        valueInput.parentNode.insertBefore(betterInput, valueInput.nextSibling);
-        $betterInput.change(function () {
-            valueInput.value = this.value;
+      case 'is_single':
+      case 'is_post':
+        betterInput.placeholder = i18n.enterCommaSeparatedPosts;
+        $betterInput.suggest(ajaxurl + "?action=boxzilla_autocomplete&type=post", {
+          multiple: true,
+          multipleSep: ","
         });
+        break;
 
-        betterInput.style.display = '';
-        valueInput.style.display = 'none';
-        qualifierInput.style.display = '';
-        qualifierInput.querySelector('option[value="not_contains"]').style.display = 'none';
-        qualifierInput.querySelector('option[value="contains"]').style.display = 'none';
-        if (tnLoggedIn.parentNode) {
-            tnLoggedIn.parentNode.removeChild(tnLoggedIn);
-        }
+      case 'is_page':
+        betterInput.placeholder = i18n.enterCommaSeparatedPages;
+        $betterInput.suggest(ajaxurl + "?action=boxzilla_autocomplete&type=page", {
+          multiple: true,
+          multipleSep: ","
+        });
+        break;
 
-        // change placeholder for textual help
-        switch (condition) {
-            default:
-                betterInput.placeholder = i18n.enterCommaSeparatedValues;
-                break;
+      case 'is_post_type':
+        betterInput.placeholder = i18n.enterCommaSeparatedPostTypes;
+        $betterInput.suggest(ajaxurl + "?action=boxzilla_autocomplete&type=post_type", {
+          multiple: true,
+          multipleSep: ","
+        });
+        break;
 
-            case '':
-            case 'everywhere':
-                qualifierInput.value = '1';
-                valueInput.value = '';
-                betterInput.style.display = 'none';
-                qualifierInput.style.display = 'none';
-                break;
+      case 'is_url':
+        qualifierInput.querySelector('option[value="contains"]').style.display = '';
+        qualifierInput.querySelector('option[value="not_contains"]').style.display = '';
+        betterInput.placeholder = i18n.enterCommaSeparatedRelativeUrls;
+        break;
 
-            case 'is_single':
-            case 'is_post':
-                betterInput.placeholder = i18n.enterCommaSeparatedPosts;
-                $betterInput.suggest(ajaxurl + "?action=boxzilla_autocomplete&type=post", {
-                    multiple: true,
-                    multipleSep: ","
-                });
-                break;
+      case 'is_post_in_category':
+        $betterInput.suggest(ajaxurl + "?action=boxzilla_autocomplete&type=category", {
+          multiple: true,
+          multipleSep: ","
+        });
+        break;
 
-            case 'is_page':
-                betterInput.placeholder = i18n.enterCommaSeparatedPages;
-                $betterInput.suggest(ajaxurl + "?action=boxzilla_autocomplete&type=page", {
-                    multiple: true,
-                    multipleSep: ","
-                });
-                break;
+      case 'is_post_with_tag':
+        $betterInput.suggest(ajaxurl + "?action=boxzilla_autocomplete&type=post_tag", {
+          multiple: true,
+          multipleSep: ","
+        });
+        break;
 
-            case 'is_post_type':
-                betterInput.placeholder = i18n.enterCommaSeparatedPostTypes;
-                $betterInput.suggest(ajaxurl + "?action=boxzilla_autocomplete&type=post_type", {
-                    multiple: true,
-                    multipleSep: ","
-                });
-                break;
+      case 'is_user_logged_in':
+        betterInput.style.display = 'none';
+        valueInput.parentNode.insertBefore(tnLoggedIn, valueInput.nextSibling);
+        break;
 
-            case 'is_url':
-                qualifierInput.querySelector('option[value="contains"]').style.display = '';
-                qualifierInput.querySelector('option[value="not_contains"]').style.display = '';
-                betterInput.placeholder = i18n.enterCommaSeparatedRelativeUrls;
-                break;
-
-            case 'is_post_in_category':
-                $betterInput.suggest(ajaxurl + "?action=boxzilla_autocomplete&type=category", {
-                    multiple: true,
-                    multipleSep: ","
-                });
-                break;
-
-            case 'is_post_with_tag':
-                $betterInput.suggest(ajaxurl + "?action=boxzilla_autocomplete&type=post_tag", {
-                    multiple: true,
-                    multipleSep: ","
-                });
-                break;
-
-            case 'is_user_logged_in':
-                betterInput.style.display = 'none';
-                valueInput.parentNode.insertBefore(tnLoggedIn, valueInput.nextSibling);
-                break;
-
-            case 'is_referer':
-                qualifierInput.querySelector('option[value="contains"]').style.display = '';
-                qualifierInput.querySelector('option[value="not_contains"]').style.display = '';
-                break;
-
-        }
+      case 'is_referer':
+        qualifierInput.querySelector('option[value="contains"]').style.display = '';
+        qualifierInput.querySelector('option[value="not_contains"]').style.display = '';
+        break;
     }
+  }
 
-    function addRuleFields() {
-        var data = {
-            'key': optionControls.querySelectorAll('.boxzilla-rule-row').length,
-            'andor': ruleComparisonEl.value === 'any' ? i18n.or : i18n.and
-        };
-        var html = rowTemplate(data);
-        $(rulesContainerEl).append(html);
-        return false;
-    }
-
-    module.exports = {
-        'Designer': Designer,
-        'Option': Option,
-        'events': events
+  function addRuleFields() {
+    var data = {
+      'key': optionControls.querySelectorAll('.boxzilla-rule-row').length,
+      'andor': ruleComparisonEl.value === 'any' ? i18n.or : i18n.and
     };
+    var html = rowTemplate(data);
+    $(rulesContainerEl).append(html);
+    return false;
+  }
+
+  module.exports = {
+    'Designer': Designer,
+    'Option': Option,
+    'events': events
+  };
 })();
 
 },{"./_designer.js":3,"./_option.js":4,"wolfy87-eventemitter":5}],3:[function(require,module,exports){
-'use strict';
+"use strict";
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 var Designer = function Designer($, Option, events) {
+  // vars
+  var boxId = document.getElementById('post_ID').value || 0,
+      $editor,
+      $editorFrame,
+      $innerEditor,
+      options = {},
+      visualEditorInitialised = false;
+  var $appearanceControls = $("#boxzilla-box-appearance-controls"); // create Option objects
 
-	// vars
-	var boxId = document.getElementById('post_ID').value || 0,
-	    $editor,
-	    $editorFrame,
-	    $innerEditor,
-	    options = {},
-	    visualEditorInitialised = false;
+  options.borderColor = new Option('border-color');
+  options.borderWidth = new Option('border-width');
+  options.borderStyle = new Option('border-style');
+  options.backgroundColor = new Option('background-color');
+  options.width = new Option('width');
+  options.color = new Option('color'); // functions
 
-	var $appearanceControls = $("#boxzilla-box-appearance-controls");
+  function init() {
+    // Only run if TinyMCE has actually inited
+    if (_typeof(window.tinyMCE) !== "object" || tinyMCE.get('content') === null) {
+      return;
+    } // add classes to TinyMCE <html>
 
-	// create Option objects
-	options.borderColor = new Option('border-color');
-	options.borderWidth = new Option('border-width');
-	options.borderStyle = new Option('border-style');
-	options.backgroundColor = new Option('background-color');
-	options.width = new Option('width');
-	options.color = new Option('color');
 
-	// functions
-	function init() {
-		// Only run if TinyMCE has actually inited
-		if (_typeof(window.tinyMCE) !== "object" || tinyMCE.get('content') === null) {
-			return;
-		}
+    $editorFrame = $("#content_ifr");
+    $editor = $editorFrame.contents().find('html');
+    $editor.css({
+      'background': 'white'
+    }); // add content class and padding to TinyMCE <body>
 
-		// add classes to TinyMCE <html>
-		$editorFrame = $("#content_ifr");
-		$editor = $editorFrame.contents().find('html');
-		$editor.css({
-			'background': 'white'
-		});
+    $innerEditor = $editor.find('#tinymce');
+    $innerEditor.addClass('boxzilla boxzilla-' + boxId);
+    $innerEditor.css({
+      'margin': 0,
+      'background': 'white',
+      'display': 'inline-block',
+      'width': 'auto',
+      'min-width': '240px',
+      'position': 'relative'
+    });
+    $innerEditor.get(0).style.cssText += ';padding: 25px !important;';
+    visualEditorInitialised = true;
+    /* @since 2.0.3 */
 
-		// add content class and padding to TinyMCE <body>
-		$innerEditor = $editor.find('#tinymce');
-		$innerEditor.addClass('boxzilla boxzilla-' + boxId);
-		$innerEditor.css({
-			'margin': 0,
-			'background': 'white',
-			'display': 'inline-block',
-			'width': 'auto',
-			'min-width': '240px',
-			'position': 'relative'
-		});
-		$innerEditor.get(0).style.cssText += ';padding: 25px !important;';
+    events.trigger('editor.init');
+  }
+  /**
+   * Applies the styles from the options to the TinyMCE Editor
+   *
+   * @return bool
+   */
 
-		visualEditorInitialised = true;
 
-		/* @since 2.0.3 */
-		events.trigger('editor.init');
-	}
+  function applyStyles() {
+    if (!visualEditorInitialised) {
+      return false;
+    } // Apply styles from CSS editor. 
+    // Use short timeout to make sure color values are updated.
 
-	/**
-  * Applies the styles from the options to the TinyMCE Editor
-  *
-  * @return bool
-  */
-	function applyStyles() {
-		if (!visualEditorInitialised) {
-			return false;
-		}
 
-		// Apply styles from CSS editor. 
-		// Use short timeout to make sure color values are updated.
-		window.setTimeout(function () {
+    window.setTimeout(function () {
+      $innerEditor.css({
+        'border-color': options.borderColor.getColorValue(),
+        //getColorValue( 'borderColor', '' ),
+        'border-width': options.borderWidth.getPxValue(),
+        //getPxValue( 'borderWidth', '' ),
+        'border-style': options.borderStyle.getValue(),
+        //getValue('borderStyle', '' ),
+        'background-color': options.backgroundColor.getColorValue(),
+        //getColorValue( 'backgroundColor', ''),
+        'width': options.width.getPxValue(),
+        //getPxValue( 'width', 'auto' ),
+        'color': options.color.getColorValue() // getColorValue( 'color', '' )
 
-			$innerEditor.css({
-				'border-color': options.borderColor.getColorValue(), //getColorValue( 'borderColor', '' ),
-				'border-width': options.borderWidth.getPxValue(), //getPxValue( 'borderWidth', '' ),
-				'border-style': options.borderStyle.getValue(), //getValue('borderStyle', '' ),
-				'background-color': options.backgroundColor.getColorValue(), //getColorValue( 'backgroundColor', ''),
-				'width': options.width.getPxValue(), //getPxValue( 'width', 'auto' ),
-				'color': options.color.getColorValue() // getColorValue( 'color', '' )
-			});
+      });
+      /* @since 2.0.3 */
 
-			/* @since 2.0.3 */
-			events.trigger('editor.styles.apply');
-		}, 10);
+      events.trigger('editor.styles.apply');
+    }, 10);
+    return true;
+  }
 
-		return true;
-	}
+  function resetStyles() {
+    for (var key in options) {
+      if (key.substring(0, 5) === 'theme') {
+        continue;
+      }
 
-	function resetStyles() {
-		for (var key in options) {
-			if (key.substring(0, 5) === 'theme') {
-				continue;
-			}
+      options[key].clear();
+    }
 
-			options[key].clear();
-		}
-		applyStyles();
+    applyStyles();
+    /* @since 2.0.3 */
 
-		/* @since 2.0.3 */
-		events.trigger('editor.styles.reset');
-	}
+    events.trigger('editor.styles.reset');
+  } // event binders
 
-	// event binders
-	$appearanceControls.find('input.boxzilla-color-field').wpColorPicker({ change: applyStyles, clear: applyStyles });
-	$appearanceControls.find(":input").not(".boxzilla-color-field").change(applyStyles);
-	events.on('editor.init', applyStyles);
 
-	// public methods
-	return {
-		'init': init,
-		'resetStyles': resetStyles,
-		'options': options
-	};
+  $appearanceControls.find('input.boxzilla-color-field').wpColorPicker({
+    change: applyStyles,
+    clear: applyStyles
+  });
+  $appearanceControls.find(":input").not(".boxzilla-color-field").change(applyStyles);
+  events.on('editor.init', applyStyles); // public methods
+
+  return {
+    'init': init,
+    'resetStyles': resetStyles,
+    'options': options
+  };
 };
 
 module.exports = Designer;
@@ -303,54 +301,52 @@ module.exports = Designer;
 var $ = window.jQuery;
 
 var Option = function Option(element) {
+  // find corresponding element
+  if (typeof element == "string") {
+    element = document.getElementById('boxzilla-' + element);
+  }
 
-	// find corresponding element
-	if (typeof element == "string") {
-		element = document.getElementById('boxzilla-' + element);
-	}
+  if (!element) {
+    console.error("Unable to find option element.");
+  }
 
-	if (!element) {
-		console.error("Unable to find option element.");
-	}
-
-	this.element = element;
+  this.element = element;
 };
 
 Option.prototype.getColorValue = function () {
-	if (this.element.value.length > 0) {
-		if ($(this.element).hasClass('wp-color-field')) {
-			return $(this.element).wpColorPicker('color');
-		} else {
-			return this.element.value;
-		}
-	}
+  if (this.element.value.length > 0) {
+    if ($(this.element).hasClass('wp-color-field')) {
+      return $(this.element).wpColorPicker('color');
+    } else {
+      return this.element.value;
+    }
+  }
 
-	return '';
+  return '';
 };
 
 Option.prototype.getPxValue = function (fallbackValue) {
-	if (this.element.value.length > 0) {
-		return parseInt(this.element.value) + "px";
-	}
+  if (this.element.value.length > 0) {
+    return parseInt(this.element.value) + "px";
+  }
 
-	return fallbackValue || '';
+  return fallbackValue || '';
 };
 
 Option.prototype.getValue = function (fallbackValue) {
+  if (this.element.value.length > 0) {
+    return this.element.value;
+  }
 
-	if (this.element.value.length > 0) {
-		return this.element.value;
-	}
-
-	return fallbackValue || '';
+  return fallbackValue || '';
 };
 
 Option.prototype.clear = function () {
-	this.element.value = '';
+  this.element.value = '';
 };
 
 Option.prototype.setValue = function (value) {
-	this.element.value = value;
+  this.element.value = value;
 };
 
 module.exports = Option;

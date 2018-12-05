@@ -31,16 +31,14 @@ gulp.task('browserify', function () {
 
     globby("./assets/browserify/[^_]*.js").then(function(entries) {
         merge(entries.map(function(entry) {
-            var bundler = browserify({entries: [entry]})
-                .transform(babelify, {
-                    global: true,
-                    ignore: /\/node_modules\/(?!boxzilla\/)/,
-                    presets: ["es2015"]
-                });
-
             var filename = entry.split('/').pop();
 
-            return bundler
+            return browserify(entry)
+                .transform("babelify", {
+                    presets: ["@babel/preset-env"],
+                    global: true,
+                    ignore: [ /\/node_modules\/(?!boxzilla\/)/ ],
+                })
                 .bundle()
                 .pipe(source(filename))
                 .pipe(buffer())
