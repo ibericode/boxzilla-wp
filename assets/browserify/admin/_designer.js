@@ -19,7 +19,6 @@ var Designer = function($, Option, events) {
 
 	// functions
 	function init() {
-
 		// Only run if TinyMCE has actually inited
 		if( typeof( window.tinyMCE ) !== "object" || tinyMCE.get('content') === null ) {
 			return;
@@ -57,23 +56,26 @@ var Designer = function($, Option, events) {
 	 * @return bool
 	 */
 	function applyStyles() {
-
 		if( ! visualEditorInitialised ) {
 			return false;
 		}
 
-		// apply styles from CSS editor
-		$innerEditor.css({
-			'border-color': options.borderColor.getColorValue(), //getColorValue( 'borderColor', '' ),
-			'border-width': options.borderWidth.getPxValue(), //getPxValue( 'borderWidth', '' ),
-			'border-style': options.borderStyle.getValue(), //getValue('borderStyle', '' ),
-			'background-color': options.backgroundColor.getColorValue(), //getColorValue( 'backgroundColor', ''),
-			'width': options.width.getPxValue(), //getPxValue( 'width', 'auto' ),
-			'color': options.color.getColorValue() // getColorValue( 'color', '' )
-		});
+		// Apply styles from CSS editor. 
+		// Use short timeout to make sure color values are updated.
+		window.setTimeout(() => {
+			
+			$innerEditor.css({
+				'border-color': options.borderColor.getColorValue(), //getColorValue( 'borderColor', '' ),
+				'border-width': options.borderWidth.getPxValue(), //getPxValue( 'borderWidth', '' ),
+				'border-style': options.borderStyle.getValue(), //getValue('borderStyle', '' ),
+				'background-color': options.backgroundColor.getColorValue(), //getColorValue( 'backgroundColor', ''),
+				'width': options.width.getPxValue(), //getPxValue( 'width', 'auto' ),
+				'color': options.color.getColorValue() // getColorValue( 'color', '' )
+			});
 
-		/* @since 2.0.3 */
-		events.trigger('editor.styles.apply');
+			/* @since 2.0.3 */
+			events.trigger('editor.styles.apply');
+		}, 10)
 
 		return true;
 	}

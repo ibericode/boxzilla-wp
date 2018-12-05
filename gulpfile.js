@@ -73,8 +73,8 @@ gulp.task('languages', function () {
 });
 
 gulp.task('watch', function () {
-    gulp.watch('./*/assets/css/*.css', gulp.series('css'));
-    gulp.watch('./*/assets/browserify/**/*.js', gulp.series('browserify'));
+    gulp.watch('./assets/css/*.css', gulp.series('css'));
+    gulp.watch('./assets/browserify/**/*.js', gulp.series('browserify'));
 });
 
 gulp.task('default', gulp.series('css', 'browserify', 'uglify', 'languages' ));
