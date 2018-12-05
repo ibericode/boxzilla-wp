@@ -16,7 +16,6 @@ return array(
     'Boxzilla\\BoxLoader' => $baseDir . '/src/class-loader.php',
     'Boxzilla\\Boxzilla' => $baseDir . '/src/class-boxzilla.php',
     'Boxzilla\\BoxzillaServiceProvider' => $baseDir . '/src/class-boxzilla-service-provider.php',
-    'Boxzilla\\Collection' => $baseDir . '/src/class-collection.php',
     'Boxzilla\\DI\\Container' => $baseDir . '/src/di/class-container.php',
     'Boxzilla\\DI\\ContainerWithPropertyAccess' => $baseDir . '/src/di/class-container-with-property-access.php',
     'Boxzilla\\DI\\ServiceProviderInterface' => $baseDir . '/src/di/interface-service-provider.php',

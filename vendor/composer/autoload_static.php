@@ -21,7 +21,6 @@ class ComposerStaticInit38e5bd5c00bdfd9a6ae58e314c6ae5ae
         'Boxzilla\\BoxLoader' => __DIR__ . '/../..' . '/src/class-loader.php',
         'Boxzilla\\Boxzilla' => __DIR__ . '/../..' . '/src/class-boxzilla.php',
         'Boxzilla\\BoxzillaServiceProvider' => __DIR__ . '/../..' . '/src/class-boxzilla-service-provider.php',
-        'Boxzilla\\Collection' => __DIR__ . '/../..' . '/src/class-collection.php',
         'Boxzilla\\DI\\Container' => __DIR__ . '/../..' . '/src/di/class-container.php',
         'Boxzilla\\DI\\ContainerWithPropertyAccess' => __DIR__ . '/../..' . '/src/di/class-container-with-property-access.php',
         'Boxzilla\\DI\\ServiceProviderInterface' => __DIR__ . '/../..' . '/src/di/interface-service-provider.php',
