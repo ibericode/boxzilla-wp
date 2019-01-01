@@ -700,14 +700,13 @@ class Admin {
 			return $extensions;
 		}
 
-		$request = wp_remote_get( 'https://my.boxzillaplugin.com/api/v2/plugins' );
-		if ( is_wp_error( $request ) ) {
+		$response = wp_remote_get( 'https://my.boxzillaplugin.com/api/v2/plugins' );
+		if ( is_wp_error( $response ) ||  wp_remote_retrieve_response_code( $response ) >= 400 ) {
 			return array();
 		}
 
-		$response = wp_remote_retrieve_body( $request );
-		$data = json_decode( $response );
-
+		$body = wp_remote_retrieve_body( $response );
+		$data = json_decode( $body );
 		if ( is_array( $data ) ) {
 			set_transient( 'boxzilla_remote_extensions', $data, 24 * HOUR_IN_SECONDS );
 			return $data;
