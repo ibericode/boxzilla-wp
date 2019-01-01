@@ -23,11 +23,11 @@
 		<div class="plugin">
 			<a href="<?php echo esc_url( $plugin->page_url ); ?>" class="unstyled"><img src="<?php echo esc_url( $plugin->image_url ); ?>" alt="<?php echo $plugin->name; ?>" width="280" height="220"></a>
 			<div class="caption">
-				<h3><a href="<?php echo esc_url( $plugin->page_url ); ?>" class="unstyled"><?php echo $plugin->name; ?></a></h3>
-				<p><?php echo esc_html( $plugin->short_description ); ?></p>
+				<h3><a href="<?php echo esc_url( $plugin->page_url ); ?>" class="unstyled"><?php echo esc_html( $plugin->name ); ?></a></h3>
+				<p><?php echo esc_html( $plugin->description ); ?></p>
 				<p>
 					<a class="button" href="<?php echo esc_url( $plugin->page_url ); ?>" title="More about <?php echo esc_attr( $plugin->name ); ?>">Read More</a>
-					<span class="type"><?php echo esc_html( $plugin->type ); ?></span>
+					<span class="type">Premium</span>
 				</p>
 			</div>
 		</div>
