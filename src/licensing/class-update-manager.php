@@ -59,7 +59,7 @@ class UpdateManager {
 	public function add_auth_headers( $args, $url ) {
 		
 		// only act on download request's
-		if( strpos( $url, $this->api->url ) !== 0 || strpos( $url, 'download' ) === false ) {
+		if( strpos( $url, $this->api->url ) !== 0 || strpos( $url, '/download' ) === false ) {
 			return $args;
 		}
 
@@ -72,7 +72,7 @@ class UpdateManager {
 			$args['headers'] = array();
 		}
 
-		$args['headers']['Authorization'] = 'Bearer ' . urlencode( $this->license->activation_key );
+		$args['headers']['Authorization'] = sprintf( 'Bearer %s', urlencode( $this->license->activation_key ) );
 		return $args;
 	}
 
@@ -234,7 +234,7 @@ class UpdateManager {
 			$response->upgrade_notice = sprintf( 'You will need to <a href="%s">activate your license</a> to install this plugin update.', admin_url( 'edit.php?post_type=boxzilla-box&page=boxzilla-settings' ) );
 			$response->sections->changelog = '<p>' . sprintf( 'You will need to <a href="%s" target="_top">activate your license</a> to install this plugin update.', admin_url( 'edit.php?post_type=boxzilla-box&page=boxzilla-settings' ) ) . '</p>' . $response->sections->changelog;
 			$response->package = null;
-		} 
+		}
 
 		// cast subkey objects to array as that is what WP expects
 		$response->sections = get_object_vars( $response->sections );
