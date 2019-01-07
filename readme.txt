@@ -3,7 +3,7 @@ Contributors: Ibericode, DvanKooten, hchouhan, lapzor
 Donate link: https://boxzillaplugin.com/#utm_source=wp-plugin-repo&utm_medium=boxzilla&utm_campaign=donate-link
 Tags: scroll triggered box, cta, social, pop-up, newsletter, call to action, mailchimp, contact form 7, social media, mc4wp, ibericode
 Requires at least: 4.1
-Tested up to: 5.0.0
+Tested up to: 5.0.2
 Stable tag: 3.2.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -68,42 +68,36 @@ If you're on [one of the available premium plans](https://boxzillaplugin.com/pri
 
 = What does this plugin do? =
 
-Have a look at the [Boxzilla demo site](https://demo.boxzillaplugin.com/#utm_source=wp-plugin-repo&utm_medium=boxzilla&utm_campaign=description).
+Pop-ups. Have a look at the [Boxzilla demo site](https://demo.boxzillaplugin.com/#utm_source=wp-plugin-repo&utm_medium=boxzilla&utm_campaign=description).
 
 = How to display a form in the box? =
 
-Boxzilla will work with any plugin that offers shortcodes, like [MailChimp for WordPress](https://wordpress.org/plugins/mailchimp-for-wp/).
+Boxzilla will work with any plugin that allows for shortcodes, like [MailChimp for WordPress](https://wordpress.org/plugins/mailchimp-for-wp/) or [HTML Forms](https://wordpress.org/plugins/html-forms/).
 
 = Can I have a box open after clicking a certain link or button? =
 
-Sure, by linking to the box element.
+Yes, you can create a link that refers the box ID. For example, if your box has an ID of 94.
 
-*Example (box ID is 94 in this example)*
 `
 <a href="#boxzilla-94">Open Box</a>
 `
 
-= Can I have a box to open right after opening a page? =
+= Can I have a box open right after loading a page? =
 
-Sure, just include `boxzilla-` followed by the box ID in the URL.
-
-*Example (box ID is 94 in this example)*
-`
-http://your-wordpress-site.com/some-page/#boxzilla-94
-`
+You can configure this in the box settings. Or you can add `#boxzilla-13` to your URL, where 13 is the ID of the box you want to show.
 
 = Can I customize the appearance of a box =
 
-Boxzilla comes with a simple interface for customizing most box colors & borders. You can apply your own CSS by utilizing any of the following element selectors.
+Boxzilla comes with a simple interface for customizing the pop-up appearance. But you can also use your own custom CSS if needed.
 
 `
 .boxzilla { } /* all boxes */
-.boxzilla-5 { } /* box with ID 5 */
+.boxzilla-5 { } /* only the box with ID 5 */
 `
 
 = I want to disable auto-paragraphs in the box content =
 
-All default WordPress filters are added to the `stb_content` filter hook. If you want to remove any of them, add the respectable line to your theme its `functions.php` file.
+All default WordPress filters are added to the `boxzilla_box_content` filter hook. The example below shows how to remove them.
 
 `
 remove_filter( 'boxzilla_box_content', 'wptexturize') ;
@@ -114,13 +108,6 @@ remove_filter( 'boxzilla_box_content', 'do_shortcode' );
 remove_filter( 'boxzilla_box_content', 'shortcode_unautop' );
 `
 
-= I want to make it impossible to close a box =
-`
-add_filter( 'boxzilla_box_options', function( $opts, $box ) {
-	$opts['closable'] = false;
-	return $opts;
-}, 10, 2 );
-`
 
 == Installation ==
 
@@ -129,6 +116,7 @@ add_filter( 'boxzilla_box_options', function( $opts, $box ) {
 1. In your WordPress admin panel, go to *Plugins > New Plugin*, search for *Boxzilla* and click "Install now"
 1. Alternatively, download the plugin and upload the contents of `boxzilla.zip` to your plugins directory, which usually is `/wp-content/plugins/`.
 1. Activate the plugin.
+1. (Optional) Install some [add-on plugins for Boxzilla](https://boxzillaplugin.com/add-ons/)
 
 = Creating a Boxzilla box =
 
@@ -142,10 +130,10 @@ Have a look at the [frequently asked questions](https://wordpress.org/plugins/bo
 
 == Screenshots ==
 
-1. A scroll triggered box with a newsletter sign-up form.
-2. Another scroll triggered box, this time with social media sharing options.
-3. A differently styled social triggered box.
-4. Configuring and customizing your boxes is easy.
+1. A Boxzilla pop-up with a newsletter sign-up form.
+3. Another Boxzilla pop-up, with different styles.
+4. Screenshot of the page to manage a Boxzilla pop-up.
+
 
 == Changelog ==
 
