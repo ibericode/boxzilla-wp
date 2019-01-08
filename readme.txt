@@ -9,18 +9,18 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 5.3
 
-Flexible call to action boxes, popping up or sliding in at just the right time.
+Flexible pop-ups or slide-ins, showing up at just the right time.
 
 == Description ==
 
 ### Boxzilla for WordPress
 
-Boxzilla is a *lightweight* plugin for adding flexible call-to-actions to your WordPress site. Boxes can slide or fade in at any point and can contain whatever content you like.
+Boxzilla is a plugin that allows you to add powerful call-to-actions via pop-up or slide-in boxes to your WordPress site. Boxes can slide or fade in at any point and can contain whatever content you like.
 
 #### Some of Boxzilla's features
 
 - Boxes can contain _any_ content you like.
-- Various box triggers:
+- You can set-up various box triggers:
     - Scroll percentage
     - Reaching a certain page element
     - X amount of time on the page
@@ -36,33 +36,25 @@ Boxzilla is a *lightweight* plugin for adding flexible call-to-actions to your W
 
 [Read more about Boxzilla](https://boxzillaplugin.com/#utm_source=wp-plugin-repo&utm_medium=boxzilla&utm_campaign=description).
 
-> This is the successor of the old [Scroll Triggered Boxes](https://wordpress.org/plugins/scroll-triggered-boxes/) plugin.
+> #### Premium add-ons for Boxzilla
+> 
+> The Boxzilla plugin itself is entirely free. Advanced functionality is available through several paid add-ons. Not only do they extend the core functionality of the plugin, they also help to fund further development of the core (free) plugin.
+> 
+> [Browse available add-ons for Boxzilla](https://boxzillaplugin.com/add-ons/#utm_source=wp-plugin-repo&utm_medium=boxzilla&utm_campaign=description).
 
 #### Documentation
 
-Please have a look at the [Boxzilla KB](https://kb.boxzillaplugin.com/).
+Please have a look at the [Boxzilla Knowledge Base](https://kb.boxzillaplugin.com/).
 
 #### Demo
 
-There's a [Boxzilla demo](https://demo.boxzillaplugin.com#utm_source=wp-plugin-repo&utm_medium=boxzilla&utm_campaign=description) with some examples.
-
-#### Add-on plugins
-
-The core Boxzilla plugin is and always will be free. Additional advanced functionality is available through several add-ons. Not only do they extend the core functionality of the plugin, they also help to fund further development of the core (free) plugin.
-
-[Browse available add-ons for Boxzilla](https://boxzillaplugin.com/add-ons/#utm_source=wp-plugin-repo&utm_medium=boxzilla&utm_campaign=description).
-
-#### Contributing and reporting bugs=
-
-You can contribute to [Boxzilla on GitHub](https://github.com/ibericode/boxzilla).
+There's a [Boxzilla demo site](https://demo.boxzillaplugin.com#utm_source=wp-plugin-repo&utm_medium=boxzilla&utm_campaign=description) with some examples.
 
 #### Support
 
-Please use the [WordPress.org plugin support forums](https://wordpress.org/support/plugin/boxzilla) for community support where we try to help all users.
+Please use the [WordPress.org plugin support forums](https://wordpress.org/support/plugin/boxzilla) for community support. 
 
-If you think you've found a bug, please [report it on GitHub](https://github.com/ibericode/boxzilla/issues).
-
-If you're on [one of the available premium plans](https://boxzillaplugin.com/pricing#utm_source=wp-plugin-repo&utm_medium=boxzilla&utm_campaign=description), please use the support email for a faster reply.
+If you're a [Boxzilla Premium customer](https://boxzillaplugin.com/pricing#utm_source=wp-plugin-repo&utm_medium=boxzilla&utm_campaign=description), please use our support email for a faster reply.
 
 == Frequently Asked Questions ==
 
