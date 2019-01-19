@@ -57,11 +57,12 @@ class UpdateManager {
 	 * @return mixed
 	 */
 	public function add_auth_headers( $args, $url ) {
-		
+
 		// only act on download request's
 		if( strpos( $url, $this->api->url ) !== 0 || strpos( $url, '/download' ) === false ) {
 			return $args;
 		}
+
 
 		// only add if activation key not empty
 		if( empty( $this->license->activation_key ) ) {
@@ -72,7 +73,7 @@ class UpdateManager {
 			$args['headers'] = array();
 		}
 
-		$args['headers']['Authorization'] = sprintf( 'Bearer %s', urlencode( $this->license->activation_key ) );
+		$args['headers']['Authorization'] = sprintf( 'Bearer %s', $this->license->activation_key );
 		return $args;
 	}
 
@@ -84,7 +85,6 @@ class UpdateManager {
 	 * @return object
 	 */
 	public function get_plugin_info( $result, $action = '', $args = null ) {
-
 		// do nothing for unrelated requests
 		if( $action !== 'plugin_information' || ! isset( $args->slug ) ) {
 			return $result;
@@ -119,9 +119,7 @@ class UpdateManager {
 		}
 
 		// failsafe WP bug
-		if( empty( $updates )
-		    || empty( $updates->response )
-			|| ! is_array( $updates->response ) ) {
+		if( empty( $updates ) || ! is_array( $updates->response ) ) {
 			return $updates;
 		}
 

@@ -45,7 +45,7 @@ add_action( 'plugins_loaded', function() use( $boxzilla ) {
     // license manager
     if( is_admin() || (  defined( 'DOING_CRON' ) && DOING_CRON ) || ( defined( 'WP_CLI' ) && WP_CLI ) ) {
         $boxzilla['license_manager']->hook();
-
+       
         if( count( $boxzilla->plugins ) > 0 ) {
             $boxzilla['update_manager']->hook();
         }
