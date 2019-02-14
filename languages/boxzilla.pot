@@ -1,4 +1,4 @@
-# Copyright (C) 2018 boxzilla
+# Copyright (C) 2019 boxzilla
 # This file is distributed under the same license as the boxzilla package.
 msgid ""
 msgstr ""
