@@ -11,7 +11,7 @@
     "@babel/preset-env": "^7.2.0",
     "babelify": "^10.0.0",
     "browserify": "^16.1.0",
-    "globby": "^8.0.1",
+    "globby": "^9.0.0",
     "gulp": "^4.0.0",
     "gulp-cssmin": "^0.2.0",
     "gulp-rename": "^1.2.2",
