@@ -1,151 +1,12 @@
 (function () { var require = undefined; var module = undefined; var exports = undefined; var define = undefined; (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
-"use strict";
-
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-(function () {
-  'use strict';
-
-  var Boxzilla = require('boxzilla');
-
-  var options = window.boxzilla_options; // expose Boxzilla object to window
-
-  window.Boxzilla = Boxzilla; // helper function for setting CSS styles
-
-  function css(element, styles) {
-    if (styles.background_color) {
-      element.style.background = styles.background_color;
-    }
-
-    if (styles.color) {
-      element.style.color = styles.color;
-    }
-
-    if (styles.border_color) {
-      element.style.borderColor = styles.border_color;
-    }
-
-    if (styles.border_width) {
-      element.style.borderWidth = parseInt(styles.border_width) + "px";
-    }
-
-    if (styles.border_style) {
-      element.style.borderStyle = styles.border_style;
-    }
-
-    if (styles.width) {
-      element.style.maxWidth = parseInt(styles.width) + "px";
-    }
-  }
-
-  function createBoxesFromConfig() {
-    // failsafe against including script twice.
-    if (options.inited) {
-      return;
-    } // create boxes from options
-
-
-    for (var key in options.boxes) {
-      // get opts
-      var boxOpts = options.boxes[key];
-      boxOpts.testMode = isLoggedIn && options.testMode; // find box content element, bail if not found
-
-      var boxContentElement = document.getElementById('boxzilla-box-' + boxOpts.id + '-content');
-
-      if (!boxContentElement) {
-        continue;
-      } // use element as content option
-
-
-      boxOpts.content = boxContentElement; // create box
-
-      var box = Boxzilla.create(boxOpts.id, boxOpts); // add box slug to box element as classname
-
-      box.element.className = box.element.className + ' boxzilla-' + boxOpts.post.slug; // add custom css to box
-
-      css(box.element, boxOpts.css);
-      box.element.firstChild.firstChild.className += " first-child";
-      box.element.firstChild.lastChild.className += " last-child"; // maybe show box right away
-
-      if (box.fits() && locationHashRefersBox(box)) {
-        box.show();
-      }
-    } // set flag to prevent initialising twice
-
-
-    options.inited = true; // trigger "done" event.
-
-    Boxzilla.trigger('done'); // maybe open box with MC4WP form in it
-
-    maybeOpenMailChimpForWordPressBox();
-  }
-
-  function locationHashRefersBox(box) {
-    if (!window.location.hash || 0 === window.location.hash.length) {
-      return false;
-    }
-
-    var elementId = window.location.hash.substring(1); // only attempt on strings looking like an ID 
-
-    var regex = /^[a-zA-Z\-\_0-9]+$/;
-
-    if (!regex.test(elementId)) {
-      return false;
-    }
-
-    if (elementId === box.element.id) {
-      return true;
-    } else if (box.element.querySelector('#' + elementId)) {
-      return true;
-    }
-
-    return false;
-  }
-
-  function maybeOpenMailChimpForWordPressBox() {
-    if (_typeof(window.mc4wp_forms_config) !== "object" || !window.mc4wp_forms_config.submitted_form) {
-      return;
-    }
-
-    var selector = '#' + window.mc4wp_forms_config.submitted_form.element_id;
-    var boxes = Boxzilla.boxes;
-
-    for (var boxId in boxes) {
-      if (!boxes.hasOwnProperty(boxId)) {
-        continue;
-      }
-
-      var box = boxes[boxId];
-
-      if (box.element.querySelector(selector)) {
-        box.show();
-        return;
-      }
-    }
-  } // print message when test mode is enabled
-
-
-  var isLoggedIn = document.body.className.indexOf('logged-in') > -1;
-
-  if (isLoggedIn && options.testMode) {
-    console.log('Boxzilla: Test mode is enabled. Please disable test mode if you\'re done testing.');
-  } // init boxzilla
-
-
-  Boxzilla.init(); // on window.load, create DOM elements for boxes
-
-  window.addEventListener('load', createBoxesFromConfig);
-})();
-
-},{"boxzilla":5}],2:[function(require,module,exports){
 /*!
- * EventEmitter v4.2.11 - git.io/ee
+ * EventEmitter v5.2.5 - git.io/ee
  * Unlicense - http://unlicense.org/
  * Oliver Caldwell - http://oli.me.uk/
  * @preserve
  */
 
-;(function () {
+;(function (exports) {
     'use strict';
 
     /**
@@ -158,7 +19,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     // Shortcuts to improve speed and size
     var proto = EventEmitter.prototype;
-    var exports = this;
     var originalGlobalValue = exports.EventEmitter;
 
     /**
@@ -259,6 +119,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         return response || listeners;
     };
 
+    function isValidListener (listener) {
+        if (typeof listener === 'function' || listener instanceof RegExp) {
+            return true
+        } else if (listener && typeof listener === 'object') {
+            return isValidListener(listener.listener)
+        } else {
+            return false
+        }
+    }
+
     /**
      * Adds a listener function to the specified event.
      * The listener will not be added if it is a duplicate.
@@ -270,6 +140,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
      * @return {Object} Current instance of EventEmitter for chaining.
      */
     proto.addListener = function addListener(evt, listener) {
+        if (!isValidListener(listener)) {
+            throw new TypeError('listener must be a function');
+        }
+
         var listeners = this.getListenersAsObject(evt);
         var listenerIsWrapped = typeof listener === 'object';
         var key;
@@ -369,7 +243,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     /**
      * Adds listeners in bulk using the manipulateListeners method.
-     * If you pass an object as the second argument you can add to multiple events at once. The object should contain key value pairs of events and listeners or listener arrays. You can also pass it an event name and an array of listeners to be added.
+     * If you pass an object as the first argument you can add to multiple events at once. The object should contain key value pairs of events and listeners or listener arrays. You can also pass it an event name and an array of listeners to be added.
      * You can also pass it a regular expression to add the array of listeners to all events that match it.
      * Yeah, this function does quite a bit. That's probably a bad thing.
      *
@@ -384,7 +258,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     /**
      * Removes listeners in bulk using the manipulateListeners method.
-     * If you pass an object as the second argument you can remove from multiple events at once. The object should contain key value pairs of events and listeners or listener arrays.
+     * If you pass an object as the first argument you can remove from multiple events at once. The object should contain key value pairs of events and listeners or listener arrays.
      * You can also pass it an event name and an array of listeners to be removed.
      * You can also pass it a regular expression to remove the listeners from all events that match it.
      *
@@ -508,9 +382,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         for (key in listenersMap) {
             if (listenersMap.hasOwnProperty(key)) {
                 listeners = listenersMap[key].slice(0);
-                i = listeners.length;
 
-                while (i--) {
+                for (i = 0; i < listeners.length; i++) {
                     // If the listener returns true then it shall be removed from the event
                     // The function is executed either with a basic call or an apply if there is an args array
                     listener = listeners[i];
@@ -611,9 +484,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     else {
         exports.EventEmitter = EventEmitter;
     }
-}.call(this));
+}(typeof window !== 'undefined' ? window : this || {}));
 
-},{}],3:[function(require,module,exports){
+},{}],2:[function(require,module,exports){
 "use strict";
 
 var duration = 320;
@@ -787,7 +660,7 @@ module.exports = {
   'animated': animated
 };
 
-},{}],4:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 'use strict';
 
 var defaults = {
@@ -1130,21 +1003,28 @@ module.exports = function (_Boxzilla) {
   return Box;
 };
 
-},{"./animator.js":3}],5:[function(require,module,exports){
+},{"./animator.js":2}],4:[function(require,module,exports){
 'use strict';
 
-var EventEmitter = require('wolfy87-eventemitter'),
-    Boxzilla = Object.create(EventEmitter.prototype),
-    Box = require('./box.js')(Boxzilla),
-    Timer = require('./timer.js'),
-    boxes = [],
-    overlay,
-    scrollElement = window,
-    exitIntentDelayTimer,
-    exitIntentTriggered,
-    siteTimer,
-    pageTimer,
-    pageViews;
+var EventEmitter = require('wolfy87-eventemitter');
+
+var Timer = require('./timer.js');
+
+var Boxzilla = Object.create(EventEmitter.prototype);
+
+var Box = require('./box.js')(Boxzilla);
+
+var boxes = [];
+var overlay;
+var scrollElement = window;
+var siteTimer;
+var pageTimer;
+var pageViews;
+var initialised = false;
+
+var styles = require('./styles.js');
+
+var ExitIntent = require('./triggers/exit-intent.js');
 
 function throttle(fn, threshhold, scope) {
   threshhold || (threshhold = 250);
@@ -1170,7 +1050,7 @@ function throttle(fn, threshhold, scope) {
 
 
 function onKeyUp(e) {
-  if (e.keyCode == 27) {
+  if (e.keyCode === 27) {
     Boxzilla.dismiss();
   }
 } // check "pageviews" criteria for each box
@@ -1264,9 +1144,9 @@ function onOverlayClick(e) {
   });
 }
 
-function triggerExitIntent() {
+function showBoxesWithExitIntentTrigger() {
   // do nothing if already triggered OR another box is visible.
-  if (exitIntentTriggered || isAnyBoxVisible()) {
+  if (isAnyBoxVisible()) {
     return;
   }
 
@@ -1275,34 +1155,12 @@ function triggerExitIntent() {
       box.trigger();
     }
   });
-  exitIntentTriggered = true;
-}
-
-function onMouseLeave(e) {
-  var delay = 400; // did mouse leave at top of window?
-
-  if (e.clientY <= 0) {
-    exitIntentDelayTimer = window.setTimeout(triggerExitIntent, delay);
-  }
 }
 
 function isAnyBoxVisible() {
-  for (var i = 0; i < boxes.length; i++) {
-    var box = boxes[i];
-
-    if (box.visible) {
-      return true;
-    }
-  }
-
-  return false;
-}
-
-function onMouseEnter() {
-  if (exitIntentDelayTimer) {
-    window.clearInterval(exitIntentDelayTimer);
-    exitIntentDelayTimer = null;
-  }
+  return boxes.filter(function (b) {
+    return b.visible;
+  }).length > 0;
 }
 
 function onElementClick(e) {
@@ -1346,6 +1204,10 @@ var timers = {
 }; // initialise & add event listeners
 
 Boxzilla.init = function () {
+  if (initialised) {
+    return;
+  }
+
   document.body.addEventListener('click', onElementClick, true);
 
   try {
@@ -1357,8 +1219,6 @@ Boxzilla.init = function () {
   siteTimer = new Timer(0);
   pageTimer = new Timer(0); // insert styles into DOM
 
-  var styles = require('./styles.js');
-
   var styleElement = document.createElement('style');
   styleElement.setAttribute("type", "text/css");
   styleElement.innerHTML = styles;
@@ -1367,8 +1227,9 @@ Boxzilla.init = function () {
   overlay = document.createElement('div');
   overlay.style.display = 'none';
   overlay.id = 'boxzilla-overlay';
-  document.body.appendChild(overlay); // event binds
+  document.body.appendChild(overlay); // init exit intent trigger
 
+  new ExitIntent(showBoxesWithExitIntentTrigger);
   scrollElement.addEventListener('touchstart', throttle(checkHeightCriteria), true);
   scrollElement.addEventListener('scroll', throttle(checkHeightCriteria), true);
   window.addEventListener('resize', throttle(recalculateHeights));
@@ -1376,8 +1237,6 @@ Boxzilla.init = function () {
   overlay.addEventListener('click', onOverlayClick);
   window.setInterval(checkTimeCriteria, 1000);
   window.setTimeout(checkPageViewsCriteria, 1000);
-  document.documentElement.addEventListener('mouseleave', onMouseLeave);
-  document.documentElement.addEventListener('mouseenter', onMouseEnter);
   document.addEventListener('keyup', onKeyUp);
   timers.start();
   window.addEventListener('focus', timers.start);
@@ -1387,6 +1246,7 @@ Boxzilla.init = function () {
   });
   window.addEventListener('blur', timers.stop);
   Boxzilla.trigger('ready');
+  initialised = true; // ensure this function doesn't run again
 };
 /**
  * Create a new Box
@@ -1475,13 +1335,13 @@ if (typeof module !== 'undefined' && module.exports) {
   module.exports = Boxzilla;
 }
 
-},{"./box.js":4,"./styles.js":6,"./timer.js":7,"wolfy87-eventemitter":2}],6:[function(require,module,exports){
+},{"./box.js":3,"./styles.js":5,"./timer.js":6,"./triggers/exit-intent.js":7,"wolfy87-eventemitter":1}],5:[function(require,module,exports){
 "use strict";
 
 var styles = "#boxzilla-overlay{position:fixed;background:rgba(0,0,0,.65);width:100%;height:100%;left:0;top:0;z-index:99999}.boxzilla-center-container{position:fixed;top:0;left:0;right:0;height:0;text-align:center;z-index:999999;line-height:0}.boxzilla-center-container .boxzilla{display:inline-block;text-align:left;position:relative;line-height:normal}.boxzilla{position:fixed;z-index:999999;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;background:#fff;padding:25px}.boxzilla.boxzilla-top-left{top:0;left:0}.boxzilla.boxzilla-top-right{top:0;right:0}.boxzilla.boxzilla-bottom-left{bottom:0;left:0}.boxzilla.boxzilla-bottom-right{bottom:0;right:0}.boxzilla-content>:first-child{margin-top:0;padding-top:0}.boxzilla-content>:last-child{margin-bottom:0;padding-bottom:0}.boxzilla-close-icon{position:absolute;right:0;top:0;text-align:center;padding:6px;cursor:pointer;-webkit-appearance:none;font-size:28px;font-weight:700;line-height:20px;color:#000;opacity:.5}.boxzilla-close-icon:focus,.boxzilla-close-icon:hover{opacity:.8}";
 module.exports = styles;
 
-},{}],7:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 'use strict';
 
 var Timer = function Timer(start) {
@@ -1508,5 +1368,221 @@ Timer.prototype.stop = function () {
 
 module.exports = Timer;
 
-},{}]},{},[1]);
+},{}],7:[function(require,module,exports){
+'use strict';
+
+module.exports = function (callback) {
+  var timeout = null;
+  var touchStart = {};
+
+  function triggerCallback() {
+    document.documentElement.removeEventListener('mouseleave', onMouseLeave);
+    document.documentElement.removeEventListener('mouseenter', onMouseEnter);
+    document.documentElement.removeEventListener('click', clearTimeout);
+    window.removeEventListener('touchstart', onTouchStart);
+    window.removeEventListener('touchend', onTouchEnd);
+    callback();
+  }
+
+  function clearTimeout() {
+    if (timeout === null) {
+      return;
+    }
+
+    window.clearTimeout(timeout);
+    timeout = null;
+  }
+
+  function onMouseEnter(evt) {
+    clearTimeout();
+  }
+
+  function onMouseLeave(evt) {
+    clearTimeout(); // did mouse leave at top of window?
+    // add small exception space in the top-right corner
+
+    if (evt.clientY <= 0 && evt.clientX < 0.80 * window.innerWidth) {
+      timeout = window.setTimeout(triggerCallback, 400);
+    }
+  }
+
+  function onTouchStart(evt) {
+    clearTimeout();
+    touchStart = {
+      timestamp: performance.now(),
+      scrollY: window.scrollY,
+      windowHeight: window.innerHeight
+    };
+  }
+
+  function onTouchEnd(evt) {
+    clearTimeout(); // did address bar appear?
+
+    if (window.innerHeight > touchStart.windowHeight) {
+      return;
+    } // allow a tiny tiny margin for error, to not fire on clicks
+
+
+    if (window.scrollY + 20 >= touchStart.scrollY) {
+      return;
+    }
+
+    if (performance.now() - touchStart.timestamp > 300) {
+      return;
+    }
+
+    if (['A', 'INPUT', 'BUTTON'].indexOf(evt.target.tagName) > -1) {
+      return;
+    }
+
+    timeout = window.setTimeout(triggerCallback, 800);
+  }
+
+  window.addEventListener('touchstart', onTouchStart);
+  window.addEventListener('touchend', onTouchEnd);
+  document.documentElement.addEventListener('mouseenter', onMouseEnter);
+  document.documentElement.addEventListener('mouseleave', onMouseLeave);
+  document.documentElement.addEventListener('click', clearTimeout);
+};
+
+},{}],8:[function(require,module,exports){
+"use strict";
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+(function () {
+  'use strict';
+
+  var Boxzilla = require('boxzilla');
+
+  var options = window.boxzilla_options; // expose Boxzilla object to window
+
+  window.Boxzilla = Boxzilla; // helper function for setting CSS styles
+
+  function css(element, styles) {
+    if (styles.background_color) {
+      element.style.background = styles.background_color;
+    }
+
+    if (styles.color) {
+      element.style.color = styles.color;
+    }
+
+    if (styles.border_color) {
+      element.style.borderColor = styles.border_color;
+    }
+
+    if (styles.border_width) {
+      element.style.borderWidth = parseInt(styles.border_width) + "px";
+    }
+
+    if (styles.border_style) {
+      element.style.borderStyle = styles.border_style;
+    }
+
+    if (styles.width) {
+      element.style.maxWidth = parseInt(styles.width) + "px";
+    }
+  }
+
+  function createBoxesFromConfig() {
+    // failsafe against including script twice.
+    if (options.inited) {
+      return;
+    } // create boxes from options
+
+
+    for (var key in options.boxes) {
+      // get opts
+      var boxOpts = options.boxes[key];
+      boxOpts.testMode = isLoggedIn && options.testMode; // find box content element, bail if not found
+
+      var boxContentElement = document.getElementById('boxzilla-box-' + boxOpts.id + '-content');
+
+      if (!boxContentElement) {
+        continue;
+      } // use element as content option
+
+
+      boxOpts.content = boxContentElement; // create box
+
+      var box = Boxzilla.create(boxOpts.id, boxOpts); // add box slug to box element as classname
+
+      box.element.className = box.element.className + ' boxzilla-' + boxOpts.post.slug; // add custom css to box
+
+      css(box.element, boxOpts.css);
+      box.element.firstChild.firstChild.className += " first-child";
+      box.element.firstChild.lastChild.className += " last-child"; // maybe show box right away
+
+      if (box.fits() && locationHashRefersBox(box)) {
+        box.show();
+      }
+    } // set flag to prevent initialising twice
+
+
+    options.inited = true; // trigger "done" event.
+
+    Boxzilla.trigger('done'); // maybe open box with MC4WP form in it
+
+    maybeOpenMailChimpForWordPressBox();
+  }
+
+  function locationHashRefersBox(box) {
+    if (!window.location.hash || 0 === window.location.hash.length) {
+      return false;
+    }
+
+    var elementId = window.location.hash.substring(1); // only attempt on strings looking like an ID 
+
+    var regex = /^[a-zA-Z\-\_0-9]+$/;
+
+    if (!regex.test(elementId)) {
+      return false;
+    }
+
+    if (elementId === box.element.id) {
+      return true;
+    } else if (box.element.querySelector('#' + elementId)) {
+      return true;
+    }
+
+    return false;
+  }
+
+  function maybeOpenMailChimpForWordPressBox() {
+    if (_typeof(window.mc4wp_forms_config) !== "object" || !window.mc4wp_forms_config.submitted_form) {
+      return;
+    }
+
+    var selector = '#' + window.mc4wp_forms_config.submitted_form.element_id;
+    var boxes = Boxzilla.boxes;
+
+    for (var boxId in boxes) {
+      if (!boxes.hasOwnProperty(boxId)) {
+        continue;
+      }
+
+      var box = boxes[boxId];
+
+      if (box.element.querySelector(selector)) {
+        box.show();
+        return;
+      }
+    }
+  } // print message when test mode is enabled
+
+
+  var isLoggedIn = document.body.className.indexOf('logged-in') > -1;
+
+  if (isLoggedIn && options.testMode) {
+    console.log('Boxzilla: Test mode is enabled. Please disable test mode if you\'re done testing.');
+  } // init boxzilla
+
+
+  Boxzilla.init(); // on window.load, create DOM elements for boxes
+
+  window.addEventListener('load', createBoxesFromConfig);
+})();
+
+},{"boxzilla":4}]},{},[8]);
 ; })();
