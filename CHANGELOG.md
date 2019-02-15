@@ -1,6 +1,17 @@
 Changelog
 ==========
 
+#### 3.2.10 - February 15, 2019
+
+**Improvements**
+
+- Better [exit intent detection](https://boxzillaplugin.com/add-ons/exit-intent/) for mobile devices.
+
+**Additions**
+
+- New bulk action to quickly duplicate a box with all of its settings.
+
+
 #### 3.2.9 - December 5, 2018
 
 **Improvements**
