@@ -17,4 +17,6 @@ use Boxzilla\Licensing\License;
  * @property Bootstrapper $bootstrapper
  *
  */
-class Boxzilla extends ContainerWithPropertyAccess {}
+class Boxzilla extends ContainerWithPropertyAccess
+{
+}
