@@ -64,6 +64,8 @@ class Admin
         add_action('save_post_boxzilla-box', array( $this, 'save_box_options' ), 20, 2);
         add_action('trashed_post', array( $this, 'flush_rules' ));
         add_action('untrashed_post', array( $this, 'flush_rules' ));
+        add_filter( 'bulk_actions-edit-boxzilla-box', array( $this, 'bulk_action_add') );
+        add_filter( 'handle_bulk_actions-edit-boxzilla-box', array( $this, 'bulk_action_handle' ), 10, 3 );
 
         $this->review_notice->add_hooks();
     }
@@ -73,7 +75,6 @@ class Admin
      */
     public function listen_for_actions()
     {
-
         // triggered?
         $vars = array_merge($_POST, $_GET);
         if (empty($vars['_boxzilla_admin_action'])) {
@@ -90,6 +91,33 @@ class Admin
         do_action('boxzilla_admin_' . $action);
 
         return true;
+    }
+
+    public function bulk_action_add( $bulk_actions ) {
+        $bulk_actions['boxzilla_duplicate_box'] = __( 'Duplicate box', 'boxzilla');
+        return $bulk_actions;
+    }
+
+    public function bulk_action_handle( $redirect_to, $doaction, $post_ids ) {
+        if ( $doaction !== 'boxzilla_duplicate_box' || empty( $post_ids )) {
+            return $redirect_to;
+        }
+
+        foreach ($post_ids as $post_id) {
+            $post = get_post($post_id);
+
+            $new_post_id = wp_insert_post(array(
+                'post_type' => $post->post_type,
+                'post_title' => $post->post_title,
+                'post_content' => $post->post_content,
+                'post_status' => 'draft',
+            ));
+
+            $options = get_post_meta($post_id, 'boxzilla_options', true);
+            add_post_meta($new_post_id, 'boxzilla_options', $options);
+        }
+
+        return $redirect_to;
     }
 
     /**
@@ -608,7 +636,7 @@ class Admin
      */
     protected function sanitize_box_options($opts)
     {
-        static $defaults = array(
+        $defaults = array(
             'rules' => array(),
             'css' => array()
         );
