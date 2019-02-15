@@ -4,7 +4,7 @@ Donate link: https://boxzillaplugin.com/#utm_source=wp-plugin-repo&utm_medium=bo
 Tags: scroll triggered box, cta, social, pop-up, newsletter, call to action, mailchimp, contact form 7, social media, mc4wp, ibericode
 Requires at least: 4.1
 Tested up to: 5.1
-Stable tag: 3.2.9
+Stable tag: 3.2.10
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 5.3
@@ -128,6 +128,17 @@ Have a look at the [frequently asked questions](https://wordpress.org/plugins/bo
 
 
 == Changelog ==
+
+
+#### 3.2.10 - February 15, 2019
+
+**Improvements**
+
+- Better [exit intent detection](https://boxzillaplugin.com/add-ons/exit-intent/) for mobile devices.
+
+**Additions**
+
+- New bulk action to quickly duplicate a box with all of its settings.
 
 
 #### 3.2.9 - December 5, 2018
