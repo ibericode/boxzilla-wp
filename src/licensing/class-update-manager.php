@@ -119,7 +119,7 @@ class UpdateManager {
 		}
 
 		// failsafe WP bug
-		if( empty( $updates ) || ! is_array( $updates->response ) ) {
+		if( empty($updates) || ! isset($updates->response) || ! is_array($updates->response)) {
 			return $updates;
 		}
 
