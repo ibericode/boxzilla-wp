@@ -2,9 +2,7 @@
 
 namespace Boxzilla\Licensing;
 
-use Boxzilla\Collection;
 use Boxzilla\Plugin;
-use Boxzilla\Admin\Notices;
 
 class UpdateManager
 {
@@ -61,24 +59,34 @@ class UpdateManager
      */
     public function add_auth_headers($args, $url)
     {
-
-        // only act on download request's
+        // only act on download request's to the Boxzilla update API
         if (strpos($url, $this->api->url) !== 0 || strpos($url, '/download') === false) {
             return $args;
         }
-
 
         // only add if activation key not empty
         if (empty($this->license->activation_key)) {
             return $args;
         }
 
-        if (empty($args['headers'])) {
+        if (! isset($args['headers'])) {
             $args['headers'] = array();
         }
 
         $args['headers']['Authorization'] = sprintf('Bearer %s', $this->license->activation_key);
         return $args;
+    }
+
+    private function get_plugin_by_slug($slug)
+    {
+        foreach ($this->extensions as $p) {
+            // find plugin by slug
+            if (dirname($p->slug()) === $slug) {
+                return $p;
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -95,21 +103,13 @@ class UpdateManager
             return $result;
         }
 
-        $plugin = null;
-        foreach ($this->extensions as $p) {
-            // find plugin by slug
-            if (dirname($p->slug()) == $args->slug) {
-                $plugin = $p;
-                break;
-            }
-        }
-        
-        // was it a plugin of ours?
-        if (! empty($plugin)) {
-            return $this->get_update_info($plugin);
+        // only act on our own plugins
+        $plugin = $this->get_plugin_by_slug($args->slug);
+        if ($plugin === null) {
+            return $result;
         }
 
-        return $result;
+        return $this->get_update_info($plugin);
     }
 
     /**
