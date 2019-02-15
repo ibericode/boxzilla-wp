@@ -29,7 +29,7 @@ class UpdateManager {
 	protected $available_updates;
 
 	/**
-	 * @param Collection $extensions
+	 * @param array $extensions
 	 * @param API        $api
 	 * @param License    $license
 	 */
@@ -237,6 +237,10 @@ class UpdateManager {
 		// cast subkey objects to array as that is what WP expects
 		$response->sections = get_object_vars( $response->sections );
 		$response->banners = get_object_vars( $response->banners );
+        $response->contributors = get_object_vars($response->contributors);
+		$response->contributors = array_map(function($v) {
+		    return get_object_vars($v);
+        }, $response->contributors);
 
 		return $response;
 	}
