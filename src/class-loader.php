@@ -205,7 +205,7 @@ class BoxLoader
             $comparision = isset($box_rules['comparision']) ? $box_rules['comparision'] : 'any';
             
             // loop through all rules for all boxes
-            foreach ((array) $box_rules as $rule) {
+            foreach ($box_rules as $rule) {
 
                 // skip faulty values (and comparision rule)
                 if (empty($rule['condition'])) {
