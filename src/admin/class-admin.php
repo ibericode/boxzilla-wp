@@ -105,6 +105,9 @@ class Admin
 
         foreach ($post_ids as $post_id) {
             $post = get_post($post_id);
+            if ( $post->post_type !== 'boxzilla-box' ) {
+                continue;
+            }
 
             $new_post_id = wp_insert_post(array(
                 'post_type' => $post->post_type,
@@ -115,6 +118,8 @@ class Admin
 
             $options = get_post_meta($post_id, 'boxzilla_options', true);
             add_post_meta($new_post_id, 'boxzilla_options', $options);
+
+            $this->flush_rules($new_post_id);
         }
 
         return $redirect_to;
@@ -730,7 +735,7 @@ class Admin
                 $box_meta = get_post_meta($box->ID, 'boxzilla_options', true);
 
                 // add box rules to all rules
-                $rules[ $box->ID ]                = $box_meta['rules'];
+                $rules[ $box->ID ] = (array) $box_meta['rules'];
                 $rules[ $box->ID ]['comparision'] = isset($box_meta['rules_comparision']) ? $box_meta['rules_comparision'] : 'any';
             }
         }
