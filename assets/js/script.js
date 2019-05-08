@@ -1180,8 +1180,11 @@ function onElementClick(e) {
     return;
   }
 
-  if (el.getAttribute('href').toLowerCase().indexOf('#boxzilla-') === 0) {
-    var boxId = el.getAttribute('href').toLowerCase().substring("#boxzilla-".length);
+  var href = el.getAttribute('href').toLowerCase();
+  var match = href.match(/[#&]boxzilla-(\d+)/);
+
+  if (match && match.length > 1) {
+    var boxId = match[1];
     Boxzilla.toggle(boxId);
   }
 }
