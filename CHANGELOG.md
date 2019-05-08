@@ -1,6 +1,14 @@
 Changelog
 ==========
 
+#### 3.2.11 - May 8, 2019
+
+**Improvements**
+
+- Update loading configuration when duplicating a box.
+- Accept query parameters in URL hash for opening a box through a link click or on loading a page.
+
+
 #### 3.2.10 - February 15, 2019
 
 **Improvements**
