@@ -1530,15 +1530,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   function locationHashRefersBox(box) {
     if (!window.location.hash || 0 === window.location.hash.length) {
       return false;
-    }
+    } // parse "boxzilla-{id}" from location hash
 
-    var elementId = window.location.hash.substring(1); // only attempt on strings looking like an ID 
 
-    var regex = /^[a-zA-Z\-\_0-9]+$/;
+    var match = window.location.hash.match(/[#&](boxzilla-\d+)/);
 
-    if (!regex.test(elementId)) {
+    if (!match || _typeof(match) !== "object" || match.length < 2) {
       return false;
     }
+
+    var elementId = match[1];
 
     if (elementId === box.element.id) {
       return true;

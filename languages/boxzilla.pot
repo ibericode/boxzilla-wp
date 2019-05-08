@@ -61,67 +61,67 @@ msgstr ""
 msgid "Duplicate box"
 msgstr ""
 
-#: src/admin/class-admin.php:136
+#: src/admin/class-admin.php:141
 msgid "Awesome, you are using Boxzilla! You can now safely <a href=\"%s\">deactivate the Scroll Triggered Boxes plugin</a>."
 msgstr ""
 
-#: src/admin/class-admin.php:208
+#: src/admin/class-admin.php:213
 msgid "Box ID"
 msgstr ""
 
-#: src/admin/class-admin.php:211
+#: src/admin/class-admin.php:216
 msgid "Box Title"
 msgstr ""
 
-#: src/admin/class-admin.php:246, src/admin/class-admin.php:247, src/admin/views/settings.php:7
+#: src/admin/class-admin.php:251, src/admin/class-admin.php:252, src/admin/views/settings.php:7
 msgid "Settings"
 msgstr ""
 
-#: src/admin/class-admin.php:252, src/admin/class-admin.php:253
+#: src/admin/class-admin.php:257, src/admin/class-admin.php:258
 msgid "Extensions"
 msgstr ""
 
-#: src/admin/class-admin.php:349, src/admin/views/metaboxes/box-option-controls.php:62
+#: src/admin/class-admin.php:354, src/admin/views/metaboxes/box-option-controls.php:62
 msgid "and"
 msgstr ""
 
-#: src/admin/class-admin.php:350, src/admin/views/metaboxes/box-option-controls.php:61
+#: src/admin/class-admin.php:355, src/admin/views/metaboxes/box-option-controls.php:61
 msgid "or"
 msgstr ""
 
-#: src/admin/class-admin.php:351
+#: src/admin/class-admin.php:356
 msgid "Enter a comma-separated list of values."
 msgstr ""
 
-#: src/admin/class-admin.php:352
+#: src/admin/class-admin.php:357
 msgid "Enter a comma-separated list of post slugs or post ID's.."
 msgstr ""
 
-#: src/admin/class-admin.php:353
+#: src/admin/class-admin.php:358
 msgid "Enter a comma-separated list of page slugs or page ID's.."
 msgstr ""
 
-#: src/admin/class-admin.php:354
+#: src/admin/class-admin.php:359
 msgid "Enter a comma-separated list of post types.."
 msgstr ""
 
-#: src/admin/class-admin.php:355
+#: src/admin/class-admin.php:360
 msgid "Enter a comma-separated list of relative URL's, eg /contact/"
 msgstr ""
 
-#: src/admin/class-admin.php:386
+#: src/admin/class-admin.php:391
 msgid "Box Appearance"
 msgstr ""
 
-#: src/admin/class-admin.php:395
+#: src/admin/class-admin.php:400
 msgid "Box Options"
 msgstr ""
 
-#: src/admin/class-admin.php:404
+#: src/admin/class-admin.php:409
 msgid "Looking for help?"
 msgstr ""
 
-#: src/admin/class-admin.php:412
+#: src/admin/class-admin.php:417
 msgid "Subscribe to our newsletter"
 msgstr ""
 

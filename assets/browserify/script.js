@@ -90,14 +90,13 @@
           return false;
         }
 
-        var elementId = window.location.hash.substring(1);
-
-        // only attempt on strings looking like an ID 
-        var regex = /^[a-zA-Z\-\_0-9]+$/;
-        if( ! regex.test(elementId) ) {
-          return false;
+        // parse "boxzilla-{id}" from location hash
+        const match = window.location.hash.match(/[#&](boxzilla-\d+)/);
+        if (!match || typeof(match) !== "object" || match.length < 2) {
+            return false;
         }
 
+        const elementId = match[1];
         if( elementId === box.element.id ) {
           return true;
         } else if( box.element.querySelector('#' + elementId) ) {
