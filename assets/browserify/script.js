@@ -66,8 +66,10 @@
             // add custom css to box
             css(box.element, boxOpts.css);
 
-            box.element.firstChild.firstChild.className += " first-child";
-            box.element.firstChild.lastChild.className += " last-child";
+            try {
+                box.element.firstChild.firstChild.className += " first-child";
+                box.element.firstChild.lastChild.className += " last-child";
+            } catch(e) {}
 
             // maybe show box right away
             if( box.fits() && locationHashRefersBox(box) ) {
