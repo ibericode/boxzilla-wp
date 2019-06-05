@@ -321,13 +321,14 @@ class BoxLoader
             // create `Box` instances out of \WP_Post instances
             $boxes = array();
             foreach ($posts as $key => $post) {
-                // skip posts with no content
-                $post_content = trim($post->post_content);
-                if (empty($post_content)) {
+                $box = new Box($post);
+
+                // skip boxes without any content
+                if ($box->get_content() === '') {
                     continue;
                 }
 
-                $boxes[ $key ] = new Box($post);
+                $boxes[ $key ] = $box;
             }
         }
 
