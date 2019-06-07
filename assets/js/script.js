@@ -1,8 +1,1122 @@
 (function () { var require = undefined; var module = undefined; var exports = undefined; var define = undefined; (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
+"use strict";
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+(function () {
+  'use strict';
+
+  var Boxzilla = require('boxzilla');
+
+  var options = window.boxzilla_options; // expose Boxzilla object to window
+
+  window.Boxzilla = Boxzilla; // helper function for setting CSS styles
+
+  function css(element, styles) {
+    if (styles.background_color) {
+      element.style.background = styles.background_color;
+    }
+
+    if (styles.color) {
+      element.style.color = styles.color;
+    }
+
+    if (styles.border_color) {
+      element.style.borderColor = styles.border_color;
+    }
+
+    if (styles.border_width) {
+      element.style.borderWidth = parseInt(styles.border_width) + "px";
+    }
+
+    if (styles.border_style) {
+      element.style.borderStyle = styles.border_style;
+    }
+
+    if (styles.width) {
+      element.style.maxWidth = parseInt(styles.width) + "px";
+    }
+  }
+
+  function createBoxesFromConfig() {
+    // failsafe against including script twice.
+    if (options.inited) {
+      return;
+    } // create boxes from options
+
+
+    for (var key in options.boxes) {
+      // get opts
+      var boxOpts = options.boxes[key];
+      boxOpts.testMode = isLoggedIn && options.testMode; // find box content element, bail if not found
+
+      var boxContentElement = document.getElementById('boxzilla-box-' + boxOpts.id + '-content');
+
+      if (!boxContentElement) {
+        continue;
+      } // use element as content option
+
+
+      boxOpts.content = boxContentElement; // create box
+
+      var box = Boxzilla.create(boxOpts.id, boxOpts); // add box slug to box element as classname
+
+      box.element.className = box.element.className + ' boxzilla-' + boxOpts.post.slug; // add custom css to box
+
+      css(box.element, boxOpts.css);
+
+      try {
+        box.element.firstChild.firstChild.className += " first-child";
+        box.element.firstChild.lastChild.className += " last-child";
+      } catch (e) {} // maybe show box right away
+
+
+      if (box.fits() && locationHashRefersBox(box)) {
+        box.show();
+      }
+    } // set flag to prevent initialising twice
+
+
+    options.inited = true; // trigger "done" event.
+
+    Boxzilla.trigger('done'); // maybe open box with MC4WP form in it
+
+    maybeOpenMailChimpForWordPressBox();
+  }
+
+  function locationHashRefersBox(box) {
+    if (!window.location.hash || 0 === window.location.hash.length) {
+      return false;
+    } // parse "boxzilla-{id}" from location hash
+
+
+    var match = window.location.hash.match(/[#&](boxzilla-\d+)/);
+
+    if (!match || _typeof(match) !== "object" || match.length < 2) {
+      return false;
+    }
+
+    var elementId = match[1];
+
+    if (elementId === box.element.id) {
+      return true;
+    } else if (box.element.querySelector('#' + elementId)) {
+      return true;
+    }
+
+    return false;
+  }
+
+  function maybeOpenMailChimpForWordPressBox() {
+    if (_typeof(window.mc4wp_forms_config) !== "object" || !window.mc4wp_forms_config.submitted_form) {
+      return;
+    }
+
+    var selector = '#' + window.mc4wp_forms_config.submitted_form.element_id;
+    var boxes = Boxzilla.boxes;
+
+    for (var boxId in boxes) {
+      if (!boxes.hasOwnProperty(boxId)) {
+        continue;
+      }
+
+      var box = boxes[boxId];
+
+      if (box.element.querySelector(selector)) {
+        box.show();
+        return;
+      }
+    }
+  } // print message when test mode is enabled
+
+
+  var isLoggedIn = document.body.className.indexOf('logged-in') > -1;
+
+  if (isLoggedIn && options.testMode) {
+    console.log('Boxzilla: Test mode is enabled. Please disable test mode if you\'re done testing.');
+  } // init boxzilla
+
+
+  Boxzilla.init(); // on window.load, create DOM elements for boxes
+
+  window.addEventListener('load', createBoxesFromConfig);
+})();
+
+},{"boxzilla":4}],2:[function(require,module,exports){
+"use strict";
+
+var duration = 320;
+
+function css(element, styles) {
+  for (var property in styles) {
+    element.style[property] = styles[property];
+  }
+}
+
+function initObjectProperties(properties, value) {
+  var newObject = {};
+
+  for (var i = 0; i < properties.length; i++) {
+    newObject[properties[i]] = value;
+  }
+
+  return newObject;
+}
+
+function copyObjectProperties(properties, object) {
+  var newObject = {};
+
+  for (var i = 0; i < properties.length; i++) {
+    newObject[properties[i]] = object[properties[i]];
+  }
+
+  return newObject;
+}
+/**
+ * Checks if the given element is currently being animated.
+ *
+ * @param element
+ * @returns {boolean}
+ */
+
+
+function animated(element) {
+  return !!element.getAttribute('data-animated');
+}
+/**
+ * Toggles the element using the given animation.
+ *
+ * @param element
+ * @param animation Either "fade" or "slide"
+ */
+
+
+function toggle(element, animation, callbackFn) {
+  var nowVisible = element.style.display != 'none' || element.offsetLeft > 0; // create clone for reference
+
+  var clone = element.cloneNode(true);
+
+  var cleanup = function cleanup() {
+    element.removeAttribute('data-animated');
+    element.setAttribute('style', clone.getAttribute('style'));
+    element.style.display = nowVisible ? 'none' : '';
+
+    if (callbackFn) {
+      callbackFn();
+    }
+  }; // store attribute so everyone knows we're animating this element
+
+
+  element.setAttribute('data-animated', "true"); // toggle element visiblity right away if we're making something visible
+
+  if (!nowVisible) {
+    element.style.display = '';
+  }
+
+  var hiddenStyles, visibleStyles; // animate properties
+
+  if (animation === 'slide') {
+    hiddenStyles = initObjectProperties(["height", "borderTopWidth", "borderBottomWidth", "paddingTop", "paddingBottom"], 0);
+    visibleStyles = {};
+
+    if (!nowVisible) {
+      var computedStyles = window.getComputedStyle(element);
+      visibleStyles = copyObjectProperties(["height", "borderTopWidth", "borderBottomWidth", "paddingTop", "paddingBottom"], computedStyles); // in some browsers, getComputedStyle returns "auto" value. this falls back to getBoundingClientRect() in those browsers since we need an actual height.
+
+      if (!isFinite(visibleStyles.height)) {
+        var clientRect = element.getBoundingClientRect();
+        visibleStyles.height = clientRect.height;
+      }
+
+      css(element, hiddenStyles);
+    } // don't show a scrollbar during animation
+
+
+    element.style.overflowY = 'hidden';
+    animate(element, nowVisible ? hiddenStyles : visibleStyles, cleanup);
+  } else {
+    hiddenStyles = {
+      opacity: 0
+    };
+    visibleStyles = {
+      opacity: 1
+    };
+
+    if (!nowVisible) {
+      css(element, hiddenStyles);
+    }
+
+    animate(element, nowVisible ? hiddenStyles : visibleStyles, cleanup);
+  }
+}
+
+function animate(element, targetStyles, fn) {
+  var last = +new Date();
+  var initialStyles = window.getComputedStyle(element);
+  var currentStyles = {};
+  var propSteps = {};
+
+  for (var property in targetStyles) {
+    // make sure we have an object filled with floats
+    targetStyles[property] = parseFloat(targetStyles[property]); // calculate step size & current value
+
+    var to = targetStyles[property];
+    var current = parseFloat(initialStyles[property]); // is there something to do?
+
+    if (current == to) {
+      delete targetStyles[property];
+      continue;
+    }
+
+    propSteps[property] = (to - current) / duration; // points per second
+
+    currentStyles[property] = current;
+  }
+
+  var tick = function tick() {
+    var now = +new Date();
+    var timeSinceLastTick = now - last;
+    var done = true;
+    var step, to, increment, newValue;
+
+    for (var property in targetStyles) {
+      step = propSteps[property];
+      to = targetStyles[property];
+      increment = step * timeSinceLastTick;
+      newValue = currentStyles[property] + increment;
+
+      if (step > 0 && newValue >= to || step < 0 && newValue <= to) {
+        newValue = to;
+      } else {
+        done = false;
+      } // store new value
+
+
+      currentStyles[property] = newValue;
+      var suffix = property !== "opacity" ? "px" : "";
+      element.style[property] = newValue + suffix;
+    }
+
+    last = +new Date(); // keep going until we're done for all props
+
+    if (!done) {
+      window.requestAnimationFrame && requestAnimationFrame(tick) || setTimeout(tick, 32);
+    } else {
+      // call callback
+      fn && fn();
+    }
+  };
+
+  tick();
+}
+
+module.exports = {
+  'toggle': toggle,
+  'animate': animate,
+  'animated': animated
+};
+
+},{}],3:[function(require,module,exports){
+'use strict';
+
+var defaults = {
+  'animation': 'fade',
+  'rehide': false,
+  'content': '',
+  'cookie': null,
+  'icon': '&times',
+  'screenWidthCondition': null,
+  'position': 'center',
+  'testMode': false,
+  'trigger': false,
+  'closable': true
+},
+    Boxzilla,
+    Animator = require('./animator.js');
+/**
+* Merge 2 objects, values of the latter overwriting the former.
+*
+* @param obj1
+* @param obj2
+* @returns {*}
+*/
+
+
+function merge(obj1, obj2) {
+  var obj3 = {};
+
+  for (var attrname in obj1) {
+    obj3[attrname] = obj1[attrname];
+  }
+
+  for (var attrname in obj2) {
+    obj3[attrname] = obj2[attrname];
+  }
+
+  return obj3;
+}
+/**
+* Get the real height of entire document.
+* @returns {number}
+*/
+
+
+function getDocumentHeight() {
+  var body = document.body,
+      html = document.documentElement;
+  var height = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
+  return height;
+} // Box Object
+
+
+var Box = function Box(id, config) {
+  this.id = id; // store config values
+
+  this.config = merge(defaults, config); // store ref to overlay
+
+  this.overlay = document.getElementById('boxzilla-overlay'); // state
+
+  this.visible = false;
+  this.dismissed = false;
+  this.triggered = false;
+  this.triggerHeight = this.calculateTriggerHeight();
+  this.cookieSet = this.isCookieSet();
+  this.element = null;
+  this.contentElement = null;
+  this.closeIcon = null; // create dom elements for this box
+
+  this.dom(); // further initialise the box
+
+  this.events();
+}; // initialise the box
+
+
+Box.prototype.events = function () {
+  var box = this; // attach event to "close" icon inside box
+
+  if (this.closeIcon) {
+    this.closeIcon.addEventListener('click', function (e) {
+      e.preventDefault();
+      box.dismiss();
+    });
+  }
+
+  this.element.addEventListener('click', function (e) {
+    if (e.target.tagName === 'A') {
+      Boxzilla.trigger('box.interactions.link', [box, e.target]);
+    }
+  }, false);
+  this.element.addEventListener('submit', function (e) {
+    box.setCookie();
+    Boxzilla.trigger('box.interactions.form', [box, e.target]);
+  }, false);
+}; // generate dom elements for this box
+
+
+Box.prototype.dom = function () {
+  var wrapper = document.createElement('div');
+  wrapper.className = 'boxzilla-container boxzilla-' + this.config.position + '-container';
+  var box = document.createElement('div');
+  box.setAttribute('id', 'boxzilla-' + this.id);
+  box.className = 'boxzilla boxzilla-' + this.id + ' boxzilla-' + this.config.position;
+  box.style.display = 'none';
+  wrapper.appendChild(box);
+  var content;
+
+  if (typeof this.config.content === "string") {
+    content = document.createElement('div');
+    content.innerHTML = this.config.content;
+  } else {
+    content = this.config.content; // make sure element is visible
+
+    content.style.display = '';
+  }
+
+  content.className = 'boxzilla-content';
+  box.appendChild(content);
+
+  if (this.config.closable && this.config.icon) {
+    var closeIcon = document.createElement('span');
+    closeIcon.className = "boxzilla-close-icon";
+    closeIcon.innerHTML = this.config.icon;
+    box.appendChild(closeIcon);
+    this.closeIcon = closeIcon;
+  }
+
+  document.body.appendChild(wrapper);
+  this.contentElement = content;
+  this.element = box;
+}; // set (calculate) custom box styling depending on box options
+
+
+Box.prototype.setCustomBoxStyling = function () {
+  // reset element to its initial state
+  var origDisplay = this.element.style.display;
+  this.element.style.display = '';
+  this.element.style.overflowY = 'auto';
+  this.element.style.maxHeight = 'none'; // get new dimensions
+
+  var windowHeight = window.innerHeight;
+  var boxHeight = this.element.clientHeight; // add scrollbar to box and limit height
+
+  if (boxHeight > windowHeight) {
+    this.element.style.maxHeight = windowHeight + "px";
+    this.element.style.overflowY = 'scroll';
+  } // set new top margin for boxes which are centered
+
+
+  if (this.config.position === 'center') {
+    var newTopMargin = (windowHeight - boxHeight) / 2;
+    newTopMargin = newTopMargin >= 0 ? newTopMargin : 0;
+    this.element.style.marginTop = newTopMargin + "px";
+  }
+
+  this.element.style.display = origDisplay;
+}; // toggle visibility of the box
+
+
+Box.prototype.toggle = function (show, animate) {
+  show = typeof show === "undefined" ? !this.visible : show;
+  animate = typeof animate === "undefined" ? true : animate; // is box already at desired visibility?
+
+  if (show === this.visible) {
+    return false;
+  } // is box being animated?
+
+
+  if (Animator.animated(this.element)) {
+    return false;
+  } // if box should be hidden but is not closable, bail.
+
+
+  if (!show && !this.config.closable) {
+    return false;
+  } // set new visibility status
+
+
+  this.visible = show; // calculate new styling rules
+
+  this.setCustomBoxStyling(); // trigger event
+
+  Boxzilla.trigger('box.' + (show ? 'show' : 'hide'), [this]); // show or hide box using selected animation
+
+  if (this.config.position === 'center') {
+    this.overlay.classList.toggle('boxzilla-' + this.id + '-overlay');
+
+    if (animate) {
+      Animator.toggle(this.overlay, "fade");
+    } else {
+      this.overlay.style.display = show ? '' : 'none';
+    }
+  }
+
+  if (animate) {
+    Animator.toggle(this.element, this.config.animation, function () {
+      if (this.visible) {
+        return;
+      }
+
+      this.contentElement.innerHTML = this.contentElement.innerHTML;
+    }.bind(this));
+  } else {
+    this.element.style.display = show ? '' : 'none';
+  }
+
+  return true;
+}; // show the box
+
+
+Box.prototype.show = function (animate) {
+  return this.toggle(true, animate);
+}; // hide the box
+
+
+Box.prototype.hide = function (animate) {
+  return this.toggle(false, animate);
+}; // calculate trigger height
+
+
+Box.prototype.calculateTriggerHeight = function () {
+  var triggerHeight = 0;
+
+  if (this.config.trigger) {
+    if (this.config.trigger.method === 'element') {
+      var triggerElement = document.body.querySelector(this.config.trigger.value);
+
+      if (triggerElement) {
+        var offset = triggerElement.getBoundingClientRect();
+        triggerHeight = offset.top;
+      }
+    } else if (this.config.trigger.method === 'percentage') {
+      triggerHeight = this.config.trigger.value / 100 * getDocumentHeight();
+    }
+  }
+
+  return triggerHeight;
+};
+
+Box.prototype.fits = function () {
+  if (!this.config.screenWidthCondition || !this.config.screenWidthCondition.value) {
+    return true;
+  }
+
+  switch (this.config.screenWidthCondition.condition) {
+    case "larger":
+      return window.innerWidth > this.config.screenWidthCondition.value;
+
+    case "smaller":
+      return window.innerWidth < this.config.screenWidthCondition.value;
+  } // meh.. condition should be "smaller" or "larger", just return true.
+
+
+  return true;
+};
+
+Box.prototype.onResize = function () {
+  this.triggerHeight = this.calculateTriggerHeight();
+  this.setCustomBoxStyling();
+}; // is this box enabled?
+
+
+Box.prototype.mayAutoShow = function () {
+  if (this.dismissed) {
+    return false;
+  } // check if box fits on given minimum screen width
+
+
+  if (!this.fits()) {
+    return false;
+  } // if trigger empty or error in calculating triggerHeight, return false
+
+
+  if (!this.config.trigger) {
+    return false;
+  } // rely on cookie value (show if not set, don't show if set)
+
+
+  return !this.cookieSet;
+};
+
+Box.prototype.mayRehide = function () {
+  return this.config.rehide && this.triggered;
+};
+
+Box.prototype.isCookieSet = function () {
+  // always show on test mode or when no auto-trigger is configured
+  if (this.config.testMode || !this.config.trigger) {
+    return false;
+  } // if either cookie is null or trigger & dismiss are both falsey, don't bother checking.
+
+
+  if (!this.config.cookie || !this.config.cookie.triggered && !this.config.cookie.dismissed) {
+    return false;
+  }
+
+  var cookieSet = document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*" + 'boxzilla_box_' + this.id + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1") === "true";
+  return cookieSet;
+}; // set cookie that disables automatically showing the box
+
+
+Box.prototype.setCookie = function (hours) {
+  var expiryDate = new Date();
+  expiryDate.setHours(expiryDate.getHours() + hours);
+  document.cookie = 'boxzilla_box_' + this.id + '=true; expires=' + expiryDate.toUTCString() + '; path=/';
+};
+
+Box.prototype.trigger = function () {
+  var shown = this.show();
+
+  if (!shown) {
+    return;
+  }
+
+  this.triggered = true;
+
+  if (this.config.cookie && this.config.cookie.triggered) {
+    this.setCookie(this.config.cookie.triggered);
+  }
+};
+/**
+* Dismisses the box and optionally sets a cookie.
+*
+* @param e The event that triggered this dismissal.
+* @returns {boolean}
+*/
+
+
+Box.prototype.dismiss = function (animate) {
+  // only dismiss box if it's currently open.
+  if (!this.visible) {
+    return false;
+  } // hide box element
+
+
+  this.hide(animate); // set cookie
+
+  if (this.config.cookie && this.config.cookie.dismissed) {
+    this.setCookie(this.config.cookie.dismissed);
+  }
+
+  this.dismissed = true;
+  Boxzilla.trigger('box.dismiss', [this]);
+  return true;
+};
+
+module.exports = function (_Boxzilla) {
+  Boxzilla = _Boxzilla;
+  return Box;
+};
+
+},{"./animator.js":2}],4:[function(require,module,exports){
+'use strict';
+
+var EventEmitter = require('wolfy87-eventemitter');
+
+var Timer = require('./timer.js');
+
+var Boxzilla = Object.create(EventEmitter.prototype);
+
+var Box = require('./box.js')(Boxzilla);
+
+var boxes = [];
+var overlay;
+var scrollElement = window;
+var siteTimer;
+var pageTimer;
+var pageViews;
+var initialised = false;
+
+var styles = require('./styles.js');
+
+var ExitIntent = require('./triggers/exit-intent.js');
+
+function throttle(fn, threshhold, scope) {
+  threshhold || (threshhold = 250);
+  var last, deferTimer;
+  return function () {
+    var context = scope || this;
+    var now = +new Date(),
+        args = arguments;
+
+    if (last && now < last + threshhold) {
+      // hold on to it
+      clearTimeout(deferTimer);
+      deferTimer = setTimeout(function () {
+        last = now;
+        fn.apply(context, args);
+      }, threshhold);
+    } else {
+      last = now;
+      fn.apply(context, args);
+    }
+  };
+} // "keyup" listener
+
+
+function onKeyUp(e) {
+  if (e.keyCode === 27) {
+    Boxzilla.dismiss();
+  }
+} // check "pageviews" criteria for each box
+
+
+function checkPageViewsCriteria() {
+  // don't bother if another box is currently open
+  if (isAnyBoxVisible()) {
+    return;
+  }
+
+  boxes.forEach(function (box) {
+    if (!box.mayAutoShow()) {
+      return;
+    }
+
+    if (box.config.trigger.method === 'pageviews' && pageViews >= box.config.trigger.value) {
+      box.trigger();
+    }
+  });
+} // check time trigger criteria for each box
+
+
+function checkTimeCriteria() {
+  // don't bother if another box is currently open
+  if (isAnyBoxVisible()) {
+    return;
+  }
+
+  boxes.forEach(function (box) {
+    if (!box.mayAutoShow()) {
+      return;
+    } // check "time on site" trigger
+
+
+    if (box.config.trigger.method === 'time_on_site' && siteTimer.time >= box.config.trigger.value) {
+      box.trigger();
+    } // check "time on page" trigger
+
+
+    if (box.config.trigger.method === 'time_on_page' && pageTimer.time >= box.config.trigger.value) {
+      box.trigger();
+    }
+  });
+} // check triggerHeight criteria for all boxes
+
+
+function checkHeightCriteria() {
+  var scrollY = scrollElement.hasOwnProperty('pageYOffset') ? scrollElement.pageYOffset : scrollElement.scrollTop;
+  scrollY = scrollY + window.innerHeight * 0.9;
+  boxes.forEach(function (box) {
+    if (!box.mayAutoShow() || box.triggerHeight <= 0) {
+      return;
+    }
+
+    if (scrollY > box.triggerHeight) {
+      // don't bother if another box is currently open
+      if (isAnyBoxVisible()) {
+        return;
+      } // trigger box
+
+
+      box.trigger();
+    } // if box may auto-hide and scrollY is less than triggerHeight (with small margin of error), hide box
+
+
+    if (box.mayRehide() && scrollY < box.triggerHeight - 5) {
+      box.hide();
+    }
+  });
+} // recalculate heights and variables based on height
+
+
+function recalculateHeights() {
+  boxes.forEach(function (box) {
+    box.onResize();
+  });
+}
+
+function onOverlayClick(e) {
+  var x = e.offsetX;
+  var y = e.offsetY; // calculate if click was less than 40px outside box to avoid closing it by accident
+
+  boxes.forEach(function (box) {
+    var rect = box.element.getBoundingClientRect();
+    var margin = 40; // if click was not anywhere near box, dismiss it.
+
+    if (x < rect.left - margin || x > rect.right + margin || y < rect.top - margin || y > rect.bottom + margin) {
+      box.dismiss();
+    }
+  });
+}
+
+function showBoxesWithExitIntentTrigger() {
+  // do nothing if already triggered OR another box is visible.
+  if (isAnyBoxVisible()) {
+    return;
+  }
+
+  boxes.forEach(function (box) {
+    if (box.mayAutoShow() && box.config.trigger.method === 'exit_intent') {
+      box.trigger();
+    }
+  });
+}
+
+function isAnyBoxVisible() {
+  return boxes.filter(function (b) {
+    return b.visible;
+  }).length > 0;
+}
+
+function onElementClick(e) {
+  // find <a> element in up to 3 parent elements
+  var el = e.target || e.srcElement;
+  var depth = 3;
+
+  for (var i = 0; i <= depth; i++) {
+    if (!el || el.tagName === 'A') {
+      break;
+    }
+
+    el = el.parentElement;
+  }
+
+  if (!el || el.tagName !== 'A' || !el.getAttribute('href')) {
+    return;
+  }
+
+  var href = el.getAttribute('href').toLowerCase();
+  var match = href.match(/[#&]boxzilla-(\d+)/);
+
+  if (match && match.length > 1) {
+    var boxId = match[1];
+    Boxzilla.toggle(boxId);
+  }
+}
+
+var timers = {
+  start: function start() {
+    try {
+      var sessionTime = sessionStorage.getItem('boxzilla_timer');
+      if (sessionTime) siteTimer.time = sessionTime;
+    } catch (e) {}
+
+    siteTimer.start();
+    pageTimer.start();
+  },
+  stop: function stop() {
+    sessionStorage.setItem('boxzilla_timer', siteTimer.time);
+    siteTimer.stop();
+    pageTimer.stop();
+  }
+}; // initialise & add event listeners
+
+Boxzilla.init = function () {
+  if (initialised) {
+    return;
+  }
+
+  document.body.addEventListener('click', onElementClick, true);
+
+  try {
+    pageViews = sessionStorage.getItem('boxzilla_pageviews') || 0;
+  } catch (e) {
+    pageViews = 0;
+  }
+
+  siteTimer = new Timer(0);
+  pageTimer = new Timer(0); // insert styles into DOM
+
+  var styleElement = document.createElement('style');
+  styleElement.setAttribute("type", "text/css");
+  styleElement.innerHTML = styles;
+  document.head.appendChild(styleElement); // add overlay element to dom
+
+  overlay = document.createElement('div');
+  overlay.style.display = 'none';
+  overlay.id = 'boxzilla-overlay';
+  document.body.appendChild(overlay); // init exit intent trigger
+
+  new ExitIntent(showBoxesWithExitIntentTrigger);
+  scrollElement.addEventListener('touchstart', throttle(checkHeightCriteria), true);
+  scrollElement.addEventListener('scroll', throttle(checkHeightCriteria), true);
+  window.addEventListener('resize', throttle(recalculateHeights));
+  window.addEventListener('load', recalculateHeights);
+  overlay.addEventListener('click', onOverlayClick);
+  window.setInterval(checkTimeCriteria, 1000);
+  window.setTimeout(checkPageViewsCriteria, 1000);
+  document.addEventListener('keyup', onKeyUp);
+  timers.start();
+  window.addEventListener('focus', timers.start);
+  window.addEventListener('beforeunload', function () {
+    timers.stop();
+    sessionStorage.setItem('boxzilla_pageviews', ++pageViews);
+  });
+  window.addEventListener('blur', timers.stop);
+  Boxzilla.trigger('ready');
+  initialised = true; // ensure this function doesn't run again
+};
+/**
+ * Create a new Box
+ *
+ * @param string id
+ * @param object opts
+ *
+ * @returns Box
+ */
+
+
+Boxzilla.create = function (id, opts) {
+  // preserve backwards compat for minimumScreenWidth option
+  if (typeof opts.minimumScreenWidth !== "undefined") {
+    opts.screenWidthCondition = {
+      condition: "larger",
+      value: opts.minimumScreenWidth
+    };
+  }
+
+  var box = new Box(id, opts);
+  boxes.push(box);
+  return box;
+};
+
+Boxzilla.get = function (id) {
+  for (var i = 0; i < boxes.length; i++) {
+    var box = boxes[i];
+
+    if (box.id == id) {
+      return box;
+    }
+  }
+
+  throw new Error("No box exists with ID " + id);
+}; // dismiss a single box (or all by omitting id param)
+
+
+Boxzilla.dismiss = function (id) {
+  // if no id given, dismiss all current open boxes
+  if (id) {
+    Boxzilla.get(id).dismiss();
+  } else {
+    boxes.forEach(function (box) {
+      box.dismiss();
+    });
+  }
+};
+
+Boxzilla.hide = function (id, animate) {
+  if (id) {
+    Boxzilla.get(id).hide(animate);
+  } else {
+    boxes.forEach(function (box) {
+      box.hide(animate);
+    });
+  }
+};
+
+Boxzilla.show = function (id, animate) {
+  if (id) {
+    Boxzilla.get(id).show(animate);
+  } else {
+    boxes.forEach(function (box) {
+      box.show(animate);
+    });
+  }
+};
+
+Boxzilla.toggle = function (id, animate) {
+  if (id) {
+    Boxzilla.get(id).toggle(animate);
+  } else {
+    boxes.forEach(function (box) {
+      box.toggle(animate);
+    });
+  }
+}; // expose each individual box.
+
+
+Boxzilla.boxes = boxes; // expose boxzilla object
+
+window.Boxzilla = Boxzilla;
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = Boxzilla;
+}
+
+},{"./box.js":3,"./styles.js":5,"./timer.js":6,"./triggers/exit-intent.js":7,"wolfy87-eventemitter":8}],5:[function(require,module,exports){
+"use strict";
+
+var styles = "#boxzilla-overlay{position:fixed;background:rgba(0,0,0,.65);width:100%;height:100%;left:0;top:0;z-index:99999}.boxzilla-center-container{position:fixed;top:0;left:0;right:0;height:0;text-align:center;z-index:999999;line-height:0}.boxzilla-center-container .boxzilla{display:inline-block;text-align:left;position:relative;line-height:normal}.boxzilla{position:fixed;z-index:999999;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;background:#fff;padding:25px}.boxzilla.boxzilla-top-left{top:0;left:0}.boxzilla.boxzilla-top-right{top:0;right:0}.boxzilla.boxzilla-bottom-left{bottom:0;left:0}.boxzilla.boxzilla-bottom-right{bottom:0;right:0}.boxzilla-content>:first-child{margin-top:0;padding-top:0}.boxzilla-content>:last-child{margin-bottom:0;padding-bottom:0}.boxzilla-close-icon{position:absolute;right:0;top:0;text-align:center;padding:6px;cursor:pointer;-webkit-appearance:none;font-size:28px;font-weight:700;line-height:20px;color:#000;opacity:.5}.boxzilla-close-icon:focus,.boxzilla-close-icon:hover{opacity:.8}";
+module.exports = styles;
+
+},{}],6:[function(require,module,exports){
+'use strict';
+
+var Timer = function Timer(start) {
+  this.time = start;
+  this.interval = 0;
+};
+
+Timer.prototype.tick = function () {
+  this.time++;
+};
+
+Timer.prototype.start = function () {
+  if (!this.interval) {
+    this.interval = window.setInterval(this.tick.bind(this), 1000);
+  }
+};
+
+Timer.prototype.stop = function () {
+  if (this.interval) {
+    window.clearInterval(this.interval);
+    this.interval = 0;
+  }
+};
+
+module.exports = Timer;
+
+},{}],7:[function(require,module,exports){
+'use strict';
+
+module.exports = function (callback) {
+  var timeout = null;
+  var touchStart = {};
+
+  function triggerCallback() {
+    document.documentElement.removeEventListener('mouseleave', onMouseLeave);
+    document.documentElement.removeEventListener('mouseenter', onMouseEnter);
+    document.documentElement.removeEventListener('click', clearTimeout);
+    window.removeEventListener('touchstart', onTouchStart);
+    window.removeEventListener('touchend', onTouchEnd);
+    callback();
+  }
+
+  function clearTimeout() {
+    if (timeout === null) {
+      return;
+    }
+
+    window.clearTimeout(timeout);
+    timeout = null;
+  }
+
+  function onMouseEnter(evt) {
+    clearTimeout();
+  }
+
+  function onMouseLeave(evt) {
+    clearTimeout(); // did mouse leave at top of window?
+    // add small exception space in the top-right corner
+
+    if (evt.clientY <= 0 && evt.clientX < 0.80 * window.innerWidth) {
+      timeout = window.setTimeout(triggerCallback, 400);
+    }
+  }
+
+  function onTouchStart(evt) {
+    clearTimeout();
+    touchStart = {
+      timestamp: performance.now(),
+      scrollY: window.scrollY,
+      windowHeight: window.innerHeight
+    };
+  }
+
+  function onTouchEnd(evt) {
+    clearTimeout(); // did address bar appear?
+
+    if (window.innerHeight > touchStart.windowHeight) {
+      return;
+    } // allow a tiny tiny margin for error, to not fire on clicks
+
+
+    if (window.scrollY + 20 >= touchStart.scrollY) {
+      return;
+    }
+
+    if (performance.now() - touchStart.timestamp > 300) {
+      return;
+    }
+
+    if (['A', 'INPUT', 'BUTTON'].indexOf(evt.target.tagName) > -1) {
+      return;
+    }
+
+    timeout = window.setTimeout(triggerCallback, 800);
+  }
+
+  window.addEventListener('touchstart', onTouchStart);
+  window.addEventListener('touchend', onTouchEnd);
+  document.documentElement.addEventListener('mouseenter', onMouseEnter);
+  document.documentElement.addEventListener('mouseleave', onMouseLeave);
+  document.documentElement.addEventListener('click', clearTimeout);
+};
+
+},{}],8:[function(require,module,exports){
 /*!
- * EventEmitter v5.2.5 - git.io/ee
+ * EventEmitter v5.2.6 - git.io/ee
  * Unlicense - http://unlicense.org/
- * Oliver Caldwell - http://oli.me.uk/
+ * Oliver Caldwell - https://oli.me.uk/
  * @preserve
  */
 
@@ -486,1111 +1600,5 @@
     }
 }(typeof window !== 'undefined' ? window : this || {}));
 
-},{}],2:[function(require,module,exports){
-"use strict";
-
-var duration = 320;
-
-function css(element, styles) {
-  for (var property in styles) {
-    element.style[property] = styles[property];
-  }
-}
-
-function initObjectProperties(properties, value) {
-  var newObject = {};
-
-  for (var i = 0; i < properties.length; i++) {
-    newObject[properties[i]] = value;
-  }
-
-  return newObject;
-}
-
-function copyObjectProperties(properties, object) {
-  var newObject = {};
-
-  for (var i = 0; i < properties.length; i++) {
-    newObject[properties[i]] = object[properties[i]];
-  }
-
-  return newObject;
-}
-/**
- * Checks if the given element is currently being animated.
- *
- * @param element
- * @returns {boolean}
- */
-
-
-function animated(element) {
-  return !!element.getAttribute('data-animated');
-}
-/**
- * Toggles the element using the given animation.
- *
- * @param element
- * @param animation Either "fade" or "slide"
- */
-
-
-function toggle(element, animation, callbackFn) {
-  var nowVisible = element.style.display != 'none' || element.offsetLeft > 0; // create clone for reference
-
-  var clone = element.cloneNode(true);
-
-  var cleanup = function cleanup() {
-    element.removeAttribute('data-animated');
-    element.setAttribute('style', clone.getAttribute('style'));
-    element.style.display = nowVisible ? 'none' : '';
-
-    if (callbackFn) {
-      callbackFn();
-    }
-  }; // store attribute so everyone knows we're animating this element
-
-
-  element.setAttribute('data-animated', "true"); // toggle element visiblity right away if we're making something visible
-
-  if (!nowVisible) {
-    element.style.display = '';
-  }
-
-  var hiddenStyles, visibleStyles; // animate properties
-
-  if (animation === 'slide') {
-    hiddenStyles = initObjectProperties(["height", "borderTopWidth", "borderBottomWidth", "paddingTop", "paddingBottom"], 0);
-    visibleStyles = {};
-
-    if (!nowVisible) {
-      var computedStyles = window.getComputedStyle(element);
-      visibleStyles = copyObjectProperties(["height", "borderTopWidth", "borderBottomWidth", "paddingTop", "paddingBottom"], computedStyles); // in some browsers, getComputedStyle returns "auto" value. this falls back to getBoundingClientRect() in those browsers since we need an actual height.
-
-      if (!isFinite(visibleStyles.height)) {
-        var clientRect = element.getBoundingClientRect();
-        visibleStyles.height = clientRect.height;
-      }
-
-      css(element, hiddenStyles);
-    } // don't show a scrollbar during animation
-
-
-    element.style.overflowY = 'hidden';
-    animate(element, nowVisible ? hiddenStyles : visibleStyles, cleanup);
-  } else {
-    hiddenStyles = {
-      opacity: 0
-    };
-    visibleStyles = {
-      opacity: 1
-    };
-
-    if (!nowVisible) {
-      css(element, hiddenStyles);
-    }
-
-    animate(element, nowVisible ? hiddenStyles : visibleStyles, cleanup);
-  }
-}
-
-function animate(element, targetStyles, fn) {
-  var last = +new Date();
-  var initialStyles = window.getComputedStyle(element);
-  var currentStyles = {};
-  var propSteps = {};
-
-  for (var property in targetStyles) {
-    // make sure we have an object filled with floats
-    targetStyles[property] = parseFloat(targetStyles[property]); // calculate step size & current value
-
-    var to = targetStyles[property];
-    var current = parseFloat(initialStyles[property]); // is there something to do?
-
-    if (current == to) {
-      delete targetStyles[property];
-      continue;
-    }
-
-    propSteps[property] = (to - current) / duration; // points per second
-
-    currentStyles[property] = current;
-  }
-
-  var tick = function tick() {
-    var now = +new Date();
-    var timeSinceLastTick = now - last;
-    var done = true;
-    var step, to, increment, newValue;
-
-    for (var property in targetStyles) {
-      step = propSteps[property];
-      to = targetStyles[property];
-      increment = step * timeSinceLastTick;
-      newValue = currentStyles[property] + increment;
-
-      if (step > 0 && newValue >= to || step < 0 && newValue <= to) {
-        newValue = to;
-      } else {
-        done = false;
-      } // store new value
-
-
-      currentStyles[property] = newValue;
-      var suffix = property !== "opacity" ? "px" : "";
-      element.style[property] = newValue + suffix;
-    }
-
-    last = +new Date(); // keep going until we're done for all props
-
-    if (!done) {
-      window.requestAnimationFrame && requestAnimationFrame(tick) || setTimeout(tick, 32);
-    } else {
-      // call callback
-      fn && fn();
-    }
-  };
-
-  tick();
-}
-
-module.exports = {
-  'toggle': toggle,
-  'animate': animate,
-  'animated': animated
-};
-
-},{}],3:[function(require,module,exports){
-'use strict';
-
-var defaults = {
-  'animation': 'fade',
-  'rehide': false,
-  'content': '',
-  'cookie': null,
-  'icon': '&times',
-  'screenWidthCondition': null,
-  'position': 'center',
-  'testMode': false,
-  'trigger': false,
-  'closable': true
-},
-    Boxzilla,
-    Animator = require('./animator.js');
-/**
-* Merge 2 objects, values of the latter overwriting the former.
-*
-* @param obj1
-* @param obj2
-* @returns {*}
-*/
-
-
-function merge(obj1, obj2) {
-  var obj3 = {};
-
-  for (var attrname in obj1) {
-    obj3[attrname] = obj1[attrname];
-  }
-
-  for (var attrname in obj2) {
-    obj3[attrname] = obj2[attrname];
-  }
-
-  return obj3;
-}
-/**
-* Get the real height of entire document.
-* @returns {number}
-*/
-
-
-function getDocumentHeight() {
-  var body = document.body,
-      html = document.documentElement;
-  var height = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
-  return height;
-} // Box Object
-
-
-var Box = function Box(id, config) {
-  this.id = id; // store config values
-
-  this.config = merge(defaults, config); // store ref to overlay
-
-  this.overlay = document.getElementById('boxzilla-overlay'); // state
-
-  this.visible = false;
-  this.dismissed = false;
-  this.triggered = false;
-  this.triggerHeight = this.calculateTriggerHeight();
-  this.cookieSet = this.isCookieSet();
-  this.element = null;
-  this.contentElement = null;
-  this.closeIcon = null; // create dom elements for this box
-
-  this.dom(); // further initialise the box
-
-  this.events();
-}; // initialise the box
-
-
-Box.prototype.events = function () {
-  var box = this; // attach event to "close" icon inside box
-
-  if (this.closeIcon) {
-    this.closeIcon.addEventListener('click', this.dismiss.bind(this));
-  }
-
-  this.element.addEventListener('click', function (e) {
-    if (e.target.tagName === 'A') {
-      Boxzilla.trigger('box.interactions.link', [box, e.target]);
-    }
-  }, false);
-  this.element.addEventListener('submit', function (e) {
-    box.setCookie();
-    Boxzilla.trigger('box.interactions.form', [box, e.target]);
-  }, false);
-}; // generate dom elements for this box
-
-
-Box.prototype.dom = function () {
-  var wrapper = document.createElement('div');
-  wrapper.className = 'boxzilla-container boxzilla-' + this.config.position + '-container';
-  var box = document.createElement('div');
-  box.setAttribute('id', 'boxzilla-' + this.id);
-  box.className = 'boxzilla boxzilla-' + this.id + ' boxzilla-' + this.config.position;
-  box.style.display = 'none';
-  wrapper.appendChild(box);
-  var content;
-
-  if (typeof this.config.content === "string") {
-    content = document.createElement('div');
-    content.innerHTML = this.config.content;
-  } else {
-    content = this.config.content; // make sure element is visible
-
-    content.style.display = '';
-  }
-
-  content.className = 'boxzilla-content';
-  box.appendChild(content);
-
-  if (this.config.closable && this.config.icon) {
-    var closeIcon = document.createElement('span');
-    closeIcon.className = "boxzilla-close-icon";
-    closeIcon.innerHTML = this.config.icon;
-    box.appendChild(closeIcon);
-    this.closeIcon = closeIcon;
-  }
-
-  document.body.appendChild(wrapper);
-  this.contentElement = content;
-  this.element = box;
-}; // set (calculate) custom box styling depending on box options
-
-
-Box.prototype.setCustomBoxStyling = function () {
-  // reset element to its initial state
-  var origDisplay = this.element.style.display;
-  this.element.style.display = '';
-  this.element.style.overflowY = 'auto';
-  this.element.style.maxHeight = 'none'; // get new dimensions
-
-  var windowHeight = window.innerHeight;
-  var boxHeight = this.element.clientHeight; // add scrollbar to box and limit height
-
-  if (boxHeight > windowHeight) {
-    this.element.style.maxHeight = windowHeight + "px";
-    this.element.style.overflowY = 'scroll';
-  } // set new top margin for boxes which are centered
-
-
-  if (this.config.position === 'center') {
-    var newTopMargin = (windowHeight - boxHeight) / 2;
-    newTopMargin = newTopMargin >= 0 ? newTopMargin : 0;
-    this.element.style.marginTop = newTopMargin + "px";
-  }
-
-  this.element.style.display = origDisplay;
-}; // toggle visibility of the box
-
-
-Box.prototype.toggle = function (show) {
-  // revert visibility if no explicit argument is given
-  if (typeof show === "undefined") {
-    show = !this.visible;
-  } // is box already at desired visibility?
-
-
-  if (show === this.visible) {
-    return false;
-  } // is box being animated?
-
-
-  if (Animator.animated(this.element)) {
-    return false;
-  } // if box should be hidden but is not closable, bail.
-
-
-  if (!show && !this.config.closable) {
-    return false;
-  } // set new visibility status
-
-
-  this.visible = show; // calculate new styling rules
-
-  this.setCustomBoxStyling(); // trigger event
-
-  Boxzilla.trigger('box.' + (show ? 'show' : 'hide'), [this]); // show or hide box using selected animation
-
-  if (this.config.position === 'center') {
-    this.overlay.classList.toggle('boxzilla-' + this.id + '-overlay');
-    Animator.toggle(this.overlay, "fade");
-  }
-
-  Animator.toggle(this.element, this.config.animation, function () {
-    if (this.visible) {
-      return;
-    }
-
-    this.contentElement.innerHTML = this.contentElement.innerHTML;
-  }.bind(this));
-  return true;
-}; // show the box
-
-
-Box.prototype.show = function () {
-  return this.toggle(true);
-}; // hide the box
-
-
-Box.prototype.hide = function () {
-  return this.toggle(false);
-}; // calculate trigger height
-
-
-Box.prototype.calculateTriggerHeight = function () {
-  var triggerHeight = 0;
-
-  if (this.config.trigger) {
-    if (this.config.trigger.method === 'element') {
-      var triggerElement = document.body.querySelector(this.config.trigger.value);
-
-      if (triggerElement) {
-        var offset = triggerElement.getBoundingClientRect();
-        triggerHeight = offset.top;
-      }
-    } else if (this.config.trigger.method === 'percentage') {
-      triggerHeight = this.config.trigger.value / 100 * getDocumentHeight();
-    }
-  }
-
-  return triggerHeight;
-};
-
-Box.prototype.fits = function () {
-  if (!this.config.screenWidthCondition || !this.config.screenWidthCondition.value) {
-    return true;
-  }
-
-  switch (this.config.screenWidthCondition.condition) {
-    case "larger":
-      return window.innerWidth > this.config.screenWidthCondition.value;
-
-    case "smaller":
-      return window.innerWidth < this.config.screenWidthCondition.value;
-  } // meh.. condition should be "smaller" or "larger", just return true.
-
-
-  return true;
-};
-
-Box.prototype.onResize = function () {
-  this.triggerHeight = this.calculateTriggerHeight();
-  this.setCustomBoxStyling();
-}; // is this box enabled?
-
-
-Box.prototype.mayAutoShow = function () {
-  if (this.dismissed) {
-    return false;
-  } // check if box fits on given minimum screen width
-
-
-  if (!this.fits()) {
-    return false;
-  } // if trigger empty or error in calculating triggerHeight, return false
-
-
-  if (!this.config.trigger) {
-    return false;
-  } // rely on cookie value (show if not set, don't show if set)
-
-
-  return !this.cookieSet;
-};
-
-Box.prototype.mayRehide = function () {
-  return this.config.rehide && this.triggered;
-};
-
-Box.prototype.isCookieSet = function () {
-  // always show on test mode or when no auto-trigger is configured
-  if (this.config.testMode || !this.config.trigger) {
-    return false;
-  } // if either cookie is null or trigger & dismiss are both falsey, don't bother checking.
-
-
-  if (!this.config.cookie || !this.config.cookie.triggered && !this.config.cookie.dismissed) {
-    return false;
-  }
-
-  var cookieSet = document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*" + 'boxzilla_box_' + this.id + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1") === "true";
-  return cookieSet;
-}; // set cookie that disables automatically showing the box
-
-
-Box.prototype.setCookie = function (hours) {
-  var expiryDate = new Date();
-  expiryDate.setHours(expiryDate.getHours() + hours);
-  document.cookie = 'boxzilla_box_' + this.id + '=true; expires=' + expiryDate.toUTCString() + '; path=/';
-};
-
-Box.prototype.trigger = function () {
-  var shown = this.show();
-
-  if (!shown) {
-    return;
-  }
-
-  this.triggered = true;
-
-  if (this.config.cookie && this.config.cookie.triggered) {
-    this.setCookie(this.config.cookie.triggered);
-  }
-};
-/**
-* Dismisses the box and optionally sets a cookie.
-*
-* @param e The event that triggered this dismissal.
-* @returns {boolean}
-*/
-
-
-Box.prototype.dismiss = function (e) {
-  // prevent default action
-  e && e.preventDefault(); // only dismiss box if it's currently open.
-
-  if (!this.visible) {
-    return false;
-  } // hide box element
-
-
-  this.hide(); // set cookie
-
-  if (this.config.cookie && this.config.cookie.dismissed) {
-    this.setCookie(this.config.cookie.dismissed);
-  }
-
-  this.dismissed = true;
-  Boxzilla.trigger('box.dismiss', [this]);
-  return true;
-};
-
-module.exports = function (_Boxzilla) {
-  Boxzilla = _Boxzilla;
-  return Box;
-};
-
-},{"./animator.js":2}],4:[function(require,module,exports){
-'use strict';
-
-var EventEmitter = require('wolfy87-eventemitter');
-
-var Timer = require('./timer.js');
-
-var Boxzilla = Object.create(EventEmitter.prototype);
-
-var Box = require('./box.js')(Boxzilla);
-
-var boxes = [];
-var overlay;
-var scrollElement = window;
-var siteTimer;
-var pageTimer;
-var pageViews;
-var initialised = false;
-
-var styles = require('./styles.js');
-
-var ExitIntent = require('./triggers/exit-intent.js');
-
-function throttle(fn, threshhold, scope) {
-  threshhold || (threshhold = 250);
-  var last, deferTimer;
-  return function () {
-    var context = scope || this;
-    var now = +new Date(),
-        args = arguments;
-
-    if (last && now < last + threshhold) {
-      // hold on to it
-      clearTimeout(deferTimer);
-      deferTimer = setTimeout(function () {
-        last = now;
-        fn.apply(context, args);
-      }, threshhold);
-    } else {
-      last = now;
-      fn.apply(context, args);
-    }
-  };
-} // "keyup" listener
-
-
-function onKeyUp(e) {
-  if (e.keyCode === 27) {
-    Boxzilla.dismiss();
-  }
-} // check "pageviews" criteria for each box
-
-
-function checkPageViewsCriteria() {
-  // don't bother if another box is currently open
-  if (isAnyBoxVisible()) {
-    return;
-  }
-
-  boxes.forEach(function (box) {
-    if (!box.mayAutoShow()) {
-      return;
-    }
-
-    if (box.config.trigger.method === 'pageviews' && pageViews >= box.config.trigger.value) {
-      box.trigger();
-    }
-  });
-} // check time trigger criteria for each box
-
-
-function checkTimeCriteria() {
-  // don't bother if another box is currently open
-  if (isAnyBoxVisible()) {
-    return;
-  }
-
-  boxes.forEach(function (box) {
-    if (!box.mayAutoShow()) {
-      return;
-    } // check "time on site" trigger
-
-
-    if (box.config.trigger.method === 'time_on_site' && siteTimer.time >= box.config.trigger.value) {
-      box.trigger();
-    } // check "time on page" trigger
-
-
-    if (box.config.trigger.method === 'time_on_page' && pageTimer.time >= box.config.trigger.value) {
-      box.trigger();
-    }
-  });
-} // check triggerHeight criteria for all boxes
-
-
-function checkHeightCriteria() {
-  var scrollY = scrollElement.hasOwnProperty('pageYOffset') ? scrollElement.pageYOffset : scrollElement.scrollTop;
-  scrollY = scrollY + window.innerHeight * 0.9;
-  boxes.forEach(function (box) {
-    if (!box.mayAutoShow() || box.triggerHeight <= 0) {
-      return;
-    }
-
-    if (scrollY > box.triggerHeight) {
-      // don't bother if another box is currently open
-      if (isAnyBoxVisible()) {
-        return;
-      } // trigger box
-
-
-      box.trigger();
-    } // if box may auto-hide and scrollY is less than triggerHeight (with small margin of error), hide box
-
-
-    if (box.mayRehide() && scrollY < box.triggerHeight - 5) {
-      box.hide();
-    }
-  });
-} // recalculate heights and variables based on height
-
-
-function recalculateHeights() {
-  boxes.forEach(function (box) {
-    box.onResize();
-  });
-}
-
-function onOverlayClick(e) {
-  var x = e.offsetX;
-  var y = e.offsetY; // calculate if click was less than 40px outside box to avoid closing it by accident
-
-  boxes.forEach(function (box) {
-    var rect = box.element.getBoundingClientRect();
-    var margin = 40; // if click was not anywhere near box, dismiss it.
-
-    if (x < rect.left - margin || x > rect.right + margin || y < rect.top - margin || y > rect.bottom + margin) {
-      box.dismiss();
-    }
-  });
-}
-
-function showBoxesWithExitIntentTrigger() {
-  // do nothing if already triggered OR another box is visible.
-  if (isAnyBoxVisible()) {
-    return;
-  }
-
-  boxes.forEach(function (box) {
-    if (box.mayAutoShow() && box.config.trigger.method === 'exit_intent') {
-      box.trigger();
-    }
-  });
-}
-
-function isAnyBoxVisible() {
-  return boxes.filter(function (b) {
-    return b.visible;
-  }).length > 0;
-}
-
-function onElementClick(e) {
-  // find <a> element in up to 3 parent elements
-  var el = e.target || e.srcElement;
-  var depth = 3;
-
-  for (var i = 0; i <= depth; i++) {
-    if (!el || el.tagName === 'A') {
-      break;
-    }
-
-    el = el.parentElement;
-  }
-
-  if (!el || el.tagName !== 'A' || !el.getAttribute('href')) {
-    return;
-  }
-
-  var href = el.getAttribute('href').toLowerCase();
-  var match = href.match(/[#&]boxzilla-(\d+)/);
-
-  if (match && match.length > 1) {
-    var boxId = match[1];
-    Boxzilla.toggle(boxId);
-  }
-}
-
-var timers = {
-  start: function start() {
-    try {
-      var sessionTime = sessionStorage.getItem('boxzilla_timer');
-      if (sessionTime) siteTimer.time = sessionTime;
-    } catch (e) {}
-
-    siteTimer.start();
-    pageTimer.start();
-  },
-  stop: function stop() {
-    sessionStorage.setItem('boxzilla_timer', siteTimer.time);
-    siteTimer.stop();
-    pageTimer.stop();
-  }
-}; // initialise & add event listeners
-
-Boxzilla.init = function () {
-  if (initialised) {
-    return;
-  }
-
-  document.body.addEventListener('click', onElementClick, true);
-
-  try {
-    pageViews = sessionStorage.getItem('boxzilla_pageviews') || 0;
-  } catch (e) {
-    pageViews = 0;
-  }
-
-  siteTimer = new Timer(0);
-  pageTimer = new Timer(0); // insert styles into DOM
-
-  var styleElement = document.createElement('style');
-  styleElement.setAttribute("type", "text/css");
-  styleElement.innerHTML = styles;
-  document.head.appendChild(styleElement); // add overlay element to dom
-
-  overlay = document.createElement('div');
-  overlay.style.display = 'none';
-  overlay.id = 'boxzilla-overlay';
-  document.body.appendChild(overlay); // init exit intent trigger
-
-  new ExitIntent(showBoxesWithExitIntentTrigger);
-  scrollElement.addEventListener('touchstart', throttle(checkHeightCriteria), true);
-  scrollElement.addEventListener('scroll', throttle(checkHeightCriteria), true);
-  window.addEventListener('resize', throttle(recalculateHeights));
-  window.addEventListener('load', recalculateHeights);
-  overlay.addEventListener('click', onOverlayClick);
-  window.setInterval(checkTimeCriteria, 1000);
-  window.setTimeout(checkPageViewsCriteria, 1000);
-  document.addEventListener('keyup', onKeyUp);
-  timers.start();
-  window.addEventListener('focus', timers.start);
-  window.addEventListener('beforeunload', function () {
-    timers.stop();
-    sessionStorage.setItem('boxzilla_pageviews', ++pageViews);
-  });
-  window.addEventListener('blur', timers.stop);
-  Boxzilla.trigger('ready');
-  initialised = true; // ensure this function doesn't run again
-};
-/**
- * Create a new Box
- *
- * @param string id
- * @param object opts
- *
- * @returns Box
- */
-
-
-Boxzilla.create = function (id, opts) {
-  // preserve backwards compat for minimumScreenWidth option
-  if (typeof opts.minimumScreenWidth !== "undefined") {
-    opts.screenWidthCondition = {
-      condition: "larger",
-      value: opts.minimumScreenWidth
-    };
-  }
-
-  var box = new Box(id, opts);
-  boxes.push(box);
-  return box;
-};
-
-Boxzilla.get = function (id) {
-  for (var i = 0; i < boxes.length; i++) {
-    var box = boxes[i];
-
-    if (box.id == id) {
-      return box;
-    }
-  }
-
-  throw new Error("No box exists with ID " + id);
-}; // dismiss a single box (or all by omitting id param)
-
-
-Boxzilla.dismiss = function (id) {
-  // if no id given, dismiss all current open boxes
-  if (typeof id === "undefined") {
-    boxes.forEach(function (box) {
-      box.dismiss();
-    });
-  } else {
-    Boxzilla.get(id).dismiss();
-  }
-};
-
-Boxzilla.hide = function (id) {
-  if (typeof id === "undefined") {
-    boxes.forEach(function (box) {
-      box.hide();
-    });
-  } else {
-    Boxzilla.get(id).hide();
-  }
-};
-
-Boxzilla.show = function (id) {
-  if (typeof id === "undefined") {
-    boxes.forEach(function (box) {
-      box.show();
-    });
-  } else {
-    Boxzilla.get(id).show();
-  }
-};
-
-Boxzilla.toggle = function (id) {
-  if (typeof id === "undefined") {
-    boxes.forEach(function (box) {
-      box.toggle();
-    });
-  } else {
-    Boxzilla.get(id).toggle();
-  }
-}; // expose each individual box.
-
-
-Boxzilla.boxes = boxes; // expose boxzilla object
-
-window.Boxzilla = Boxzilla;
-
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = Boxzilla;
-}
-
-},{"./box.js":3,"./styles.js":5,"./timer.js":6,"./triggers/exit-intent.js":7,"wolfy87-eventemitter":1}],5:[function(require,module,exports){
-"use strict";
-
-var styles = "#boxzilla-overlay{position:fixed;background:rgba(0,0,0,.65);width:100%;height:100%;left:0;top:0;z-index:99999}.boxzilla-center-container{position:fixed;top:0;left:0;right:0;height:0;text-align:center;z-index:999999;line-height:0}.boxzilla-center-container .boxzilla{display:inline-block;text-align:left;position:relative;line-height:normal}.boxzilla{position:fixed;z-index:999999;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;background:#fff;padding:25px}.boxzilla.boxzilla-top-left{top:0;left:0}.boxzilla.boxzilla-top-right{top:0;right:0}.boxzilla.boxzilla-bottom-left{bottom:0;left:0}.boxzilla.boxzilla-bottom-right{bottom:0;right:0}.boxzilla-content>:first-child{margin-top:0;padding-top:0}.boxzilla-content>:last-child{margin-bottom:0;padding-bottom:0}.boxzilla-close-icon{position:absolute;right:0;top:0;text-align:center;padding:6px;cursor:pointer;-webkit-appearance:none;font-size:28px;font-weight:700;line-height:20px;color:#000;opacity:.5}.boxzilla-close-icon:focus,.boxzilla-close-icon:hover{opacity:.8}";
-module.exports = styles;
-
-},{}],6:[function(require,module,exports){
-'use strict';
-
-var Timer = function Timer(start) {
-  this.time = start;
-  this.interval = 0;
-};
-
-Timer.prototype.tick = function () {
-  this.time++;
-};
-
-Timer.prototype.start = function () {
-  if (!this.interval) {
-    this.interval = window.setInterval(this.tick.bind(this), 1000);
-  }
-};
-
-Timer.prototype.stop = function () {
-  if (this.interval) {
-    window.clearInterval(this.interval);
-    this.interval = 0;
-  }
-};
-
-module.exports = Timer;
-
-},{}],7:[function(require,module,exports){
-'use strict';
-
-module.exports = function (callback) {
-  var timeout = null;
-  var touchStart = {};
-
-  function triggerCallback() {
-    document.documentElement.removeEventListener('mouseleave', onMouseLeave);
-    document.documentElement.removeEventListener('mouseenter', onMouseEnter);
-    document.documentElement.removeEventListener('click', clearTimeout);
-    window.removeEventListener('touchstart', onTouchStart);
-    window.removeEventListener('touchend', onTouchEnd);
-    callback();
-  }
-
-  function clearTimeout() {
-    if (timeout === null) {
-      return;
-    }
-
-    window.clearTimeout(timeout);
-    timeout = null;
-  }
-
-  function onMouseEnter(evt) {
-    clearTimeout();
-  }
-
-  function onMouseLeave(evt) {
-    clearTimeout(); // did mouse leave at top of window?
-    // add small exception space in the top-right corner
-
-    if (evt.clientY <= 0 && evt.clientX < 0.80 * window.innerWidth) {
-      timeout = window.setTimeout(triggerCallback, 400);
-    }
-  }
-
-  function onTouchStart(evt) {
-    clearTimeout();
-    touchStart = {
-      timestamp: performance.now(),
-      scrollY: window.scrollY,
-      windowHeight: window.innerHeight
-    };
-  }
-
-  function onTouchEnd(evt) {
-    clearTimeout(); // did address bar appear?
-
-    if (window.innerHeight > touchStart.windowHeight) {
-      return;
-    } // allow a tiny tiny margin for error, to not fire on clicks
-
-
-    if (window.scrollY + 20 >= touchStart.scrollY) {
-      return;
-    }
-
-    if (performance.now() - touchStart.timestamp > 300) {
-      return;
-    }
-
-    if (['A', 'INPUT', 'BUTTON'].indexOf(evt.target.tagName) > -1) {
-      return;
-    }
-
-    timeout = window.setTimeout(triggerCallback, 800);
-  }
-
-  window.addEventListener('touchstart', onTouchStart);
-  window.addEventListener('touchend', onTouchEnd);
-  document.documentElement.addEventListener('mouseenter', onMouseEnter);
-  document.documentElement.addEventListener('mouseleave', onMouseLeave);
-  document.documentElement.addEventListener('click', clearTimeout);
-};
-
-},{}],8:[function(require,module,exports){
-"use strict";
-
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-(function () {
-  'use strict';
-
-  var Boxzilla = require('boxzilla');
-
-  var options = window.boxzilla_options; // expose Boxzilla object to window
-
-  window.Boxzilla = Boxzilla; // helper function for setting CSS styles
-
-  function css(element, styles) {
-    if (styles.background_color) {
-      element.style.background = styles.background_color;
-    }
-
-    if (styles.color) {
-      element.style.color = styles.color;
-    }
-
-    if (styles.border_color) {
-      element.style.borderColor = styles.border_color;
-    }
-
-    if (styles.border_width) {
-      element.style.borderWidth = parseInt(styles.border_width) + "px";
-    }
-
-    if (styles.border_style) {
-      element.style.borderStyle = styles.border_style;
-    }
-
-    if (styles.width) {
-      element.style.maxWidth = parseInt(styles.width) + "px";
-    }
-  }
-
-  function createBoxesFromConfig() {
-    // failsafe against including script twice.
-    if (options.inited) {
-      return;
-    } // create boxes from options
-
-
-    for (var key in options.boxes) {
-      // get opts
-      var boxOpts = options.boxes[key];
-      boxOpts.testMode = isLoggedIn && options.testMode; // find box content element, bail if not found
-
-      var boxContentElement = document.getElementById('boxzilla-box-' + boxOpts.id + '-content');
-
-      if (!boxContentElement) {
-        continue;
-      } // use element as content option
-
-
-      boxOpts.content = boxContentElement; // create box
-
-      var box = Boxzilla.create(boxOpts.id, boxOpts); // add box slug to box element as classname
-
-      box.element.className = box.element.className + ' boxzilla-' + boxOpts.post.slug; // add custom css to box
-
-      css(box.element, boxOpts.css);
-
-      try {
-        box.element.firstChild.firstChild.className += " first-child";
-        box.element.firstChild.lastChild.className += " last-child";
-      } catch (e) {} // maybe show box right away
-
-
-      if (box.fits() && locationHashRefersBox(box)) {
-        box.show();
-      }
-    } // set flag to prevent initialising twice
-
-
-    options.inited = true; // trigger "done" event.
-
-    Boxzilla.trigger('done'); // maybe open box with MC4WP form in it
-
-    maybeOpenMailChimpForWordPressBox();
-  }
-
-  function locationHashRefersBox(box) {
-    if (!window.location.hash || 0 === window.location.hash.length) {
-      return false;
-    } // parse "boxzilla-{id}" from location hash
-
-
-    var match = window.location.hash.match(/[#&](boxzilla-\d+)/);
-
-    if (!match || _typeof(match) !== "object" || match.length < 2) {
-      return false;
-    }
-
-    var elementId = match[1];
-
-    if (elementId === box.element.id) {
-      return true;
-    } else if (box.element.querySelector('#' + elementId)) {
-      return true;
-    }
-
-    return false;
-  }
-
-  function maybeOpenMailChimpForWordPressBox() {
-    if (_typeof(window.mc4wp_forms_config) !== "object" || !window.mc4wp_forms_config.submitted_form) {
-      return;
-    }
-
-    var selector = '#' + window.mc4wp_forms_config.submitted_form.element_id;
-    var boxes = Boxzilla.boxes;
-
-    for (var boxId in boxes) {
-      if (!boxes.hasOwnProperty(boxId)) {
-        continue;
-      }
-
-      var box = boxes[boxId];
-
-      if (box.element.querySelector(selector)) {
-        box.show();
-        return;
-      }
-    }
-  } // print message when test mode is enabled
-
-
-  var isLoggedIn = document.body.className.indexOf('logged-in') > -1;
-
-  if (isLoggedIn && options.testMode) {
-    console.log('Boxzilla: Test mode is enabled. Please disable test mode if you\'re done testing.');
-  } // init boxzilla
-
-
-  Boxzilla.init(); // on window.load, create DOM elements for boxes
-
-  window.addEventListener('load', createBoxesFromConfig);
-})();
-
-},{"boxzilla":4}]},{},[8]);
+},{}]},{},[1]);
 ; })();
