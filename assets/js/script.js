@@ -952,13 +952,13 @@ Boxzilla.get = function (id) {
 }; // dismiss a single box (or all by omitting id param)
 
 
-Boxzilla.dismiss = function (id) {
+Boxzilla.dismiss = function (id, animate) {
   // if no id given, dismiss all current open boxes
   if (id) {
-    Boxzilla.get(id).dismiss();
+    Boxzilla.get(id).dismiss(animate);
   } else {
     boxes.forEach(function (box) {
-      box.dismiss();
+      box.dismiss(animate);
     });
   }
 };
