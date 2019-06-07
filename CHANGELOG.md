@@ -1,6 +1,14 @@
 Changelog
 ==========
 
+#### 3.2.12 - June 7, 2019
+
+**Improvements**
+
+- Allow skipping animations when showing, hiding or dismissing a box.
+- Check for empty box content after running filter hooks, instead of before.
+
+
 #### 3.2.11 - May 8, 2019
 
 **Improvements**
