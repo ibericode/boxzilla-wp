@@ -3,6 +3,7 @@
 namespace Boxzilla;
 
 use Boxzilla\Admin\Admin;
+use Boxzilla\Admin\Menu;
 use Boxzilla\Admin\Notices;
 use Boxzilla\DI\Container;
 use Boxzilla\DI\ServiceProviderInterface;
@@ -22,6 +23,10 @@ class BoxzillaServiceProvider implements ServiceProviderInterface
     {
         $container['admin'] = function ($container) {
             return new Admin($container->plugin, $container);
+        };
+
+        $container['admin.menu'] = function($container) {
+            return new Menu();
         };
 
         $container['bootstrapper'] = new Bootstrapper();

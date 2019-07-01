@@ -8,6 +8,7 @@ $baseDir = dirname($vendorDir);
 return array(
     'Boxzilla\\Admin\\Admin' => $baseDir . '/src/admin/class-admin.php',
     'Boxzilla\\Admin\\Installer' => $baseDir . '/src/admin/class-installer.php',
+    'Boxzilla\\Admin\\Menu' => $baseDir . '/src/admin/class-menu.php',
     'Boxzilla\\Admin\\Migrations' => $baseDir . '/src/admin/class-migrations.php',
     'Boxzilla\\Admin\\Notices' => $baseDir . '/src/admin/class-notices.php',
     'Boxzilla\\Admin\\ReviewNotice' => $baseDir . '/src/admin/class-review-notice.php',

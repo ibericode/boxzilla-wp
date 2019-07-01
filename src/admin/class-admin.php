@@ -42,7 +42,6 @@ class Admin
      */
     public function init()
     {
-        
         // Load the plugin textdomain
         load_plugin_textdomain('boxzilla', null, basename($this->plugin->dir()) . '/languages');
 
@@ -814,4 +813,6 @@ class Admin
 
         return $text;
     }
+
+
 }

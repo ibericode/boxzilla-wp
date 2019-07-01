@@ -26,10 +26,12 @@ add_action( 'plugins_loaded', function() use( $boxzilla ) {
 
     $bootstrapper->admin(function() use( $boxzilla ){
         $boxzilla['admin']->init();
+        $boxzilla['admin.menu']->add_hooks();
     });
 
     $bootstrapper->ajax(function() use( $boxzilla ) {
         $boxzilla['filter.autocomplete']->add_hooks();
+        $boxzilla['admin.menu']->add_hooks();
     });
 
     $bootstrapper->front(function() use( $boxzilla ) {

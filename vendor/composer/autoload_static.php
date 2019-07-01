@@ -13,6 +13,7 @@ class ComposerStaticInit38e5bd5c00bdfd9a6ae58e314c6ae5ae
     public static $classMap = array (
         'Boxzilla\\Admin\\Admin' => __DIR__ . '/../..' . '/src/admin/class-admin.php',
         'Boxzilla\\Admin\\Installer' => __DIR__ . '/../..' . '/src/admin/class-installer.php',
+        'Boxzilla\\Admin\\Menu' => __DIR__ . '/../..' . '/src/admin/class-menu.php',
         'Boxzilla\\Admin\\Migrations' => __DIR__ . '/../..' . '/src/admin/class-migrations.php',
         'Boxzilla\\Admin\\Notices' => __DIR__ . '/../..' . '/src/admin/class-notices.php',
         'Boxzilla\\Admin\\ReviewNotice' => __DIR__ . '/../..' . '/src/admin/class-review-notice.php',
