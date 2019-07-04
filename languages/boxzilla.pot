@@ -57,72 +57,84 @@ msgstr ""
 msgid "No Boxes found in Trash"
 msgstr ""
 
-#: src/admin/class-admin.php:97
+#: src/admin/class-admin.php:96
 msgid "Duplicate box"
 msgstr ""
 
-#: src/admin/class-admin.php:141
+#: src/admin/class-admin.php:140
 msgid "Awesome, you are using Boxzilla! You can now safely <a href=\"%s\">deactivate the Scroll Triggered Boxes plugin</a>."
 msgstr ""
 
-#: src/admin/class-admin.php:213
+#: src/admin/class-admin.php:212
 msgid "Box ID"
 msgstr ""
 
-#: src/admin/class-admin.php:216
+#: src/admin/class-admin.php:215
 msgid "Box Title"
 msgstr ""
 
-#: src/admin/class-admin.php:251, src/admin/class-admin.php:252, src/admin/views/settings.php:7
+#: src/admin/class-admin.php:250, src/admin/class-admin.php:251, src/admin/views/settings.php:7
 msgid "Settings"
 msgstr ""
 
-#: src/admin/class-admin.php:257, src/admin/class-admin.php:258
+#: src/admin/class-admin.php:256, src/admin/class-admin.php:257
 msgid "Extensions"
 msgstr ""
 
-#: src/admin/class-admin.php:354, src/admin/views/metaboxes/box-option-controls.php:62
+#: src/admin/class-admin.php:353, src/admin/views/metaboxes/box-option-controls.php:62
 msgid "and"
 msgstr ""
 
-#: src/admin/class-admin.php:355, src/admin/views/metaboxes/box-option-controls.php:61
+#: src/admin/class-admin.php:354, src/admin/views/metaboxes/box-option-controls.php:61
 msgid "or"
 msgstr ""
 
-#: src/admin/class-admin.php:356
+#: src/admin/class-admin.php:355
 msgid "Enter a comma-separated list of values."
 msgstr ""
 
-#: src/admin/class-admin.php:357
+#: src/admin/class-admin.php:356
 msgid "Enter a comma-separated list of post slugs or post ID's.."
 msgstr ""
 
-#: src/admin/class-admin.php:358
+#: src/admin/class-admin.php:357
 msgid "Enter a comma-separated list of page slugs or page ID's.."
 msgstr ""
 
-#: src/admin/class-admin.php:359
+#: src/admin/class-admin.php:358
 msgid "Enter a comma-separated list of post types.."
 msgstr ""
 
-#: src/admin/class-admin.php:360
+#: src/admin/class-admin.php:359
 msgid "Enter a comma-separated list of relative URL's, eg /contact/"
 msgstr ""
 
-#: src/admin/class-admin.php:391
+#: src/admin/class-admin.php:390
 msgid "Box Appearance"
 msgstr ""
 
-#: src/admin/class-admin.php:400
+#: src/admin/class-admin.php:399
 msgid "Box Options"
 msgstr ""
 
-#: src/admin/class-admin.php:409
+#: src/admin/class-admin.php:408
 msgid "Looking for help?"
 msgstr ""
 
-#: src/admin/class-admin.php:417
+#: src/admin/class-admin.php:416
 msgid "Subscribe to our newsletter"
+msgstr ""
+
+#: src/admin/class-menu.php:31, src/admin/class-menu.php:98, src/admin/class-menu.php:99
+msgid "Boxzilla Pop-ups"
+msgstr ""
+
+#: src/admin/class-menu.php:81, src/admin/class-menu.php:81
+msgid "Add to menu"
+msgstr ""
+
+#: src/admin/class-menu.php:133
+msgid "Custom Link"
 msgstr ""
 
 #: src/admin/class-review-notice.php:79

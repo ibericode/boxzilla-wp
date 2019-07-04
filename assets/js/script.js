@@ -1064,11 +1064,19 @@ module.exports = function (callback) {
     clearTimeout();
   }
 
+  function getAddressBarY() {
+    if (document.documentMode || /Edge\//.test(navigator.userAgent)) {
+      return 5;
+    }
+
+    return 0;
+  }
+
   function onMouseLeave(evt) {
     clearTimeout(); // did mouse leave at top of window?
     // add small exception space in the top-right corner
 
-    if (evt.clientY <= 0 && evt.clientX < 0.80 * window.innerWidth) {
+    if (evt.clientY <= getAddressBarY() && evt.clientX < 0.80 * window.innerWidth) {
       timeout = window.setTimeout(triggerCallback, 400);
     }
   }
