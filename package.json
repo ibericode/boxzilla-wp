@@ -7,19 +7,19 @@
   },
   "license": "GPL-2.0",
   "devDependencies": {
-    "@babel/core": "^7.2.0",
-    "@babel/preset-env": "^7.2.0",
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
     "babelify": "^10.0.0",
-    "browserify": "^16.1.0",
-    "globby": "^9.0.0",
-    "gulp": "^4.0.0",
+    "browserify": "^16.3.0",
+    "globby": "^9.2.0",
+    "gulp": "^4.0.2",
     "gulp-cssmin": "^0.2.0",
     "gulp-rename": "^1.2.2",
-    "gulp-sourcemaps": "^2.6.4",
+    "gulp-sourcemaps": "^2.6.5",
     "gulp-streamify": "^1.0.2",
     "gulp-uglify": "^3.0.2",
     "gulp-util": "^3.0.7",
-    "gulp-wp-pot": "^2.2.0",
+    "gulp-wp-pot": "^2.3.5",
     "gulp-wrap": "^0.14.0",
     "merge-stream": "^1.0.0",
     "through2": "^3.0.1",
@@ -28,6 +28,6 @@
   },
   "dependencies": {
     "boxzilla": "git://github.com/ibericode/boxzilla.js.git#master",
-    "wolfy87-eventemitter": "^5.2.4"
+    "wolfy87-eventemitter": "^5.2.6"
   }
 }

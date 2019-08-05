@@ -1,6 +1,14 @@
 Changelog
 ==========
 
+#### 3.2.13 - Aug 5, 2019
+
+**Improvements**
+
+- Allow more query hash parameters for opening a box.
+- Allow bypassing animation for opening or closing boxes.
+
+
 #### 3.2.12 - June 7, 2019
 
 **Improvements**
