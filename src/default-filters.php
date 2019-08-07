@@ -21,7 +21,7 @@ if (class_exists('Jetpack') && class_exists('Jetpack_Photon') && Jetpack::is_mod
  *
  * TODO: Move this to JavaScript instead?
  */
-add_filter('nav_menu_link_attributes', function ($atts, $item, $args, $depth)
+add_filter('nav_menu_link_attributes', function($atts)
 {
     if (strpos($atts['href'], '#boxzilla-') !== 0) {
         return $atts;
@@ -31,4 +31,4 @@ add_filter('nav_menu_link_attributes', function ($atts, $item, $args, $depth)
     $atts['onclick'] = sprintf('Boxzilla.show(%d); return false;', $id);
     $atts['href'] = '';
     return $atts;
-}, 10, 4);
+}, 10, 1);
