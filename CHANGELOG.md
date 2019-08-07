@@ -1,12 +1,23 @@
 Changelog
 ==========
 
+#### 3.2.14 - Aug 7, 2019
+
+**Fixes**
+
+- Issue with incorrect argument count for some sites with custom menu's.
+
+
 #### 3.2.13 - Aug 5, 2019
 
 **Improvements**
 
 - Allow more query hash parameters for opening a box.
 - Allow bypassing animation for opening or closing boxes.
+
+**Additions**
+
+- Easily link to boxes from WP Menu's.
 
 
 #### 3.2.12 - June 7, 2019

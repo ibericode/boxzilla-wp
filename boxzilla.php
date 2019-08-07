@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Boxzilla
-Version: 3.2.13
+Version: 3.2.14
 Plugin URI: https://boxzillaplugin.com/#utm_source=wp-plugin&utm_medium=boxzilla&utm_campaign=plugins-page
 Description: Call-To-Action Boxes that display after visitors scroll down far enough. Unobtrusive, but highly conversing!
 Author: ibericode
