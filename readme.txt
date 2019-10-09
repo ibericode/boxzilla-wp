@@ -4,7 +4,7 @@ Donate link: https://boxzillaplugin.com/#utm_source=wp-plugin-repo&utm_medium=bo
 Tags: scroll triggered box, cta, social, pop-up, newsletter, call to action, mailchimp, contact form 7, social media, mc4wp, ibericode
 Requires at least: 4.1
 Tested up to: 5.2
-Stable tag: 3.2.13-beta
+Stable tag: 3.2.14
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 5.3
@@ -128,6 +128,25 @@ Have a look at the [frequently asked questions](https://wordpress.org/plugins/bo
 
 
 == Changelog ==
+
+
+#### 3.2.14 - Aug 7, 2019
+
+**Fixes**
+
+- Issue with incorrect argument count for some sites with custom menu's.
+
+
+#### 3.2.13 - Aug 5, 2019
+
+**Improvements**
+
+- Allow more query hash parameters for opening a box.
+- Allow bypassing animation for opening or closing boxes.
+
+**Additions**
+
+- Easily link to boxes from WP Menu's.
 
 
 #### 3.2.12 - June 7, 2019
