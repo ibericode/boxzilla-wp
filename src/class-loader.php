@@ -252,7 +252,12 @@ class BoxLoader
             }
         }
 
-        return $box_ids_to_load;
+        /**
+         * Filters which boxes should be loaded on this page, expects an array of post ID's.
+         *
+         * @param array $box_ids_to_load
+         */
+        return apply_filters('boxzilla_load_boxes', $box_ids_to_load);
     }
 
     /**
