@@ -41,7 +41,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 function _load_boxzilla() {
 
 	define( 'BOXZILLA_FILE', __FILE__ );
-	define('BOXZILLA_VERSION' ,'3.2.11');
+	define('BOXZILLA_VERSION' ,'3.2.13-beta');
 
 	require __DIR__ . '/bootstrap.php';
 }
