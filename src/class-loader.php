@@ -314,14 +314,15 @@ class BoxLoader
             }
 
             // query Box posts
-            $posts = get_posts(
-                array(
-                    'post_type' => 'boxzilla-box',
-                    'post_status' => 'publish',
-                    'post__in'    => $this->box_ids_to_load,
-                    'numberposts' => -1
-                )
-            );
+            $q = new \WP_Query();
+            $posts = $q->query(array(
+                'post_type' => 'boxzilla-box',
+                'post_status' => 'publish',
+                'post__in'    => $this->box_ids_to_load,
+                'posts_per_page' => count($this->box_ids_to_load),
+                'ignore_sticky_posts' => true,
+                'no_found_rows' => true,
+            ));
 
             // create `Box` instances out of \WP_Post instances
             $boxes = array();

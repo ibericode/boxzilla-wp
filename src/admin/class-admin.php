@@ -716,13 +716,14 @@ class Admin
         }
 
         // get all published boxes
-        $boxes = get_posts(
-            array(
-                'post_type'   => 'boxzilla-box',
-                'post_status' => 'publish',
-                'numberposts' => - 1
-            )
-        );
+        $query = new \WP_Query;
+        $boxes = $query->query(array(
+            'post_type'   => 'boxzilla-box',
+            'post_status' => 'publish',
+            'posts_per_page' => - 1,
+            'ignore_sticky_posts' => true,
+            'no_found_rows' => true,
+        ));
 
         // setup empty array of rules
         $rules = array();
