@@ -20,8 +20,8 @@
     "gulp-uglify": "^3.0.2",
     "gulp-util": "^3.0.7",
     "gulp-wp-pot": "^2.3.5",
-    "gulp-wrap": "^0.14.0",
-    "merge-stream": "^1.0.0",
+    "gulp-wrap": "^0.15.0",
+    "merge-stream": "^2.0.0",
     "through2": "^3.0.1",
     "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0"
