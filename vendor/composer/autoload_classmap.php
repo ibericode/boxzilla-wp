@@ -12,7 +12,6 @@ return array(
     'Boxzilla\\Admin\\Migrations' => $baseDir . '/src/admin/class-migrations.php',
     'Boxzilla\\Admin\\Notices' => $baseDir . '/src/admin/class-notices.php',
     'Boxzilla\\Admin\\ReviewNotice' => $baseDir . '/src/admin/class-review-notice.php',
-    'Boxzilla\\Bootstrapper' => $baseDir . '/src/class-bootstrapper.php',
     'Boxzilla\\Box' => $baseDir . '/src/class-box.php',
     'Boxzilla\\BoxLoader' => $baseDir . '/src/class-loader.php',
     'Boxzilla\\Boxzilla' => $baseDir . '/src/class-boxzilla.php',

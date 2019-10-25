@@ -14,7 +14,6 @@ $provider = new Licensing\LicenseServiceProvider();
 $provider->register( $boxzilla );
 
 
-
 // Rest of bootstrapping runs at plugins_loaded:90
 add_action( 'plugins_loaded', function() use( $boxzilla ) {
 
@@ -22,27 +21,19 @@ add_action( 'plugins_loaded', function() use( $boxzilla ) {
     require __DIR__ . '/src/default-filters.php';
     require __DIR__ . '/src/default-actions.php';
 
-    $bootstrapper = $boxzilla->bootstrapper;
-
-    $bootstrapper->admin(function() use( $boxzilla ){
-        $boxzilla['admin']->init();
-        $boxzilla['admin.menu']->init();
-    });
-
-    $bootstrapper->ajax(function() use( $boxzilla ) {
+    if (defined('DOING_AJAX') && DOING_AJAX) {
         $boxzilla['filter.autocomplete']->init();
         $boxzilla['admin.menu']->init();
-    });
-
-    $bootstrapper->front(function() use( $boxzilla ) {
+    } else if(defined('DOING_CRON') && DOING_CRON) {
+        $boxzilla['license_poller']->init();
+    } elseif (is_admin()) {
+        $boxzilla['admin']->init();
+        $boxzilla['admin.menu']->init();
+    } else {
         add_action( 'template_redirect', function() use( $boxzilla ) {
             $boxzilla['box_loader']->init();
         });
-    });
-
-    $bootstrapper->cron(function() use( $boxzilla ) {
-        $boxzilla['license_poller']->init();
-    });
+    }
 
     // license manager
     if( is_admin() || (  defined( 'DOING_CRON' ) && DOING_CRON ) || ( defined( 'WP_CLI' ) && WP_CLI ) ) {
@@ -52,6 +43,4 @@ add_action( 'plugins_loaded', function() use( $boxzilla ) {
             $boxzilla['update_manager']->init();
         }
     }
-
-    $bootstrapper->run();
 }, 90 );
