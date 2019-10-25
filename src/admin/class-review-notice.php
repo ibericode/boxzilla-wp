@@ -11,23 +11,15 @@ use WP_Screen;
  */
 class ReviewNotice
 {
-    
     /**
      * @var string
      */
     protected $meta_key_dismissed = '_boxzilla_review_notice_dismissed';
 
     /**
-     * Constructor.
-     */
-    public function __construct()
-    {
-    }
-
-    /**
      * Add action & filter hooks.
      */
-    public function add_hooks()
+    public function init()
     {
         add_action('admin_notices', array( $this, 'show' ));
         add_action('boxzilla_admin_dismiss_review_notice', array( $this, 'dismiss' ));

@@ -8,12 +8,7 @@ use Boxzilla\Boxzilla;
 
 class Menu
 {
-
-    public function __construct()
-    {
-    }
-
-    public function add_hooks()
+    public function init()
     {
         add_action( 'admin_head-nav-menus.php', array( $this, 'add_nav_menu_meta_boxes' ) );
 

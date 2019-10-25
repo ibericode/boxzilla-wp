@@ -48,6 +48,7 @@ class Admin
         // action hooks
         $this->add_hooks();
         $this->run_migrations();
+        $this->review_notice->init();
     }
 
     /**
@@ -66,7 +67,7 @@ class Admin
         add_filter( 'bulk_actions-edit-boxzilla-box', array( $this, 'bulk_action_add') );
         add_filter( 'handle_bulk_actions-edit-boxzilla-box', array( $this, 'bulk_action_handle' ), 10, 3 );
 
-        $this->review_notice->add_hooks();
+
     }
 
     /**

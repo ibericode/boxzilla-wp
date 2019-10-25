@@ -4,7 +4,7 @@ namespace Boxzilla\Filter;
 
 class Autocomplete
 {
-    public function add_hooks()
+    public function init()
     {
         add_action('wp_ajax_boxzilla_autocomplete', array( $this, 'ajax' ));
     }
