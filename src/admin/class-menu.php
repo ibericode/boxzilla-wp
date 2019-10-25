@@ -28,15 +28,14 @@ class Menu
 
     private function get_boxes()
     {
-        // query Box posts
-        $posts = get_posts(
-            array(
-                'post_type' => 'boxzilla-box',
-                'post_status' => 'publish',
-                'numberposts' => -1
-            )
-        );
-
+        $q = new \WP_Query;
+        $posts =  $q->query(array(
+            'post_type' => 'boxzilla-box',
+            'post_status' => 'publish',
+            'posts_per_page' => -1,
+            'ignore_sticky_posts' => true,
+            'no_found_rows' => true,
+        ));
         return $posts;
     }
 
