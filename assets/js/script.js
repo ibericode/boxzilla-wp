@@ -143,12 +143,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 })();
 
 },{"boxzilla":4}],2:[function(require,module,exports){
-"use strict";
+'use strict';
 
 var duration = 320;
 
 function css(element, styles) {
   for (var property in styles) {
+    if (!styles.hasOwnProperty(property)) {
+      continue;
+    }
+
     element.style[property] = styles[property];
   }
 }
@@ -188,11 +192,12 @@ function animated(element) {
  *
  * @param element
  * @param animation Either "fade" or "slide"
+ * @param callbackFn
  */
 
 
 function toggle(element, animation, callbackFn) {
-  var nowVisible = element.style.display != 'none' || element.offsetLeft > 0; // create clone for reference
+  var nowVisible = element.style.display !== 'none' || element.offsetLeft > 0; // create clone for reference
 
   var clone = element.cloneNode(true);
 
@@ -213,7 +218,8 @@ function toggle(element, animation, callbackFn) {
     element.style.display = '';
   }
 
-  var hiddenStyles, visibleStyles; // animate properties
+  var hiddenStyles;
+  var visibleStyles; // animate properties
 
   if (animation === 'slide') {
     hiddenStyles = initObjectProperties(["height", "borderTopWidth", "borderBottomWidth", "paddingTop", "paddingBottom"], 0);
@@ -257,7 +263,11 @@ function animate(element, targetStyles, fn) {
   var propSteps = {};
 
   for (var property in targetStyles) {
-    // make sure we have an object filled with floats
+    if (!targetStyles.hasOwnProperty(property)) {
+      continue;
+    } // make sure we have an object filled with floats
+
+
     targetStyles[property] = parseFloat(targetStyles[property]); // calculate step size & current value
 
     var to = targetStyles[property];
@@ -279,11 +289,15 @@ function animate(element, targetStyles, fn) {
     var done = true;
     var step, to, increment, newValue;
 
-    for (var property in targetStyles) {
-      step = propSteps[property];
-      to = targetStyles[property];
+    for (var _property in targetStyles) {
+      if (!targetStyles.hasOwnProperty(_property)) {
+        continue;
+      }
+
+      step = propSteps[_property];
+      to = targetStyles[_property];
       increment = step * timeSinceLastTick;
-      newValue = currentStyles[property] + increment;
+      newValue = currentStyles[_property] + increment;
 
       if (step > 0 && newValue >= to || step < 0 && newValue <= to) {
         newValue = to;
@@ -292,9 +306,9 @@ function animate(element, targetStyles, fn) {
       } // store new value
 
 
-      currentStyles[property] = newValue;
-      var suffix = property !== "opacity" ? "px" : "";
-      element.style[property] = newValue + suffix;
+      currentStyles[_property] = newValue;
+      var suffix = _property !== "opacity" ? "px" : "";
+      element.style[_property] = newValue + suffix;
     }
 
     last = +new Date(); // keep going until we're done for all props
@@ -330,9 +344,11 @@ var defaults = {
   'testMode': false,
   'trigger': false,
   'closable': true
-},
-    Boxzilla,
-    Animator = require('./animator.js');
+};
+
+var events = require('./events.js');
+
+var Animator = require('./animator.js');
 /**
 * Merge 2 objects, values of the latter overwriting the former.
 *
@@ -343,14 +359,19 @@ var defaults = {
 
 
 function merge(obj1, obj2) {
-  var obj3 = {};
+  var obj3 = {}; // add obj1 to obj3
 
   for (var attrname in obj1) {
-    obj3[attrname] = obj1[attrname];
-  }
+    if (obj1.hasOwnProperty(attrname)) {
+      obj3[attrname] = obj1[attrname];
+    }
+  } // add obj2 to obj3
 
-  for (var attrname in obj2) {
-    obj3[attrname] = obj2[attrname];
+
+  for (var _attrname in obj2) {
+    if (obj2.hasOwnProperty(_attrname)) {
+      obj3[_attrname] = obj2[_attrname];
+    }
   }
 
   return obj3;
@@ -362,14 +383,13 @@ function merge(obj1, obj2) {
 
 
 function getDocumentHeight() {
-  var body = document.body,
-      html = document.documentElement;
-  var height = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
-  return height;
+  var body = document.body;
+  var html = document.documentElement;
+  return Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
 } // Box Object
 
 
-var Box = function Box(id, config) {
+function Box(id, config) {
   this.id = id; // store config values
 
   this.config = merge(defaults, config); // store ref to overlay
@@ -388,27 +408,28 @@ var Box = function Box(id, config) {
   this.dom(); // further initialise the box
 
   this.events();
-}; // initialise the box
+}
 
+; // initialise the box
 
 Box.prototype.events = function () {
   var box = this; // attach event to "close" icon inside box
 
   if (this.closeIcon) {
-    this.closeIcon.addEventListener('click', function (e) {
-      e.preventDefault();
+    this.closeIcon.addEventListener('click', function (evt) {
+      evt.preventDefault();
       box.dismiss();
     });
   }
 
-  this.element.addEventListener('click', function (e) {
-    if (e.target.tagName === 'A') {
-      Boxzilla.trigger('box.interactions.link', [box, e.target]);
+  this.element.addEventListener('click', function (evt) {
+    if (evt.target.tagName === 'A') {
+      events.trigger('box.interactions.link', [box, evt.target]);
     }
   }, false);
-  this.element.addEventListener('submit', function (e) {
+  this.element.addEventListener('submit', function (evt) {
     box.setCookie();
-    Boxzilla.trigger('box.interactions.form', [box, e.target]);
+    events.trigger('box.interactions.form', [box, evt.target]);
   }, false);
 }; // generate dom elements for this box
 
@@ -498,7 +519,7 @@ Box.prototype.toggle = function (show, animate) {
 
   this.setCustomBoxStyling(); // trigger event
 
-  Boxzilla.trigger('box.' + (show ? 'show' : 'hide'), [this]); // show or hide box using selected animation
+  events.trigger('box.' + (show ? 'show' : 'hide'), [this]); // show or hide box using selected animation
 
   if (this.config.position === 'center') {
     this.overlay.classList.toggle('boxzilla-' + this.id + '-overlay');
@@ -638,8 +659,7 @@ Box.prototype.trigger = function () {
 };
 /**
 * Dismisses the box and optionally sets a cookie.
-*
-* @param e The event that triggered this dismissal.
+* @param animate
 * @returns {boolean}
 */
 
@@ -658,25 +678,20 @@ Box.prototype.dismiss = function (animate) {
   }
 
   this.dismissed = true;
-  Boxzilla.trigger('box.dismiss', [this]);
+  events.trigger('box.dismiss', [this]);
   return true;
 };
 
-module.exports = function (_Boxzilla) {
-  Boxzilla = _Boxzilla;
-  return Box;
-};
+module.exports = Box;
 
-},{"./animator.js":2}],4:[function(require,module,exports){
+},{"./animator.js":2,"./events.js":5}],4:[function(require,module,exports){
 'use strict';
-
-var EventEmitter = require('wolfy87-eventemitter');
 
 var Timer = require('./timer.js');
 
-var Boxzilla = Object.create(EventEmitter.prototype);
+var Boxzilla = require('./events.js');
 
-var Box = require('./box.js')(Boxzilla);
+var Box = require('./box.js');
 
 var boxes = [];
 var overlay;
@@ -1002,13 +1017,20 @@ if (typeof module !== 'undefined' && module.exports) {
   module.exports = Boxzilla;
 }
 
-},{"./box.js":3,"./styles.js":5,"./timer.js":6,"./triggers/exit-intent.js":7,"wolfy87-eventemitter":8}],5:[function(require,module,exports){
+},{"./box.js":3,"./events.js":5,"./styles.js":6,"./timer.js":7,"./triggers/exit-intent.js":8}],5:[function(require,module,exports){
+'use strict';
+
+var EventEmitter = require('wolfy87-eventemitter');
+
+module.exports = Object.create(EventEmitter.prototype);
+
+},{"wolfy87-eventemitter":9}],6:[function(require,module,exports){
 "use strict";
 
-var styles = "#boxzilla-overlay{position:fixed;background:rgba(0,0,0,.65);width:100%;height:100%;left:0;top:0;z-index:99999}.boxzilla-center-container{position:fixed;top:0;left:0;right:0;height:0;text-align:center;z-index:999999;line-height:0}.boxzilla-center-container .boxzilla{display:inline-block;text-align:left;position:relative;line-height:normal}.boxzilla{position:fixed;z-index:999999;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;background:#fff;padding:25px}.boxzilla.boxzilla-top-left{top:0;left:0}.boxzilla.boxzilla-top-right{top:0;right:0}.boxzilla.boxzilla-bottom-left{bottom:0;left:0}.boxzilla.boxzilla-bottom-right{bottom:0;right:0}.boxzilla-content>:first-child{margin-top:0;padding-top:0}.boxzilla-content>:last-child{margin-bottom:0;padding-bottom:0}.boxzilla-close-icon{position:absolute;right:0;top:0;text-align:center;padding:6px;cursor:pointer;-webkit-appearance:none;font-size:28px;font-weight:700;line-height:20px;color:#000;opacity:.5}.boxzilla-close-icon:focus,.boxzilla-close-icon:hover{opacity:.8}";
+var styles = "#boxzilla-overlay{position:fixed;background:rgba(0,0,0,.65);width:100%;height:100%;left:0;top:0;z-index:10000}.boxzilla-center-container{position:fixed;top:0;left:0;right:0;height:0;text-align:center;z-index:11000;line-height:0}.boxzilla-center-container .boxzilla{display:inline-block;text-align:left;position:relative;line-height:normal}.boxzilla{position:fixed;z-index:12000;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;background:#fff;padding:25px}.boxzilla.boxzilla-top-left{top:0;left:0}.boxzilla.boxzilla-top-right{top:0;right:0}.boxzilla.boxzilla-bottom-left{bottom:0;left:0}.boxzilla.boxzilla-bottom-right{bottom:0;right:0}.boxzilla-content>:first-child{margin-top:0;padding-top:0}.boxzilla-content>:last-child{margin-bottom:0;padding-bottom:0}.boxzilla-close-icon{position:absolute;right:0;top:0;text-align:center;padding:6px;cursor:pointer;-webkit-appearance:none;font-size:28px;font-weight:700;line-height:20px;color:#000;opacity:.5}.boxzilla-close-icon:focus,.boxzilla-close-icon:hover{opacity:.8}";
 module.exports = styles;
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 'use strict';
 
 var Timer = function Timer(start) {
@@ -1035,7 +1057,7 @@ Timer.prototype.stop = function () {
 
 module.exports = Timer;
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 'use strict';
 
 module.exports = function (callback) {
@@ -1120,9 +1142,9 @@ module.exports = function (callback) {
   document.documentElement.addEventListener('click', clearTimeout);
 };
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 /*!
- * EventEmitter v5.2.6 - git.io/ee
+ * EventEmitter v5.2.8 - git.io/ee
  * Unlicense - http://unlicense.org/
  * Oliver Caldwell - https://oli.me.uk/
  * @preserve
