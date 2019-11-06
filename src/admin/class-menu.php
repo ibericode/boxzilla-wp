@@ -8,12 +8,7 @@ use Boxzilla\Boxzilla;
 
 class Menu
 {
-
-    public function __construct()
-    {
-    }
-
-    public function add_hooks()
+    public function init()
     {
         add_action( 'admin_head-nav-menus.php', array( $this, 'add_nav_menu_meta_boxes' ) );
 
@@ -33,15 +28,14 @@ class Menu
 
     private function get_boxes()
     {
-        // query Box posts
-        $posts = get_posts(
-            array(
-                'post_type' => 'boxzilla-box',
-                'post_status' => 'publish',
-                'numberposts' => -1
-            )
-        );
-
+        $q = new \WP_Query;
+        $posts =  $q->query(array(
+            'post_type' => 'boxzilla-box',
+            'post_status' => 'publish',
+            'posts_per_page' => -1,
+            'ignore_sticky_posts' => true,
+            'no_found_rows' => true,
+        ));
         return $posts;
     }
 

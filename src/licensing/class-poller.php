@@ -30,11 +30,11 @@ class Poller
     /**
      * Add hooks.
      */
-    public function hook()
+    public function init()
     {
         if (! wp_next_scheduled('boxzilla_check_license_status')) {
             wp_schedule_event(time(), 'daily', 'boxzilla_check_license_status');
-        };
+        }
 
         add_action('boxzilla_check_license_status', array( $this, 'run' ));
     }

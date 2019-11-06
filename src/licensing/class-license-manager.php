@@ -33,7 +33,6 @@ class LicenseManager
      * @param array $extensions
      * @param API $api
      * @param License $license
-     * @param Notices $notices
      */
     public function __construct(array $extensions, API $api, License $license)
     {
@@ -57,9 +56,8 @@ class LicenseManager
     /**
      * @return void
      */
-    public function hook()
+    public function init()
     {
-
         // do nothing if no extensions are registered at this point
         if (empty($this->extensions)) {
             return;

@@ -6,4 +6,4 @@ install:
 - "composer self-update --no-interaction"
 - "composer update --no-interaction --prefer-dist"
 script:
-- "phpunit"
+- "vendor/bin/phpunit"

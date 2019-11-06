@@ -48,6 +48,7 @@ class Admin
         // action hooks
         $this->add_hooks();
         $this->run_migrations();
+        $this->review_notice->init();
     }
 
     /**
@@ -66,7 +67,7 @@ class Admin
         add_filter( 'bulk_actions-edit-boxzilla-box', array( $this, 'bulk_action_add') );
         add_filter( 'handle_bulk_actions-edit-boxzilla-box', array( $this, 'bulk_action_handle' ), 10, 3 );
 
-        $this->review_notice->add_hooks();
+
     }
 
     /**
@@ -735,13 +736,14 @@ class Admin
         }
 
         // get all published boxes
-        $boxes = get_posts(
-            array(
-                'post_type'   => 'boxzilla-box',
-                'post_status' => 'publish',
-                'numberposts' => - 1
-            )
-        );
+        $query = new \WP_Query;
+        $boxes = $query->query(array(
+            'post_type'   => 'boxzilla-box',
+            'post_status' => 'publish',
+            'posts_per_page' => - 1,
+            'ignore_sticky_posts' => true,
+            'no_found_rows' => true,
+        ));
 
         // setup empty array of rules
         $rules = array();
