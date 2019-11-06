@@ -4,7 +4,7 @@ Donate link: https://boxzillaplugin.com/#utm_source=wp-plugin-repo&utm_medium=bo
 Tags: scroll triggered box, cta, social, pop-up, newsletter, call to action, mailchimp, contact form 7, social media, mc4wp, ibericode
 Requires at least: 4.1
 Tested up to: 5.3
-Stable tag: 3.2.14
+Stable tag: 3.2.15
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 5.3
@@ -130,6 +130,17 @@ Have a look at the [frequently asked questions](https://wordpress.org/plugins/bo
 == Changelog ==
 
 
+#### 3.2.15 - Nov 6, 2019
+
+**Improvements**
+
+- Add proper SVG icon with neutral color for admin menu.
+- Use Page Visibility API for time-based triggers (time on site & time on page).
+- Stop using `supress_filters` when retrieving boxes for a possible performance improvement.
+- Minor performance improvement in bootstrapping logic.
+- Add link to [Koko Analytics](https://wordpress.org/plugins/koko-analytics/)
+
+
 #### 3.2.14 - Aug 7, 2019
 
 **Fixes**
@@ -235,7 +246,7 @@ Have a look at the [frequently asked questions](https://wordpress.org/plugins/bo
 
 **Improvements**
 
-- Print box contents at an earlier footer hook, so it works with "smart enqueue" methods in other plugins like MailChimp for WordPress or Maxbuttons.
+- Print box contents at an earlier footer hook, so it works with "smart enqueue" methods in other plugins like Mailchimp for WordPress or Maxbuttons.
 
 
 #### 3.2.1 - March 5, 2018
@@ -493,7 +504,7 @@ Have a look at the [frequently asked questions](https://wordpress.org/plugins/bo
 
 **Additions**
 
-- When using [MailChimp for WordPress](https://wordpress.org/plugins/mailchimp-for-wp/) without AJAX, the box will now automatically re-open after reloading the page.
+- When using [Mailchimp for WordPress](https://wordpress.org/plugins/mailchimp-for-wp/) without AJAX, the box will now automatically re-open after reloading the page.
 
 
 #### 3.0.2 - June 21, 2016
