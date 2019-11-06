@@ -117,11 +117,15 @@ msgstr ""
 msgid "Box Options"
 msgstr ""
 
-#: src/admin/class-admin.php:409
+#: src/admin/class-admin.php:409, src/admin/views/settings.php:40
 msgid "Looking for help?"
 msgstr ""
 
-#: src/admin/class-admin.php:417
+#: src/admin/class-admin.php:417, src/admin/views/settings.php:45
+msgid "Our other plugins"
+msgstr ""
+
+#: src/admin/class-admin.php:425, src/admin/views/settings.php:50
 msgid "Subscribe to our newsletter"
 msgstr ""
 
