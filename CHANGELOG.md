@@ -106,7 +106,7 @@ Changelog
 
 **Improvements**
 
-- Print box contents at an earlier footer hook, so it works with "smart enqueue" methods in other plugins like MailChimp for WordPress or Maxbuttons.
+- Print box contents at an earlier footer hook, so it works with "smart enqueue" methods in other plugins like Mailchimp for WordPress or Maxbuttons.
 
 
 #### 3.2.1 - March 5, 2018
@@ -364,7 +364,7 @@ Changelog
 
 **Additions**
 
-- When using [MailChimp for WordPress](https://wordpress.org/plugins/mailchimp-for-wp/) without AJAX, the box will now automatically re-open after reloading the page.
+- When using [Mailchimp for WordPress](https://wordpress.org/plugins/mailchimp-for-wp/) without AJAX, the box will now automatically re-open after reloading the page.
 
 
 #### 3.0.2 - June 21, 2016

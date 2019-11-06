@@ -36,18 +36,20 @@
 
 		<div class="boxzilla-sidebar boxzilla-col-one-third">
 
-			<!-- Begin MailChimp Signup Form -->
 			<div class="boxzilla-box">
-				<h3>Subscribe to our mailing list</h3>
-				<?php include __DIR__ . '/metaboxes/email-optin.php'; ?>
-			</div>
-			<!--End mc_embed_signup-->
-
-			<div class="boxzilla-box">
-				<h3>Looking for help?</h3>
+				<h3><?php echo __('Looking for help?', 'boxzilla'); ?></h3>
 				<?php include __DIR__ . '/metaboxes/need-help.php'; ?>
 			</div>
 
+			<div class="boxzilla-box">
+				<h3><?php echo __('Our other plugins', 'boxzilla'); ?></h3>
+				<?php include __DIR__ . '/metaboxes/our-other-plugins.php'; ?>
+			</div>
+
+			<div class="boxzilla-box">
+				<h3><?php echo __('Subscribe to our newsletter', 'boxzilla'); ?></h3>
+				<?php include __DIR__ . '/metaboxes/email-optin.php'; ?>
+			</div>
 		</div>
 	</div>
 

@@ -411,6 +411,14 @@ class Admin
             'side'
         );
 
+		add_meta_box(
+			'boxzilla-our-other-plugins',
+			__('Our other plugins', 'boxzilla'),
+			array( $this, 'metabox_our_other_plugins' ),
+			'boxzilla-box',
+			'side'
+		);
+
         add_meta_box(
             'boxzilla-email-optin',
             __('Subscribe to our newsletter', 'boxzilla'),
@@ -418,6 +426,8 @@ class Admin
             'boxzilla-box',
             'side'
         );
+
+
 
         return true;
     }
@@ -465,6 +475,15 @@ class Admin
     {
         include __DIR__ . '/views/metaboxes/email-optin.php';
     }
+
+	/**
+	 * @param \WP_Post $post
+	 * @param          $metabox
+	 */
+	public function metabox_our_other_plugins(\WP_Post $post, $metabox)
+	{
+		include __DIR__ . '/views/metaboxes/our-other-plugins.php';
+	}
 
     /**
      * @param \WP_Post $post
@@ -644,7 +663,7 @@ class Admin
             'rules' => array(),
             'css' => array()
         );
-        
+
         $opts = array_replace_recursive($defaults, $opts);
 
         $opts['rules'] 				= array_map(array( $this, 'sanitize_box_rule' ), $opts['rules']);
