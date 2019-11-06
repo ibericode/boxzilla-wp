@@ -1,6 +1,17 @@
 Changelog
 ==========
 
+#### 3.2.15 - Nov 6, 2019
+
+**Improvements**
+
+- Add proper SVG icon with neutral color for admin menu.
+- Use Page Visibility API for time-based triggers (time on site & time on page).
+- Stop using `supress_filters` when retrieving boxes for a possible performance improvement.
+- Minor performance improvement in bootstrapping logic.
+- Add link to [Koko Analytics](https://wordpress.org/plugins/koko-analytics/)
+
+
 #### 3.2.14 - Aug 7, 2019
 
 **Fixes**
