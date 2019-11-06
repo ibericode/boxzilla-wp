@@ -7,8 +7,8 @@
   },
   "license": "GPL-2.0",
   "devDependencies": {
-    "@babel/core": "^7.6.4",
-    "@babel/preset-env": "^7.6.3",
+    "@babel/core": "^7.7.0",
+    "@babel/preset-env": "^7.7.1",
     "babelify": "^10.0.0",
     "browserify": "^16.5.0",
     "globby": "^9.2.0",
