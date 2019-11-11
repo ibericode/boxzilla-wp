@@ -16,6 +16,6 @@ use Boxzilla\Licensing\License;
  * @property License $license
  *
  */
-class Boxzilla extends ContainerWithPropertyAccess
-{
+class Boxzilla extends ContainerWithPropertyAccess {
+
 }

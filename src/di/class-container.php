@@ -31,251 +31,240 @@ namespace Boxzilla\DI;
  *
  * @author  Fabien Potencier
  */
-class Container implements \ArrayAccess
-{
-    private $values = array();
-    private $factories;
-    private $protected;
-    private $frozen = array();
-    private $raw = array();
-    private $keys = array();
+class Container implements \ArrayAccess {
 
-    /**
-     * Instantiate the container.
-     *
-     * Objects and parameters can be passed as argument to the constructor.
-     *
-     * @param array $values The parameters or objects.
-     */
-    public function __construct(array $values = array())
-    {
-        $this->factories = new \SplObjectStorage();
-        $this->protected = new \SplObjectStorage();
+	private $values = array();
+	private $factories;
+	private $protected;
+	private $frozen = array();
+	private $raw    = array();
+	private $keys   = array();
 
-        foreach ($values as $key => $value) {
-            $this->offsetSet($key, $value);
-        }
-    }
+	/**
+	 * Instantiate the container.
+	 *
+	 * Objects and parameters can be passed as argument to the constructor.
+	 *
+	 * @param array $values The parameters or objects.
+	 */
+	public function __construct( array $values = array() ) {
+		$this->factories = new \SplObjectStorage();
+		$this->protected = new \SplObjectStorage();
 
-    /**
-     * Sets a parameter or an object.
-     *
-     * Objects must be defined as Closures.
-     *
-     * Allowing any PHP callable leads to difficult to debug problems
-     * as function names (strings) are callable (creating a function with
-     * the same name as an existing parameter would break your container).
-     *
-     * @param  string            $id    The unique identifier for the parameter or object
-     * @param  mixed             $value The value of the parameter or a closure to define an object
-     * @throws \RuntimeException Prevent override of a frozen service
-     */
-    public function offsetSet($id, $value)
-    {
-        if (isset($this->frozen[$id])) {
-            throw new \RuntimeException(sprintf('Cannot override frozen service "%s".', $id));
-        }
+		foreach ( $values as $key => $value ) {
+			$this->offsetSet( $key, $value );
+		}
+	}
 
-        $this->values[$id] = $value;
-        $this->keys[$id] = true;
-    }
+	/**
+	 * Sets a parameter or an object.
+	 *
+	 * Objects must be defined as Closures.
+	 *
+	 * Allowing any PHP callable leads to difficult to debug problems
+	 * as function names (strings) are callable (creating a function with
+	 * the same name as an existing parameter would break your container).
+	 *
+	 * @param  string            $id    The unique identifier for the parameter or object
+	 * @param  mixed             $value The value of the parameter or a closure to define an object
+	 * @throws \RuntimeException Prevent override of a frozen service
+	 */
+	public function offsetSet( $id, $value ) {
+		if ( isset( $this->frozen[ $id ] ) ) {
+			throw new \RuntimeException( sprintf( 'Cannot override frozen service "%s".', $id ) );
+		}
 
-    /**
-     * Gets a parameter or an object.
-     *
-     * @param string $id The unique identifier for the parameter or object
-     *
-     * @return mixed The value of the parameter or an object
-     *
-     * @throws \InvalidArgumentException if the identifier is not defined
-     */
-    public function offsetGet($id)
-    {
-        if (!isset($this->keys[$id])) {
-            throw new \InvalidArgumentException(sprintf('Identifier "%s" is not defined.', $id));
-        }
+		$this->values[ $id ] = $value;
+		$this->keys[ $id ]   = true;
+	}
 
-        if (
-            isset($this->raw[$id])
-            || !is_object($this->values[$id])
-            || isset($this->protected[$this->values[$id]])
-            || !method_exists($this->values[$id], '__invoke')
-        ) {
-            return $this->values[$id];
-        }
+	/**
+	 * Gets a parameter or an object.
+	 *
+	 * @param string $id The unique identifier for the parameter or object
+	 *
+	 * @return mixed The value of the parameter or an object
+	 *
+	 * @throws \InvalidArgumentException if the identifier is not defined
+	 */
+	public function offsetGet( $id ) {
+		if ( ! isset( $this->keys[ $id ] ) ) {
+			throw new \InvalidArgumentException( sprintf( 'Identifier "%s" is not defined.', $id ) );
+		}
 
-        if (isset($this->factories[$this->values[$id]])) {
-            return $this->values[$id]($this);
-        }
+		if (
+			isset( $this->raw[ $id ] )
+			|| ! is_object( $this->values[ $id ] )
+			|| isset( $this->protected[ $this->values[ $id ] ] )
+			|| ! method_exists( $this->values[ $id ], '__invoke' )
+		) {
+			return $this->values[ $id ];
+		}
 
-        $raw = $this->values[$id];
-        $val = $this->values[$id] = $raw($this);
-        $this->raw[$id] = $raw;
+		if ( isset( $this->factories[ $this->values[ $id ] ] ) ) {
+			return $this->values[ $id ]($this);
+		}
 
-        $this->frozen[$id] = true;
+		$raw              = $this->values[ $id ];
+		$val              = $this->values[ $id ] = $raw( $this );
+		$this->raw[ $id ] = $raw;
 
-        return $val;
-    }
+		$this->frozen[ $id ] = true;
 
-    /**
-     * Checks if a parameter or an object is set.
-     *
-     * @param string $id The unique identifier for the parameter or object
-     *
-     * @return bool
-     */
-    public function offsetExists($id)
-    {
-        return isset($this->keys[$id]);
-    }
+		return $val;
+	}
 
-    /**
-     * Unsets a parameter or an object.
-     *
-     * @param string $id The unique identifier for the parameter or object
-     */
-    public function offsetUnset($id)
-    {
-        if (isset($this->keys[$id])) {
-            if (is_object($this->values[$id])) {
-                unset($this->factories[$this->values[$id]], $this->protected[$this->values[$id]]);
-            }
+	/**
+	 * Checks if a parameter or an object is set.
+	 *
+	 * @param string $id The unique identifier for the parameter or object
+	 *
+	 * @return bool
+	 */
+	public function offsetExists( $id ) {
+		return isset( $this->keys[ $id ] );
+	}
 
-            unset($this->values[$id], $this->frozen[$id], $this->raw[$id], $this->keys[$id]);
-        }
-    }
+	/**
+	 * Unsets a parameter or an object.
+	 *
+	 * @param string $id The unique identifier for the parameter or object
+	 */
+	public function offsetUnset( $id ) {
+		if ( isset( $this->keys[ $id ] ) ) {
+			if ( is_object( $this->values[ $id ] ) ) {
+				unset( $this->factories[ $this->values[ $id ] ], $this->protected[ $this->values[ $id ] ] );
+			}
 
-    /**
-     * Marks a callable as being a factory service.
-     *
-     * @param callable $callable A service definition to be used as a factory
-     *
-     * @return callable The passed callable
-     *
-     * @throws \InvalidArgumentException Service definition has to be a closure of an invokable object
-     */
-    public function factory($callable)
-    {
-        if (!is_object($callable) || !method_exists($callable, '__invoke')) {
-            throw new \InvalidArgumentException('Service definition is not a Closure or invokable object.');
-        }
+			unset( $this->values[ $id ], $this->frozen[ $id ], $this->raw[ $id ], $this->keys[ $id ] );
+		}
+	}
 
-        $this->factories->attach($callable);
+	/**
+	 * Marks a callable as being a factory service.
+	 *
+	 * @param callable $callable A service definition to be used as a factory
+	 *
+	 * @return callable The passed callable
+	 *
+	 * @throws \InvalidArgumentException Service definition has to be a closure of an invokable object
+	 */
+	public function factory( $callable ) {
+		if ( ! is_object( $callable ) || ! method_exists( $callable, '__invoke' ) ) {
+			throw new \InvalidArgumentException( 'Service definition is not a Closure or invokable object.' );
+		}
 
-        return $callable;
-    }
+		$this->factories->attach( $callable );
 
-    /**
-     * Protects a callable from being interpreted as a service.
-     *
-     * This is useful when you want to store a callable as a parameter.
-     *
-     * @param callable $callable A callable to protect from being evaluated
-     *
-     * @return callable The passed callable
-     *
-     * @throws \InvalidArgumentException Service definition has to be a closure of an invokable object
-     */
-    public function protect($callable)
-    {
-        if (!is_object($callable) || !method_exists($callable, '__invoke')) {
-            throw new \InvalidArgumentException('Callable is not a Closure or invokable object.');
-        }
+		return $callable;
+	}
 
-        $this->protected->attach($callable);
+	/**
+	 * Protects a callable from being interpreted as a service.
+	 *
+	 * This is useful when you want to store a callable as a parameter.
+	 *
+	 * @param callable $callable A callable to protect from being evaluated
+	 *
+	 * @return callable The passed callable
+	 *
+	 * @throws \InvalidArgumentException Service definition has to be a closure of an invokable object
+	 */
+	public function protect( $callable ) {
+		if ( ! is_object( $callable ) || ! method_exists( $callable, '__invoke' ) ) {
+			throw new \InvalidArgumentException( 'Callable is not a Closure or invokable object.' );
+		}
 
-        return $callable;
-    }
+		$this->protected->attach( $callable );
 
-    /**
-     * Gets a parameter or the closure defining an object.
-     *
-     * @param string $id The unique identifier for the parameter or object
-     *
-     * @return mixed The value of the parameter or the closure defining an object
-     *
-     * @throws \InvalidArgumentException if the identifier is not defined
-     */
-    public function raw($id)
-    {
-        if (!isset($this->keys[$id])) {
-            throw new \InvalidArgumentException(sprintf('Identifier "%s" is not defined.', $id));
-        }
+		return $callable;
+	}
 
-        if (isset($this->raw[$id])) {
-            return $this->raw[$id];
-        }
+	/**
+	 * Gets a parameter or the closure defining an object.
+	 *
+	 * @param string $id The unique identifier for the parameter or object
+	 *
+	 * @return mixed The value of the parameter or the closure defining an object
+	 *
+	 * @throws \InvalidArgumentException if the identifier is not defined
+	 */
+	public function raw( $id ) {
+		if ( ! isset( $this->keys[ $id ] ) ) {
+			throw new \InvalidArgumentException( sprintf( 'Identifier "%s" is not defined.', $id ) );
+		}
 
-        return $this->values[$id];
-    }
+		if ( isset( $this->raw[ $id ] ) ) {
+			return $this->raw[ $id ];
+		}
 
-    /**
-     * Extends an object definition.
-     *
-     * Useful when you want to extend an existing object definition,
-     * without necessarily loading that object.
-     *
-     * @param string   $id       The unique identifier for the object
-     * @param callable $callable A service definition to extend the original
-     *
-     * @return callable The wrapped callable
-     *
-     * @throws \InvalidArgumentException if the identifier is not defined or not a service definition
-     */
-    public function extend($id, $callable)
-    {
-        if (!isset($this->keys[$id])) {
-            throw new \InvalidArgumentException(sprintf('Identifier "%s" is not defined.', $id));
-        }
+		return $this->values[ $id ];
+	}
 
-        if (!is_object($this->values[$id]) || !method_exists($this->values[$id], '__invoke')) {
-            throw new \InvalidArgumentException(sprintf('Identifier "%s" does not contain an object definition.', $id));
-        }
+	/**
+	 * Extends an object definition.
+	 *
+	 * Useful when you want to extend an existing object definition,
+	 * without necessarily loading that object.
+	 *
+	 * @param string   $id       The unique identifier for the object
+	 * @param callable $callable A service definition to extend the original
+	 *
+	 * @return callable The wrapped callable
+	 *
+	 * @throws \InvalidArgumentException if the identifier is not defined or not a service definition
+	 */
+	public function extend( $id, $callable ) {
+		if ( ! isset( $this->keys[ $id ] ) ) {
+			throw new \InvalidArgumentException( sprintf( 'Identifier "%s" is not defined.', $id ) );
+		}
 
-        if (!is_object($callable) || !method_exists($callable, '__invoke')) {
-            throw new \InvalidArgumentException('Extension service definition is not a Closure or invokable object.');
-        }
+		if ( ! is_object( $this->values[ $id ] ) || ! method_exists( $this->values[ $id ], '__invoke' ) ) {
+			throw new \InvalidArgumentException( sprintf( 'Identifier "%s" does not contain an object definition.', $id ) );
+		}
 
-        $factory = $this->values[$id];
+		if ( ! is_object( $callable ) || ! method_exists( $callable, '__invoke' ) ) {
+			throw new \InvalidArgumentException( 'Extension service definition is not a Closure or invokable object.' );
+		}
 
-        $extended = function ($c) use ($callable, $factory) {
-            return $callable($factory($c), $c);
-        };
+		$factory = $this->values[ $id ];
 
-        if (isset($this->factories[$factory])) {
-            $this->factories->detach($factory);
-            $this->factories->attach($extended);
-        }
+		$extended = function ( $c ) use ( $callable, $factory ) {
+			return $callable( $factory( $c ), $c );
+		};
 
-        return $this[$id] = $extended;
-    }
+		if ( isset( $this->factories[ $factory ] ) ) {
+			$this->factories->detach( $factory );
+			$this->factories->attach( $extended );
+		}
 
-    /**
-     * Returns all defined value names.
-     *
-     * @return array An array of value names
-     */
-    public function keys()
-    {
-        return array_keys($this->values);
-    }
+		return $this[ $id ] = $extended;
+	}
 
-    /**
-     * Registers a service provider.
-     *
-     * @param ServiceProviderInterface $provider A ServiceProviderInterface instance
-     * @param array                    $values   An array of values that customizes the provider
-     *
-     * @return static
-     */
-    public function register(ServiceProviderInterface $provider, array $values = array())
-    {
-        $provider->register($this);
+	/**
+	 * Returns all defined value names.
+	 *
+	 * @return array An array of value names
+	 */
+	public function keys() {
+		return array_keys( $this->values );
+	}
 
-        foreach ($values as $key => $value) {
-            $this[$key] = $value;
-        }
+	/**
+	 * Registers a service provider.
+	 *
+	 * @param ServiceProviderInterface $provider A ServiceProviderInterface instance
+	 * @param array                    $values   An array of values that customizes the provider
+	 *
+	 * @return static
+	 */
+	public function register( ServiceProviderInterface $provider, array $values = array() ) {
+		$provider->register( $this );
 
-        return $this;
-    }
+		foreach ( $values as $key => $value ) {
+			$this[ $key ] = $value;
+		}
+
+		return $this;
+	}
 }

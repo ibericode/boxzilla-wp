@@ -8,65 +8,64 @@ use Boxzilla\Admin\Notices;
 use Boxzilla\DI\Container;
 use Boxzilla\DI\ServiceProviderInterface;
 
-class BoxzillaServiceProvider implements ServiceProviderInterface
-{
+class BoxzillaServiceProvider implements ServiceProviderInterface {
 
-    /**
-     * Registers services on the given container.
-     *
-     * This method should only be used to configure services and parameters.
-     * It should not get services.
-     *
-     * @param Container $container An Container instance
-     */
-    public function register(Container $container)
-    {
-        $container['admin'] = function ($container) {
-            return new Admin($container->plugin, $container);
-        };
 
-        $container['admin.menu'] = function($container) {
-            return new Menu();
-        };
+	/**
+	 * Registers services on the given container.
+	 *
+	 * This method should only be used to configure services and parameters.
+	 * It should not get services.
+	 *
+	 * @param Container $container An Container instance
+	 */
+	public function register( Container $container ) {
+		$container['admin'] = function ( $container ) {
+			return new Admin( $container->plugin, $container );
+		};
 
-        $container['box_loader'] = function ($container) {
-            return new BoxLoader($container->plugin, $container->options);
-        };
+		$container['admin.menu'] = function( $container ) {
+			return new Menu();
+		};
 
-        $container['filter.autocomplete'] = function ($container) {
-            return new Filter\Autocomplete();
-        };
+		$container['box_loader'] = function ( $container ) {
+			return new BoxLoader( $container->plugin, $container->options );
+		};
 
-        $container['notices'] = function ($container) {
-            return new Notices();
-        };
+		$container['filter.autocomplete'] = function ( $container ) {
+			return new Filter\Autocomplete();
+		};
 
-        $container['options'] = function ($container) {
-            $defaults = array(
-                'test_mode' => 0
-            );
+		$container['notices'] = function ( $container ) {
+			return new Notices();
+		};
 
-            $options = (array) get_option('boxzilla_settings', $defaults);
-            $options = array_merge($defaults, $options);
-            return $options;
-        };
+		$container['options'] = function ( $container ) {
+			$defaults = array(
+				'test_mode' => 0,
+			);
 
-        $container['plugin'] = new Plugin(
-            'boxzilla',
-            'Boxzilla',
-            BOXZILLA_VERSION,
-            BOXZILLA_FILE,
-            dirname(BOXZILLA_FILE)
-        );
+			$options = (array) get_option( 'boxzilla_settings', $defaults );
+			$options = array_merge( $defaults, $options );
+			return $options;
+		};
 
-        $container['plugins'] = function ($container) {
-            $raw = (array) apply_filters('boxzilla_extensions', array());
+		$container['plugin'] = new Plugin(
+			'boxzilla',
+			'Boxzilla',
+			BOXZILLA_VERSION,
+			BOXZILLA_FILE,
+			dirname( BOXZILLA_FILE )
+		);
 
-            $plugins = array();
-            foreach ($raw as $p) {
-                $plugins[ $p->id() ] = $p;
-            }
-            return $plugins;
-        };
-    }
+		$container['plugins'] = function ( $container ) {
+			$raw = (array) apply_filters( 'boxzilla_extensions', array() );
+
+			$plugins = array();
+			foreach ( $raw as $p ) {
+				$plugins[ $p->id() ] = $p;
+			}
+			return $plugins;
+		};
+	}
 }

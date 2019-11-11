@@ -1,4 +1,4 @@
-<?php defined('ABSPATH') or exit; ?>
+<?php defined( 'ABSPATH' ) or exit; ?>
 
 <div style="margin: 12px 0;">
 	<p>
