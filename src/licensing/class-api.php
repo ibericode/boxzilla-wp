@@ -129,7 +129,7 @@ class API {
 		}
 
 		if ( ! empty( $data ) ) {
-			if ( in_array( $method, array( 'GET', 'DELETE' ) ) ) {
+			if ( in_array( $method, array( 'GET', 'DELETE' ), true ) ) {
 				$url = add_query_arg( $data, $url );
 			} else {
 				$args['body'] = json_encode( $data );

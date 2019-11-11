@@ -291,7 +291,7 @@ class Admin {
 	protected function on_edit_box_page() {
 		global $pagenow;
 
-		if ( ! in_array( $pagenow, array( 'post-new.php', 'post.php' ) ) ) {
+		if ( ! in_array( $pagenow, array( 'post-new.php', 'post.php' ), true ) ) {
 			return false;
 		}
 
@@ -676,7 +676,7 @@ class Admin {
 			return $links;
 		}
 
-		$settings_link = '<a href="' . admin_url( 'edit.php?post_type=boxzilla-box' ) . '">' . __( 'Boxes' ) . '</a>';
+		$settings_link = '<a href="' . admin_url( 'edit.php?post_type=boxzilla-box' ) . '">' . __( 'Boxes', 'boxzilla' ) . '</a>';
 		array_unshift( $links, $settings_link );
 
 		return $links;

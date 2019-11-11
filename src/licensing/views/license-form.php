@@ -22,7 +22,7 @@ if ( ! $license->activated ) {
 			?>
 		</ul>
 		<p>
-			To fix this, please activate your license using the form below.
+			<?php _e( 'To fix this, please activate your license using the form below.', 'boxzilla' ); ?>
 		</p>
 	</div>
 	<?php
@@ -44,7 +44,7 @@ foreach ( $this->notices as $notice ) {
 		<tr valign="top">
 			<th><?php _e( 'License Key', 'boxzilla' ); ?></th>
 			<td>
-				<input size="40" name="boxzilla_license_key" placeholder="<?php esc_attr_e( 'Enter your license key..', 'boxzilla' ); ?>" value="<?php echo esc_attr( $this->license->key ); ?>" 
+				<input size="40" name="boxzilla_license_key" placeholder="<?php esc_attr_e( 'Enter your license key..', 'boxzilla' ); ?>" value="<?php echo esc_attr( $this->license->key ); ?>"
 																							<?php
 																							if ( $this->license->activated ) {
 																								echo 'readonly';
@@ -79,7 +79,7 @@ foreach ( $this->notices as $notice ) {
 
 
 	<p>
-		<input type="submit" class="button button-primary" name="action" value="<?php _e( 'Save Changes' ); ?>" />
+		<input type="submit" class="button button-primary" name="action" value="<?php _e( 'Save Changes', 'boxzilla' ); ?>" />
 	</p>
 
 	<input type="hidden" name="boxzilla_license_form" value="1" />

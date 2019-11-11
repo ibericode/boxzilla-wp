@@ -10,24 +10,24 @@ class API_Exception extends Exception {
 	/**
 	 * @var string
 	 */
-	protected $apiCode;
+	protected $api_code;
 
 	/**
 	 * API_Exception constructor.
 	 *
 	 * @param string $message
-	 * @param string $apiCode (optional)
+	 * @param string $api_code (optional)
 	 */
-	public function __construct( $message, $apiCode = '' ) {
+	public function __construct( $message, $api_code = '' ) {
 		parent::__construct( $message );
 
-		$this->apiCode = $apiCode;
+		$this->api_code = $api_code;
 	}
 
 	/**
 	 * @return string
 	 */
 	public function getApiCode() {
-		return $this->apiCode;
+		return $this->api_code;
 	}
 }

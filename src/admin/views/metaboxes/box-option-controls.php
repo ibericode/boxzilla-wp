@@ -88,13 +88,7 @@ $rule_options = apply_filters( 'boxzilla_rules_options', $rule_options );
 					<option value="not_contains" <?php selected( isset( $rule['qualifier'] ) && $rule['qualifier'] === 'not_contains' ); ?> style="display: none;"><?php _e( 'does not contain', 'boxzilla' ); ?></option>
 				</select>
 
-				<input class="boxzilla-rule-value regular-text" name="boxzilla_box[rules][<?php echo $key; ?>][value]" type="text" value="<?php echo esc_attr( $rule['value'] ); ?>" placeholder="<?php _e( 'Leave empty for any or enter (comma-separated) names or ID\'s', 'boxzilla' ); ?>" style="
-																									 <?php
-																										if ( in_array( $rule['condition'], array( '', 'everywhere' ) ) ) {
-																											echo 'display: none;';
-																										}
-																										?>
-		" />
+				<input class="boxzilla-rule-value regular-text" name="boxzilla_box[rules][<?php echo $key; ?>][value]" type="text" value="<?php echo esc_attr( $rule['value'] ); ?>" placeholder="<?php _e( 'Leave empty for any or enter (comma-separated) names or ID\'s', 'boxzilla' ); ?>" style=<?php echo in_array( $rule['condition'], array( '', 'everywhere' ), true ) ? 'display: none;' : ''; ?>" />
 			</td>
 		</tr>
 		<?php
@@ -181,12 +175,12 @@ $rule_options = apply_filters( 'boxzilla_rules_options', $rule_options );
 		<th><label for="boxzilla_cookie"><?php _e( 'Cookie expiration', 'boxzilla' ); ?></label></th>
 		<td>
 			<div style="display: inline-block; margin-right: 20px;">
-				<label for="boxzilla_cookie_triggered" style="font-weight: bold; display: block;"><?php esc_html_e( 'Triggered', 'mailchimp-for-wp' ); ?></label>
+				<label for="boxzilla_cookie_triggered" style="font-weight: bold; display: block;"><?php esc_html_e( 'Triggered', 'boxzilla' ); ?></label>
 				<input type="number" id="boxzilla_cookie_triggered" name="boxzilla_box[cookie][triggered]" min="0" step="1" value="<?php echo esc_attr( $opts['cookie']['triggered'] ); ?>" />
 				<small><?php _e( 'hours', 'boxzilla' ); ?></small>
 			</div>
 			<div style="display: inline-block;">
-				<label for="boxzilla_cookie_dismissed" style="font-weight: bold; display: block;"><?php esc_html_e( 'Dismissed', 'mailchimp-for-wp' ); ?></label>
+				<label for="boxzilla_cookie_dismissed" style="font-weight: bold; display: block;"><?php esc_html_e( 'Dismissed', 'boxzilla' ); ?></label>
 				<input type="number" id="boxzilla_cookie_dismissed" name="boxzilla_box[cookie][dismissed]" min="0" step="1" value="<?php echo esc_attr( $opts['cookie']['dismissed'] ); ?>" />
 				<small><?php _e( 'hours', 'boxzilla' ); ?></small>
 			</div>
@@ -211,16 +205,16 @@ $rule_options = apply_filters( 'boxzilla_rules_options', $rule_options );
 	<tr valign="top">
 		<th><label for="boxzilla_auto_hide"><?php _e( 'Auto-hide?', 'boxzilla' ); ?></label></th>
 		<td>
-			<label><input type="radio" name="boxzilla_box[auto_hide]" value="1" <?php checked( $opts['auto_hide'], 1 ); ?> /> <?php _e( 'Yes' ); ?></label> &nbsp;
-			<label><input type="radio" name="boxzilla_box[auto_hide]" value="0" <?php checked( $opts['auto_hide'], 0 ); ?> /> <?php _e( 'No' ); ?></label> &nbsp;
+			<label><input type="radio" name="boxzilla_box[auto_hide]" value="1" <?php checked( $opts['auto_hide'], 1 ); ?> /> <?php _e( 'Yes', 'boxzilla' ); ?></label> &nbsp;
+			<label><input type="radio" name="boxzilla_box[auto_hide]" value="0" <?php checked( $opts['auto_hide'], 0 ); ?> /> <?php _e( 'No', 'boxzilla' ); ?></label> &nbsp;
 			<p class="help"><?php _e( 'Hide box again when visitors scroll back up?', 'boxzilla' ); ?></p>
 		</td>
 	</tr>
 	<tr valign="top">
 		<th><label for="boxzilla_closable"><?php _e( 'Show close icon?', 'boxzilla' ); ?></label></th>
 		<td>
-			<label><input type="radio" id="boxzilla_closable_1" name="boxzilla_box[show_close_icon]" value="1" <?php checked( $opts['show_close_icon'], 1 ); ?> /> <?php _e( 'Yes' ); ?></label> &nbsp;
-			<label><input type="radio" id="boxzilla_closable_0" name="boxzilla_box[show_close_icon]" value="0" <?php checked( $opts['show_close_icon'], 0 ); ?> /> <?php _e( 'No' ); ?></label> &nbsp;
+			<label><input type="radio" id="boxzilla_closable_1" name="boxzilla_box[show_close_icon]" value="1" <?php checked( $opts['show_close_icon'], 1 ); ?> /> <?php _e( 'Yes', 'boxzilla' ); ?></label> &nbsp;
+			<label><input type="radio" id="boxzilla_closable_0" name="boxzilla_box[show_close_icon]" value="0" <?php checked( $opts['show_close_icon'], 0 ); ?> /> <?php _e( 'No', 'boxzilla' ); ?></label> &nbsp;
 			<p class="help">
 				<?php _e( 'If you decide to hide the close icon, make sure to offer an alternative way to close the box.', 'boxzilla' ); ?><br />
 				<?php _e( 'Example: ', 'boxzilla' ); ?> <code>[boxzilla-close]No, thanks![/boxzilla-close]</code>
@@ -230,8 +224,8 @@ $rule_options = apply_filters( 'boxzilla_rules_options', $rule_options );
 	<tr valign="top">
 		<th><label for="boxzilla_test_mode"><?php _e( 'Enable test mode?', 'boxzilla' ); ?></label></th>
 		<td>
-			<label><input type="radio" id="boxzilla_test_mode_1" name="boxzilla_global_settings[test_mode]" value="1" <?php checked( $global_opts['test_mode'], 1 ); ?> /> <?php _e( 'Yes' ); ?></label> &nbsp;
-			<label><input type="radio" id="boxzilla_test_mode_0" name="boxzilla_global_settings[test_mode]" value="0" <?php checked( $global_opts['test_mode'], 0 ); ?> /> <?php _e( 'No' ); ?></label> &nbsp;
+			<label><input type="radio" id="boxzilla_test_mode_1" name="boxzilla_global_settings[test_mode]" value="1" <?php checked( $global_opts['test_mode'], 1 ); ?> /> <?php _e( 'Yes', 'boxzilla' ); ?></label> &nbsp;
+			<label><input type="radio" id="boxzilla_test_mode_0" name="boxzilla_global_settings[test_mode]" value="0" <?php checked( $global_opts['test_mode'], 0 ); ?> /> <?php _e( 'No', 'boxzilla' ); ?></label> &nbsp;
 			<p class="help"><?php _e( 'If test mode is enabled, all boxes will show up regardless of whether a cookie has been set.', 'boxzilla' ); ?></p>
 		</td>
 	</tr>

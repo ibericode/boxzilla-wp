@@ -31,11 +31,11 @@
 		<td>
 			<label class="boxzilla-label" for="boxzilla-border-style"><?php _e( 'Border style', 'boxzilla' ); ?></label>
 			<select name="boxzilla_box[css][border_style]" id="boxzilla-border-style">
-				<option value="" <?php selected( $opts['css']['border_style'], '' ); ?>><?php _e( 'Default', 'boxzilla-theme-pack' ); ?></option>
-				<option value="solid" <?php selected( $opts['css']['border_style'], 'solid' ); ?>><?php _e( 'Solid', 'boxzilla-theme-pack' ); ?></option>
-				<option value="dashed" <?php selected( $opts['css']['border_style'], 'dashed' ); ?>><?php _e( 'Dashed', 'boxzilla-theme-pack' ); ?></option>
-				<option value="dotted" <?php selected( $opts['css']['border_style'], 'dotted' ); ?>><?php _e( 'Dotted', 'boxzilla-theme-pack' ); ?></option>
-				<option value="double" <?php selected( $opts['css']['border_style'], 'double' ); ?>><?php _e( 'Double', 'boxzilla-theme-pack' ); ?></option>
+				<option value="" <?php selected( $opts['css']['border_style'], '' ); ?>><?php _e( 'Default', 'boxzilla' ); ?></option>
+				<option value="solid" <?php selected( $opts['css']['border_style'], 'solid' ); ?>><?php _e( 'Solid', 'boxzilla' ); ?></option>
+				<option value="dashed" <?php selected( $opts['css']['border_style'], 'dashed' ); ?>><?php _e( 'Dashed', 'boxzilla' ); ?></option>
+				<option value="dotted" <?php selected( $opts['css']['border_style'], 'dotted' ); ?>><?php _e( 'Dotted', 'boxzilla' ); ?></option>
+				<option value="double" <?php selected( $opts['css']['border_style'], 'double' ); ?>><?php _e( 'Double', 'boxzilla' ); ?></option>
 			</select>
 			<p class="help"><?php _e( 'Border style', 'boxzilla' ); ?></p>
 		</td>

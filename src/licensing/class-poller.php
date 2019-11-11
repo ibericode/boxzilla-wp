@@ -54,7 +54,7 @@ class Poller {
 			$license_still_valid = $remote_license->valid;
 		} catch ( API_Exception $e ) {
 			// license key wasn't found or expired
-			if ( in_array( $e->getApiCode(), array( 'license_invalid', 'license_expired' ) ) ) {
+			if ( in_array( $e->getApiCode(), array( 'license_invalid', 'license_expired' ), true ) ) {
 				$license_still_valid = false;
 			}
 		}

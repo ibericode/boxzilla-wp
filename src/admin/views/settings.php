@@ -19,8 +19,8 @@
 					<tr valign="top">
 						<th><label for="boxzilla_test_mode"><?php _e( 'Enable test mode?', 'boxzilla' ); ?></label></th>
 						<td>
-							<label><input type="radio" id="boxzilla_test_mode_1" name="boxzilla_settings[test_mode]" value="1" <?php checked( $opts['test_mode'], 1 ); ?> /> <?php _e( 'Yes' ); ?></label> &nbsp;
-							<label><input type="radio" id="boxzilla_test_mode_0" name="boxzilla_settings[test_mode]" value="0" <?php checked( $opts['test_mode'], 0 ); ?> /> <?php _e( 'No' ); ?></label> &nbsp;
+							<label><input type="radio" id="boxzilla_test_mode_1" name="boxzilla_settings[test_mode]" value="1" <?php checked( $opts['test_mode'], 1 ); ?> /> <?php _e( 'Yes', 'boxzilla' ); ?></label> &nbsp;
+							<label><input type="radio" id="boxzilla_test_mode_0" name="boxzilla_settings[test_mode]" value="0" <?php checked( $opts['test_mode'], 0 ); ?> /> <?php _e( 'No', 'boxzilla' ); ?></label> &nbsp;
 							<p class="help"><?php _e( 'If test mode is enabled, all boxes will show up regardless of whether a cookie has been set.', 'boxzilla' ); ?></p>
 						</td>
 					</tr>

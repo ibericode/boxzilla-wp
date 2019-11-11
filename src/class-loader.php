@@ -138,7 +138,7 @@ class BoxLoader {
 
 			case 'is_post_type':
 				$post_type = (string) get_post_type();
-				$matched   = in_array( $post_type, (array) $value );
+				$matched   = in_array( $post_type, (array) $value, true );
 				break;
 
 			case 'is_single':

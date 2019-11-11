@@ -13,7 +13,7 @@ class Autocomplete {
 	 */
 	public function ajax() {
 		$q    = ( isset( $_GET['q'] ) ) ? sanitize_text_field( $_GET['q'] ) : '';
-		$type = ( isset( $_GET['type'] ) && in_array( $_GET['type'], array( 'page', 'post', 'category', 'post_type', 'post_tag' ) ) ) ? $_GET['type'] : 'post';
+		$type = ( isset( $_GET['type'] ) && in_array( $_GET['type'], array( 'page', 'post', 'category', 'post_type', 'post_tag' ), true ) ) ? $_GET['type'] : 'post';
 
 		// do nothing if supplied 'q' parameter is omitted or empty
 		// or less than 2 characters long
@@ -53,7 +53,7 @@ class Autocomplete {
 	 */
 	protected function list_posts( $query, $post_type = 'post' ) {
 		global $wpdb;
-		$sql        = $wpdb->prepare( "SELECT p.post_name FROM $wpdb->posts p WHERE p.post_type = '%s' AND p.post_status = 'publish' AND ( p.post_title LIKE '%s' OR p.post_name LIKE '%s' ) GROUP BY p.post_name", $post_type, $query . '%%', $query . '%%' );
+		$sql        = $wpdb->prepare( "SELECT p.post_name FROM $wpdb->posts p WHERE p.post_type = %s AND p.post_status = 'publish' AND ( p.post_title LIKE %s OR p.post_name LIKE %s ) GROUP BY p.post_name", $post_type, $query . '%%', $query . '%%' );
 		$post_slugs = $wpdb->get_col( $sql );
 		return join( $post_slugs, PHP_EOL );
 	}
