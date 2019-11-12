@@ -40,10 +40,6 @@ class Admin {
 	 * Initialise the all admin related stuff
 	 */
 	public function init() {
-		// Load the plugin textdomain
-		load_plugin_textdomain( 'boxzilla', null, basename( $this->plugin->dir() ) . '/languages' );
-
-		// action hooks
 		$this->add_hooks();
 		$this->run_migrations();
 		$this->review_notice->init();

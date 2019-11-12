@@ -14,7 +14,6 @@ const through = require('through2');
 const sourcemaps = require('gulp-sourcemaps');
 const wrap = require('gulp-wrap');
 const wpPot = require('gulp-wp-pot');
-const babelify = require('babelify');
 
 gulp.task('css', function () {
     var files = './assets/css/*[^\.min].css';

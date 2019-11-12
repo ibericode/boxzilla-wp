@@ -19,7 +19,7 @@ If you think you've found a bug, [please raise an issue here](https://github.com
 
 Translations
 -------------
-A .pot file is shipped with the plugin. To submit your translation files, please [open a pull request](https://github.com/ibericode/boxzilla-wp/pull/new/master).
+You can [help translate Boxzilla](https://translate.wordpress.org/projects/wp-plugins/boxzilla/stable/) using your WordPress.org account.
 
 Support
 -------
