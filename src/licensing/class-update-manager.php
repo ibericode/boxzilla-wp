@@ -98,13 +98,12 @@ class UpdateManager {
 			return $result;
 		}
 
-		// only act on our own plugins
-		$plugin = $this->get_plugin_by_slug( $args->slug );
-		if ( $plugin === null ) {
+		// only act on our plugins
+		if ( strpos( $args->slug, 'boxzilla-' ) !== 0 ) {
 			return $result;
 		}
 
-		return $this->get_update_info( $plugin );
+		return $this->get_update_info( $args->slug );
 	}
 
 	/**
@@ -173,56 +172,68 @@ class UpdateManager {
 		// find new versions
 		foreach ( $remote_plugins as $remote_plugin ) {
 
-			// only act on update info of our own plugins
-			if ( ! isset( $this->extensions[ $remote_plugin->sid ] ) ) {
-				continue;
-			}
-
 			// sanity check
 			if ( ! isset( $remote_plugin->new_version ) ) {
 				continue;
 			}
 
-			// find corresponding local plugin
-			/** @var Plugin $local_plugin */
-			$local_plugin = $this->extensions[ $remote_plugin->sid ];
+			// if plugin is activated, we can access it here
+			if ( isset( $this->extensions[ $remote_plugin->sid ] ) ) {
 
-			// plugin found and local plugin version not same as remote version?
-			if ( ! $local_plugin || version_compare( $local_plugin->version(), $remote_plugin->new_version, '>=' ) ) {
-				continue;
+				/** @var Plugin $local_plugin */
+				$local_plugin = $this->extensions[ $remote_plugin->sid ];
+
+				// plugin found and local plugin version not same as remote version?
+				if ( !$local_plugin || version_compare( $local_plugin->version(), $remote_plugin->new_version, '>=' ) ) {
+					continue;
+				}
+
+				// add some dynamic data
+				$available_updates[ $local_plugin->slug() ] = $this->format_response( $local_plugin->slug(), $remote_plugin );
+			} else {
+				// if plugin is not active, use get_plugin_data for fetching version
+				$plugin_file = WP_PLUGIN_DIR . "/{$remote_plugin->slug}/{$remote_plugin->slug}.php";
+				$plugin_data = get_plugin_data( $plugin_file );
+
+				if ( !$plugin_data || version_compare( $plugin_data['Version'], $remote_plugin->new_version, '>=' ) ) {
+					continue;
+				}
+
+				// add some dynamic data
+				$slug = plugin_basename( $plugin_file );
+				$available_updates[ $slug ] = $this->format_response( $slug, $remote_plugin );
 			}
-
-			// add some dynamic data
-			$available_updates[ $local_plugin->slug() ] = $this->format_response( $local_plugin, $remote_plugin );
 		}
 
 		return $available_updates;
 	}
 
 	/**
-	 * @param Plugin $plugin
+	 * @param string $slug
 	 *
 	 * @return null
 	 */
-	public function get_update_info( Plugin $plugin ) {
+	public function get_update_info( $slug ) {
 		$available_updates = $this->fetch_updates();
 
-		if ( isset( $available_updates[ $plugin->slug() ] ) ) {
-			return $available_updates[ $plugin->slug() ];
+		foreach ( $available_updates as $plugin_file => $update_info ) {
+			if ( $slug === $update_info->slug ) {
+				return $update_info;
+			}
 		}
 
 		return null;
 	}
 
 	/**
-	 * @param Plugin $plugin
-	 * @param         $response
+	 * @param $slug
+	 * @param $response
 	 *
 	 * @return mixed
 	 */
-	protected function format_response( Plugin $plugin, $response ) {
-		$response->slug   = dirname( $plugin->slug() );
-		$response->plugin = $plugin->slug();
+	protected function format_response( $slug, $response ) {
+		$response->slug   = dirname($slug);
+		$response->plugin = $slug;
 
 		// add some notices if license is inactive
 		if ( ! $this->license->activated ) {
