@@ -1,6 +1,15 @@
 Changelog
 ==========
 
+#### 3.2.16 - Nov 15, 2019
+
+**Improvements**
+
+Roll-back a change in version 3.2.15 that caused an issue with Boxzilla Theme Pack and Boxzilla WooCommerce. 
+
+Please make sure your [Boxzilla plugin license](https://my.boxzillaplugin.com/) is activated and then update Boxzilla Theme Pack and Boxzilla WooCommerce to the latest version.
+
+
 #### 3.2.15 - Nov 6, 2019
 
 **Improvements**
