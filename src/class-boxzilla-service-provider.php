@@ -28,6 +28,8 @@ class BoxzillaServiceProvider implements ServiceProviderInterface {
 			return new Menu();
 		};
 
+		$container['bootstrapper'] = new Bootstrapper();
+
 		$container['box_loader'] = function ( $container ) {
 			return new BoxLoader( $container->plugin, $container->options );
 		};

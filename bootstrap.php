@@ -43,4 +43,8 @@ add_action( 'plugins_loaded', function() use( $boxzilla ) {
             $boxzilla['update_manager']->init();
         }
     }
+
+    // for legacy reasons: Boxzilla Theme Pack & Boxzilla WooCommerce used this
+	// we will be removing this in future versions
+	$boxzilla['bootstrapper']->run();
 }, 90 );
