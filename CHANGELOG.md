@@ -1,6 +1,14 @@
 Changelog
 ==========
 
+#### 3.2.17 - Nov 18, 2019
+
+**Fixes**
+
+- Notices when checking for updating and not having some add-on plugins installed.
+
+
+
 #### 3.2.16 - Nov 15, 2019
 
 **Improvements**
