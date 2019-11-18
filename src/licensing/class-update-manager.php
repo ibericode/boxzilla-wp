@@ -193,6 +193,10 @@ class UpdateManager {
 			} else {
 				// if plugin is not active, use get_plugin_data for fetching version
 				$plugin_file = WP_PLUGIN_DIR . "/{$remote_plugin->slug}/{$remote_plugin->slug}.php";
+				if ( ! file_exists( $plugin_file ) ) {
+					continue;
+				}
+
 				$plugin_data = get_plugin_data( $plugin_file );
 
 				if ( !$plugin_data || version_compare( $plugin_data['Version'], $remote_plugin->new_version, '>=' ) ) {
