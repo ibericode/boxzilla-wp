@@ -88,7 +88,7 @@ $rule_options = apply_filters( 'boxzilla_rules_options', $rule_options );
 					<option value="not_contains" <?php selected( isset( $rule['qualifier'] ) && $rule['qualifier'] === 'not_contains' ); ?> style="display: none;"><?php _e( 'does not contain', 'boxzilla' ); ?></option>
 				</select>
 
-				<input class="boxzilla-rule-value regular-text" name="boxzilla_box[rules][<?php echo $key; ?>][value]" type="text" value="<?php echo esc_attr( $rule['value'] ); ?>" placeholder="<?php _e( 'Leave empty for any or enter (comma-separated) names or ID\'s', 'boxzilla' ); ?>" style=<?php echo in_array( $rule['condition'], array( '', 'everywhere' ), true ) ? 'display: none;' : ''; ?>" />
+				<input class="boxzilla-rule-value regular-text" name="boxzilla_box[rules][<?php echo $key; ?>][value]" type="text" value="<?php echo esc_attr( $rule['value'] ); ?>" placeholder="<?php _e( 'Leave empty for any or enter (comma-separated) names or ID\'s', 'boxzilla' ); ?>" style="<?php echo in_array( $rule['condition'], array( '', 'everywhere' ), true ) ? 'display: none;' : ''; ?>" />
 			</td>
 		</tr>
 		<?php
