@@ -41,21 +41,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 function _load_boxzilla() {
 
 	define( 'BOXZILLA_FILE', __FILE__ );
-	define('BOXZILLA_VERSION', '3.2.17');
+	define( 'BOXZILLA_VERSION', '3.2.17' );
 
 	require __DIR__ . '/bootstrap.php';
 }
 
 // Check if we're on PHP 5.2, if so: bail early.
-if( version_compare( PHP_VERSION, '5.3', '<' ) ) {
-    require dirname( __FILE__ ) . '/src/class-php-fallback.php';
-    new Boxzilla_PHP_Fallback( 'Boxzilla', plugin_basename( __FILE__ ) );
-    return;
+if ( version_compare( PHP_VERSION, '5.3', '<' ) ) {
+	require dirname( __FILE__ ) . '/src/class-php-fallback.php';
+	new Boxzilla_PHP_Fallback( 'Boxzilla', plugin_basename( __FILE__ ) );
+	return;
 }
 
 // load autoloader but only if not loaded already (for compat with sitewide autoloader)
-if( ! function_exists( 'boxzilla' ) ) {
-    require __DIR__ . '/vendor/autoload.php';
+if ( ! function_exists( 'boxzilla' ) ) {
+	require __DIR__ . '/vendor/autoload.php';
 }
 
 // register activation hook

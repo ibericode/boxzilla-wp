@@ -184,7 +184,7 @@ class UpdateManager {
 				$local_plugin = $this->extensions[ $remote_plugin->sid ];
 
 				// plugin found and local plugin version not same as remote version?
-				if ( !$local_plugin || version_compare( $local_plugin->version(), $remote_plugin->new_version, '>=' ) ) {
+				if ( ! $local_plugin || version_compare( $local_plugin->version(), $remote_plugin->new_version, '>=' ) ) {
 					continue;
 				}
 
@@ -199,12 +199,12 @@ class UpdateManager {
 
 				$plugin_data = get_plugin_data( $plugin_file );
 
-				if ( !$plugin_data || version_compare( $plugin_data['Version'], $remote_plugin->new_version, '>=' ) ) {
+				if ( ! $plugin_data || version_compare( $plugin_data['Version'], $remote_plugin->new_version, '>=' ) ) {
 					continue;
 				}
 
 				// add some dynamic data
-				$slug = plugin_basename( $plugin_file );
+				$slug                       = plugin_basename( $plugin_file );
 				$available_updates[ $slug ] = $this->format_response( $slug, $remote_plugin );
 			}
 		}
@@ -236,7 +236,7 @@ class UpdateManager {
 	 * @return mixed
 	 */
 	protected function format_response( $slug, $response ) {
-		$response->slug   = dirname($slug);
+		$response->slug   = dirname( $slug );
 		$response->plugin = $slug;
 
 		// add some notices if license is inactive
