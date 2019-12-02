@@ -4,7 +4,7 @@ Donate link: https://boxzillaplugin.com/#utm_source=wp-plugin-repo&utm_medium=bo
 Tags: scroll triggered box, cta, social, pop-up, newsletter, call to action, mailchimp, contact form 7, social media, mc4wp, ibericode
 Requires at least: 4.6
 Tested up to: 5.3
-Stable tag: 3.2.17
+Stable tag: 3.2.18
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 5.3
@@ -128,6 +128,13 @@ Have a look at the [frequently asked questions](https://wordpress.org/plugins/bo
 
 
 == Changelog ==
+
+
+#### 3.2.18 - Dec 2, 2019
+
+**Fixes**
+
+- Missing quotes in HTML attribute on "edit box" page.
 
 
 #### 3.2.17 - Nov 18, 2019

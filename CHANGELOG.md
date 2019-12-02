@@ -1,6 +1,13 @@
 Changelog
 ==========
 
+#### 3.2.18 - Dec 2, 2019
+
+**Fixes**
+
+- Missing quotes in HTML attribute on "edit box" page.
+
+
 #### 3.2.17 - Nov 18, 2019
 
 **Fixes**
