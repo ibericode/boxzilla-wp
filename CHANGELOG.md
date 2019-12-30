@@ -1,6 +1,17 @@
 Changelog
 ==========
 
+#### 3.2.19 - Dec 30, 2019
+
+**Fixes**
+
+- Box rules using "contains" would only check first argument (when using comma-separated value).
+
+**Improvements**
+
+- Use a dedicated overlay element per box to prevent issues with multiple boxs showing on a page. Thanks Jason Maurer!
+
+
 #### 3.2.18 - Dec 2, 2019
 
 **Fixes**
