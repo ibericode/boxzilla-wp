@@ -65,23 +65,21 @@ class BoxLoader {
 	 *
 	 * @param string $string
 	 * @param array $patterns
-	 *
+	 * @param boolean $contains
 	 * @return boolean
 	 */
-	protected function match_patterns( $string, $patterns, $contains = false ) {
+	protected function match_patterns( $string, array $patterns, $contains = false ) {
 		$string = strtolower( $string );
 
 		foreach ( $patterns as $pattern ) {
 			$pattern = rtrim( $pattern, '/' );
 			$pattern = strtolower( $pattern );
 
-			// contains means we should do a simple occurrence check
-			// does not support wildcards
 			if ( $contains ) {
-				return strpos( $string, $pattern ) !== false;
-			}
-
-			if ( function_exists( 'fnmatch' ) ) {
+				// contains means we should do a simple occurrence check
+				// does not support wildcards
+				$match = strpos( $string, $pattern ) !== false;
+			} else if ( function_exists( 'fnmatch' ) ) {
 				$match = fnmatch( $pattern, $string );
 			} else {
 				$match = ( $pattern === $string );
@@ -99,9 +97,7 @@ class BoxLoader {
 	 * @return string
 	 */
 	protected function get_request_url() {
-		// strip trailing slashes
-		$request_uri = rtrim( $_SERVER['REQUEST_URI'], '/' );
-		return $request_uri;
+		return rtrim( $_SERVER['REQUEST_URI'], '/' );
 	}
 
 	/**
@@ -117,7 +113,7 @@ class BoxLoader {
 		$matched = false;
 
 		// cast value to array & trim whitespace or excess comma's
-		$value = array_map( 'trim', explode( ',', rtrim( trim( $value ), ',' ) ) );
+		$values = array_map( 'trim', explode( ',', rtrim( trim( $value ), ',' ) ) );
 
 		switch ( $condition ) {
 			case 'everywhere':
@@ -126,38 +122,38 @@ class BoxLoader {
 
 			case 'is_url':
 				$url     = $this->get_request_url();
-				$matched = $this->match_patterns( $url, $value, $qualifier === 'contains' || $qualifier === 'not_contains' );
+				$matched = $this->match_patterns( $url, $values, $qualifier === 'contains' || $qualifier === 'not_contains' );
 				break;
 
 			case 'is_referer':
 				if ( ! empty( $_SERVER['HTTP_REFERER'] ) ) {
 					$referer = $_SERVER['HTTP_REFERER'];
-					$matched = $this->match_patterns( $referer, $value, $qualifier === 'contains' || $qualifier === 'not_contains' );
+					$matched = $this->match_patterns( $referer, $values, $qualifier === 'contains' || $qualifier === 'not_contains' );
 				}
 				break;
 
 			case 'is_post_type':
 				$post_type = (string) get_post_type();
-				$matched   = in_array( $post_type, (array) $value, true );
+				$matched   = in_array( $post_type, $values, true );
 				break;
 
 			case 'is_single':
 			case 'is_post':
 				// convert to empty string if array with just empty string in it
-				$value   = ( $value === array( '' ) ) ? '' : $value;
+				$value   = ( $values === array( '' ) ) ? '' : $values;
 				$matched = is_single( $value );
 				break;
 
 			case 'is_post_in_category':
-				$matched = is_singular( 'post' ) && has_category( $value );
+				$matched = is_singular( 'post' ) && has_category( $values );
 				break;
 
 			case 'is_page':
-				$matched = is_page( $value );
+				$matched = is_page( $values );
 				break;
 
 			case 'is_post_with_tag':
-				$matched = is_singular( 'post' ) && has_tag( $value );
+				$matched = is_singular( 'post' ) && has_tag( $values );
 				break;
 
 			case 'is_user_logged_in':
@@ -171,9 +167,9 @@ class BoxLoader {
 		 * The dynamic portion of the hook, `$condition`, refers to the condition being matched.
 		 *
 		 * @param boolean $matched
-		 * @param array $value
+		 * @param array $values
 		 */
-		$matched = apply_filters( 'boxzilla_box_rule_matches_' . $condition, $matched, $value );
+		$matched = apply_filters( 'boxzilla_box_rule_matches_' . $condition, $matched, $values );
 
 		// if qualifier is set to false, we need to reverse this value here.
 		if ( ! $qualifier || $qualifier === 'not_contains' ) {
