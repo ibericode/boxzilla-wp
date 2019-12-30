@@ -27,6 +27,6 @@
     "vinyl-source-stream": "^2.0.0"
   },
   "dependencies": {
-    "boxzilla": "^1.2.2"
+    "boxzilla": "^1.2.3"
   }
 }
