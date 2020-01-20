@@ -4,7 +4,7 @@ Donate link: https://boxzillaplugin.com/#utm_source=wp-plugin-repo&utm_medium=bo
 Tags: scroll triggered box, cta, social, pop-up, newsletter, call to action, mailchimp, contact form 7, social media, mc4wp, ibericode
 Requires at least: 4.6
 Tested up to: 5.3
-Stable tag: 3.2.19
+Stable tag: 3.2.20
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 5.3
@@ -15,24 +15,25 @@ Flexible pop-ups or slide-ins, showing up at just the right time.
 
 ### Boxzilla for WordPress
 
-Boxzilla is a plugin that allows you to add powerful call-to-actions via pop-up or slide-in boxes to your WordPress site. Boxes can slide or fade in at any point and can contain whatever content you like.
+Boxzilla is a plugin allowing you to add pop-up or slide-in boxes to your WordPress site. Boxes can slide or fade in at any point and can contain whatever content you like.
 
 #### Some of Boxzilla's features
 
-- Boxes can contain _any_ content you like.
-- You can set-up various box triggers:
-    - Scroll percentage
-    - Reaching a certain page element
-    - X amount of time on the page
-    - Exit Intent (premium)
-    - Time on Site (premium)
+- Boxes can contain any content you like.
+- You can show boxes at various events:
+    - After scrolling down past a certain percentage of the page height.
+    - After scrolling down to a specific page element.
+    - After X seconds on the page.
+    - After X pageviews on the site.
     - Manually by clicking a link or button
+    - When the user intents to exit your website (Premium)
+    - After X seconds on the site (any page). (Premium)
 - Customizable box position on the screen.
-- Various visibility animations.
-- Advanced page targeting.
-- Full control over how long (and whether) boxes should stay hidden.
-- Customizable box appearance using a simple & intuitive interface.
-- Mobile optimized.
+- Animations for showing or hiding boxes.
+- Page targeting, to only show pop-ups on certain posts or pages.
+- Full control over how long boxes should stay hidden once they are dismissed.
+- Customizable box appearance using a simple visual interface.
+- Only 6 kB of JavaScript is added to your website.
 
 [Read more about Boxzilla](https://boxzillaplugin.com/#utm_source=wp-plugin-repo&utm_medium=boxzilla&utm_campaign=description).
 
@@ -128,6 +129,17 @@ Have a look at the [frequently asked questions](https://wordpress.org/plugins/bo
 
 
 == Changelog ==
+
+
+#### 3.2.20 - Jan 20, 2020
+
+**Fixes**
+
+- An issue with the "pageviews" trigger on Safari Mobile where session storage is inaccessible in the beforeunload event.
+
+**Improvements**
+
+- Prepare for upcoming [Mailchimp for WordPress](https://wordpress.org/plugins/mailchimp-for-wp/) plugin update which changes the name of the JS object when a form is submitted without AJAX.
 
 
 #### 3.2.19 - Dec 30, 2019

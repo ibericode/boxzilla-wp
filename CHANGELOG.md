@@ -1,6 +1,17 @@
 Changelog
 ==========
 
+#### 3.2.20 - Jan 20, 2020
+
+**Fixes**
+
+- An issue with the "pageviews" trigger on Safari Mobile where session storage is inaccessible in the beforeunload event.
+
+**Improvements**
+
+- Prepare for upcoming [Mailchimp for WordPress](https://wordpress.org/plugins/mailchimp-for-wp/) plugin update which changes the name of the JS object when a form is submitted without AJAX.
+
+
 #### 3.2.19 - Dec 30, 2019
 
 **Fixes**
