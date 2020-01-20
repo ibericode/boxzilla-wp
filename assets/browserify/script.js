@@ -109,24 +109,22 @@
     }
 
     function maybeOpenMailChimpForWordPressBox() {
-        if( typeof(window.mc4wp_forms_config) !== "object" || ! window.mc4wp_forms_config.submitted_form ) {
+        if ( (typeof(window.mc4wp_forms_config) !== "object" || ! window.mc4wp_forms_config.submitted_form)
+            && (typeof(window.mc4wp_submitted_form) !== "object")) {
             return;
         }
 
-        var selector = '#' + window.mc4wp_forms_config.submitted_form.element_id;
-        var boxes = Boxzilla.boxes;
-        for( var boxId in boxes ) {
-            if(!boxes.hasOwnProperty(boxId)) { continue; }
-            var box = boxes[boxId];
+        let submitted_form = window.mc4wp_submitted_form || window.mc4wp_forms_config.submitted_form;
+        let selector = '#' + submitted_form.element_id;
+        Boxzilla.boxes.forEach(box => {
             if( box.element.querySelector(selector)) {
                 box.show();
-                return;
             }
-        }
+        });
     }   
 
     // print message when test mode is enabled
-    var isLoggedIn = document.body.className.indexOf('logged-in') > -1;
+    let isLoggedIn = document.body.className.indexOf('logged-in') > -1;
     if( isLoggedIn && options.testMode ) {
         console.log( 'Boxzilla: Test mode is enabled. Please disable test mode if you\'re done testing.' );
     }

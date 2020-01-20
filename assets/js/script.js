@@ -108,25 +108,17 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   }
 
   function maybeOpenMailChimpForWordPressBox() {
-    if (_typeof(window.mc4wp_forms_config) !== "object" || !window.mc4wp_forms_config.submitted_form) {
+    if ((_typeof(window.mc4wp_forms_config) !== "object" || !window.mc4wp_forms_config.submitted_form) && _typeof(window.mc4wp_submitted_form) !== "object") {
       return;
     }
 
-    var selector = '#' + window.mc4wp_forms_config.submitted_form.element_id;
-    var boxes = Boxzilla.boxes;
-
-    for (var boxId in boxes) {
-      if (!boxes.hasOwnProperty(boxId)) {
-        continue;
-      }
-
-      var box = boxes[boxId];
-
+    var submitted_form = window.mc4wp_submitted_form || window.mc4wp_forms_config.submitted_form;
+    var selector = '#' + submitted_form.element_id;
+    Boxzilla.boxes.forEach(function (box) {
       if (box.element.querySelector(selector)) {
         box.show();
-        return;
       }
-    }
+    });
   } // print message when test mode is enabled
 
 
@@ -702,149 +694,41 @@ module.exports = Box;
 },{"./animator.js":2,"./events.js":5}],4:[function(require,module,exports){
 'use strict';
 
-var Timer = require('./timer.js');
-
 var Boxzilla = require('./events.js');
 
 var Box = require('./box.js');
 
-var boxes = [];
-var scrollElement = window;
-var siteTimer;
-var pageTimer;
-var pageViews;
-var initialised = false;
+var util = require('./util.js');
 
 var styles = require('./styles.js');
 
 var ExitIntent = require('./triggers/exit-intent.js');
 
-function throttle(fn, threshhold, scope) {
-  threshhold || (threshhold = 250);
-  var last, deferTimer;
-  return function () {
-    var context = scope || this;
-    var now = +new Date(),
-        args = arguments;
+var Scroll = require('./triggers/scroll.js');
 
-    if (last && now < last + threshhold) {
-      // hold on to it
-      clearTimeout(deferTimer);
-      deferTimer = setTimeout(function () {
-        last = now;
-        fn.apply(context, args);
-      }, threshhold);
-    } else {
-      last = now;
-      fn.apply(context, args);
-    }
-  };
-} // "keyup" listener
+var Pageviews = require('./triggers/pageviews.js');
 
+var Time = require('./triggers/time.js');
+
+var initialised = false;
+var boxes = []; // "keyup" listener
 
 function onKeyUp(e) {
   if (e.keyCode === 27) {
     Boxzilla.dismiss();
   }
-} // check "pageviews" criteria for each box
-
-
-function checkPageViewsCriteria() {
-  // don't bother if another box is currently open
-  if (isAnyBoxVisible()) {
-    return;
-  }
-
-  boxes.forEach(function (box) {
-    if (!box.mayAutoShow()) {
-      return;
-    }
-
-    if (box.config.trigger.method === 'pageviews' && pageViews >= box.config.trigger.value) {
-      box.trigger();
-    }
-  });
-} // check time trigger criteria for each box
-
-
-function checkTimeCriteria() {
-  // don't bother if another box is currently open
-  if (isAnyBoxVisible()) {
-    return;
-  }
-
-  boxes.forEach(function (box) {
-    if (!box.mayAutoShow()) {
-      return;
-    } // check "time on site" trigger
-
-
-    if (box.config.trigger.method === 'time_on_site' && siteTimer.time >= box.config.trigger.value) {
-      box.trigger();
-    } // check "time on page" trigger
-
-
-    if (box.config.trigger.method === 'time_on_page' && pageTimer.time >= box.config.trigger.value) {
-      box.trigger();
-    }
-  });
-} // check triggerHeight criteria for all boxes
-
-
-function checkHeightCriteria() {
-  var scrollY = scrollElement.hasOwnProperty('pageYOffset') ? scrollElement.pageYOffset : scrollElement.scrollTop;
-  scrollY = scrollY + window.innerHeight * 0.9;
-  boxes.forEach(function (box) {
-    if (!box.mayAutoShow() || box.triggerHeight <= 0) {
-      return;
-    }
-
-    if (scrollY > box.triggerHeight) {
-      // don't bother if another box is currently open
-      if (isAnyBoxVisible()) {
-        return;
-      } // trigger box
-
-
-      box.trigger();
-    } // if box may auto-hide and scrollY is less than triggerHeight (with small margin of error), hide box
-
-
-    if (box.mayRehide() && scrollY < box.triggerHeight - 5) {
-      box.hide();
-    }
-  });
 } // recalculate heights and variables based on height
 
 
 function recalculateHeights() {
   boxes.forEach(function (box) {
-    box.onResize();
+    return box.onResize();
   });
 }
 
-function showBoxesWithExitIntentTrigger() {
-  // do nothing if already triggered OR another box is visible.
-  if (isAnyBoxVisible()) {
-    return;
-  }
-
-  boxes.forEach(function (box) {
-    if (box.mayAutoShow() && box.config.trigger.method === 'exit_intent') {
-      box.trigger();
-    }
-  });
-}
-
-function isAnyBoxVisible() {
-  return boxes.filter(function (b) {
-    return b.visible;
-  }).length > 0;
-}
-
-function onElementClick(e) {
+function onElementClick(evt) {
   // find <a> element in up to 3 parent elements
-  var el = e.target || e.srcElement;
+  var el = evt.target || evt.srcElement;
   var depth = 3;
 
   for (var i = 0; i <= depth; i++) {
@@ -855,75 +739,39 @@ function onElementClick(e) {
     el = el.parentElement;
   }
 
-  if (!el || el.tagName !== 'A' || !el.getAttribute('href')) {
+  if (!el || el.tagName !== 'A' || !el.href) {
     return;
   }
 
-  var href = el.getAttribute('href').toLowerCase();
+  var href = el.href.toLowerCase();
   var match = href.match(/[#&]boxzilla-(\d+)/);
 
   if (match && match.length > 1) {
     var boxId = match[1];
     Boxzilla.toggle(boxId);
   }
-}
+} // initialise & add event listeners
 
-var timers = {
-  start: function start() {
-    try {
-      var sessionTime = sessionStorage.getItem('boxzilla_timer');
-      if (sessionTime) siteTimer.time = sessionTime;
-    } catch (e) {}
-
-    siteTimer.start();
-    pageTimer.start();
-  },
-  stop: function stop() {
-    sessionStorage.setItem('boxzilla_timer', siteTimer.time);
-    siteTimer.stop();
-    pageTimer.stop();
-  }
-}; // initialise & add event listeners
 
 Boxzilla.init = function () {
   if (initialised) {
     return;
-  }
+  } // insert styles into DOM
 
-  document.body.addEventListener('click', onElementClick, true);
-
-  try {
-    pageViews = sessionStorage.getItem('boxzilla_pageviews') || 0;
-  } catch (e) {
-    pageViews = 0;
-  }
-
-  siteTimer = new Timer(0);
-  pageTimer = new Timer(0); // insert styles into DOM
 
   var styleElement = document.createElement('style');
   styleElement.setAttribute("type", "text/css");
   styleElement.innerHTML = styles;
-  document.head.appendChild(styleElement); // init exit intent trigger
+  document.head.appendChild(styleElement); // init exit intent triggershow
 
-  new ExitIntent(showBoxesWithExitIntentTrigger); // start timers
-
-  timers.start();
-  scrollElement.addEventListener('touchstart', throttle(checkHeightCriteria), true);
-  scrollElement.addEventListener('scroll', throttle(checkHeightCriteria), true);
-  window.addEventListener('resize', throttle(recalculateHeights));
+  new ExitIntent(boxes);
+  new Pageviews(boxes);
+  new Scroll(boxes);
+  new Time(boxes);
+  document.body.addEventListener('click', onElementClick, true);
+  window.addEventListener('resize', util.throttle(recalculateHeights));
   window.addEventListener('load', recalculateHeights);
-  window.setInterval(checkTimeCriteria, 1000);
-  window.setTimeout(checkPageViewsCriteria, 1000);
-  document.addEventListener('keyup', onKeyUp); // stop timers when leaving page or switching to other tab
-
-  document.addEventListener("visibilitychange", function () {
-    document.hidden ? timers.stop() : timers.start();
-  });
-  window.addEventListener('beforeunload', function () {
-    timers.stop();
-    sessionStorage.setItem('boxzilla_pageviews', ++pageViews);
-  });
+  document.addEventListener('keyup', onKeyUp);
   Boxzilla.trigger('ready');
   initialised = true; // ensure this function doesn't run again
 };
@@ -953,10 +801,8 @@ Boxzilla.create = function (id, opts) {
 
 Boxzilla.get = function (id) {
   for (var i = 0; i < boxes.length; i++) {
-    var box = boxes[i];
-
-    if (box.id == id) {
-      return box;
+    if (boxes[i].id == id) {
+      return boxes[i];
     }
   }
 
@@ -970,7 +816,7 @@ Boxzilla.dismiss = function (id, animate) {
     Boxzilla.get(id).dismiss(animate);
   } else {
     boxes.forEach(function (box) {
-      box.dismiss(animate);
+      return box.dismiss(animate);
     });
   }
 };
@@ -980,7 +826,7 @@ Boxzilla.hide = function (id, animate) {
     Boxzilla.get(id).hide(animate);
   } else {
     boxes.forEach(function (box) {
-      box.hide(animate);
+      return box.hide(animate);
     });
   }
 };
@@ -990,7 +836,7 @@ Boxzilla.show = function (id, animate) {
     Boxzilla.get(id).show(animate);
   } else {
     boxes.forEach(function (box) {
-      box.show(animate);
+      return box.show(animate);
     });
   }
 };
@@ -1000,7 +846,7 @@ Boxzilla.toggle = function (id, animate) {
     Boxzilla.get(id).toggle(animate);
   } else {
     boxes.forEach(function (box) {
-      box.toggle(animate);
+      return box.toggle(animate);
     });
   }
 }; // expose each individual box.
@@ -1014,21 +860,21 @@ if (typeof module !== 'undefined' && module.exports) {
   module.exports = Boxzilla;
 }
 
-},{"./box.js":3,"./events.js":5,"./styles.js":6,"./timer.js":7,"./triggers/exit-intent.js":8}],5:[function(require,module,exports){
+},{"./box.js":3,"./events.js":5,"./styles.js":6,"./triggers/exit-intent.js":8,"./triggers/pageviews.js":9,"./triggers/scroll.js":10,"./triggers/time.js":11,"./util.js":12}],5:[function(require,module,exports){
 'use strict';
 
 var EventEmitter = require('wolfy87-eventemitter');
 
 module.exports = Object.create(EventEmitter.prototype);
 
-},{"wolfy87-eventemitter":9}],6:[function(require,module,exports){
+},{"wolfy87-eventemitter":13}],6:[function(require,module,exports){
 "use strict";
 
 var styles = "#boxzilla-overlay,.boxzilla-overlay{position:fixed;background:rgba(0,0,0,.65);width:100%;height:100%;left:0;top:0;z-index:10000}.boxzilla-center-container{position:fixed;top:0;left:0;right:0;height:0;text-align:center;z-index:11000;line-height:0}.boxzilla-center-container .boxzilla{display:inline-block;text-align:left;position:relative;line-height:normal}.boxzilla{position:fixed;z-index:12000;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;background:#fff;padding:25px}.boxzilla.boxzilla-top-left{top:0;left:0}.boxzilla.boxzilla-top-right{top:0;right:0}.boxzilla.boxzilla-bottom-left{bottom:0;left:0}.boxzilla.boxzilla-bottom-right{bottom:0;right:0}.boxzilla-content>:first-child{margin-top:0;padding-top:0}.boxzilla-content>:last-child{margin-bottom:0;padding-bottom:0}.boxzilla-close-icon{position:absolute;right:0;top:0;text-align:center;padding:6px;cursor:pointer;-webkit-appearance:none;font-size:28px;font-weight:700;line-height:20px;color:#000;opacity:.5}.boxzilla-close-icon:focus,.boxzilla-close-icon:hover{opacity:.8}";
 module.exports = styles;
 
 },{}],7:[function(require,module,exports){
-'use strict';
+"use strict";
 
 var Timer = function Timer(start) {
   this.time = start;
@@ -1055,19 +901,24 @@ Timer.prototype.stop = function () {
 module.exports = Timer;
 
 },{}],8:[function(require,module,exports){
-'use strict';
+"use strict";
 
-module.exports = function (callback) {
+module.exports = function (boxes) {
   var timeout = null;
   var touchStart = {};
 
-  function triggerCallback() {
+  function trigger() {
     document.documentElement.removeEventListener('mouseleave', onMouseLeave);
     document.documentElement.removeEventListener('mouseenter', onMouseEnter);
     document.documentElement.removeEventListener('click', clearTimeout);
     window.removeEventListener('touchstart', onTouchStart);
-    window.removeEventListener('touchend', onTouchEnd);
-    callback();
+    window.removeEventListener('touchend', onTouchEnd); // show boxes with exit intent trigger
+
+    boxes.forEach(function (box) {
+      if (box.mayAutoShow() && box.config.trigger.method === 'exit_intent') {
+        box.trigger();
+      }
+    });
   }
 
   function clearTimeout() {
@@ -1096,7 +947,7 @@ module.exports = function (callback) {
     // add small exception space in the top-right corner
 
     if (evt.clientY <= getAddressBarY() && evt.clientX < 0.80 * window.innerWidth) {
-      timeout = window.setTimeout(triggerCallback, 400);
+      timeout = window.setTimeout(trigger, 400);
     }
   }
 
@@ -1129,7 +980,7 @@ module.exports = function (callback) {
       return;
     }
 
-    timeout = window.setTimeout(triggerCallback, 800);
+    timeout = window.setTimeout(trigger, 800);
   }
 
   window.addEventListener('touchstart', onTouchStart);
@@ -1140,6 +991,137 @@ module.exports = function (callback) {
 };
 
 },{}],9:[function(require,module,exports){
+"use strict";
+
+module.exports = function (boxes) {
+  var pageviews;
+
+  try {
+    pageviews = sessionStorage.getItem('boxzilla_pageviews') || 0;
+    sessionStorage.setItem('boxzilla_pageviews', ++pageviews);
+  } catch (e) {
+    pageviews = 0;
+  }
+
+  window.setTimeout(function () {
+    boxes.forEach(function (box) {
+      if (box.config.trigger.method === 'pageviews' && pageviews >= box.config.trigger.value && box.mayAutoShow()) {
+        box.trigger();
+      }
+    });
+  }, 1000);
+};
+
+},{}],10:[function(require,module,exports){
+"use strict";
+
+var throttle = require('../util.js').throttle;
+
+module.exports = function (boxes) {
+  // check triggerHeight criteria for all boxes
+  function checkHeightCriteria() {
+    var scrollY = window.hasOwnProperty('pageYOffset') ? window.pageYOffset : window.scrollTop;
+    scrollY = scrollY + window.innerHeight * 0.9;
+    boxes.forEach(function (box) {
+      if (!box.mayAutoShow() || box.triggerHeight <= 0) {
+        return;
+      }
+
+      if (scrollY > box.triggerHeight) {
+        box.trigger();
+      } // if box may auto-hide and scrollY is less than triggerHeight (with small margin of error), hide box
+
+
+      if (box.mayRehide() && scrollY < box.triggerHeight - 5) {
+        box.hide();
+      }
+    });
+  }
+
+  window.addEventListener('touchstart', throttle(checkHeightCriteria), true);
+  window.addEventListener('scroll', throttle(checkHeightCriteria), true);
+};
+
+},{"../util.js":12}],11:[function(require,module,exports){
+"use strict";
+
+var Timer = require('../timer.js');
+
+module.exports = function (boxes) {
+  var siteTimer = new Timer(0);
+  var pageTimer = new Timer(0);
+  var timers = {
+    start: function start() {
+      try {
+        var sessionTime = parseInt(sessionStorage.getItem('boxzilla_timer'));
+
+        if (sessionTime) {
+          siteTimer.time = sessionTime;
+        }
+      } catch (e) {}
+
+      siteTimer.start();
+      pageTimer.start();
+    },
+    stop: function stop() {
+      sessionStorage.setItem('boxzilla_timer', siteTimer.time);
+      siteTimer.stop();
+      pageTimer.stop();
+    }
+  }; // start timers
+
+  timers.start(); // stop timers when leaving page or switching to other tab
+
+  document.addEventListener("visibilitychange", function () {
+    document.hidden ? timers.stop() : timers.start();
+  });
+  window.addEventListener('beforeunload', function () {
+    timers.stop();
+  });
+  window.setInterval(function () {
+    boxes.forEach(function (box) {
+      if (box.config.trigger.method === 'time_on_site' && siteTimer.time >= box.config.trigger.value && box.mayAutoShow()) {
+        box.trigger();
+      }
+
+      if (box.config.trigger.method === 'time_on_page' && pageTimer.time >= box.config.trigger.value && box.mayAutoShow()) {
+        box.trigger();
+      }
+    });
+  }, 1000);
+};
+
+},{"../timer.js":7}],12:[function(require,module,exports){
+"use strict";
+
+function throttle(fn, threshold, scope) {
+  threshold || (threshold = 600);
+  var last;
+  var deferTimer;
+  return function () {
+    var context = scope || this;
+    var now = +new Date(),
+        args = arguments;
+
+    if (last && now < last + threshold) {
+      // hold on to it
+      clearTimeout(deferTimer);
+      deferTimer = setTimeout(function () {
+        last = now;
+        fn.apply(context, args);
+      }, threshold);
+    } else {
+      last = now;
+      fn.apply(context, args);
+    }
+  };
+}
+
+module.exports = {
+  throttle: throttle
+};
+
+},{}],13:[function(require,module,exports){
 /*!
  * EventEmitter v5.2.8 - git.io/ee
  * Unlicense - http://unlicense.org/
