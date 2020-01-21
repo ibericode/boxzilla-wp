@@ -1,56 +1,51 @@
-'use strict';
+var $ = window.jQuery
+var Option = function (element) {
+  // find corresponding element
+  if (typeof (element) === 'string') {
+    element = document.getElementById('boxzilla-' + element)
+  }
 
-var $ = window.jQuery;
+  if (!element) {
+    console.error('Unable to find option element.')
+  }
 
-var Option = function( element ) {
+  this.element = element
+}
 
-	// find corresponding element
-	if( typeof(element) == "string" ) {
-		element = document.getElementById('boxzilla-' + element);
-	}
+Option.prototype.getColorValue = function () {
+  if (this.element.value.length > 0) {
+    if ($(this.element).hasClass('wp-color-field')) {
+      return $(this.element).wpColorPicker('color')
+    } else {
+      return this.element.value
+    }
+  }
 
-	if( ! element ) {
-		console.error("Unable to find option element.");
-	}
+  return ''
+}
 
-	this.element = element;
-};
+Option.prototype.getPxValue = function (fallbackValue) {
+  if (this.element.value.length > 0) {
+    return parseInt(this.element.value) + 'px'
+  }
 
-Option.prototype.getColorValue = function() {
-	if( this.element.value.length > 0 ) {
-		if( $(this.element).hasClass('wp-color-field')) {
-			return $(this.element).wpColorPicker('color');
-		} else {
-			return this.element.value;
-		}
-	}
+  return fallbackValue || ''
+}
 
-	return '';
-};
+Option.prototype.getValue = function (fallbackValue) {
+  if (this.element.value.length > 0) {
+    return this.element.value
+  }
 
-Option.prototype.getPxValue = function( fallbackValue ) {
-	if( this.element.value.length > 0 ) {
-		return parseInt( this.element.value ) + "px";
-	}
+  return fallbackValue || ''
+}
 
-	return fallbackValue || '';
-};
+Option.prototype.clear = function () {
+  this.element.value = ''
+}
 
-Option.prototype.getValue = function( fallbackValue ) {
+Option.prototype.setValue = function (value) {
+  this.element.value = value
+}
 
-	if( this.element.value.length > 0 ) {
-		return this.element.value;
-	}
-
-	return fallbackValue || '';
-};
-
-Option.prototype.clear = function() {
-	this.element.value = '';
-};
-
-Option.prototype.setValue = function(value) {
-	this.element.value = value;
-};
-
-module.exports = Option;
+module.exports = Option
