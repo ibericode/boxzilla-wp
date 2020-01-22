@@ -33,7 +33,7 @@
     "vinyl-source-stream": "^2.0.0"
   },
   "dependencies": {
-    "boxzilla": "^1.2.5",
+    "boxzilla": "^1.2.6",
     "wolfy87-eventemitter": "^5.2.9"
   }
 }

@@ -969,7 +969,7 @@ module.exports = function (boxes) {
     } // allow a tiny tiny margin for error, to not fire on clicks
 
 
-    if (window.scrollY + 20 >= touchStart.scrollY) {
+    if (window.scrollY + 20 > touchStart.scrollY) {
       return;
     }
 
@@ -1006,7 +1006,7 @@ module.exports = function (boxes) {
 
   window.setTimeout(function () {
     boxes.forEach(function (box) {
-      if (box.config.trigger.method === 'pageviews' && pageviews >= box.config.trigger.value && box.mayAutoShow()) {
+      if (box.config.trigger.method === 'pageviews' && pageviews > box.config.trigger.value && box.mayAutoShow()) {
         box.trigger();
       }
     });
@@ -1079,9 +1079,9 @@ module.exports = function (boxes) {
   });
   window.setInterval(function () {
     boxes.forEach(function (box) {
-      if (box.config.trigger.method === 'time_on_site' && siteTimer.time >= box.config.trigger.value && box.mayAutoShow()) {
+      if (box.config.trigger.method === 'time_on_site' && siteTimer.time > box.config.trigger.value && box.mayAutoShow()) {
         box.trigger();
-      } else if (box.config.trigger.method === 'time_on_page' && pageTimer.time >= box.config.trigger.value && box.mayAutoShow()) {
+      } else if (box.config.trigger.method === 'time_on_page' && pageTimer.time > box.config.trigger.value && box.mayAutoShow()) {
         box.trigger();
       }
     });
