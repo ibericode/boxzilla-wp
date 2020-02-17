@@ -145,7 +145,7 @@ class BoxLoader {
 				break;
 
 			case 'is_post_in_category':
-				$matched = is_singular( 'post' ) && has_category( $values );
+				$matched = is_singular() && has_category( $values );
 				break;
 
 			case 'is_page':
@@ -153,7 +153,7 @@ class BoxLoader {
 				break;
 
 			case 'is_post_with_tag':
-				$matched = is_singular( 'post' ) && has_tag( $values );
+				$matched = is_singular() && has_tag( $values );
 				break;
 
 			case 'is_user_logged_in':
