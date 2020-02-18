@@ -1,6 +1,11 @@
 Changelog
 ==========
 
+#### 3.2.21 - Feb 18, 2020
+
+- "If post category" or "if post tag" conditionals now apply to any post-type using built-in WP categories or tags.
+
+
 #### 3.2.20 - Jan 20, 2020
 
 **Fixes**
