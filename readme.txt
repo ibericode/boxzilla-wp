@@ -4,7 +4,7 @@ Donate link: https://boxzillaplugin.com/#utm_source=wp-plugin-repo&utm_medium=bo
 Tags: scroll triggered box, cta, social, pop-up, newsletter, call to action, mailchimp, contact form 7, social media, mc4wp, ibericode
 Requires at least: 4.6
 Tested up to: 5.3
-Stable tag: 3.2.20
+Stable tag: 3.2.21
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 5.3
@@ -129,6 +129,11 @@ Have a look at the [frequently asked questions](https://wordpress.org/plugins/bo
 
 
 == Changelog ==
+
+
+#### 3.2.21 - Feb 18, 2020
+
+- "If post category" or "if post tag" conditionals now apply to any post-type using built-in WP categories or tags.
 
 
 #### 3.2.20 - Jan 20, 2020
