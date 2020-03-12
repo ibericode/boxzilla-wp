@@ -117,7 +117,7 @@
   }
 
   // print message when test mode is enabled
-  const isLoggedIn = document.body.className.indexOf('logged-in') > -1
+  const isLoggedIn = document.body && document.body.className && document.body.className.indexOf('logged-in') > -1
   if (isLoggedIn && options.testMode) {
     console.log('Boxzilla: Test mode is enabled. Please disable test mode if you\'re done testing.')
   }

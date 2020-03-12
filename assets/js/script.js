@@ -118,7 +118,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   } // print message when test mode is enabled
 
 
-  var isLoggedIn = document.body.className.indexOf('logged-in') > -1;
+  var isLoggedIn = document.body && document.body.className && document.body.className.indexOf('logged-in') > -1;
 
   if (isLoggedIn && options.testMode) {
     console.log('Boxzilla: Test mode is enabled. Please disable test mode if you\'re done testing.');
