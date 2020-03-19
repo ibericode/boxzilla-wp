@@ -4,7 +4,6 @@ namespace Boxzilla\Licensing;
 
 class Poller {
 
-
 	/**
 	 * @var API
 	 */

@@ -4,20 +4,13 @@ namespace Boxzilla;
 
 defined( 'ABSPATH' ) or exit;
 
-/** @var Boxzilla $boxzilla */
-$boxzilla = boxzilla();
 
-// register services
-$provider = new BoxzillaServiceProvider();
-$provider->register( $boxzilla );
-$provider = new Licensing\LicenseServiceProvider();
-$provider->register( $boxzilla );
+require __DIR__ . '/src/services.php';
+require __DIR__ . '/src/licensing/services.php';
 
-
-// Rest of bootstrapping runs at plugins_loaded:90
-add_action(
-	'plugins_loaded',
-	function() use ( $boxzilla ) {
+// Bootstrap plugin at later action hook
+add_action( 'plugins_loaded', function() {
+        $boxzilla = boxzilla();
 
 		// load default filters
 		require __DIR__ . '/src/default-filters.php';
