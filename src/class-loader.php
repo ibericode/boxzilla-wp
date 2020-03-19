@@ -79,7 +79,7 @@ class BoxLoader {
 				// contains means we should do a simple occurrence check
 				// does not support wildcards
 				$match = strpos( $string, $pattern ) !== false;
-			} else if ( function_exists( 'fnmatch' ) ) {
+			} elseif ( function_exists( 'fnmatch' ) ) {
 				$match = fnmatch( $pattern, $string );
 			} else {
 				$match = ( $pattern === $string );

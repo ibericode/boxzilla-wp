@@ -9,8 +9,10 @@ require __DIR__ . '/src/services.php';
 require __DIR__ . '/src/licensing/services.php';
 
 // Bootstrap plugin at later action hook
-add_action( 'plugins_loaded', function() {
-        $boxzilla = boxzilla();
+add_action(
+	'plugins_loaded',
+	function() {
+		$boxzilla = boxzilla();
 
 		// load default filters
 		require __DIR__ . '/src/default-filters.php';
