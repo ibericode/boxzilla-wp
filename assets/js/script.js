@@ -1,7 +1,7 @@
 (function () { var require = undefined; var module = undefined; var exports = undefined; var define = undefined; (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 "use strict";
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 (function () {
   var Boxzilla = require('boxzilla');
@@ -414,16 +414,16 @@ Box.prototype.events = function () {
 
   this.element.addEventListener('click', function (evt) {
     if (evt.target.tagName === 'A') {
-      this.fireEvent('box.interactions.link', [box, evt.target]);
+      box.fireEvent('box.interactions.link', [box, evt.target]);
     }
   }, false);
   this.element.addEventListener('submit', function (evt) {
     box.setCookie();
-    this.fireEvent('box.interactions.form', [box, evt.target]);
+    box.fireEvent('box.interactions.form', [box, evt.target]);
   }, false);
-  this.overlay.addEventListener('click', function (e) {
-    var x = e.offsetX;
-    var y = e.offsetY; // calculate if click was less than 40px outside box to avoid closing it by accident
+  this.overlay.addEventListener('click', function (evt) {
+    var x = evt.offsetX;
+    var y = evt.offsetY; // calculate if click was less than 40px outside box to avoid closing it by accident
 
     var rect = box.element.getBoundingClientRect();
     var margin = 40; // if click was not anywhere near box, dismiss it.
@@ -871,7 +871,7 @@ if (typeof module !== 'undefined' && module.exports) {
 },{"./box.js":3,"./styles.js":5,"./triggers/exit-intent.js":7,"./triggers/pageviews.js":8,"./triggers/scroll.js":9,"./triggers/time.js":10,"./util.js":11}],5:[function(require,module,exports){
 "use strict";
 
-var styles = '#boxzilla-overlay,.boxzilla-overlay{position:fixed;background:rgba(0,0,0,.65);width:100%;height:100%;left:0;top:0;z-index:10000}.boxzilla-center-container{position:fixed;top:0;left:0;right:0;height:0;text-align:center;z-index:11000;line-height:0}.boxzilla-center-container .boxzilla{display:inline-block;text-align:left;position:relative;line-height:normal}.boxzilla{position:fixed;z-index:12000;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;background:#fff;padding:25px}.boxzilla.boxzilla-top-left{top:0;left:0}.boxzilla.boxzilla-top-right{top:0;right:0}.boxzilla.boxzilla-bottom-left{bottom:0;left:0}.boxzilla.boxzilla-bottom-right{bottom:0;right:0}.boxzilla-content>:first-child{margin-top:0;padding-top:0}.boxzilla-content>:last-child{margin-bottom:0;padding-bottom:0}.boxzilla-close-icon{position:absolute;right:0;top:0;text-align:center;padding:6px;cursor:pointer;-webkit-appearance:none;font-size:28px;font-weight:700;line-height:20px;color:#000;opacity:.5}.boxzilla-close-icon:focus,.boxzilla-close-icon:hover{opacity:.8}';
+var styles = "#boxzilla-overlay,.boxzilla-overlay{position:fixed;background:rgba(0,0,0,.65);width:100%;height:100%;left:0;top:0;z-index:10000}.boxzilla-center-container{position:fixed;top:0;left:0;right:0;height:0;text-align:center;z-index:11000;line-height:0}.boxzilla-center-container .boxzilla{display:inline-block;text-align:left;position:relative;line-height:normal}.boxzilla{position:fixed;z-index:12000;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;background:#fff;padding:25px}.boxzilla.boxzilla-top-left{top:0;left:0}.boxzilla.boxzilla-top-right{top:0;right:0}.boxzilla.boxzilla-bottom-left{bottom:0;left:0}.boxzilla.boxzilla-bottom-right{bottom:0;right:0}.boxzilla-content>:first-child{margin-top:0;padding-top:0}.boxzilla-content>:last-child{margin-bottom:0;padding-bottom:0}.boxzilla-close-icon{position:absolute;right:0;top:0;text-align:center;padding:6px;cursor:pointer;-webkit-appearance:none;font-size:28px;font-weight:700;line-height:20px;color:#000;opacity:.5}.boxzilla-close-icon:focus,.boxzilla-close-icon:hover{opacity:.8}";
 module.exports = styles;
 
 },{}],6:[function(require,module,exports){
