@@ -3,8 +3,8 @@ Contributors: Ibericode, DvanKooten, hchouhan, lapzor
 Donate link: https://boxzillaplugin.com/#utm_source=wp-plugin-repo&utm_medium=boxzilla&utm_campaign=donate-link
 Tags: scroll triggered box, cta, social, pop-up, newsletter, call to action, mailchimp, contact form 7, social media, mc4wp, ibericode
 Requires at least: 4.6
-Tested up to: 5.3
-Stable tag: 3.2.21
+Tested up to: 5.4
+Stable tag: 3.2.22
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 5.3
@@ -129,6 +129,12 @@ Have a look at the [frequently asked questions](https://wordpress.org/plugins/bo
 
 
 == Changelog ==
+
+
+#### 3.2.22 - Mar 19, 2020
+
+- Minor code improvements
+- Check if body element exists before updating class attribute, fixes an issue with some page builders.
 
 
 #### 3.2.21 - Feb 18, 2020

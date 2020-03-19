@@ -1,6 +1,12 @@
 Changelog
 ==========
 
+#### 3.2.22 - Mar 19, 2020
+
+- Minor code improvements
+- Check if body element exists before updating class attribute, fixes an issue with some page builders.
+
+
 #### 3.2.21 - Feb 18, 2020
 
 - "If post category" or "if post tag" conditionals now apply to any post-type using built-in WP categories or tags.
