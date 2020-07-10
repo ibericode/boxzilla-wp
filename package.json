@@ -7,10 +7,10 @@
   },
   "license": "GPL-2.0",
   "devDependencies": {
-    "@babel/core": "^7.8.7",
+    "@babel/core": "^7.10.4",
     "@babel/preset-env": "^7.8.7",
     "babelify": "^10.0.0",
-    "browserify": "^16.5.0",
+    "browserify": "^16.5.1",
     "eslint": "^6.8.0",
     "eslint-config-standard": "^14.1.0",
     "eslint-plugin-import": "^2.20.1",
@@ -28,12 +28,12 @@
     "gulp-wp-pot": "^2.3.6",
     "gulp-wrap": "^0.15.0",
     "merge-stream": "^2.0.0",
-    "through2": "^3.0.1",
+    "through2": "^3.0.2",
     "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0"
   },
   "dependencies": {
-    "boxzilla": "^1.2.7",
+    "boxzilla": "^1.2.8",
     "wolfy87-eventemitter": "^5.2.9"
   }
 }

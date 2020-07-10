@@ -225,20 +225,20 @@ msgstr ""
 msgid "License Status"
 msgstr ""
 
-#: src/licensing/views/license-form.php:66
-msgid "ACTIVE"
-msgstr ""
-
-#: src/licensing/views/license-form.php:66
-msgid "you are receiving plugin updates"
-msgstr ""
-
 #: src/licensing/views/license-form.php:70
 msgid "INACTIVE"
 msgstr ""
 
 #: src/licensing/views/license-form.php:70
 msgid "you are <strong>not</strong> receiving plugin updates"
+msgstr ""
+
+#: src/licensing/views/license-form.php:66
+msgid "ACTIVE"
+msgstr ""
+
+#: src/licensing/views/license-form.php:66
+msgid "you are receiving plugin updates"
 msgstr ""
 
 #: src/licensing/views/license-form.php:82
