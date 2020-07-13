@@ -4,7 +4,7 @@ Donate link: https://boxzillaplugin.com/#utm_source=wp-plugin-repo&utm_medium=bo
 Tags: scroll triggered box, cta, social, pop-up, newsletter, call to action, mailchimp, contact form 7, social media, mc4wp, ibericode
 Requires at least: 4.6
 Tested up to: 5.4
-Stable tag: 3.2.22
+Stable tag: 3.2.23
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 5.3
@@ -131,6 +131,11 @@ Have a look at the [frequently asked questions](https://wordpress.org/plugins/bo
 == Changelog ==
 
 
+#### 3.2.23 - Jul 13, 2020
+
+- Add `aria-label` to close icon to help screen readers.
+
+
 #### 3.2.22 - Mar 19, 2020
 
 - Minor code improvements
@@ -183,7 +188,7 @@ Have a look at the [frequently asked questions](https://wordpress.org/plugins/bo
 
 **Improvements**
 
-Roll-back a change in version 3.2.15 that caused an issue with Boxzilla Theme Pack and Boxzilla WooCommerce. 
+Roll-back a change in version 3.2.15 that caused an issue with Boxzilla Theme Pack and Boxzilla WooCommerce.
 
 Please make sure your [Boxzilla plugin license](https://my.boxzillaplugin.com/) is activated and then update Boxzilla Theme Pack and Boxzilla WooCommerce to the latest version.
 
@@ -284,7 +289,7 @@ Please make sure your [Boxzilla plugin license](https://my.boxzillaplugin.com/) 
 
 **Fixes**
 
-- Boxzilla content replicating parts of the page if other plugins "incorrectly" use `the_content` filter. 
+- Boxzilla content replicating parts of the page if other plugins "incorrectly" use `the_content` filter.
 
 
 #### 3.2.3 - May 29, 2018
@@ -373,7 +378,7 @@ Please make sure your [Boxzilla plugin license](https://my.boxzillaplugin.com/) 
 
 **Additions**
 
-- Added [`[boxzilla_link]` shortcode to generate the correct HTML for a link to show/toggle/hide/dismiss a box](https://kb.boxzillaplugin.com/shortcode-boxzilla-link/). 
+- Added [`[boxzilla_link]` shortcode to generate the correct HTML for a link to show/toggle/hide/dismiss a box](https://kb.boxzillaplugin.com/shortcode-boxzilla-link/).
 
 
 #### 3.1.17 - August 30, 2017
