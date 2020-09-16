@@ -202,6 +202,7 @@ $rule_options = apply_filters( 'boxzilla_rules_options', $rule_options );
 		</td>
 
 	</tr>
+	<?php if ( in_array( $opts['trigger'], array( 'element', 'percentage' ) ) ) { ?>
 	<tr valign="top">
 		<th><label for="boxzilla_auto_hide"><?php _e( 'Auto-hide?', 'boxzilla' ); ?></label></th>
 		<td>
@@ -210,6 +211,7 @@ $rule_options = apply_filters( 'boxzilla_rules_options', $rule_options );
 			<p class="help"><?php _e( 'Hide box again when visitors scroll back up?', 'boxzilla' ); ?></p>
 		</td>
 	</tr>
+	<?php } // end if ?>
 	<tr valign="top">
 		<th><label for="boxzilla_closable"><?php _e( 'Show close icon?', 'boxzilla' ); ?></label></th>
 		<td>
