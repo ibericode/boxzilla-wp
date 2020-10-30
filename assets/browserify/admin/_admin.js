@@ -69,6 +69,8 @@ function setContextualHelpers () {
   qualifierInput.style.display = ''
   qualifierInput.querySelector('option[value="not_contains"]').style.display = 'none'
   qualifierInput.querySelector('option[value="contains"]').style.display = 'none'
+  qualifierInput.querySelector('option[value="greather_than"]').style.display = 'none'
+  qualifierInput.querySelector('option[value="less_than"]').style.display = 'none'
   if (tnLoggedIn.parentNode) {
     tnLoggedIn.parentNode.removeChild(tnLoggedIn)
   }
@@ -141,6 +143,10 @@ function setContextualHelpers () {
       qualifierInput.querySelector('option[value="contains"]').style.display = ''
       qualifierInput.querySelector('option[value="not_contains"]').style.display = ''
       break
+    case 'date_range':
+      qualifierInput.querySelector('option[value="greather_than"]').style.display = '';
+      qualifierInput.querySelector('option[value="less_than"]').style.display = '';
+      break;
   }
 }
 

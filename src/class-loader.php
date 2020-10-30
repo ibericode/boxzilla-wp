@@ -172,7 +172,7 @@ class BoxLoader {
 		$matched = apply_filters( 'boxzilla_box_rule_matches_' . $condition, $matched, $values );
 
 		// if qualifier is set to false, we need to reverse this value here.
-		if ( ! $qualifier || $qualifier === 'not_contains' ) {
+		if ( ! $qualifier || $qualifier === 'not_contains' || $qualifier === 'greater_than'  ) {
 			$matched = ! $matched;
 		}
 

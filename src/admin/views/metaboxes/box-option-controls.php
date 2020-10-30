@@ -86,6 +86,9 @@ $rule_options = apply_filters( 'boxzilla_rules_options', $rule_options );
 					<option value="0" <?php selected( isset( $rule['qualifier'] ) && ! $rule['qualifier'] ); ?>><?php _e( 'is not', 'boxzilla' ); ?></option>
 					<option value="contains" <?php selected( isset( $rule['qualifier'] ) && $rule['qualifier'] === 'contains' ); ?> style="display: none;"><?php _e( 'contains', 'boxzilla' ); ?>
 					<option value="not_contains" <?php selected( isset( $rule['qualifier'] ) && $rule['qualifier'] === 'not_contains' ); ?> style="display: none;"><?php _e( 'does not contain', 'boxzilla' ); ?></option>
+					<option value="less_than" <?php selected( isset( $rule['qualifier'] ) && $rule['qualifier'] === 'less_than' ); ?> style="display: none;"><?php _e( 'less than', 'boxzilla' ); ?>
+					<option value="greater_than" <?php selected( isset( $rule['qualifier'] ) && $rule['qualifier'] === 'greater_than' ); ?> style="display: none;"><?php _e( 'greater than', 'boxzilla' ); ?></option>
+					
 				</select>
 
 				<input class="boxzilla-rule-value regular-text" name="boxzilla_box[rules][<?php echo $key; ?>][value]" type="text" value="<?php echo esc_attr( $rule['value'] ); ?>" placeholder="<?php _e( 'Leave empty for any or enter (comma-separated) names or ID\'s', 'boxzilla' ); ?>" style="<?php echo in_array( $rule['condition'], array( '', 'everywhere' ), true ) ? 'display: none;' : ''; ?>" />
@@ -264,6 +267,8 @@ $rule_options = apply_filters( 'boxzilla_rules_options', $rule_options );
 				<option value="0"><?php _e( 'is not', 'boxzilla' ); ?></option>
 				<option value="contains" style="display: none;"><?php _e( 'contains', 'boxzilla' ); ?></option>
 				<option value="not_contains" style="display: none;"><?php _e( 'does not contain', 'boxzilla' ); ?></option>
+				<option value="greater_than" style="display: none;"><?php _e( 'greater than', 'boxzilla' ); ?></option>
+				<option value="less_than" style="display: none;"><?php _e( 'less than', 'boxzilla' ); ?></option>
 			</select>
 
 			<input class="boxzilla-rule-value regular-text" name="boxzilla_box[rules][{{{data.key}}}][value]" type="text" value="" placeholder="<?php _e( 'Leave empty for any or enter (comma-separated) names or ID\'s', 'boxzilla' ); ?>" style="display: none;" />

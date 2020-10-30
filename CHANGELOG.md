@@ -1,5 +1,8 @@
 Changelog
 ==========
+#### 3.2.24 - Oct 30, 2020
+
+- Add less than and greater than quantifier for date-range addon
 
 #### 3.2.23 - Jul 13, 2020
 
