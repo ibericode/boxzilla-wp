@@ -413,7 +413,7 @@ Box.prototype.events = function () {
   }
 
   this.element.addEventListener('click', function (evt) {
-    if (evt.target.tagName === 'A') {
+    if (evt.target.tagName === 'A' || evt.target.tagName === 'AREA') {
       box.fireEvent('box.interactions.link', [box, evt.target]);
     }
   }, false);
@@ -719,18 +719,18 @@ function recalculateHeights() {
 }
 
 function onElementClick(evt) {
-  // bubble up to <a> element
+  // bubble up to <a> or <area> element
   var el = evt.target;
 
   for (var i = 0; i <= 3; i++) {
-    if (!el || el.tagName === 'A') {
+    if (!el || el.tagName === 'A' || el.tagName === 'AREA') {
       break;
     }
 
     el = el.parentElement;
   }
 
-  if (!el || el.tagName !== 'A' || !el.href) {
+  if (!el || el.tagName !== 'A' && el.tagName !== 'AREA' || !el.href) {
     return;
   }
 
