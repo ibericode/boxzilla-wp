@@ -3,8 +3,8 @@ Contributors: Ibericode, DvanKooten, hchouhan, lapzor
 Donate link: https://boxzillaplugin.com/#utm_source=wp-plugin-repo&utm_medium=boxzilla&utm_campaign=donate-link
 Tags: scroll triggered box, cta, social, pop-up, newsletter, call to action, mailchimp, contact form 7, social media, mc4wp, ibericode
 Requires at least: 4.6
-Tested up to: 5.4
-Stable tag: 3.2.23
+Tested up to: 5.5
+Stable tag: 3.2.24
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 5.3
@@ -38,9 +38,9 @@ Boxzilla is a plugin allowing you to add pop-up or slide-in boxes to your WordPr
 [Read more about Boxzilla](https://boxzillaplugin.com/#utm_source=wp-plugin-repo&utm_medium=boxzilla&utm_campaign=description).
 
 > #### Premium add-ons for Boxzilla
-> 
+>
 > The Boxzilla plugin itself is entirely free. Advanced functionality is available through several paid add-ons. Not only do they extend the core functionality of the plugin, they also help to fund further development of the core (free) plugin.
-> 
+>
 > [Browse available add-ons for Boxzilla](https://boxzillaplugin.com/add-ons/#utm_source=wp-plugin-repo&utm_medium=boxzilla&utm_campaign=description).
 
 #### Documentation
@@ -53,7 +53,7 @@ There's a [Boxzilla demo site](https://demo.boxzillaplugin.com#utm_source=wp-plu
 
 #### Support
 
-Please use the [WordPress.org plugin support forums](https://wordpress.org/support/plugin/boxzilla) for community support. 
+Please use the [WordPress.org plugin support forums](https://wordpress.org/support/plugin/boxzilla) for community support.
 
 If you're a [Boxzilla Premium customer](https://boxzillaplugin.com/pricing#utm_source=wp-plugin-repo&utm_medium=boxzilla&utm_campaign=description), please use our support email for a faster reply.
 
@@ -129,6 +129,13 @@ Have a look at the [frequently asked questions](https://wordpress.org/plugins/bo
 
 
 == Changelog ==
+
+
+#### 3.2.24 - Nov 3, 2020
+
+- Allow for `#boxzilla-ID` links in `<area>` elements.
+- Show certain settings even if no trigger is chosen.
+- Only show auto-hide setting if trigger is set to element or percentage (ie trigger condition can revert).
 
 
 #### 3.2.23 - Jul 13, 2020
