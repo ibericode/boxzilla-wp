@@ -1,6 +1,13 @@
 Changelog
 ==========
 
+#### 3.2.24 - Nov 3, 2020
+
+- Allow for `#boxzilla-ID` links in `<area>` elements.
+- Show certain settings even if no trigger is chosen.
+- Only show auto-hide setting if trigger is set to element or percentage (ie trigger condition can revert).
+
+
 #### 3.2.23 - Jul 13, 2020
 
 - Add `aria-label` to close icon to help screen readers.
