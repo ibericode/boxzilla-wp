@@ -212,6 +212,8 @@ $rule_options = apply_filters( 'boxzilla_rules_options', $rule_options );
 		</td>
 	</tr>
 	<?php } // end if ?>
+	</tbody>
+	<tbody>
 	<tr valign="top">
 		<th><label for="boxzilla_closable"><?php _e( 'Show close icon?', 'boxzilla' ); ?></label></th>
 		<td>
