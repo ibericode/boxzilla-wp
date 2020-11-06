@@ -211,7 +211,7 @@ a
 			<p class="help"><?php _e( 'Hide box again when visitors scroll back up?', 'boxzilla' ); ?></p><br></td>
 	</tr>
 	<tr valign="top">
-		<th><label for="boxzilla_auto_hide"><?php _e( 'Auto-hide on scroll-down?', 'boxzilla' ); ?></label></th>
+		<th><label for="boxzilla_auto_hide"><?php _e( 'Auto-hide on scroll?', 'boxzilla' ); ?></label></th>
 		<td>
 			<label><input type="radio" class="boxzilla-auto-hide-trigger" name="boxzilla_box[trigger_hide]" value="" <?php checked( $opts['trigger_hide'], '' ); ?> /> <?php _e( 'Never', 'boxzilla' ); ?></label><br />
 			<label><input type="radio" class="boxzilla-auto-hide-trigger" name="boxzilla_box[trigger_hide]" value="percentage" <?php checked( $opts['trigger_hide'], 'percentage' ); ?> /> <?php printf( __( 'Yes, when at %s of page height', 'boxzilla' ), '<input type="number" name="boxzilla_box[trigger_hide_percentage]" min="0" max="100" value="' . esc_attr( $opts['trigger_hide_percentage'] ) . '" />%' ); ?></label><br />
