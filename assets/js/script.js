@@ -560,7 +560,10 @@ Box.prototype.hide = function (animate) {
 
 
 Box.prototype.calculateTriggerHeight = function () {
-  var triggerHeight = 0;
+  var triggerHeight = {
+    show: 0,
+    hide: 0
+  };
 
   if (this.config.trigger) {
     if (this.config.trigger.method === 'element') {
@@ -568,10 +571,24 @@ Box.prototype.calculateTriggerHeight = function () {
 
       if (triggerElement) {
         var offset = triggerElement.getBoundingClientRect();
-        triggerHeight = offset.top;
+        triggerHeight.show = offset.top;
       }
     } else if (this.config.trigger.method === 'percentage') {
-      triggerHeight = this.config.trigger.value / 100 * getDocumentHeight();
+      triggerHeight.show = this.config.trigger.value / 100 * getDocumentHeight();
+    }
+  }
+
+  if (this.config.trigger_hide) {
+    if (this.config.trigger_hide.method === 'element') {
+      var trigger_hide_Element = document.body.querySelector(this.config.trigger_hide.value);
+
+      if (trigger_hide_Element) {
+        var _offset = trigger_hide_Element.getBoundingClientRect();
+
+        triggerHeight.hide = _offset.top;
+      }
+    } else if (this.config.trigger_hide.method === 'percentage') {
+      triggerHeight.hide = this.config.trigger_hide.value / 100 * getDocumentHeight();
     }
   }
 
@@ -1025,13 +1042,16 @@ module.exports = function (boxes) {
     var scrollY = window.hasOwnProperty('pageYOffset') ? window.pageYOffset : window.scrollTop;
     scrollY = scrollY + window.innerHeight * 0.9;
     boxes.forEach(function (box) {
-      if (!box.mayAutoShow() || box.triggerHeight <= 0) {
+      //console.log("Hide at" + box.triggerHeight.hide)
+      if (!box.mayAutoShow() || box.triggerHeight.show <= 0) {
         return;
       }
 
-      if (scrollY > box.triggerHeight) {
+      if (box.triggerHeight.hide > box.triggerHeight.show && scrollY > box.triggerHeight.hide || box.triggerHeight.hide < box.triggerHeight.show && scrollY < box.triggerHeight.hide) {
+        box.hide();
+      } else if (scrollY > box.triggerHeight.show) {
         box.trigger();
-      } else if (box.mayRehide() && scrollY < box.triggerHeight - 5) {
+      } else if (box.mayRehide() && scrollY < box.triggerHeight.show - 5) {
         // if box may auto-hide and scrollY is less than triggerHeight (with small margin of error), hide box
         box.hide();
       }
