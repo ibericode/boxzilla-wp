@@ -394,7 +394,7 @@ msgid "Hide box again when visitors scroll back up?"
 msgstr ""
 
 #: src/admin/views/metaboxes/box-option-controls.php:214
-msgid "Auto-hide on scroll-down?"
+msgid "Auto-hide on scroll?"
 msgstr ""
 
 #: src/admin/views/metaboxes/box-option-controls.php:225

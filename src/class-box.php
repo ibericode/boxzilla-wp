@@ -253,7 +253,7 @@ class Box {
 				'dismissed' => absint( $box->options['cookie']['dismissed'] ),
 			),
 			'rehide'               => (bool) $box->options['auto_hide'],
-			'trigger_hide'         => $trigger_hide,
+			'triggerHide'         => $trigger_hide,
 			'position'             => $box->options['css']['position'],
 			'screenWidthCondition' => $screen_width_condition,
 			'closable'             => ! ! $box->options['closable'],
