@@ -1,10 +1,6 @@
 {
   "name": "boxzilla-wp",
   "title": "Boxzilla for WordPress",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ibericode/boxzilla"
-  },
   "license": "GPL-2.0",
   "devDependencies": {
     "@babel/core": "^7.10.4",
@@ -19,7 +15,9 @@
     "eslint-plugin-standard": "^4.0.1",
     "globby": "^9.2.0",
     "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
     "gulp-cssmin": "^0.2.0",
+    "gulp-insert": "^0.5.0",
     "gulp-rename": "^1.2.2",
     "gulp-sourcemaps": "^2.6.5",
     "gulp-streamify": "^1.0.2",
@@ -33,7 +31,6 @@
     "vinyl-source-stream": "^2.0.0"
   },
   "dependencies": {
-    "boxzilla": "^1.2.9",
     "wolfy87-eventemitter": "^5.2.9"
   }
 }

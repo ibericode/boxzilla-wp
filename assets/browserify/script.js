@@ -1,5 +1,5 @@
 (function () {
-  const Boxzilla = require('boxzilla')
+  const Boxzilla = require('./boxzilla/boxzilla.js')
   const options = window.boxzilla_options
 
   // helper function for setting CSS styles
