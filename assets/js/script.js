@@ -250,6 +250,7 @@ function Box(id, config, fireEvent) {
   this.config = merge(defaults, config); // add overlay element to dom and store ref to overlay
 
   this.overlay = document.createElement('div');
+  this.overlay.setAttribute('aria-modal', true);
   this.overlay.style.display = 'none';
   this.overlay.id = 'boxzilla-overlay-' + this.id;
   this.overlay.classList.add('boxzilla-overlay');
