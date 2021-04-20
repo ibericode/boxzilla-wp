@@ -26,7 +26,7 @@ var ruleComparisonEl = document.getElementById('boxzilla-rule-comparison');
 var rulesContainerEl = document.getElementById('boxzilla-box-rules');
 var ajaxurl = window.ajaxurl; // events
 
-$(window).load(function () {
+$(window).on('load', function () {
   if (typeof window.tinyMCE === 'undefined') {
     document.getElementById('notice-notinymce').style.display = '';
   }
