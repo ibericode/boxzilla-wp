@@ -1,6 +1,12 @@
 Changelog
 ==========
 
+#### 3.2.25 - Apr 20, 2021
+
+- Change usage of deprecated jQuery.load method.
+- Add `aria-modal="true"` to overlay element.
+
+
 #### 3.2.24 - Nov 3, 2020
 
 - Allow for `#boxzilla-ID` links in `<area>` elements.
