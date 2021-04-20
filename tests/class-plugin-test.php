@@ -12,7 +12,7 @@ class PluginTest extends WP_Test_Case {
      */
     private $instance;
 
-    public function setUp() {
+    public function setUp() : void {
         parent::setUp();
 
         Functions::when('plugin_basename')->returnArg();

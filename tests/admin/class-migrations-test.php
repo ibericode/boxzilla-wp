@@ -10,14 +10,14 @@ use PHPUnit_Framework_TestCase;
  *
  * @ignore
  */
-class MigrationsTest extends PHPUnit_Framework_TestCase {
+class MigrationsTest extends \PHPUnit\Framework\TestCase {
 
     private $dir = '/tmp/boxzilla-tests/migrations';
 
     /**
      * Create the sample migrations directory
      */
-    public function setUp() {
+    public function setUp() : void {
         if( ! file_exists( $this->dir ) ) {
             mkdir( $this->dir, 0700, true );
         }
@@ -44,7 +44,7 @@ class MigrationsTest extends PHPUnit_Framework_TestCase {
     /**
      * Remove files after each test.
      */
-    public function tearDown() {
+    public function tearDown() : void {
         array_map( 'unlink', glob( $this->dir . '/*.php' ) );
         if( file_exists( $this->dir ) ) {
             rmdir( $this->dir );
