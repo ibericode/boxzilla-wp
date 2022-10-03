@@ -55,7 +55,7 @@ class Autocomplete {
 		global $wpdb;
 		$sql        = $wpdb->prepare( "SELECT p.post_name FROM $wpdb->posts p WHERE p.post_type = %s AND p.post_status = 'publish' AND ( p.post_title LIKE %s OR p.post_name LIKE %s ) GROUP BY p.post_name", $post_type, $query . '%%', $query . '%%' );
 		$post_slugs = $wpdb->get_col( $sql );
-		return join( $post_slugs, PHP_EOL );
+		return join( PHP_EOL, $post_slugs );
 	}
 
 	/**
@@ -72,7 +72,7 @@ class Autocomplete {
 				'hide_empty' => false,
 			)
 		);
-		return join( $terms, PHP_EOL );
+		return join( PHP_EOL, $terms );
 	}
 
 	/**
@@ -89,7 +89,7 @@ class Autocomplete {
 				'hide_empty' => false,
 			)
 		);
-		return join( $terms, PHP_EOL );
+		return join( PHP_EOL, $terms );
 	}
 
 
@@ -107,6 +107,6 @@ class Autocomplete {
 			}
 		);
 
-		return join( $matched_post_types, PHP_EOL );
+		return join( PHP_EOL, $matched_post_types );
 	}
 }
