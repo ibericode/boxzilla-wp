@@ -4,11 +4,8 @@
 var duration = 320;
 
 function css(element, styles) {
-  for (var property in styles) {
-    if (!styles.hasOwnProperty(property)) {
-      continue;
-    }
-
+  for (var _i = 0, _Object$keys = Object.keys(styles); _i < _Object$keys.length; _i++) {
+    var property = _Object$keys[_i];
     element.style[property] = styles[property];
   }
 }
@@ -118,12 +115,9 @@ function animate(element, targetStyles, fn) {
   var currentStyles = {};
   var propSteps = {};
 
-  for (var property in targetStyles) {
-    if (!targetStyles.hasOwnProperty(property)) {
-      continue;
-    } // make sure we have an object filled with floats
-
-
+  for (var _i2 = 0, _Object$keys2 = Object.keys(targetStyles); _i2 < _Object$keys2.length; _i2++) {
+    var property = _Object$keys2[_i2];
+    // make sure we have an object filled with floats
     targetStyles[property] = parseFloat(targetStyles[property]); // calculate step size & current value
 
     var to = targetStyles[property];
@@ -145,11 +139,8 @@ function animate(element, targetStyles, fn) {
     var done = true;
     var step, to, increment, newValue;
 
-    for (var _property in targetStyles) {
-      if (!targetStyles.hasOwnProperty(_property)) {
-        continue;
-      }
-
+    for (var _i3 = 0, _Object$keys3 = Object.keys(targetStyles); _i3 < _Object$keys3.length; _i3++) {
+      var _property = _Object$keys3[_i3];
       step = propSteps[_property];
       to = targetStyles[_property];
       increment = step * timeSinceLastTick;
@@ -213,19 +204,16 @@ var Animator = require('./animator.js');
 
 
 function merge(obj1, obj2) {
-  var obj3 = {}; // add obj1 to obj3
+  var obj3 = {};
 
-  for (var attrname in obj1) {
-    if (obj1.hasOwnProperty(attrname)) {
-      obj3[attrname] = obj1[attrname];
-    }
-  } // add obj2 to obj3
+  for (var _i = 0, _Object$keys = Object.keys(obj1); _i < _Object$keys.length; _i++) {
+    var attrname = _Object$keys[_i];
+    obj3[attrname] = obj1[attrname];
+  }
 
-
-  for (var _attrname in obj2) {
-    if (obj2.hasOwnProperty(_attrname)) {
-      obj3[_attrname] = obj2[_attrname];
-    }
+  for (var _i2 = 0, _Object$keys2 = Object.keys(obj2); _i2 < _Object$keys2.length; _i2++) {
+    var _attrname = _Object$keys2[_i2];
+    obj3[_attrname] = obj2[_attrname];
   }
 
   return obj3;
@@ -891,8 +879,7 @@ var throttle = require('../util.js').throttle;
 module.exports = function (boxes) {
   // check triggerHeight criteria for all boxes
   function checkHeightCriteria() {
-    var scrollY = window.hasOwnProperty('pageYOffset') ? window.pageYOffset : window.scrollTop;
-    scrollY = scrollY + window.innerHeight * 0.9;
+    var scrollY = window.scrollTop + window.innerHeight * 0.9;
     boxes.forEach(function (box) {
       if (!box.mayAutoShow() || box.triggerHeight <= 0) {
         return;

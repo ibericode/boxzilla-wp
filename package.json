@@ -2,6 +2,11 @@
   "name": "boxzilla-wp",
   "title": "Boxzilla for WordPress",
   "license": "GPL-2.0",
+  "scripts": {
+    "lint": "eslint assets/browserify",
+    "build": "gulp",
+    "watch": "gulp watch"
+  },
   "devDependencies": {
     "@babel/core": "^7.10.4",
     "@babel/preset-env": "^7.8.7",

@@ -1,4 +1,4 @@
-# Copyright (C) 2021 boxzilla
+# Copyright (C) 2022 boxzilla
 # This file is distributed under the same license as the boxzilla package.
 msgid ""
 msgstr ""
