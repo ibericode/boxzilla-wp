@@ -3,8 +3,7 @@ const throttle = require('../util.js').throttle
 module.exports = function (boxes) {
   // check triggerHeight criteria for all boxes
   function checkHeightCriteria () {
-    let scrollY = window.hasOwnProperty('pageYOffset') ? window.pageYOffset : window.scrollTop
-    scrollY = scrollY + window.innerHeight * 0.9
+    const scrollY = window.scrollTop + window.innerHeight * 0.9
 
     boxes.forEach((box) => {
       if (!box.mayAutoShow() || box.triggerHeight <= 0) {

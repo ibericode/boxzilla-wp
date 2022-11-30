@@ -76,3 +76,4 @@ function boxzilla_get_link_html( $args = array(), $content = '' ) {
 	$action        = empty( $args['action'] ) || ! in_array( $args['action'], $valid_actions, true ) ? 'show' : $args['action'];
 	return sprintf( '<a href="javascript:Boxzilla.%s(%s)" class="%s">', $action, $box_id, $class_attr ) . $content . '</a>';
 }
+

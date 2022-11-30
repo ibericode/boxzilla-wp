@@ -23,18 +23,12 @@ const Animator = require('./animator.js')
 function merge (obj1, obj2) {
   const obj3 = {}
 
-  // add obj1 to obj3
-  for (const attrname in obj1) {
-    if (obj1.hasOwnProperty(attrname)) {
-      obj3[attrname] = obj1[attrname]
-    }
+  for (const attrname of Object.keys(obj1)) {
+    obj3[attrname] = obj1[attrname]
   }
 
-  // add obj2 to obj3
-  for (const attrname in obj2) {
-    if (obj2.hasOwnProperty(attrname)) {
-      obj3[attrname] = obj2[attrname]
-    }
+  for (const attrname of Object.keys(obj2)) {
+    obj3[attrname] = obj2[attrname]
   }
   return obj3
 }

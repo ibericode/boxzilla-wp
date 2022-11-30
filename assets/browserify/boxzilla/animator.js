@@ -1,11 +1,7 @@
 const duration = 320
 
 function css (element, styles) {
-  for (const property in styles) {
-    if (!styles.hasOwnProperty(property)) {
-      continue
-    }
-
+  for (const property of Object.keys(styles)) {
     element.style[property] = styles[property]
   }
 }
@@ -104,11 +100,7 @@ function animate (element, targetStyles, fn) {
   const currentStyles = {}
   const propSteps = {}
 
-  for (const property in targetStyles) {
-    if (!targetStyles.hasOwnProperty(property)) {
-      continue
-    }
-
+  for (const property of Object.keys(targetStyles)) {
     // make sure we have an object filled with floats
     targetStyles[property] = parseFloat(targetStyles[property])
 
@@ -132,11 +124,7 @@ function animate (element, targetStyles, fn) {
     let done = true
 
     let step, to, increment, newValue
-    for (const property in targetStyles) {
-      if (!targetStyles.hasOwnProperty(property)) {
-        continue
-      }
-
+    for (const property of Object.keys(targetStyles)) {
       step = propSteps[property]
       to = targetStyles[property]
       increment = step * timeSinceLastTick
