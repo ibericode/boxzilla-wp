@@ -12,7 +12,6 @@ const globby = require('globby')
 const buffer = require('vinyl-buffer')
 const through = require('through2')
 const sourcemaps = require('gulp-sourcemaps')
-const wrap = require('gulp-wrap')
 const wpPot = require('gulp-wp-pot')
 const insert = require('gulp-insert')
 
@@ -44,12 +43,11 @@ gulp.task('browserify', function () {
       return browserify(entry)
         .transform('babelify', {
           presets: ['@babel/preset-env'],
-          global: true,
+          global: true
         })
         .bundle()
         .pipe(source(filename))
         .pipe(buffer())
-        .pipe(wrap('(function () { var require = undefined; var module = undefined; var exports = undefined; var define = undefined; <%=contents%>; })();'))
       // create .js file
         .pipe(rename({ extname: '.js' }))
         .pipe(gulp.dest('./assets/js'))
