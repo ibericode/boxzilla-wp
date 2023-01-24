@@ -24,7 +24,7 @@ if ( class_exists( 'Jetpack' ) && class_exists( 'Jetpack_Photon' ) && Jetpack::i
 add_filter(
 	'nav_menu_link_attributes',
 	function( $atts ) {
-		if ( strpos( $atts['href'], '#boxzilla-' ) !== 0 ) {
+		if ( isset( $atts['href'] ) && strpos( $atts['href'], '#boxzilla-' ) !== 0 ) {
 			return $atts;
 		}
 
