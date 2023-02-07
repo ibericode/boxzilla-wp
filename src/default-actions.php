@@ -51,6 +51,10 @@ add_action(
 	'admin_init',
 	function () {
 		$admins = get_role( 'administrator' );
+		
+		if( empty( $admins ) ) {
+			return;
+		}
 
 		if ( ! $admins->has_cap( 'edit_box' ) ) {
 			$admins->add_cap( 'edit_box' );
