@@ -1,6 +1,13 @@
 Changelog
 ==========
 
+#### 3.2.26 - Mar 21, 2023 
+
+- Check if `administrator` role exists before adding capabilities to it. Thanks [Jaime Martínez](https://jaimemartinez.nl/).
+- Fix "undefined array key href" warning on PHP8.
+- Fix PHP8.1 deprecation warnings.
+
+
 #### 3.2.25 - Apr 20, 2021
 
 - Change usage of deprecated jQuery.load method.
