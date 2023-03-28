@@ -879,7 +879,9 @@ var throttle = require('../util.js').throttle;
 module.exports = function (boxes) {
   // check triggerHeight criteria for all boxes
   function checkHeightCriteria() {
-    var scrollY = window.scrollTop + window.innerHeight * 0.9;
+    // eslint-disable-next-line no-prototype-builtins
+    var scrollY = window.hasOwnProperty('pageYOffset') ? window.pageYOffset : window.scrollTop;
+    scrollY = scrollY + window.innerHeight * 0.9;
     boxes.forEach(function (box) {
       if (!box.mayAutoShow() || box.triggerHeight <= 0) {
         return;

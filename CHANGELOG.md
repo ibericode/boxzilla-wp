@@ -1,6 +1,11 @@
 Changelog
 ==========
 
+#### 3.2.27 - Mar 28, 2023
+
+- Fix scroll based trigger regression introduced in previous version.
+
+
 #### 3.2.26 - Mar 21, 2023 
 
 - Check if `administrator` role exists before adding capabilities to it. Thanks [Jaime Martínez](https://jaimemartinez.nl/).
