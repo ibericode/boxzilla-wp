@@ -5,7 +5,7 @@ Version: 3.2.27
 Plugin URI: https://boxzillaplugin.com/#utm_source=wp-plugin&utm_medium=boxzilla&utm_campaign=plugins-page
 Description: Call-To-Action Boxes that display after visitors scroll down far enough. Unobtrusive, but highly conversing!
 Author: ibericode
-Author URI: https://ibericode.com/#utm_source=wp-plugin&utm_medium=boxzilla&utm_campaign=plugins-page
+Author URI: https://www.ibericode.com/
 Text Domain: boxzilla
 Domain Path: /languages/
 License: GPL v2
