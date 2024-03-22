@@ -11,7 +11,7 @@ Domain Path: /languages/
 License: GPL v2
 
 Boxzilla Plugin
-Copyright (C) 2013 - 2020, Danny van Kooten, hi@dannyvankooten.com
+Copyright (C) 2013 - 2024, Danny van Kooten, hi@dannyvankooten.com
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -27,12 +27,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	header( 'Status: 403 Forbidden' );
-	header( 'HTTP/1.1 403 Forbidden' );
-	exit;
-}
-
+defined('ABSPATH') or exit;
 
 /**
  * @ignore
@@ -46,7 +41,7 @@ function _load_boxzilla() {
 	require __DIR__ . '/bootstrap.php';
 }
 
-// Check if we're on PHP 5.2, if so: bail early.
+// bail if not on PHP 5.3 or later
 if ( version_compare( PHP_VERSION, '5.3', '<' ) ) {
 	require dirname( __FILE__ ) . '/src/class-php-fallback.php';
 	new Boxzilla_PHP_Fallback( 'Boxzilla', plugin_basename( __FILE__ ) );

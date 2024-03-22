@@ -51,12 +51,7 @@ class BoxLoader {
 	 */
 	protected function get_filter_rules() {
 		$rules = get_option( 'boxzilla_rules', array() );
-
-		if ( ! is_array( $rules ) ) {
-			return array();
-		}
-
-		return $rules;
+		return is_array($rules) ? $rules : array();
 	}
 
 
