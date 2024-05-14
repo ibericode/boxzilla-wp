@@ -509,7 +509,6 @@ module.exports = Box;
 
 var Box = require('./box.js');
 var throttle = require('./util.js').throttle;
-var styles = require('./styles.js');
 var ExitIntent = require('./triggers/exit-intent.js');
 var Scroll = require('./triggers/scroll.js');
 var Pageviews = require('./triggers/pageviews.js');
@@ -564,11 +563,6 @@ function init() {
   if (initialised) {
     return;
   }
-
-  // insert styles into DOM
-  var styleElement = document.createElement('style');
-  styleElement.innerHTML = styles;
-  document.head.appendChild(styleElement);
 
   // init triggers
   ExitIntent(boxes);
@@ -662,13 +656,7 @@ if (typeof module !== 'undefined' && module.exports) {
   module.exports = Boxzilla;
 }
 
-},{"./box.js":2,"./styles.js":4,"./triggers/exit-intent.js":6,"./triggers/pageviews.js":7,"./triggers/scroll.js":8,"./triggers/time.js":9,"./util.js":10}],4:[function(require,module,exports){
-"use strict";
-
-var styles = "#boxzilla-overlay,.boxzilla-overlay{position:fixed;background:rgba(0,0,0,.65);width:100%;height:100%;left:0;top:0;z-index:10000}.boxzilla-center-container{position:fixed;top:0;left:0;right:0;height:0;text-align:center;z-index:11000;line-height:0}.boxzilla-center-container .boxzilla{display:inline-block;text-align:left;position:relative;line-height:normal}.boxzilla{position:fixed;z-index:12000;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;background:#fff;padding:25px}.boxzilla.boxzilla-top-left{top:0;left:0}.boxzilla.boxzilla-top-right{top:0;right:0}.boxzilla.boxzilla-bottom-left{bottom:0;left:0}.boxzilla.boxzilla-bottom-right{bottom:0;right:0}.boxzilla-content>:first-child{margin-top:0;padding-top:0}.boxzilla-content>:last-child{margin-bottom:0;padding-bottom:0}.boxzilla-close-icon{position:absolute;right:0;top:0;text-align:center;padding:6px;cursor:pointer;-webkit-appearance:none;font-size:28px;font-weight:700;line-height:20px;color:#000;opacity:.5}.boxzilla-close-icon:focus,.boxzilla-close-icon:hover{opacity:.8}";
-module.exports = styles;
-
-},{}],5:[function(require,module,exports){
+},{"./box.js":2,"./triggers/exit-intent.js":5,"./triggers/pageviews.js":6,"./triggers/scroll.js":7,"./triggers/time.js":8,"./util.js":9}],4:[function(require,module,exports){
 "use strict";
 
 var Timer = function Timer() {
@@ -691,7 +679,7 @@ Timer.prototype.stop = function () {
 };
 module.exports = Timer;
 
-},{}],6:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 "use strict";
 
 module.exports = function (boxes) {
@@ -771,7 +759,7 @@ module.exports = function (boxes) {
   document.documentElement.addEventListener('click', clearTimeout);
 };
 
-},{}],7:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 "use strict";
 
 module.exports = function (boxes) {
@@ -791,7 +779,7 @@ module.exports = function (boxes) {
   }, 1000);
 };
 
-},{}],8:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 "use strict";
 
 var throttle = require('../util.js').throttle;
@@ -817,7 +805,7 @@ module.exports = function (boxes) {
   window.addEventListener('scroll', throttle(checkHeightCriteria), true);
 };
 
-},{"../util.js":10}],9:[function(require,module,exports){
+},{"../util.js":9}],8:[function(require,module,exports){
 "use strict";
 
 var Timer = require('../timer.js');
@@ -863,7 +851,7 @@ module.exports = function (boxes) {
   }, 1000);
 };
 
-},{"../timer.js":5}],10:[function(require,module,exports){
+},{"../timer.js":4}],9:[function(require,module,exports){
 "use strict";
 
 function throttle(fn, threshold, scope) {

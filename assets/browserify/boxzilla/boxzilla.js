@@ -1,6 +1,5 @@
 const Box = require('./box.js')
 const throttle = require('./util.js').throttle
-const styles = require('./styles.js')
 const ExitIntent = require('./triggers/exit-intent.js')
 const Scroll = require('./triggers/scroll.js')
 const Pageviews = require('./triggers/pageviews.js')
@@ -59,11 +58,6 @@ function init () {
   if (initialised) {
     return
   }
-
-  // insert styles into DOM
-  const styleElement = document.createElement('style')
-  styleElement.innerHTML = styles
-  document.head.appendChild(styleElement)
 
   // init triggers
   ExitIntent(boxes)

@@ -248,6 +248,7 @@ class BoxLoader {
 	*/
 	public function load_assets() {
 		$pre_suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+		wp_enqueue_style( 'boxzilla', $this->plugin->url( '/assets/css/styles' . $pre_suffix . '.css' ), array(), $this->plugin->version() );
 		wp_enqueue_script( 'boxzilla', $this->plugin->url( '/assets/js/script' . $pre_suffix . '.js' ), array(), $this->plugin->version(), true );
 
 		// create boxzilla_Global_Options object

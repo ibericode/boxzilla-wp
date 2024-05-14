@@ -1,0 +1,84 @@
+#boxzilla-overlay,.boxzilla-overlay {
+	position: fixed;
+	background: rgba(0, 0, 0, 0.65 );
+	width: 100%;
+	height: 100%;
+	left: 0;
+	top: 0;
+	z-index: 10000;
+}
+
+.boxzilla-center-container {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 0;
+	text-align: center;
+	z-index: 11000;
+	line-height: 0;
+}
+
+/* reset some properties like "line-height" because of container line-height hack */
+.boxzilla-center-container .boxzilla {
+	display: inline-block;
+	text-align: left;
+	position: relative;
+	line-height: normal;
+}
+
+.boxzilla {
+	position: fixed;
+	z-index: 12000;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	background: white;
+	padding: 25px;
+}
+.boxzilla.boxzilla-top-left {
+	top: 0;
+	left: 0;
+}
+.boxzilla.boxzilla-top-right {
+	top: 0;
+	right: 0;
+}
+.boxzilla.boxzilla-bottom-left {
+	bottom: 0;
+	left: 0;
+}
+.boxzilla.boxzilla-bottom-right {
+	bottom: 0;
+	right: 0;
+}
+
+/* remove top & bottom margin from last child element */
+.boxzilla-content > *:first-child {
+	margin-top: 0;
+	padding-top: 0;
+}
+
+.boxzilla-content > *:last-child {
+	margin-bottom: 0;
+	padding-bottom: 0;
+}
+
+.boxzilla-close-icon {
+	position: absolute;
+	right: 0;
+	top: 0;
+	text-align: center;
+	padding: 6px;
+	cursor: pointer;
+	-webkit-appearance: none;
+	font-size: 28px;
+	font-weight: bold;
+	line-height: 20px;
+	color: #000;
+	opacity: .5;
+}
+
+.boxzilla-close-icon:hover, .boxzilla-close-icon:focus {
+	opacity: .8;
+}

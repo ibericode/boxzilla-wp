@@ -11,15 +11,6 @@ const buffer = require('vinyl-buffer')
 const through = require('through2')
 const sourcemaps = require('gulp-sourcemaps')
 const wpPot = require('gulp-wp-pot')
-const insert = require('gulp-insert')
-
-gulp.task('js-styles', function () {
-  return gulp.src('./assets/browserify/boxzilla/styles.css')
-    .pipe(cssmin())
-    .pipe(insert.wrap('const styles = `', '`; \nmodule.exports = styles;'))
-    .pipe(rename({ extname: '.js' }))
-    .pipe(gulp.dest('./assets/browserify/boxzilla'))
-})
 
 gulp.task('css', function () {
   const files = './assets/css/*[^.min].css'
@@ -90,4 +81,4 @@ gulp.task('watch', function () {
   gulp.watch('./assets/browserify/**/*.js', gulp.series('browserify', 'boxzilla.js'))
 })
 
-gulp.task('default', gulp.series('js-styles', 'css', 'browserify', 'uglify', 'languages', 'boxzilla.js'))
+gulp.task('default', gulp.series('css', 'browserify', 'uglify', 'languages', 'boxzilla.js'))
