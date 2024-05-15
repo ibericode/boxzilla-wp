@@ -44,7 +44,13 @@ foreach ( $this->notices as $notice ) {
 		<tr valign="top">
 			<th><?php _e( 'License Key', 'boxzilla' ); ?></th>
 			<td>
-				<input size="40" name="boxzilla_license_key" placeholder="<?php esc_attr_e( 'Enter your license key..', 'boxzilla' ); ?>" value="<?php echo esc_attr( $this->license->key ); ?>" />
+				<input
+					size="40"
+					name="boxzilla_license_key"
+					placeholder="<?php esc_attr_e( 'Enter your license key..', 'boxzilla' ); ?>"
+					value="<?php echo esc_attr( $this->license->key ); ?>"
+					<?php if ( $this->license->activated ) { echo 'readonly'; } ?>
+				/>
 				<input class="button" type="submit" name="action" value="<?php echo ( $this->license->activated ) ? 'deactivate' : 'activate'; ?>" />
 				<p class="help">
 					<?php echo sprintf( __( 'The license key received when purchasing your premium Boxzilla plan. <a href="%s">You can find it here</a>.', 'boxzilla' ), 'https://my.boxzillaplugin.com/' ); ?>
