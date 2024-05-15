@@ -152,7 +152,7 @@ class LicenseManager {
 		} catch ( API_Exception $e ) {
 			$message = $e->getMessage();
 			if ( $e->getApiCode() == 'license_at_limit' ) {
-				$message .= ' You can <a href="https://platform.boxzillaplugin.com/licenses">manage your site activations here</a>.';
+				$message .= ' You can <a href="https://my.boxzillaplugin.com/licenses">manage your site activations here</a>.';
 			}
 			$this->notices[] = array(
 				'type'    => 'warning',
