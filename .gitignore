@@ -2,10 +2,6 @@ node_modules
 .sass-cache
 .DS_STORE
 composer.lock
-
-# Exclude everything in /vendor except our autoload stuff
-vendor/*
-!vendor/composer
-!vendor/autoload.php
-vendor/composer/installers
-vendor/composer/installed.json
+vendor/
+*.cache
+.phpunit.result.cache
