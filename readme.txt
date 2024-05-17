@@ -4,7 +4,7 @@ Donate link: https://boxzillaplugin.com/#utm_source=wp-plugin-repo&utm_medium=bo
 Tags: pop-up, optin, call to action, exit intent
 Requires at least: 4.6
 Tested up to: 6.5
-Stable tag: 3.3.0
+Stable tag: 3.3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 7.0
@@ -131,7 +131,7 @@ Have a look at the [frequently asked questions](https://wordpress.org/plugins/bo
 == Changelog ==
 
 
-#### 3.3.0 - May 17, 2024
+#### 3.3.1 - May 17, 2024
 
 - Minor performance improvements to plugin bootstrapping and autoloader implementation.
 - Fix link in license key form.
