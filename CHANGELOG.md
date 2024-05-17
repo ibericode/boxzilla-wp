@@ -1,7 +1,7 @@
 Changelog
 ==========
 
-#### 3.3.0 - May 17, 2024
+#### 3.3.1 - May 17, 2024
 
 - Minor performance improvements to plugin bootstrapping and autoloader implementation.
 - Fix link in license key form.

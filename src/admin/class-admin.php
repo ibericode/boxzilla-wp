@@ -214,15 +214,11 @@ class Admin {
 	 */
 	public function register() {
 
-		// register settings
 		register_setting( 'boxzilla_settings', 'boxzilla_settings', array( $this, 'sanitize_settings' ) );
-
-		// register scripts
-		$pre_suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 		wp_register_script(
 			'boxzilla-admin',
-			$this->plugin->url( '/assets/js/admin-script' . $pre_suffix . '.js' ),
+			$this->plugin->url( '/assets/js/admin-script.js' ),
 			array(
 				'jquery',
 				'wp-util',
@@ -233,8 +229,7 @@ class Admin {
 			true
 		);
 
-		// load stylesheets
-		wp_register_style( 'boxzilla-admin', $this->plugin->url( '/assets/css/admin-styles' . $pre_suffix . '.css' ), array(), $this->plugin->version() );
+		wp_register_style( 'boxzilla-admin', $this->plugin->url( '/assets/css/admin-styles.css' ), array(), $this->plugin->version() );
 	}
 
 	/**
