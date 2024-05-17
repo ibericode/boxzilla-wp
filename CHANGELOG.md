@@ -1,6 +1,15 @@
 Changelog
 ==========
 
+#### 3.3.0 - May 17, 2024
+
+- Minor performance improvements to plugin bootstrapping and autoloader implementation.
+- Fix link in license key form.
+- Move CSS out of JS file for improved parsing performance.
+- Move to webpack instead of Gulp for preparing client-side asset files. 
+- Bump required PHP version to 7.0 or later.
+
+
 #### 3.2.27 - Mar 28, 2023
 
 - Fix scroll based trigger regression introduced in previous version.
