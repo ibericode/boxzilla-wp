@@ -14,11 +14,4 @@
 	</p>
 </div>
 
-<div style="margin: 12px 0;">
-	<p>
-		<strong><a href="https://wordpress.org/plugins/html-forms/">HTML Forms</a></strong><br />
-		Flexible multi-purpose forms where you have full control over the HTML.
-	</p>
-</div>
-
 
