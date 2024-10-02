@@ -1,6 +1,15 @@
 Changelog
 ==========
 
+#### 3.3.2 - Oct 02, 2024
+
+- The Boxzilla script itself is now deferred for improved client-side performance.
+- You can now use the Boxzilla JS API before the script has fully loaded. 
+- Minor server side performance improvements by getting rid of unnecessary sprintf calls or string copies.
+- All i18n function call return values are now HTML escaped.
+- Verify `Jetpack::is_module_active` exists before method is called.
+
+
 #### 3.3.1 - May 17, 2024
 
 - Minor performance improvements to plugin bootstrapping and autoloader implementation.
