@@ -1,0 +1,1 @@
+(()=>{var o=[],i={};["on","off","toggle","show"].forEach((l=>{i[l]=function(){o.push([l,arguments])}})),window.Boxzilla=i,window.boxzilla_queue=o})();

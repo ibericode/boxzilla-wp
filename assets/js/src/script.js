@@ -125,6 +125,14 @@
   // init boxzilla
   Boxzilla.init()
 
-  // on window.load, create DOM elements for boxes
-  window.addEventListener('load', createBoxesFromConfig)
+  window.addEventListener('load', () => {
+    // create JS objects for each box
+    createBoxesFromConfig()
+
+    // fire all events queued up during DOM load
+    window.boxzilla_queue.forEach((q) => {
+      const [method, args] = q
+      Boxzilla[method].apply(null, args)
+    })
+  })
 })()

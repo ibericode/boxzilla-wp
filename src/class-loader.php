@@ -38,10 +38,21 @@ class BoxLoader {
 		$this->box_ids_to_load = $this->filter_boxes();
 
 		// Only add other hooks if necessary
+		add_action('wp_head', array($this, 'print_preload_js'));
 		if ( count( $this->box_ids_to_load ) > 0 ) {
 			add_action( 'wp_footer', array( $this, 'print_boxes_content' ), 1 );
 			add_action( 'wp_enqueue_scripts', array( $this, 'load_assets' ), 90 );
 		}
+	}
+
+	/**
+	 * Prints the preload API so that the Boxzilla JS API can be used before Boxzilla itself is loaded
+	 * This allows us to defer the Boxzilla script itself.
+	 */
+	public function print_preload_js() {
+		echo '<script>';
+		echo file_get_contents(BOXZILLA_DIR . '/assets/js/preload.js');
+		echo '</script>';
 	}
 
 	/**
@@ -248,7 +259,10 @@ class BoxLoader {
 	*/
 	public function load_assets() {
 		wp_enqueue_style( 'boxzilla', $this->plugin->url( '/assets/css/styles.css' ), array(), $this->plugin->version() );
-		wp_enqueue_script( 'boxzilla', $this->plugin->url( '/assets/js/script.js' ), array(), $this->plugin->version(), true );
+		wp_enqueue_script( 'boxzilla', $this->plugin->url( '/assets/js/script.js' ), array(), $this->plugin->version(), array(
+			'strategy' => 'defer',
+			'in_footer' => true,
+		));
 
 		// create boxzilla_Global_Options object
 		$plugin_options = $this->options;

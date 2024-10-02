@@ -3,7 +3,8 @@ const path = require('path')
 module.exports = {
   entry: {
     'admin-script': './assets/js/src/admin-script.js',
-    script: './assets/js/src/script.js'
+    script: './assets/js/src/script.js',
+    preload: './assets/js/src/preload.js'
   },
   output: {
     filename: '[name].js',
