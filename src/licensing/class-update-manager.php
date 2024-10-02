@@ -70,7 +70,7 @@ class UpdateManager {
 			$args['headers'] = array();
 		}
 
-		$args['headers']['Authorization'] = sprintf( 'Bearer %s', $this->license->activation_key );
+		$args['headers']['Authorization'] = "Bearer {$this->license->activation_key}";
 		return $args;
 	}
 

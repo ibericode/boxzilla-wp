@@ -60,7 +60,7 @@ class Box {
 		$this->content = $post->post_content;
 
 		// is this box enabled?
-		$this->enabled = ( $post->post_status === 'publish' );
+		$this->enabled = $post->post_status === 'publish';
 
 		// load and store options in property
 		$this->options = $this->load_options();
@@ -177,7 +177,7 @@ class Box {
 		$box     = $this;
 
 		// replace boxzilla specific shortcodes
-		$close_link = sprintf( '<a href="javascript:Boxzilla.dismiss(%d);">', $this->ID );
+		$close_link = "<a href=\"javascript:Boxzilla.dismiss({$this->ID});\">";
 
 		$replacements = array(
 			'[boxzilla_close]'  => $close_link, // accept underscore and dash here for consistency with other shortcode
@@ -226,6 +226,7 @@ class Box {
 			);
 		}
 
+		$post = $this->post;
 		$client_options = array(
 			'id'                   => $box->ID,
 			'icon'                 => $box->get_close_icon(),
@@ -242,9 +243,9 @@ class Box {
 			'screenWidthCondition' => $screen_width_condition,
 			'closable'             => ! ! $box->options['closable'],
 			'post'                 => array(
-				'id'    => $this->post->ID,
-				'title' => $this->post->post_title,
-				'slug'  => $this->post->post_name,
+				'id'    => $post->ID,
+				'title' => $post->post_title,
+				'slug'  => $post->post_name,
 			),
 		);
 

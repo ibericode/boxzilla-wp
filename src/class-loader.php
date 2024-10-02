@@ -277,7 +277,7 @@ class BoxLoader {
 
 		echo '<div style="display: none;">';
 		foreach ( $boxes as $box ) {
-			echo sprintf( '<div id="boxzilla-box-%d-content">', $box->ID ) . $box->get_content() . '</div>';
+			echo "<div id=\"boxzilla-box-{$box->ID}-content\">", $box->get_content(), "</div>";
 		}
 		echo '</div>';
 	}
