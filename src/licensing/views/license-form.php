@@ -5,24 +5,24 @@ defined( 'ABSPATH' ) or exit;
 /** @var Boxzilla\Licensing\License $license */
 ?>
 
-<h2><?php _e( 'License & Plugin Updates', 'boxzilla' ); ?></h2>
+<h2><?php esc_html_e( 'License & Plugin Updates', 'boxzilla' ); ?></h2>
 
 <?php
 if ( ! $license->activated ) {
 	?>
 	<div class="error inline">
 		<p>
-			<strong><?php _e( 'Warning! You are <u>not</u> receiving plugin updates for the following plugin(s):', 'boxzilla' ); ?></strong>
+			<strong><?php esc_html_e( 'Warning! You are not receiving plugin updates for the following plugin(s):', 'boxzilla' ); ?></strong>
 		</p>
 		<ul class="ul-square">
 			<?php
 			foreach ( $this->extensions as $p ) {
-				echo '<li>' . esc_html( $p->name() ) . '</li>';
+				echo '<li>', esc_html( $p->name() ), '</li>';
 			}
 			?>
 		</ul>
 		<p>
-			<?php _e( 'To fix this, please activate your license using the form below.', 'boxzilla' ); ?>
+			<?php esc_html_e( 'To fix this, please activate your license using the form below.', 'boxzilla' ); ?>
 		</p>
 	</div>
 	<?php
@@ -42,7 +42,7 @@ foreach ( $this->notices as $notice ) {
 <form method="post">
 	<table class="form-table">
 		<tr valign="top">
-			<th><?php _e( 'License Key', 'boxzilla' ); ?></th>
+			<th><?php esc_html_e( 'License Key', 'boxzilla' ); ?></th>
 			<td>
 				<input
 					size="40"
@@ -53,21 +53,24 @@ foreach ( $this->notices as $notice ) {
 				/>
 				<input class="button" type="submit" name="action" value="<?php echo ( $this->license->activated ) ? 'deactivate' : 'activate'; ?>" />
 				<p class="help">
-					<?php echo sprintf( __( 'The license key received when purchasing your premium Boxzilla plan. <a href="%s">You can find it here</a>.', 'boxzilla' ), 'https://my.boxzillaplugin.com/' ); ?>
+					<?php
+					esc_html_e( 'The license key received when purchasing your premium Boxzilla plan.', 'bozilla');
+					echo '<a href="https://my.boxzillaplugin.com/">', esc_html__('You can find it here.', 'boxzilla'), '</a>';
+					?>
 				</p>
 			</td>
 		</tr>
 		<tr valign="top">
-			<th><?php _e( 'License Status', 'boxzilla' ); ?></th>
+			<th><?php esc_html_e( 'License Status', 'boxzilla' ); ?></th>
 			<td>
 				<?php
 				if ( $license->activated ) {
 					?>
-					<p><span class="status positive"><?php _e( 'ACTIVE', 'boxzilla' ); ?></span> - <?php _e( 'you are receiving plugin updates', 'boxzilla' ); ?></p>
+					<p><span class="status positive"><?php esc_html_e( 'ACTIVE', 'boxzilla' ); ?></span> - <?php esc_html_e( 'you are receiving plugin updates', 'boxzilla' ); ?></p>
 					<?php
 				} else {
 					?>
-					<p><span class="status negative"><?php _e( 'INACTIVE', 'boxzilla' ); ?></span> - <?php _e( 'you are <strong>not</strong> receiving plugin updates', 'boxzilla' ); ?></p>
+					<p><span class="status negative"><?php esc_html_e( 'INACTIVE', 'boxzilla' ); ?></span> - <?php esc_html_e( 'you are <strong>not</strong> receiving plugin updates', 'boxzilla' ); ?></p>
 					<?php
 				}
 				?>
@@ -79,7 +82,7 @@ foreach ( $this->notices as $notice ) {
 
 
 	<p>
-		<input type="submit" class="button button-primary" name="action" value="<?php _e( 'Save Changes', 'boxzilla' ); ?>" />
+		<input type="submit" class="button button-primary" name="action" value="<?php esc_attr_e( 'Save Changes', 'boxzilla' ); ?>" />
 	</p>
 
 	<input type="hidden" name="boxzilla_license_form" value="1" />

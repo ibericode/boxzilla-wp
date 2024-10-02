@@ -85,7 +85,7 @@ class Admin {
 	}
 
 	public function bulk_action_add( $bulk_actions ) {
-		$bulk_actions['boxzilla_duplicate_box'] = __( 'Duplicate box', 'boxzilla' );
+		$bulk_actions['boxzilla_duplicate_box'] = esc_attr__( 'Duplicate box', 'boxzilla' );
 		return $bulk_actions;
 	}
 
@@ -128,9 +128,9 @@ class Admin {
 		if ( ( $pagenow === 'plugins.php' || ( $current_screen && $current_screen->post_type === 'boxzilla-box' ) )
 			&& current_user_can( 'install_plugins' )
 			&& is_plugin_active( 'scroll-triggered-boxes/index.php' ) ) {
-			$url = wp_nonce_url( 'plugins.php?action=deactivate&plugin=scroll-triggered-boxes/index.php', 'deactivate-plugin_' . 'scroll-triggered-boxes/index.php' ); ?>
+			?>
 			<div class="notice notice-info">
-				<p><?php printf( __( 'Awesome, you are using Boxzilla! You can now safely <a href="%s">deactivate the Scroll Triggered Boxes plugin</a>.', 'boxzilla' ), $url ); ?></p>
+				<p><?php esc_html_e( 'Awesome, you are using Boxzilla! You can now safely deactivate the Scroll Triggered Boxes plugin.', 'boxzilla' ); ?></p>
 			</div>
 			<?php
 		}
@@ -199,12 +199,12 @@ class Admin {
 		$columns = self::array_insert(
 			$columns,
 			array(
-				'box_id' => __( 'Box ID', 'boxzilla' ),
+				'box_id' => esc_html__( 'Box ID', 'boxzilla' ),
 			),
 			1
 		);
 
-		$columns['title'] = __( 'Box Title', 'boxzilla' );
+		$columns['title'] = esc_html__( 'Box Title', 'boxzilla' );
 
 		return $columns;
 	}
@@ -233,19 +233,19 @@ class Admin {
 	}
 
 	/**
-	 * Renders the STB Menu items
+	 * Renders the Boxzilla admin menu items
 	 */
 	public function menu() {
 		$menu_items = array(
 			array(
-				__( 'Settings', 'boxzilla' ),
-				__( 'Settings', 'boxzilla' ),
+				esc_html__( 'Settings', 'boxzilla' ),
+				esc_html__( 'Settings', 'boxzilla' ),
 				'boxzilla-settings',
 				array( $this, 'show_settings_page' ),
 			),
 			array(
-				__( 'Extensions', 'boxzilla' ),
-				'<span style="color: orange">' . __( 'Extensions', 'boxzilla' ) . '</span>',
+				esc_html__( 'Extensions', 'boxzilla' ),
+				'<span style="color: orange">' . esc_html__( 'Extensions', 'boxzilla' ) . '</span>',
 				'boxzilla-extensions',
 				array( $this, 'show_extensions_page' ),
 			),
@@ -336,13 +336,13 @@ class Admin {
 			wp_enqueue_script( 'boxzilla-admin' );
 
 			$data = array(
-				'and'                             => __( 'and', 'boxzilla' ),
-				'or'                              => __( 'or', 'boxzilla' ),
-				'enterCommaSeparatedValues'       => __( 'Enter a comma-separated list of values.', 'boxzilla' ),
-				'enterCommaSeparatedPosts'        => __( "Enter a comma-separated list of post slugs or post ID's..", 'boxzilla' ),
-				'enterCommaSeparatedPages'        => __( "Enter a comma-separated list of page slugs or page ID's..", 'boxzilla' ),
-				'enterCommaSeparatedPostTypes'    => __( 'Enter a comma-separated list of post types..', 'boxzilla' ),
-				'enterCommaSeparatedRelativeUrls' => __( "Enter a comma-separated list of relative URL's, eg /contact/", 'boxzilla' ),
+				'and'                             => esc_html__( 'and', 'boxzilla' ),
+				'or'                              => esc_html__( 'or', 'boxzilla' ),
+				'enterCommaSeparatedValues'       => esc_html__( 'Enter a comma-separated list of values.', 'boxzilla' ),
+				'enterCommaSeparatedPosts'        => esc_html__( "Enter a comma-separated list of post slugs or post ID's..", 'boxzilla' ),
+				'enterCommaSeparatedPages'        => esc_html__( "Enter a comma-separated list of page slugs or page ID's..", 'boxzilla' ),
+				'enterCommaSeparatedPostTypes'    => esc_html__( 'Enter a comma-separated list of post types..', 'boxzilla' ),
+				'enterCommaSeparatedRelativeUrls' => esc_html__( "Enter a comma-separated list of relative URL's, eg /contact/", 'boxzilla' ),
 			);
 			wp_localize_script( 'boxzilla-admin', 'boxzilla_i18n', $data );
 
@@ -372,7 +372,7 @@ class Admin {
 
 		add_meta_box(
 			'boxzilla-box-appearance-controls',
-			__( 'Box Appearance', 'boxzilla' ),
+			esc_html__( 'Box Appearance', 'boxzilla' ),
 			array( $this, 'metabox_box_appearance_controls' ),
 			'boxzilla-box',
 			'normal',
@@ -381,7 +381,7 @@ class Admin {
 
 		add_meta_box(
 			'boxzilla-box-options-controls',
-			__( 'Box Options', 'boxzilla' ),
+			esc_html__( 'Box Options', 'boxzilla' ),
 			array( $this, 'metabox_box_option_controls' ),
 			'boxzilla-box',
 			'normal',
@@ -390,7 +390,7 @@ class Admin {
 
 		add_meta_box(
 			'boxzilla-support',
-			__( 'Looking for help?', 'boxzilla' ),
+			esc_html__( 'Looking for help?', 'boxzilla' ),
 			array( $this, 'metabox_support' ),
 			'boxzilla-box',
 			'side'
@@ -398,7 +398,7 @@ class Admin {
 
 		add_meta_box(
 			'boxzilla-our-other-plugins',
-			__( 'Our other plugins', 'boxzilla' ),
+			esc_html__( 'Our other plugins', 'boxzilla' ),
 			array( $this, 'metabox_our_other_plugins' ),
 			'boxzilla-box',
 			'side'
@@ -406,7 +406,7 @@ class Admin {
 
 		add_meta_box(
 			'boxzilla-email-optin',
-			__( 'Subscribe to our newsletter', 'boxzilla' ),
+			esc_html__( 'Subscribe to our newsletter', 'boxzilla' ),
 			array( $this, 'metabox_email_optin' ),
 			'boxzilla-box',
 			'side'
@@ -667,9 +667,10 @@ class Admin {
 			return $links;
 		}
 
-		$settings_link = '<a href="' . admin_url( 'edit.php?post_type=boxzilla-box' ) . '">' . __( 'Boxes', 'boxzilla' ) . '</a>';
+		$href = admin_url( 'edit.php?post_type=boxzilla-box' );
+		$label = esc_html__( 'Boxes', 'boxzilla' );
+		$settings_link = "<a href=\"{$href}\">{$label}</a>";
 		array_unshift( $links, $settings_link );
-
 		return $links;
 	}
 
@@ -686,8 +687,8 @@ class Admin {
 			return $links;
 		}
 
-		$links[] = '<a href="https://kb.boxzillaplugin.com/#utm_source=wp-plugin&utm_medium=boxzilla&utm_campaign=plugins-page">Documentation</a>';
-		$links[] = '<a href="https://boxzillaplugin.com/add-ons/#utm_source=wp-plugin&utm_medium=boxzilla&utm_campaign=plugins-page">Add-ons</a>';
+		$links[] = '<a href="https://kb.boxzillaplugin.com/">Documentation</a>';
+		$links[] = '<a href="https://boxzillaplugin.com/add-ons/>Add-ons</a>';
 
 		return $links;
 	}

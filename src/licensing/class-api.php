@@ -161,7 +161,7 @@ class API {
 
 		$json = json_decode( $body, false );
 		if ( is_null( $json ) ) {
-			throw new API_Exception( __( 'The Boxzilla server returned an invalid response.', 'boxzilla' ) );
+			throw new API_Exception( esc_html__( 'The Boxzilla server returned an invalid response.', 'boxzilla' ) );
 		}
 
 		// did request return an error response?

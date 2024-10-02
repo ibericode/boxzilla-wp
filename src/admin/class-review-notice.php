@@ -65,10 +65,11 @@ class ReviewNotice {
 
 		echo '<div class="notice notice-info boxzilla-is-dismissible">';
 		echo '<p>';
-		echo __( 'You\'ve been using Boxzilla for some time now; we hope you love it!', 'boxzilla' ) . ' <br />';
-		echo sprintf( __( 'If you do, please <a href="%s">leave us a 5★ rating on WordPress.org</a>. It would be of great help to us.', 'boxzilla' ), 'https://wordpress.org/support/view/plugin-reviews/boxzilla?rate=5#new-post' );
+		echo esc_html__( 'You\'ve been using Boxzilla for some time now; we hope you love it!', 'boxzilla' ), ' <br />';
+		echo '<a href="https://wordpress.org/support/view/plugin-reviews/boxzilla?rate=5#new-post">', esc_html__( 'If you do, please leave us a nice plugin review on WordPress.org.', 'boxzilla'), '</a>';
+		echo esc_html__('It would be of great help to us.', 'boxzilla' );
 		echo '</p>';
-		echo '<form method="POST"><button type="submit" class="notice-dismiss"><span class="screen-reader-text">' . __( 'Dismiss this notice.', 'boxzilla' ) . '</span></button><input type="hidden" name="_boxzilla_admin_action" value="dismiss_review_notice"/></form>';
+		echo '<form method="POST"><button type="submit" class="notice-dismiss"><span class="screen-reader-text">', esc_html__( 'Dismiss this notice.', 'boxzilla' ), '</span></button><input type="hidden" name="_boxzilla_admin_action" value="dismiss_review_notice"/></form>';
 		echo '</div>';
 		return true;
 	}

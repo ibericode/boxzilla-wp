@@ -4,7 +4,7 @@
 	<div class="boxzilla-row">
 		<div class="boxzilla-col-two-third">
 
-			<h2><?php _e( 'Settings', 'boxzilla' ); ?></h2>
+			<h2><?php esc_html_e( 'Settings', 'boxzilla' ); ?></h2>
 
 			<?php do_action( 'boxzilla_before_settings' ); ?>
 
@@ -17,11 +17,11 @@
 					<?php do_action( 'boxzilla_before_settings_rows' ); ?>
 
 					<tr valign="top">
-						<th><label for="boxzilla_test_mode"><?php _e( 'Enable test mode?', 'boxzilla' ); ?></label></th>
+						<th><label for="boxzilla_test_mode"><?php esc_html_e( 'Enable test mode?', 'boxzilla' ); ?></label></th>
 						<td>
-							<label><input type="radio" id="boxzilla_test_mode_1" name="boxzilla_settings[test_mode]" value="1" <?php checked( $opts['test_mode'], 1 ); ?> /> <?php _e( 'Yes', 'boxzilla' ); ?></label> &nbsp;
-							<label><input type="radio" id="boxzilla_test_mode_0" name="boxzilla_settings[test_mode]" value="0" <?php checked( $opts['test_mode'], 0 ); ?> /> <?php _e( 'No', 'boxzilla' ); ?></label> &nbsp;
-							<p class="help"><?php _e( 'If test mode is enabled, all boxes will show up regardless of whether a cookie has been set.', 'boxzilla' ); ?></p>
+							<label><input type="radio" id="boxzilla_test_mode_1" name="boxzilla_settings[test_mode]" value="1" <?php checked( $opts['test_mode'], 1 ); ?> /> <?php esc_html_e( 'Yes', 'boxzilla' ); ?></label> &nbsp;
+							<label><input type="radio" id="boxzilla_test_mode_0" name="boxzilla_settings[test_mode]" value="0" <?php checked( $opts['test_mode'], 0 ); ?> /> <?php esc_html_e( 'No', 'boxzilla' ); ?></label> &nbsp;
+							<p class="help"><?php esc_html_e( 'If test mode is enabled, all boxes will show up regardless of whether a cookie has been set.', 'boxzilla' ); ?></p>
 						</td>
 					</tr>
 
@@ -37,17 +37,17 @@
 		<div class="boxzilla-sidebar boxzilla-col-one-third">
 
 			<div class="boxzilla-box">
-				<h3><?php echo __( 'Looking for help?', 'boxzilla' ); ?></h3>
+				<h3><?php esc_html_e( 'Looking for help?', 'boxzilla' ); ?></h3>
 				<?php include __DIR__ . '/metaboxes/need-help.php'; ?>
 			</div>
 
 			<div class="boxzilla-box">
-				<h3><?php echo __( 'Our other plugins', 'boxzilla' ); ?></h3>
+				<h3><?php esc_html_e( 'Our other plugins', 'boxzilla' ); ?></h3>
 				<?php include __DIR__ . '/metaboxes/our-other-plugins.php'; ?>
 			</div>
 
 			<div class="boxzilla-box">
-				<h3><?php echo __( 'Subscribe to our newsletter', 'boxzilla' ); ?></h3>
+				<h3><?php esc_html_e( 'Subscribe to our newsletter', 'boxzilla' ); ?></h3>
 				<?php include __DIR__ . '/metaboxes/email-optin.php'; ?>
 			</div>
 		</div>

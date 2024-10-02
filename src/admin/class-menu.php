@@ -22,7 +22,7 @@ class Menu {
 	 * Adapted from http://www.johnmorrisonline.com/how-to-add-a-fully-functional-custom-meta-box-to-wordpress-navigation-menus/.
 	 */
 	public function add_nav_menu_meta_boxes() {
-		add_meta_box( 'boxzilla_nav_link', __( 'Boxzilla Pop-ups', 'boxzilla' ), array( $this, 'nav_menu_links' ), 'nav-menus', 'side', 'low' );
+		add_meta_box( 'boxzilla_nav_link', esc_html__( 'Boxzilla Pop-ups', 'boxzilla' ), array( $this, 'nav_menu_links' ), 'nav-menus', 'side', 'low' );
 	}
 
 	private function get_boxes() {
@@ -58,8 +58,8 @@ class Menu {
 								<input type="checkbox" class="menu-item-checkbox" name="menu-item[<?php echo esc_attr( $i ); ?>][menu-item-object-id]" value="<?php echo esc_attr( $i ); ?>" /> <?php echo esc_html( $post->post_title ); ?>
 							</label>
 							<input type="hidden" class="menu-item-type" name="menu-item[<?php echo esc_attr( $i ); ?>][menu-item-type]" value="custom" />
-							<input type="hidden" class="menu-item-title" name="menu-item[<?php echo esc_attr( $i ); ?>][menu-item-title]" value="<?php echo esc_html( $post->post_title ); ?>" />
-							<input type="hidden" class="menu-item-url" name="menu-item[<?php echo esc_attr( $i ); ?>][menu-item-url]" value="<?php echo sprintf( '#boxzilla-%d', $post->ID ); ?>" />
+							<input type="hidden" class="menu-item-title" name="menu-item[<?php echo esc_attr( $i ); ?>][menu-item-title]" value="<?php echo esc_attr( $post->post_title ); ?>" />
+							<input type="hidden" class="menu-item-url" name="menu-item[<?php echo esc_attr( $i ); ?>][menu-item-url]" value="<?php echo "#boxzilla-{$post->ID}"; ?>" />
 							<input type="hidden" class="menu-item-classes" name="menu-item[<?php echo esc_attr( $i ); ?>][menu-item-classes]" />
 						</li>
 						<?php
@@ -89,8 +89,8 @@ class Menu {
 	 */
 	public function register_customize_nav_menu_item_types( $item_types ) {
 		$item_types[] = array(
-			'title'      => __( 'Boxzilla Pop-ups', 'boxzilla' ),
-			'type_label' => __( 'Boxzilla Pop-ups', 'boxzilla' ),
+			'title'      => esc_html__( 'Boxzilla Pop-ups', 'boxzilla' ),
+			'type_label' => esc_html__( 'Boxzilla Pop-ups', 'boxzilla' ),
 			'type'       => 'boxzilla_nav',
 			'object'     => 'boxzilla_box',
 		);
@@ -123,8 +123,8 @@ class Menu {
 			$items[] = array(
 				'id'         => $i,
 				'title'      => $post->post_title,
-				'type_label' => __( 'Custom Link', 'boxzilla' ),
-				'url'        => sprintf( '#boxzilla-%d', $post->ID ),
+				'type_label' => esc_html__( 'Custom Link', 'boxzilla' ),
+				'url'        => "#boxzilla-{$post->ID}",
 			);
 		}
 
