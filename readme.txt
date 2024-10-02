@@ -4,7 +4,7 @@ Donate link: https://boxzillaplugin.com/#utm_source=wp-plugin-repo&utm_medium=bo
 Tags: pop-up, optin, call to action, exit intent
 Requires at least: 4.6
 Tested up to: 6.6
-Stable tag: 3.3.1
+Stable tag: 3.3.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP: 7.0
@@ -129,13 +129,21 @@ Have a look at the [frequently asked questions](https://wordpress.org/plugins/bo
 == Changelog ==
 
 
+#### 3.3.2 - Oct 02, 2024
+
+- The Boxzilla script itself is now deferred for improved client-side performance.
+- You can now use the Boxzilla JS API before the script has fully loaded. 
+- Minor server side performance improvements by getting rid of unnecessary sprintf calls or string copies.
+- All i18n function call return values are now HTML escaped.
+- Verify `Jetpack::is_module_active` exists before method is called.
+
 
 #### 3.3.1 - May 17, 2024
 
 - Minor performance improvements to plugin bootstrapping and autoloader implementation.
 - Fix link in license key form.
 - Move CSS out of JS file for improved parsing performance.
-- Move to webpack instead of Gulp for preparing client-side asset files.
+- Move to webpack instead of Gulp for preparing client-side asset files. 
 - Bump required PHP version to 7.0 or later.
 
 
@@ -144,7 +152,7 @@ Have a look at the [frequently asked questions](https://wordpress.org/plugins/bo
 - Fix scroll based trigger regression introduced in previous version.
 
 
-#### 3.2.26 - Mar 21, 2023
+#### 3.2.26 - Mar 21, 2023 
 
 - Check if `administrator` role exists before adding capabilities to it. Thanks [Jaime Martínez](https://jaimemartinez.nl/).
 - Fix "undefined array key href" warning on PHP8.
@@ -638,7 +646,6 @@ Please make sure your [Boxzilla plugin license](https://my.boxzillaplugin.com/) 
 Initial release of [Boxzilla](https://boxzillaplugin.com/), formerly known as [Scroll Triggered Boxes](https://wordpress.org/plugins/scroll-triggered-boxes/).
 
 If you're upgrading from the old plugin, please check [updating to Boxzilla from Scroll Triggered Boxes](https://kb.boxzillaplugin.com/updating-from-scroll-triggered-boxes/) for a list of changes you should be aware of.
-
 
 == Upgrade Notice ==
 
