@@ -42,4 +42,4 @@ Anyone is welcome to contribute to the plugin. There are various ways you can co
 
 License
 -------------
-GPLv2 or later
+GPLv3 or later
