@@ -68,5 +68,5 @@ echo "$(basename "$PACKAGE_FILE") created ($SIZE)"
 git add . -A
 git commit -m "v$VERSION"
 git tag "$VERSION"
-# git push origin main
-# git push origin "tags/$VERSION"
+git push origin main
+git push origin "tags/$VERSION"

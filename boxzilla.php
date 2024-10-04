@@ -27,7 +27,12 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+
+// Exit if not loaded inside a WordPress context
 defined('ABSPATH') or exit;
+
+// Exit if PHP lower than 7.2
+PHP_VERSION_ID >= 70200 or exit;
 
 define( 'BOXZILLA_FILE', __FILE__ );
 define( 'BOXZILLA_DIR', __DIR__ );
@@ -36,6 +41,7 @@ define( 'BOXZILLA_VERSION', '3.3.1' );
 require __DIR__ . '/autoload.php';
 require __DIR__ . '/src/services.php';
 require __DIR__ . '/src/licensing/services.php';
+
 
 // register activation hook
 register_activation_hook( __FILE__, array( 'Boxzilla\\Admin\\Installer', 'run' ) );
