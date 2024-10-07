@@ -4,7 +4,7 @@ Donate link: https://boxzillaplugin.com/#utm_source=wp-plugin-repo&utm_medium=bo
 Tags: pop-up, pop-ups, modal, call to action
 Requires at least: 4.6
 Tested up to: 6.6
-Stable tag: 3.3.2
+Stable tag: 3.3.3
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.2
@@ -128,6 +128,12 @@ Have a look at the [frequently asked questions](https://wordpress.org/plugins/bo
 
 == Changelog ==
 
+
+#### 3.3.3 - Oct 07, 2024
+
+- Fix unclosed element on plugins overview page, breaking the table layout.
+- Bump license to GPL v3 or higher.
+- Bump required PHP version to 7.2 or higher.
 
 #### 3.3.2 - Oct 02, 2024
 
