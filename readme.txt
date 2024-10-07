@@ -1,7 +1,7 @@
 === Boxzilla ===
 Contributors: Ibericode, DvanKooten, hchouhan, lapzor
 Donate link: https://boxzillaplugin.com/#utm_source=wp-plugin-repo&utm_medium=boxzilla&utm_campaign=donate-link
-Tags: pop-up, optin, call to action, exit intent
+Tags: pop-up, pop-ups, modal, call to action
 Requires at least: 4.6
 Tested up to: 6.6
 Stable tag: 3.3.2
