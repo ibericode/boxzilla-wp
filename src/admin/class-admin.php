@@ -688,7 +688,7 @@ class Admin {
 		}
 
 		$links[] = '<a href="https://kb.boxzillaplugin.com/">Documentation</a>';
-		$links[] = '<a href="https://boxzillaplugin.com/add-ons/>Add-ons</a>';
+		$links[] = '<a href="https://boxzillaplugin.com/add-ons/">Add-ons</a>';
 
 		return $links;
 	}
