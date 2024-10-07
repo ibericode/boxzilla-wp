@@ -7,6 +7,7 @@ Changelog
 - Bump license to GPL v3 or higher.
 - Bump required PHP version to 7.2 or higher.
 
+
 #### 3.3.2 - Oct 02, 2024
 
 - The Boxzilla script itself is now deferred for improved client-side performance.
