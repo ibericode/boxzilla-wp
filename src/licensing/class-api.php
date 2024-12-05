@@ -121,6 +121,7 @@ class API {
 				'Content-Type' => 'application/json',
 				'Accepts'      => 'application/json',
 			),
+			'timeout' => 10,
 		);
 
 		// add license key to headers if set
