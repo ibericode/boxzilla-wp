@@ -323,7 +323,7 @@ Box.prototype.isCookieSet = function () {
     return false
   }
 
-  return document.cookie.replace(new RegExp('(?:(?:^|.*;)\\s*' + 'boxzilla_box_' + this.id + '\\s*\\=\\s*([^;]*).*$)|^.*$'), '$1') === 'true'
+  return (new RegExp('(?:^|;)\\s{0,}boxzilla_box_' + String(this.id) + '=true\\s{0,}(?:;|$)')).test(document.cookie)
 }
 
 // set cookie that disables automatically showing the box
