@@ -323,14 +323,14 @@ Box.prototype.isCookieSet = function () {
     return false
   }
 
-  return (new RegExp('(?:^|;)\\s{0,}boxzilla_box_' + String(this.id) + '=true\\s{0,}(?:;|$)')).test(document.cookie)
+  return (new RegExp('(?:^|;)\\s{0,}boxzilla_box_' + String(this.id) + '=1\\s{0,}(?:;|$)')).test(document.cookie)
 }
 
 // set cookie that disables automatically showing the box
 Box.prototype.setCookie = function (hours) {
   const expiryDate = new Date()
   expiryDate.setHours(expiryDate.getHours() + hours)
-  document.cookie = 'boxzilla_box_' + this.id + '=true; expires=' + expiryDate.toUTCString() + '; path=/'
+  document.cookie = 'boxzilla_box_' + this.id + '=1; expires=' + expiryDate.toUTCString() + '; path=/'
 }
 
 Box.prototype.trigger = function () {
