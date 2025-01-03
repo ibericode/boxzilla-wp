@@ -1,6 +1,13 @@
 Changelog
 ==========
 
+#### 3.4.0 - Jan 03, 2025 
+
+- Remove deprecated Bootstrapper class.
+- Add link to https://my.boxzillaplugin.com when trying to activate an expired license.
+- Bump tested WordPress version.
+
+
 #### 3.3.3 - Oct 07, 2024
 
 - Fix unclosed element on plugins overview page, breaking the table layout.
