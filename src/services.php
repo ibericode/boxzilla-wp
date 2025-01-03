@@ -18,10 +18,6 @@ $boxzilla['admin.menu'] = function() {
 	return new Menu();
 };
 
-$boxzilla['bootstrapper'] = function() {
-	return new Bootstrapper();
-};
-
 $boxzilla['box_loader'] = function ( $boxzilla ) {
 	return new BoxLoader( $boxzilla->plugin, $boxzilla->options );
 };
