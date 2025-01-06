@@ -21,15 +21,7 @@
 		"php": ">=7.2"
 	},
 	"require-dev": {
-		"phpunit/phpunit": "^9.5.4",
-		"brain/monkey": "1.*",
-		"wp-coding-standards/wpcs": "^2.3",
-		"dealerdirect/phpcodesniffer-composer-installer": "^0.7.1"
-	},
-	"config": {
-		"allow-plugins": {
-			"dealerdirect/phpcodesniffer-composer-installer": true
-		}
+		"phpunit/phpunit": "^10.5.40"
 	},
 	"scripts": {
   	"check-syntax": "find . -name '*.php' -not -path './vendor/*' -not -path './node_modules/*' -print0 | xargs -0 -n1 php -l"
