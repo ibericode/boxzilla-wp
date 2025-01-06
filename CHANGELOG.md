@@ -1,6 +1,11 @@
 Changelog
 ==========
 
+### Trunk
+
+- Bump required PHP version to 7.4 or higher.
+
+
 #### 3.4.0 - Jan 03, 2025 
 
 - Remove deprecated Bootstrapper class.

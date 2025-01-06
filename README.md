@@ -9,7 +9,7 @@ Here, you can browse the source code of the [Boxzilla plugin for WordPress](http
 Requirements
 ------------
 
-- PHP version 7.2 or higher
+- PHP version 7.4 or higher
 - WordPress version 4.6 or higher
 
 
