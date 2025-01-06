@@ -10,7 +10,6 @@ spl_autoload_register(function ($class) {
 	    'Boxzilla\\Admin\\Migrations' => __DIR__ . '/src/admin/class-migrations.php',
 	    'Boxzilla\\Admin\\Notices' => __DIR__ . '/src/admin/class-notices.php',
 	    'Boxzilla\\Admin\\ReviewNotice' => __DIR__ . '/src/admin/class-review-notice.php',
-	    'Boxzilla\\Bootstrapper' => __DIR__ . '/src/class-bootstrapper.php',
 	    'Boxzilla\\Box' => __DIR__ . '/src/class-box.php',
 	    'Boxzilla\\BoxLoader' => __DIR__ . '/src/class-loader.php',
 	    'Boxzilla\\Boxzilla' => __DIR__ . '/src/class-boxzilla.php',
