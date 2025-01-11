@@ -14,6 +14,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           tools: composer
+          ini-file: development
 
       - name: checkout repo
         uses: actions/checkout@v3

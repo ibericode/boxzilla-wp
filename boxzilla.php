@@ -33,8 +33,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 // Exit if not loaded inside a WordPress context
 defined('ABSPATH') or exit;
 
-// Exit if PHP lower than 7.2
-PHP_VERSION_ID >= 70200 or exit;
+// Exit if PHP lower than 7.4
+PHP_VERSION_ID >= 70400 or exit;
 
 define('BOXZILLA_FILE', __FILE__);
 define('BOXZILLA_DIR', __DIR__);
