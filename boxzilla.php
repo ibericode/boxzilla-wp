@@ -1,4 +1,5 @@
 <?php
+
 /*
 Plugin Name: Boxzilla
 Version: 3.4.0
@@ -35,9 +36,9 @@ defined('ABSPATH') or exit;
 // Exit if PHP lower than 7.2
 PHP_VERSION_ID >= 70200 or exit;
 
-define( 'BOXZILLA_FILE', __FILE__ );
-define( 'BOXZILLA_DIR', __DIR__ );
-define( 'BOXZILLA_VERSION', '3.3.1' );
+define('BOXZILLA_FILE', __FILE__);
+define('BOXZILLA_DIR', __DIR__);
+define('BOXZILLA_VERSION', '3.3.1');
 
 require __DIR__ . '/autoload.php';
 require __DIR__ . '/src/services.php';
@@ -45,43 +46,43 @@ require __DIR__ . '/src/licensing/services.php';
 
 
 // register activation hook
-register_activation_hook( __FILE__, array( 'Boxzilla\\Admin\\Installer', 'run' ) );
+register_activation_hook(__FILE__, [ 'Boxzilla\\Admin\\Installer', 'run' ]);
 
 // Bootstrap plugin at later action hook
 add_action(
-	'plugins_loaded',
-	function() {
-		$boxzilla = boxzilla();
+    'plugins_loaded',
+    function () {
+        $boxzilla = boxzilla();
 
-		// load default filters
-		require __DIR__ . '/src/default-filters.php';
-		require __DIR__ . '/src/default-actions.php';
+        // load default filters
+        require __DIR__ . '/src/default-filters.php';
+        require __DIR__ . '/src/default-actions.php';
 
-		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-			$boxzilla['filter.autocomplete']->init();
-			$boxzilla['admin.menu']->init();
-		} elseif ( defined( 'DOING_CRON' ) && DOING_CRON ) {
-			$boxzilla['license_poller']->init();
-		} elseif ( is_admin() ) {
-			$boxzilla['admin']->init();
-			$boxzilla['admin.menu']->init();
-		} else {
-			add_action(
-				'template_redirect',
-				function() use ( $boxzilla ) {
-					$boxzilla['box_loader']->init();
-				}
-			);
-		}
+        if (defined('DOING_AJAX') && DOING_AJAX) {
+            $boxzilla['filter.autocomplete']->init();
+            $boxzilla['admin.menu']->init();
+        } elseif (defined('DOING_CRON') && DOING_CRON) {
+            $boxzilla['license_poller']->init();
+        } elseif (is_admin()) {
+            $boxzilla['admin']->init();
+            $boxzilla['admin.menu']->init();
+        } else {
+            add_action(
+                'template_redirect',
+                function () use ($boxzilla) {
+                    $boxzilla['box_loader']->init();
+                }
+            );
+        }
 
-		// license manager
-		if ( is_admin() || ( defined( 'DOING_CRON' ) && DOING_CRON ) || ( defined( 'WP_CLI' ) && WP_CLI ) ) {
-			$boxzilla['license_manager']->init();
+        // license manager
+        if (is_admin() || ( defined('DOING_CRON') && DOING_CRON ) || ( defined('WP_CLI') && WP_CLI )) {
+            $boxzilla['license_manager']->init();
 
-			if ( count( $boxzilla->plugins ) > 0 ) {
-				$boxzilla['update_manager']->init();
-			}
-		}
-	},
-	90
+            if (count($boxzilla->plugins) > 0) {
+                $boxzilla['update_manager']->init();
+            }
+        }
+    },
+    90
 );

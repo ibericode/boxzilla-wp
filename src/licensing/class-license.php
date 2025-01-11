@@ -14,105 +14,111 @@ namespace Boxzilla\Licensing;
  *
  * @package Boxzilla\Licensing
  */
-class License {
+class License
+{
+    /**
+     * @var string The name of the option that holds the License data
+     */
+    protected $option_key = '';
 
+    /**
+     * @var bool Loaded?
+     */
+    protected $loaded = false;
 
-	/**
-	 * @var string The name of the option that holds the License data
-	 */
-	protected $option_key = '';
+    /**
+     * @var bool Any changes?
+     */
+    protected $dirty = false;
 
-	/**
-	 * @var bool Loaded?
-	 */
-	protected $loaded = false;
+    /**
+     * @var array
+     */
+    protected $data;
 
-	/**
-	 * @var bool Any changes?
-	 */
-	protected $dirty = false;
+    /**
+     * @param string $option_key
+     */
+    public function __construct($option_key)
+    {
+        $this->option_key = $option_key;
+    }
 
-	/**
-	 * @var array
-	 */
-	protected $data;
+    /**
+     * @param string $name
+     * @param mixed $value
+     */
+    public function __set($name, $value)
+    {
+        $this->load();
+        $this->data[ $name ] = $value;
+        $this->dirty         = true;
+    }
 
-	/**
-	 * @param string $option_key
-	 */
-	public function __construct( $option_key ) {
-		$this->option_key = $option_key;
-	}
+    /**
+     * @param string $name
+     *
+     * @return mixed
+     */
+    public function __get($name)
+    {
+        $this->load();
+        return $this->data[ $name ];
+    }
 
-	/**
-	 * @param string $name
-	 * @param mixed $value
-	 */
-	public function __set( $name, $value ) {
-		$this->load();
-		$this->data[ $name ] = $value;
-		$this->dirty         = true;
-	}
+    /**
+     * @param $name
+     *
+     * @return bool
+     */
+    public function __isset($name)
+    {
+        $this->load();
+        return isset($this->data[ $name ]);
+    }
 
-	/**
-	 * @param string $name
-	 *
-	 * @return mixed
-	 */
-	public function __get( $name ) {
-		$this->load();
-		return $this->data[ $name ];
-	}
+    /**
+     * Load the license data from the database
+     */
+    protected function load()
+    {
+        if ($this->loaded) {
+            return;
+        }
 
-	/**
-	 * @param $name
-	 *
-	 * @return bool
-	 */
-	public function __isset( $name ) {
-		$this->load();
-		return isset( $this->data[ $name ] );
-	}
+        $defaults = [
+            'key'            => '',
+            'activation_key' => '',
+            'activated'      => false,
+            'expires_at'     => '',
+        ];
 
-	/**
-	 * Load the license data from the database
-	 */
-	protected function load() {
-		if ( $this->loaded ) {
-			return;
-		}
+        $data         = (array) get_option($this->option_key, []);
+        $this->data   = array_replace($defaults, $data);
+        $this->loaded = true;
+    }
 
-		$defaults = array(
-			'key'            => '',
-			'activation_key' => '',
-			'activated'      => false,
-			'expires_at'     => '',
-		);
+    /**
+     * Reload the license data from DB
+     */
+    public function reload()
+    {
+        $this->loaded = false;
+        $this->load();
+    }
 
-		$data         = (array) get_option( $this->option_key, array() );
-		$this->data   = array_replace( $defaults, $data );
-		$this->loaded = true;
-	}
+    /**
+     * Save the license in the database
+     *
+     * @return License
+     */
+    public function save()
+    {
+        if (! $this->dirty) {
+            return;
+        }
 
-	/**
-	 * Reload the license data from DB
-	 */
-	public function reload() {
-		$this->loaded = false;
-		$this->load();
-	}
-
-	/**
-	 * Save the license in the database
-	 *
-	 * @return License
-	 */
-	public function save() {
-		if ( ! $this->dirty ) {
-			return;
-		}
-
-		update_option( $this->option_key, $this->data );
-		$this->dirty = false;
-	}
+        update_option($this->option_key, $this->data);
+        $this->dirty = false;
+    }
 }

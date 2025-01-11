@@ -4,259 +4,267 @@ namespace Boxzilla\Licensing;
 
 use Boxzilla\Plugin;
 
-class UpdateManager {
+class UpdateManager
+{
+    /**
+     * @var array
+     */
+    protected $extensions = [];
 
+    /**
+     * @var API
+     */
+    protected $api;
 
-	/**
-	 * @var array
-	 */
-	protected $extensions = array();
+    /**
+     * @var License
+     */
+    protected $license;
 
-	/**
-	 * @var API
-	 */
-	protected $api;
+    /**
+     * @var
+     */
+    protected $available_updates;
 
-	/**
-	 * @var License
-	 */
-	protected $license;
+    /**
+     * @param array $extensions
+     * @param API        $api
+     * @param License    $license
+     */
+    public function __construct(array $extensions, API $api, License $license)
+    {
+        $this->extensions = $extensions;
+        $this->license    = $license;
+        $this->api        = $api;
+    }
 
-	/**
-	 * @var
-	 */
-	protected $available_updates;
+    /**
+     * Add hooks
+     */
+    public function init()
+    {
+        add_filter('pre_set_site_transient_update_plugins', [ $this, 'add_updates' ]);
+        add_filter('plugins_api', [ $this, 'get_plugin_info' ], 20, 3);
+        add_filter('http_request_args', [ $this, 'add_auth_headers' ], 10, 2);
+    }
 
-	/**
-	 * @param array $extensions
-	 * @param API        $api
-	 * @param License    $license
-	 */
-	public function __construct( array $extensions, API $api, License $license ) {
-		$this->extensions = $extensions;
-		$this->license    = $license;
-		$this->api        = $api;
-	}
+    /**
+     * This adds the license key header to download package requests.
+     *
+     * @param array $args
+     * @param string $url
+     *
+     * @return mixed
+     */
+    public function add_auth_headers($args, $url)
+    {
+        // only act on download request's to the Boxzilla update API
+        if (strpos($url, $this->api->url) !== 0 || strpos($url, '/download') === false) {
+            return $args;
+        }
 
-	/**
-	 * Add hooks
-	 */
-	public function init() {
-		add_filter( 'pre_set_site_transient_update_plugins', array( $this, 'add_updates' ) );
-		add_filter( 'plugins_api', array( $this, 'get_plugin_info' ), 20, 3 );
-		add_filter( 'http_request_args', array( $this, 'add_auth_headers' ), 10, 2 );
-	}
+        // only add if activation key not empty
+        if (empty($this->license->activation_key)) {
+            return $args;
+        }
 
-	/**
-	 * This adds the license key header to download package requests.
-	 *
-	 * @param array $args
-	 * @param string $url
-	 *
-	 * @return mixed
-	 */
-	public function add_auth_headers( $args, $url ) {
-		// only act on download request's to the Boxzilla update API
-		if ( strpos( $url, $this->api->url ) !== 0 || strpos( $url, '/download' ) === false ) {
-			return $args;
-		}
+        if (! isset($args['headers'])) {
+            $args['headers'] = [];
+        }
 
-		// only add if activation key not empty
-		if ( empty( $this->license->activation_key ) ) {
-			return $args;
-		}
+        $args['headers']['Authorization'] = "Bearer {$this->license->activation_key}";
+        return $args;
+    }
 
-		if ( ! isset( $args['headers'] ) ) {
-			$args['headers'] = array();
-		}
+    private function get_plugin_by_slug($slug)
+    {
+        foreach ($this->extensions as $p) {
+            // find plugin by slug
+            if (dirname($p->slug()) === $slug) {
+                return $p;
+            }
+        }
 
-		$args['headers']['Authorization'] = "Bearer {$this->license->activation_key}";
-		return $args;
-	}
+        return null;
+    }
 
-	private function get_plugin_by_slug( $slug ) {
-		foreach ( $this->extensions as $p ) {
-			// find plugin by slug
-			if ( dirname( $p->slug() ) === $slug ) {
-				return $p;
-			}
-		}
+    /**
+     * @param        $result
+     * @param string $action
+     * @param null   $args
+     *
+     * @return object
+     */
+    public function get_plugin_info($result, $action = '', $args = null)
+    {
+        // do nothing for unrelated requests
+        if ($action !== 'plugin_information' || ! isset($args->slug)) {
+            return $result;
+        }
 
-		return null;
-	}
+        // only act on our plugins
+        if (strpos($args->slug, 'boxzilla-') !== 0) {
+            return $result;
+        }
 
-	/**
-	 * @param        $result
-	 * @param string $action
-	 * @param null   $args
-	 *
-	 * @return object
-	 */
-	public function get_plugin_info( $result, $action = '', $args = null ) {
-		// do nothing for unrelated requests
-		if ( $action !== 'plugin_information' || ! isset( $args->slug ) ) {
-			return $result;
-		}
+        return $this->get_update_info($args->slug);
+    }
 
-		// only act on our plugins
-		if ( strpos( $args->slug, 'boxzilla-' ) !== 0 ) {
-			return $result;
-		}
+    /**
+     * @param object $updates
+     * @return object
+     */
+    public function add_updates($updates)
+    {
 
-		return $this->get_update_info( $args->slug );
-	}
+        // do nothing if no plugins registered
+        if (empty($this->extensions)) {
+            return $updates;
+        }
 
-	/**
-	 * @param object $updates
-	 * @return object
-	 */
-	public function add_updates( $updates ) {
+        // failsafe WP bug
+        if (empty($updates) || ! isset($updates->response) || ! is_array($updates->response)) {
+            return $updates;
+        }
 
-		// do nothing if no plugins registered
-		if ( empty( $this->extensions ) ) {
-			return $updates;
-		}
+        // fetch available updates
+        $available_updates = $this->fetch_updates();
 
-		// failsafe WP bug
-		if ( empty( $updates ) || ! isset( $updates->response ) || ! is_array( $updates->response ) ) {
-			return $updates;
-		}
+        // merge with other updates
+        $updates->response = array_merge($updates->response, $available_updates);
 
-		// fetch available updates
-		$available_updates = $this->fetch_updates();
+        return $updates;
+    }
 
-		// merge with other updates
-		$updates->response = array_merge( $updates->response, $available_updates );
+    /**
+     * Fetch array of available updates from remote server
+     *
+     * @return array
+     */
+    protected function fetch_updates()
+    {
+        if (is_array($this->available_updates)) {
+            return $this->available_updates;
+        }
 
-		return $updates;
-	}
+        // don't try if we failed a request recently.
+        $failed_at = get_transient('boxzilla_request_failed');
+        if (! empty($failed_at) && ( ( strtotime('now') - 300 ) < $failed_at )) {
+            return [];
+        }
 
-	/**
-	 * Fetch array of available updates from remote server
-	 *
-	 * @return array
-	 */
-	protected function fetch_updates() {
-		if ( is_array( $this->available_updates ) ) {
-			return $this->available_updates;
-		}
+        // fetch remote info
+        try {
+            $remote_plugins = $this->api->get_plugins();
+        } catch (API_Exception $e) {
+            // set flag for 5 minutes
+            set_transient('boxzilla_request_failed', strtotime('now'), 300);
+            return [];
+        }
 
-		// don't try if we failed a request recently.
-		$failed_at = get_transient( 'boxzilla_request_failed' );
-		if ( ! empty( $failed_at ) && ( ( strtotime( 'now' ) - 300 ) < $failed_at ) ) {
-			return array();
-		}
+        // filter remote plugins, we only want the ones with an update available
+        $this->available_updates = $this->filter_remote_plugins($remote_plugins);
 
-		// fetch remote info
-		try {
-			$remote_plugins = $this->api->get_plugins();
-		} catch ( API_Exception $e ) {
-			// set flag for 5 minutes
-			set_transient( 'boxzilla_request_failed', strtotime( 'now' ), 300 );
-			return array();
-		}
+        return $this->available_updates;
+    }
 
-		// filter remote plugins, we only want the ones with an update available
-		$this->available_updates = $this->filter_remote_plugins( $remote_plugins );
+    /**
+     * @param $remote_plugins
+     * @return array
+     */
+    protected function filter_remote_plugins($remote_plugins)
+    {
+        $available_updates = [];
 
-		return $this->available_updates;
-	}
+        // find new versions
+        foreach ($remote_plugins as $remote_plugin) {
+            // sanity check
+            if (! isset($remote_plugin->new_version)) {
+                continue;
+            }
 
-	/**
-	 * @param $remote_plugins
-	 * @return array
-	 */
-	protected function filter_remote_plugins( $remote_plugins ) {
-		$available_updates = array();
+            // if plugin is activated, we can access it here
+            if (isset($this->extensions[ $remote_plugin->sid ])) {
 
-		// find new versions
-		foreach ( $remote_plugins as $remote_plugin ) {
+                /** @var Plugin $local_plugin */
+                $local_plugin = $this->extensions[ $remote_plugin->sid ];
 
-			// sanity check
-			if ( ! isset( $remote_plugin->new_version ) ) {
-				continue;
-			}
+                // plugin found and local plugin version not same as remote version?
+                if (! $local_plugin || version_compare($local_plugin->version(), $remote_plugin->new_version, '>=')) {
+                    continue;
+                }
 
-			// if plugin is activated, we can access it here
-			if ( isset( $this->extensions[ $remote_plugin->sid ] ) ) {
+                // add some dynamic data
+                $available_updates[ $local_plugin->slug() ] = $this->format_response($local_plugin->slug(), $remote_plugin);
+            } else {
+                // if plugin is not active, use get_plugin_data for fetching version
+                $plugin_file = WP_PLUGIN_DIR . "/{$remote_plugin->slug}/{$remote_plugin->slug}.php";
+                if (! file_exists($plugin_file)) {
+                    continue;
+                }
 
-				/** @var Plugin $local_plugin */
-				$local_plugin = $this->extensions[ $remote_plugin->sid ];
+                $plugin_data = get_plugin_data($plugin_file);
 
-				// plugin found and local plugin version not same as remote version?
-				if ( ! $local_plugin || version_compare( $local_plugin->version(), $remote_plugin->new_version, '>=' ) ) {
-					continue;
-				}
+                if (! $plugin_data || version_compare($plugin_data['Version'], $remote_plugin->new_version, '>=')) {
+                    continue;
+                }
 
-				// add some dynamic data
-				$available_updates[ $local_plugin->slug() ] = $this->format_response( $local_plugin->slug(), $remote_plugin );
-			} else {
-				// if plugin is not active, use get_plugin_data for fetching version
-				$plugin_file = WP_PLUGIN_DIR . "/{$remote_plugin->slug}/{$remote_plugin->slug}.php";
-				if ( ! file_exists( $plugin_file ) ) {
-					continue;
-				}
+                // add some dynamic data
+                $slug                       = plugin_basename($plugin_file);
+                $available_updates[ $slug ] = $this->format_response($slug, $remote_plugin);
+            }
+        }
 
-				$plugin_data = get_plugin_data( $plugin_file );
+        return $available_updates;
+    }
 
-				if ( ! $plugin_data || version_compare( $plugin_data['Version'], $remote_plugin->new_version, '>=' ) ) {
-					continue;
-				}
+    /**
+     * @param string $slug
+     *
+     * @return null
+     */
+    public function get_update_info($slug)
+    {
+        $available_updates = $this->fetch_updates();
 
-				// add some dynamic data
-				$slug                       = plugin_basename( $plugin_file );
-				$available_updates[ $slug ] = $this->format_response( $slug, $remote_plugin );
-			}
-		}
+        foreach ($available_updates as $plugin_file => $update_info) {
+            if ($slug === $update_info->slug) {
+                return $update_info;
+            }
+        }
 
-		return $available_updates;
-	}
+        return null;
+    }
 
-	/**
-	 * @param string $slug
-	 *
-	 * @return null
-	 */
-	public function get_update_info( $slug ) {
-		$available_updates = $this->fetch_updates();
+    /**
+     * @param $slug
+     * @param $response
+     *
+     * @return mixed
+     */
+    protected function format_response($slug, $response)
+    {
+        $response->slug   = dirname($slug);
+        $response->plugin = $slug;
 
-		foreach ( $available_updates as $plugin_file => $update_info ) {
-			if ( $slug === $update_info->slug ) {
-				return $update_info;
-			}
-		}
+        // add some notices if license is inactive
+        if (! $this->license->activated) {
+            $response->upgrade_notice      = sprintf('You will need to <a href="%s">activate your license</a> to install this plugin update.', admin_url('edit.php?post_type=boxzilla-box&page=boxzilla-settings'));
+            $response->sections->changelog = '<p>' . sprintf('You will need to <a href="%s" target="_top">activate your license</a> to install this plugin update.', admin_url('edit.php?post_type=boxzilla-box&page=boxzilla-settings')) . '</p>' . $response->sections->changelog;
+            $response->package             = null;
+        }
 
-		return null;
-	}
+        // cast subkey objects to array as that is what WP expects
+        $response->sections     = get_object_vars($response->sections);
+        $response->banners      = get_object_vars($response->banners);
+        $response->contributors = get_object_vars($response->contributors);
+        $response->contributors = array_map(
+            function ($v) {
+                return get_object_vars($v);
+            },
+            $response->contributors
+        );
 
-	/**
-	 * @param $slug
-	 * @param $response
-	 *
-	 * @return mixed
-	 */
-	protected function format_response( $slug, $response ) {
-		$response->slug   = dirname( $slug );
-		$response->plugin = $slug;
-
-		// add some notices if license is inactive
-		if ( ! $this->license->activated ) {
-			$response->upgrade_notice      = sprintf( 'You will need to <a href="%s">activate your license</a> to install this plugin update.', admin_url( 'edit.php?post_type=boxzilla-box&page=boxzilla-settings' ) );
-			$response->sections->changelog = '<p>' . sprintf( 'You will need to <a href="%s" target="_top">activate your license</a> to install this plugin update.', admin_url( 'edit.php?post_type=boxzilla-box&page=boxzilla-settings' ) ) . '</p>' . $response->sections->changelog;
-			$response->package             = null;
-		}
-
-		// cast subkey objects to array as that is what WP expects
-		$response->sections     = get_object_vars( $response->sections );
-		$response->banners      = get_object_vars( $response->banners );
-		$response->contributors = get_object_vars( $response->contributors );
-		$response->contributors = array_map(
-			function ( $v ) {
-				return get_object_vars( $v );
-			},
-			$response->contributors
-		);
-
-		return $response;
-	}
+        return $response;
+    }
 }

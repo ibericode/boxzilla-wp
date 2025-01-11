@@ -5,14 +5,13 @@ use Boxzilla\Boxzilla;
 /**
  * @return Boxzilla
  */
-function boxzilla() {
-	static $instance;
+function boxzilla()
+{
+    static $instance;
 
-	if ( is_null( $instance ) ) {
-		$instance = new Boxzilla();
-	}
+    if (is_null($instance)) {
+        $instance = new Boxzilla();
+    }
 
-	return $instance;
+    return $instance;
 }
-
-

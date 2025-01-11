@@ -6,54 +6,54 @@ use Boxzilla\Admin\Admin;
 use Boxzilla\Admin\Menu;
 use Boxzilla\Admin\Notices;
 
-defined( 'ABSPATH' ) or exit;
+defined('ABSPATH') or exit;
 
 $boxzilla = boxzilla();
 
-$boxzilla['admin'] = function ( $boxzilla ) {
-	return new Admin( $boxzilla->plugin, $boxzilla );
+$boxzilla['admin'] = function ($boxzilla) {
+    return new Admin($boxzilla->plugin, $boxzilla);
 };
 
-$boxzilla['admin.menu'] = function() {
-	return new Menu();
+$boxzilla['admin.menu'] = function () {
+    return new Menu();
 };
 
-$boxzilla['box_loader'] = function ( $boxzilla ) {
-	return new BoxLoader( $boxzilla->plugin, $boxzilla->options );
+$boxzilla['box_loader'] = function ($boxzilla) {
+    return new BoxLoader($boxzilla->plugin, $boxzilla->options);
 };
 
 $boxzilla['filter.autocomplete'] = function () {
-	return new Filter\Autocomplete();
+    return new Filter\Autocomplete();
 };
 
 $boxzilla['notices'] = function () {
-	return new Notices();
+    return new Notices();
 };
 
 $boxzilla['options'] = function () {
-	$defaults = array(
-		'test_mode' => 0,
-	);
+    $defaults = [
+        'test_mode' => 0,
+    ];
 
-	$options = (array) get_option( 'boxzilla_settings', $defaults );
-	$options = array_merge( $defaults, $options );
-	return $options;
+    $options = (array) get_option('boxzilla_settings', $defaults);
+    $options = array_merge($defaults, $options);
+    return $options;
 };
 
 $boxzilla['plugin'] = new Plugin(
-	'boxzilla',
-	'Boxzilla',
-	BOXZILLA_VERSION,
-	BOXZILLA_FILE,
-	dirname( BOXZILLA_FILE )
+    'boxzilla',
+    'Boxzilla',
+    BOXZILLA_VERSION,
+    BOXZILLA_FILE,
+    dirname(BOXZILLA_FILE)
 );
 
 $boxzilla['plugins'] = function () {
-	$raw = (array) apply_filters( 'boxzilla_extensions', array() );
+    $raw = (array) apply_filters('boxzilla_extensions', []);
 
-	$plugins = array();
-	foreach ( $raw as $p ) {
-		$plugins[ $p->id() ] = $p;
-	}
-	return $plugins;
+    $plugins = [];
+    foreach ($raw as $p) {
+        $plugins[ $p->id() ] = $p;
+    }
+    return $plugins;
 };

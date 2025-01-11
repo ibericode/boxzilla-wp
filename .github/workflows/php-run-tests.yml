@@ -17,6 +17,10 @@ jobs:
 
       - name: checkout repo
         uses: actions/checkout@v3
-
       - run: composer install --no-progress
-      - run: ./vendor/bin/phpunit
+
+      - name: PHPCodeSniffer
+        run: ./vendor/bin/phpcs -ns
+
+      - name: PHPUnit
+        run: ./vendor/bin/phpunit

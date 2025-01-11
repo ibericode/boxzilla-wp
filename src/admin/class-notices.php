@@ -2,42 +2,44 @@
 
 namespace Boxzilla\Admin;
 
-class Notices {
+class Notices
+{
+    /**
+     * @var array
+     */
+    protected $notices = [];
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        add_action('admin_notices', [ $this, 'show' ]);
+    }
 
-	/**
-	 * @var array
-	 */
-	protected $notices = array();
+    /**
+     * @param $message
+     * @param $type
+     *
+     * @return $this
+     */
+    public function add($message, $type = 'updated')
+    {
+        $this->notices[] = [
+            'message' => $message,
+            'type'    => $type,
+        ];
 
-	/**
-	 * Constructor
-	 */
-	public function __construct() {
-		add_action( 'admin_notices', array( $this, 'show' ) );
-	}
+        return $this;
+    }
 
-	/**
-	 * @param $message
-	 * @param $type
-	 *
-	 * @return $this
-	 */
-	public function add( $message, $type = 'updated' ) {
-		$this->notices[] = array(
-			'message' => $message,
-			'type'    => $type,
-		);
-
-		return $this;
-	}
-
-	/**
-	 * Output the registered notices
-	 */
-	public function show() {
-		foreach ( $this->notices as $notice ) {
-			echo "<div class=\"notice notice-{$notice['type']}\"><p>{$notice['message']}</p></div>";
-		}
-	}
+    /**
+     * Output the registered notices
+     */
+    public function show()
+    {
+        foreach ($this->notices as $notice) {
+            echo "<div class=\"notice notice-{$notice['type']}\"><p>{$notice['message']}</p></div>";
+        }
+    }
 }

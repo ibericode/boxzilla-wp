@@ -4,259 +4,265 @@ namespace Boxzilla;
 
 use WP_Post;
 
-class Box {
+class Box
+{
+    /**
+     * @var int
+     */
+    public $ID;
 
+    /**
+     * @var array
+     */
+    public $options = [];
 
-	/**
-	 * @var int
-	 */
-	public $ID;
+    /**
+     * @var string
+     */
+    public $title = '';
 
-	/**
-	 * @var array
-	 */
-	public $options = array();
+    /**
+     * @var string
+     */
+    protected $content = '';
 
-	/**
-	 * @var string
-	 */
-	public $title = '';
+    /**
+     * @var bool
+     */
+    public $enabled = false;
 
-	/**
-	 * @var string
-	 */
-	protected $content = '';
+    /**
+     * @var WP_Post
+     */
+    private $post;
 
-	/**
-	 * @var bool
-	 */
-	public $enabled = false;
+    /**
+     * @param WP_Post|int $post
+     */
+    public function __construct($post)
+    {
 
-	/**
-	 * @var WP_Post
-	 */
-	private $post;
+        // fetch post if it hasn't been fetched yet
+        if (! $post instanceof WP_Post) {
+            $post = get_post($post);
+        }
 
-	/**
-	 * @param WP_Post|int $post
-	 */
-	public function __construct( $post ) {
+        // store ref to post
+        $this->post = $post;
 
-		// fetch post if it hasn't been fetched yet
-		if ( ! $post instanceof WP_Post ) {
-			$post = get_post( $post );
-		}
+        // store ID in property for quick access
+        $this->ID = $post->ID;
 
-		// store ref to post
-		$this->post = $post;
+        // store title in property
+        $this->title = $post->post_title;
 
-		// store ID in property for quick access
-		$this->ID = $post->ID;
+        // store content in property
+        $this->content = $post->post_content;
 
-		// store title in property
-		$this->title = $post->post_title;
+        // is this box enabled?
+        $this->enabled = $post->post_status === 'publish';
 
-		// store content in property
-		$this->content = $post->post_content;
+        // load and store options in property
+        $this->options = $this->load_options();
+    }
 
-		// is this box enabled?
-		$this->enabled = $post->post_status === 'publish';
+    /**
+     * Get the options for this box.
+     **
+     * @return array Array of box options
+     */
+    protected function load_options()
+    {
+        $defaults = [
+            'css'                   => [
+                'background_color' => '',
+                'color'            => '',
+                'width'            => '',
+                'border_color'     => '',
+                'border_width'     => '',
+                'border_style'     => '',
+                'position'         => 'bottom-right',
+            ],
+            'rules'                 => [
+                0 => [
+                    'condition' => '',
+                    'value'     => '',
+                ],
+            ],
+            'rules_comparision'     => 'any',
+            'cookie'                => [
+                'triggered' => 0,
+                'dismissed' => 0,
+            ],
+            'trigger'               => 'percentage',
+            'trigger_percentage'    => 65,
+            'trigger_element'       => '',
+            'trigger_time_on_site'  => 0,
+            'trigger_time_on_page'  => 0,
+            'animation'             => 'fade',
+            'auto_hide'             => 0,
+            'screen_size_condition' => [
+                'condition' => 'larger',
+                'value'     => 0,
+            ],
+            'closable'              => 1,
+            'show_close_icon'       => 1,
+        ];
+        $box      = $this;
 
-		// load and store options in property
-		$this->options = $this->load_options();
-	}
+        $options = get_post_meta($this->ID, 'boxzilla_options', true);
+        $options = is_array($options) ? $options : [];
 
-	/**
-	 * Get the options for this box.
-	 **
-	 * @return array Array of box options
-	 */
-	protected function load_options() {
-		$defaults = array(
-			'css'                   => array(
-				'background_color' => '',
-				'color'            => '',
-				'width'            => '',
-				'border_color'     => '',
-				'border_width'     => '',
-				'border_style'     => '',
-				'position'         => 'bottom-right',
-			),
-			'rules'                 => array(
-				0 => array(
-					'condition' => '',
-					'value'     => '',
-				),
-			),
-			'rules_comparision'     => 'any',
-			'cookie'                => array(
-				'triggered' => 0,
-				'dismissed' => 0,
-			),
-			'trigger'               => 'percentage',
-			'trigger_percentage'    => 65,
-			'trigger_element'       => '',
-			'trigger_time_on_site'  => 0,
-			'trigger_time_on_page'  => 0,
-			'animation'             => 'fade',
-			'auto_hide'             => 0,
-			'screen_size_condition' => array(
-				'condition' => 'larger',
-				'value'     => 0,
-			),
-			'closable'              => 1,
-			'show_close_icon'       => 1,
-		);
-		$box      = $this;
+        // merge options with default options
+        $options = array_replace_recursive($defaults, $options);
 
-		$options = get_post_meta( $this->ID, 'boxzilla_options', true );
-		$options = is_array( $options ) ? $options : array();
+        // allow others to filter the final array of options
+        /**
+         * Filter the options for a given box
+         *
+         * @param array $options
+         * @param Box $box
+         */
+        $options = apply_filters('boxzilla_box_options', $options, $box);
 
-		// merge options with default options
-		$options = array_replace_recursive( $defaults, $options );
+        return $options;
+    }
 
-		// allow others to filter the final array of options
-		/**
-		 * Filter the options for a given box
-		 *
-		 * @param array $options
-		 * @param Box $box
-		 */
-		$options = apply_filters( 'boxzilla_box_options', $options, $box );
+    /**
+     * @return bool
+     */
+    public function is_enabled()
+    {
+        return $this->enabled;
+    }
 
-		return $options;
-	}
+    /**
+     * Get the options for this box
+     *
+     * @return array
+     */
+    public function get_options()
+    {
+        return $this->options;
+    }
 
-	/**
-	 * @return bool
-	 */
-	public function is_enabled() {
-		return $this->enabled;
-	}
+    /**
+     * Get the close / hide icon for this box
+     *
+     * @return string
+     */
+    public function get_close_icon()
+    {
+        if (! $this->options['show_close_icon']) {
+            return '';
+        }
 
-	/**
-	 * Get the options for this box
-	 *
-	 * @return array
-	 */
-	public function get_options() {
-		return $this->options;
-	}
+        $box  = $this;
+        $html = '&times;';
 
-	/**
-	 * Get the close / hide icon for this box
-	 *
-	 * @return string
-	 */
-	public function get_close_icon() {
-		if ( ! $this->options['show_close_icon'] ) {
-			return '';
-		}
+        /**
+         * Filters the HTML for the close icon.
+         *
+         * @param string $html
+         * @param Box $box
+         */
+        $close_icon = (string) apply_filters('boxzilla_box_close_icon', $html, $box);
 
-		$box  = $this;
-		$html = '&times;';
+        return $close_icon;
+    }
 
-		/**
-		 * Filters the HTML for the close icon.
-		 *
-		 * @param string $html
-		 * @param Box $box
-		 */
-		$close_icon = (string) apply_filters( 'boxzilla_box_close_icon', $html, $box );
+    /**
+     * Get the content of this box
+     *
+     * @return string
+     */
+    public function get_content()
+    {
+        $content = $this->content;
+        $box     = $this;
 
-		return $close_icon;
-	}
+        // replace boxzilla specific shortcodes
+        $close_link = "<a href=\"javascript:Boxzilla.dismiss({$this->ID});\">";
 
-	/**
-	 * Get the content of this box
-	 *
-	 * @return string
-	 */
-	public function get_content() {
-		$content = $this->content;
-		$box     = $this;
+        $replacements = [
+            '[boxzilla_close]'  => $close_link, // accept underscore and dash here for consistency with other shortcode
+            '[boxzilla-close]'  => $close_link,
+            '[/boxzilla_close]' => '</a>',
+            '[/boxzilla-close]' => '</a>',
+        ];
 
-		// replace boxzilla specific shortcodes
-		$close_link = "<a href=\"javascript:Boxzilla.dismiss({$this->ID});\">";
+        $content = str_replace(array_keys($replacements), array_values($replacements), $content);
 
-		$replacements = array(
-			'[boxzilla_close]'  => $close_link, // accept underscore and dash here for consistency with other shortcode
-			'[boxzilla-close]'  => $close_link,
-			'[/boxzilla_close]' => '</a>',
-			'[/boxzilla-close]' => '</a>',
-		);
+        /**
+         * Filters the HTML for the box content
+         *
+         * @param string $content
+         * @param Box $box
+         */
+        $content = apply_filters('boxzilla_box_content', $content, $box);
+        return $content;
+    }
 
-		$content = str_replace( array_keys( $replacements ), array_values( $replacements ), $content );
+    /**
+     * Get options object for JS script.
+     *
+     * @return array
+     */
+    public function get_client_options()
+    {
+        $box = $this;
 
-		/**
-		 * Filters the HTML for the box content
-		 *
-		 * @param string $content
-		 * @param Box $box
-		 */
-		$content = apply_filters( 'boxzilla_box_content', $content, $box );
-		return $content;
-	}
+        $trigger = false;
+        if ($box->options['trigger']) {
+            $trigger = [
+                'method' => $this->options['trigger'],
+            ];
 
-	/**
-	 * Get options object for JS script.
-	 *
-	 * @return array
-	 */
-	public function get_client_options() {
-		$box = $this;
+            if (isset($this->options[ 'trigger_' . $this->options['trigger'] ])) {
+                $trigger['value'] = $this->options[ 'trigger_' . $this->options['trigger'] ];
+            }
+        }
 
-		$trigger = false;
-		if ( $box->options['trigger'] ) {
-			$trigger = array(
-				'method' => $this->options['trigger'],
-			);
+        // build screenWidthCondition object (or null)
+        $screen_width_condition = null;
+        if ($box->options['screen_size_condition']['value'] > 0) {
+            $screen_width_condition = [
+                'condition' => $box->options['screen_size_condition']['condition'],
+                'value'     => intval($box->options['screen_size_condition']['value']),
+            ];
+        }
 
-			if ( isset( $this->options[ 'trigger_' . $this->options['trigger'] ] ) ) {
-				$trigger['value'] = $this->options[ 'trigger_' . $this->options['trigger'] ];
-			}
-		}
+        $post = $this->post;
+        $client_options = [
+            'id'                   => $box->ID,
+            'icon'                 => $box->get_close_icon(),
+            'content'              => '', // we grab this later from an HTML element
+            'css'                  => array_filter($box->options['css']),
+            'trigger'              => $trigger,
+            'animation'            => $box->options['animation'],
+            'cookie'               => [
+                'triggered' => absint($box->options['cookie']['triggered']),
+                'dismissed' => absint($box->options['cookie']['dismissed']),
+            ],
+            'rehide'               => (bool) $box->options['auto_hide'],
+            'position'             => $box->options['css']['position'],
+            'screenWidthCondition' => $screen_width_condition,
+            'closable'             => ! ! $box->options['closable'],
+            'post'                 => [
+                'id'    => $post->ID,
+                'title' => $post->post_title,
+                'slug'  => $post->post_name,
+            ],
+        ];
 
-		// build screenWidthCondition object (or null)
-		$screen_width_condition = null;
-		if ( $box->options['screen_size_condition']['value'] > 0 ) {
-			$screen_width_condition = array(
-				'condition' => $box->options['screen_size_condition']['condition'],
-				'value'     => intval( $box->options['screen_size_condition']['value'] ),
-			);
-		}
+        /**
+         * Filter the final options for the JS Boxzilla client.
+         *
+         * @param array $client_options
+         * @param Box $box
+         */
+        $client_options = apply_filters('boxzilla_box_client_options', $client_options, $box);
 
-		$post = $this->post;
-		$client_options = array(
-			'id'                   => $box->ID,
-			'icon'                 => $box->get_close_icon(),
-			'content'              => '', // we grab this later from an HTML element
-			'css'                  => array_filter( $box->options['css'] ),
-			'trigger'              => $trigger,
-			'animation'            => $box->options['animation'],
-			'cookie'               => array(
-				'triggered' => absint( $box->options['cookie']['triggered'] ),
-				'dismissed' => absint( $box->options['cookie']['dismissed'] ),
-			),
-			'rehide'               => (bool) $box->options['auto_hide'],
-			'position'             => $box->options['css']['position'],
-			'screenWidthCondition' => $screen_width_condition,
-			'closable'             => ! ! $box->options['closable'],
-			'post'                 => array(
-				'id'    => $post->ID,
-				'title' => $post->post_title,
-				'slug'  => $post->post_name,
-			),
-		);
-
-		/**
-		 * Filter the final options for the JS Boxzilla client.
-		 *
-		 * @param array $client_options
-		 * @param Box $box
-		 */
-		$client_options = apply_filters( 'boxzilla_box_client_options', $client_options, $box );
-
-		return $client_options;
-	}
+        return $client_options;
+    }
 }
