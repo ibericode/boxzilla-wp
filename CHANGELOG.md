@@ -1,9 +1,10 @@
 Changelog
 ==========
 
-### Trunk
+### 3.4.1 - Mar 24, 2025
 
 - Bump required PHP version to 7.4 or higher.
+- Initialize boxes at document.DOMContentLoaded instead of window.load event.
 
 
 #### 3.4.0 - Jan 03, 2025 
