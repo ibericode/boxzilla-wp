@@ -44,7 +44,6 @@ require __DIR__ . '/autoload.php';
 require __DIR__ . '/src/services.php';
 require __DIR__ . '/src/licensing/services.php';
 
-
 // register activation hook
 register_activation_hook(__FILE__, [ 'Boxzilla\\Admin\\Installer', 'run' ]);
 

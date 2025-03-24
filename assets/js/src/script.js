@@ -125,7 +125,7 @@
   // init boxzilla
   Boxzilla.init()
 
-  window.addEventListener('load', () => {
+  document.addEventListener('DOMContentLoaded', () => {
     // create JS objects for each box
     createBoxesFromConfig()
 

@@ -315,8 +315,7 @@ class BoxLoader
 
         if (is_null($boxes)) {
             if (count($this->box_ids_to_load) === 0) {
-                $boxes = [];
-                return $boxes;
+                return [];
             }
 
             // query Box posts
