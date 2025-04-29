@@ -4,7 +4,7 @@ Donate link: https://boxzillaplugin.com/#utm_source=wp-plugin-repo&utm_medium=bo
 Tags: pop-up, pop-ups, modal, call to action
 Requires at least: 4.6
 Tested up to: 6.8
-Stable tag: 3.4.1
+Stable tag: 3.4.2
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -127,6 +127,11 @@ Have a look at the [frequently asked questions](https://wordpress.org/plugins/bo
 4. Screenshot of the page to manage a Boxzilla pop-up.
 
 == Changelog ==
+
+
+#### 3.4.2 - Apr 29, 2025
+
+- Fix HTML showing because of escaped translation text.
 
 
 ### 3.4.1 - Mar 24, 2025
