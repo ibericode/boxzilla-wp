@@ -72,7 +72,7 @@ foreach ($this->notices as $notice) {
                     <?php
                 } else {
                     ?>
-                    <p><span class="status negative"><?php esc_html_e('INACTIVE', 'boxzilla'); ?></span> - <?php esc_html_e('you are <strong>not</strong> receiving plugin updates', 'boxzilla'); ?></p>
+                    <p><span class="status negative"><?php esc_html_e('INACTIVE', 'boxzilla'); ?></span> - <?php echo wp_kses(__('you are <strong>not</strong> receiving plugin updates', 'boxzilla'), [ 'strong' => [] ]); ?></p>
                     <?php
                 }
                 ?>
