@@ -3,7 +3,7 @@ Contributors: Ibericode, DvanKooten, hchouhan, lapzor
 Donate link: https://boxzillaplugin.com/#utm_source=wp-plugin-repo&utm_medium=boxzilla&utm_campaign=donate-link
 Tags: pop-up, pop-ups, modal, call to action
 Requires at least: 4.6
-Tested up to: 6.7
+Tested up to: 6.8
 Stable tag: 3.4.1
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -21,13 +21,13 @@ Boxzilla is a plugin allowing you to add pop-up or slide-in boxes to your WordPr
 
 - Boxes can contain any content you like.
 - You can show boxes at various events:
-	- After scrolling down past a certain percentage of the page height.
-	- After scrolling down to a specific page element.
-	- After X seconds on the page.
-	- After X pageviews on the site.
-	- Manually by clicking a link or button
-	- When the user intents to exit your website (Premium)
-	- After X seconds on the site (any page). (Premium)
+    - After scrolling down past a certain percentage of the page height.
+    - After scrolling down to a specific page element.
+    - After X seconds on the page.
+    - After X pageviews on the site.
+    - Manually by clicking a link or button
+    - When the user intents to exit your website (Premium)
+    - After X seconds on the site (any page). (Premium)
 - Customizable box position on the screen.
 - Animations for showing or hiding boxes.
 - Page targeting, to only show pop-ups on certain posts or pages.
