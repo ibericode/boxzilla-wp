@@ -1,6 +1,11 @@
 Changelog
 ==========
 
+#### 3.4.2 - Apr 29, 2025
+
+- Fix HTML showing because of escaped translation text.
+
+
 ### 3.4.1 - Mar 24, 2025
 
 - Bump required PHP version to 7.4 or higher.

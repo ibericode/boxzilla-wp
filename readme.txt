@@ -21,13 +21,13 @@ Boxzilla is a plugin allowing you to add pop-up or slide-in boxes to your WordPr
 
 - Boxes can contain any content you like.
 - You can show boxes at various events:
-    - After scrolling down past a certain percentage of the page height.
-    - After scrolling down to a specific page element.
-    - After X seconds on the page.
-    - After X pageviews on the site.
-    - Manually by clicking a link or button
-    - When the user intents to exit your website (Premium)
-    - After X seconds on the site (any page). (Premium)
+	- After scrolling down past a certain percentage of the page height.
+	- After scrolling down to a specific page element.
+	- After X seconds on the page.
+	- After X pageviews on the site.
+	- Manually by clicking a link or button
+	- When the user intents to exit your website (Premium)
+	- After X seconds on the site (any page). (Premium)
 - Customizable box position on the screen.
 - Animations for showing or hiding boxes.
 - Page targeting, to only show pop-ups on certain posts or pages.
