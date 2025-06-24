@@ -130,8 +130,7 @@ class Admin
         global $pagenow,
                $current_screen;
 
-        if (
-            ( $pagenow === 'plugins.php' || ( $current_screen && $current_screen->post_type === 'boxzilla-box' ) )
+        if (( $pagenow === 'plugins.php' || ( $current_screen && $current_screen->post_type === 'boxzilla-box' ) )
             && current_user_can('install_plugins')
             && is_plugin_active('scroll-triggered-boxes/index.php')
         ) {
@@ -424,14 +423,6 @@ class Admin
             'side'
         );
 
-        add_meta_box(
-            'boxzilla-email-optin',
-            esc_html__('Subscribe to our newsletter', 'boxzilla'),
-            [ $this, 'metabox_email_optin' ],
-            'boxzilla-box',
-            'side'
-        );
-
         return true;
     }
 
@@ -472,15 +463,6 @@ class Admin
 
         // include view
         include __DIR__ . '/views/metaboxes/box-option-controls.php';
-    }
-
-    /**
-     * @param \WP_Post $post
-     * @param          $metabox
-     */
-    public function metabox_email_optin(\WP_Post $post, $metabox)
-    {
-        include __DIR__ . '/views/metaboxes/email-optin.php';
     }
 
     /**

@@ -46,10 +46,6 @@
                 <?php include __DIR__ . '/metaboxes/our-other-plugins.php'; ?>
             </div>
 
-            <div class="boxzilla-box">
-                <h3><?php esc_html_e('Subscribe to our newsletter', 'boxzilla'); ?></h3>
-                <?php include __DIR__ . '/metaboxes/email-optin.php'; ?>
-            </div>
         </div>
     </div>
 

@@ -1,6 +1,12 @@
 Changelog
 ==========
 
+#### 3.4.3 - Jun 24, 2025
+
+- Rebuild client-side assets with latest Browserslist.
+- Optimize SVG icon for admin menu.
+
+
 #### 3.4.2 - Apr 29, 2025
 
 - Fix HTML showing because of escaped translation text.
