@@ -5,6 +5,7 @@ Changelog
 
 - Rebuild client-side assets with latest Browserslist.
 - Optimize SVG icon for admin menu.
+- Remove newsletter sign-up section from admin pages.
 
 
 #### 3.4.2 - Apr 29, 2025
