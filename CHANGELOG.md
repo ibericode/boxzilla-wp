@@ -1,6 +1,11 @@
 Changelog
 ==========
 
+#### 3.4.4 - Aug 07, 2025
+
+Periodic compatibility check with WordPress nightly.
+
+
 #### 3.4.3 - Jun 24, 2025
 
 - Rebuild client-side assets with latest Browserslist.
