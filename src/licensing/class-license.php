@@ -118,7 +118,7 @@ class License
             return;
         }
 
-        update_option($this->option_key, $this->data);
+        update_option($this->option_key, $this->data, true);
         $this->dirty = false;
     }
 }

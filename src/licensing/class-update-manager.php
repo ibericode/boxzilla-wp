@@ -149,7 +149,7 @@ class UpdateManager
 
         // don't try if we failed a request recently.
         $failed_at = get_transient('boxzilla_request_failed');
-        if (! empty($failed_at) && ( ( strtotime('now') - 300 ) < $failed_at )) {
+        if (! empty($failed_at) && ( ( time() - 300 ) < $failed_at )) {
             return [];
         }
 
@@ -158,7 +158,7 @@ class UpdateManager
             $remote_plugins = $this->api->get_plugins();
         } catch (API_Exception $e) {
             // set flag for 5 minutes
-            set_transient('boxzilla_request_failed', strtotime('now'), 300);
+            set_transient('boxzilla_request_failed', time(), 300);
             return [];
         }
 
