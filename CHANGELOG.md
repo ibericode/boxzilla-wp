@@ -1,6 +1,12 @@
 Changelog
 ==========
 
+### 3.4.5 - Sep 25, 2025
+
+- Mark option as autoloaded for a minor performance gain.
+- Replace `strtotime('now')` with simpler `time()` 
+
+
 #### 3.4.4 - Aug 07, 2025
 
 Periodic compatibility check with WordPress nightly.
