@@ -130,7 +130,8 @@ class Admin
         global $pagenow,
                $current_screen;
 
-        if (( $pagenow === 'plugins.php' || ( $current_screen && $current_screen->post_type === 'boxzilla-box' ) )
+        if (
+            ( $pagenow === 'plugins.php' || ( $current_screen && $current_screen->post_type === 'boxzilla-box' ) )
             && current_user_can('install_plugins')
             && is_plugin_active('scroll-triggered-boxes/index.php')
         ) {
