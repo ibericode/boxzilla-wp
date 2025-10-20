@@ -1,5 +1,7 @@
 <?php
 
+use Automattic\Jetpack\Image_CDN\Image_CDN;
+
 defined('ABSPATH') or exit;
 
 add_filter('boxzilla_box_content', 'wptexturize');
@@ -10,11 +12,12 @@ add_filter('boxzilla_box_content', 'shortcode_unautop');
 add_filter('boxzilla_box_content', 'do_shortcode', 11);
 
 /**
-* Allow Jetpack Photon to filter on Boxzilla box content.
+* Allow Jetpack to filter images inside Boxzilla box content.
 */
-if (class_exists('Jetpack') && class_exists('Jetpack_Photon') && method_exists('Jetpack', 'is_module_active') && Jetpack::is_module_active('photon')) {
-    add_filter('boxzilla_box_content', [ 'Jetpack_Photon', 'filter_the_content' ], 999999);
+if (class_exists(Image_CDN::class) && method_exists(Image_CDN::class, 'filter_the_content')) {
+    add_filter('boxzilla_box_content', [ Image_CDN::class, 'filter_the_content' ], 999999);
 }
+
 
 /**
  * Filter nav menu items to use an onclick event instead of a href attribute.
