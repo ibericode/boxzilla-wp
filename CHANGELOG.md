@@ -291,7 +291,7 @@ Please make sure your [Boxzilla plugin license](https://my.boxzillaplugin.com/) 
 
 **Fixes**
 
-- Event listener for hyperlinks referencing `#boxzilla-123`. We recommend using `[boxzilla_link]to generate your links though[/boxzilla_link]`. [Here's how that works](https://kb.boxzillaplugin.com/shortcode-boxzilla-link/).
+- Event listener for hyperlinks referencing `#boxzilla-123`. We recommend using `[boxzilla_link]to generate your links though[/boxzilla_link]`. [Here's how that works](https://boxzillaplugin.com/kb/shortcode-boxzilla-link/).
 
 
 #### 3.1.22 - November 20, 2017
@@ -334,7 +334,7 @@ Please make sure your [Boxzilla plugin license](https://my.boxzillaplugin.com/) 
 
 **Additions**
 
-- Added [`[boxzilla_link]` shortcode to generate the correct HTML for a link to show/toggle/hide/dismiss a box](https://kb.boxzillaplugin.com/shortcode-boxzilla-link/).
+- Added [`[boxzilla_link]` shortcode to generate the correct HTML for a link to show/toggle/hide/dismiss a box](https://boxzillaplugin.com/kb/shortcode-boxzilla-link/).
 
 
 #### 3.1.17 - August 30, 2017
@@ -560,4 +560,4 @@ Please make sure your [Boxzilla plugin license](https://my.boxzillaplugin.com/) 
 
 Initial release of [Boxzilla](https://boxzillaplugin.com/), formerly known as [Scroll Triggered Boxes](https://wordpress.org/plugins/scroll-triggered-boxes/).
 
-If you're upgrading from the old plugin, please check [updating to Boxzilla from Scroll Triggered Boxes](https://kb.boxzillaplugin.com/updating-from-scroll-triggered-boxes/) for a list of changes you should be aware of.
+If you're upgrading from the old plugin, please check [updating to Boxzilla from Scroll Triggered Boxes](https://boxzillaplugin.com/kb/updating-from-scroll-triggered-boxes/) for a list of changes you should be aware of.

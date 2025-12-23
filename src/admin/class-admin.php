@@ -702,7 +702,7 @@ class Admin
             return $links;
         }
 
-        $links[] = '<a href="https://kb.boxzillaplugin.com/">Documentation</a>';
+        $links[] = '<a href="https://boxzillaplugin.com/kb/">Documentation</a>';
         $links[] = '<a href="https://boxzillaplugin.com/add-ons/">Add-ons</a>';
 
         return $links;

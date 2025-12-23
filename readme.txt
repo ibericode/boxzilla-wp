@@ -45,7 +45,7 @@ Boxzilla is a plugin allowing you to add pop-up or slide-in boxes to your WordPr
 
 #### Documentation
 
-Please have a look at the [Boxzilla Knowledge Base](https://kb.boxzillaplugin.com/).
+Please have a look at the [Boxzilla Knowledge Base](https://boxzillaplugin.com/kb/).
 
 #### Demo
 
