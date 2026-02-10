@@ -1,6 +1,11 @@
 Changelog
 ==========
 
+### 3.4.6 - Feb 10, 2026
+
+- Bugfix: fire box.interactions.link event for `<img>` clicks inside an `<a>` element (or any nested element inside a hyperlink).
+    
+
 ### 3.4.5 - Sep 25, 2025
 
 - Mark option as autoloaded for a minor performance gain.

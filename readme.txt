@@ -419,7 +419,7 @@ Please make sure your [Boxzilla plugin license](https://my.boxzillaplugin.com/) 
 
 **Fixes**
 
-- Event listener for hyperlinks referencing `#boxzilla-123`. We recommend using `[boxzilla_link]to generate your links though[/boxzilla_link]`. [Here's how that works](https://kb.boxzillaplugin.com/shortcode-boxzilla-link/).
+- Event listener for hyperlinks referencing `#boxzilla-123`. We recommend using `[boxzilla_link]to generate your links though[/boxzilla_link]`. [Here's how that works](https://boxzillaplugin.com/kb/shortcode-boxzilla-link/).
 
 
 #### 3.1.22 - November 20, 2017
