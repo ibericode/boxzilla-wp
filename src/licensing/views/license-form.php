@@ -45,6 +45,7 @@ foreach ($this->notices as $notice) {
             <th><?php esc_html_e('License Key', 'boxzilla'); ?></th>
             <td>
                 <input
+                    style="min-height: 30px; border-radius: 3px;"
                     size="40"
                     name="boxzilla_license_key"
                     placeholder="<?php esc_attr_e('Enter your license key..', 'boxzilla'); ?>"
@@ -57,7 +58,7 @@ foreach ($this->notices as $notice) {
                 <p class="help">
                     <?php
                     esc_html_e('The license key received when purchasing your premium Boxzilla plan.', 'bozilla');
-                    echo '<a href="https://my.boxzillaplugin.com/">', esc_html__('You can find it here.', 'boxzilla'), '</a>';
+                    echo ' <a href="https://my.boxzillaplugin.com/">', esc_html__('You can find it here.', 'boxzilla'), '</a>';
                     ?>
                 </p>
             </td>

@@ -89,9 +89,12 @@ Box.prototype.events = function () {
   }
 
   this.element.addEventListener('click', (evt) => {
-    if (evt.target.tagName === 'A' || evt.target.tagName === 'AREA') {
-      box.fireEvent('box.interactions.link', [box, evt.target])
-    }
+    for (let node = evt.target; node; node = node.parentElement) {
+        if (node.tagName === 'A' || node.tagName === 'AREA') {
+          box.fireEvent('box.interactions.link', [box, evt.target])
+          break;
+        }
+      }
   }, false)
 
   this.element.addEventListener('submit', (evt) => {
