@@ -4,7 +4,7 @@ Donate link: https://boxzillaplugin.com/#utm_source=wp-plugin-repo&utm_medium=bo
 Tags: pop-up, pop-ups, modal, call to action
 Requires at least: 4.6
 Tested up to: 6.9
-Stable tag: 3.4.5
+Stable tag: 3.4.6
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -128,6 +128,11 @@ Have a look at the [frequently asked questions](https://wordpress.org/plugins/bo
 
 == Changelog ==
 
+
+### 3.4.6 - Feb 10, 2026
+
+- Bugfix: fire box.interactions.link event for `<img>` clicks inside an `<a>` element (or any nested element inside a hyperlink).
+    
 
 ### 3.4.5 - Sep 25, 2025
 
@@ -462,7 +467,7 @@ Please make sure your [Boxzilla plugin license](https://my.boxzillaplugin.com/) 
 
 **Additions**
 
-- Added [`[boxzilla_link]` shortcode to generate the correct HTML for a link to show/toggle/hide/dismiss a box](https://kb.boxzillaplugin.com/shortcode-boxzilla-link/).
+- Added [`[boxzilla_link]` shortcode to generate the correct HTML for a link to show/toggle/hide/dismiss a box](https://boxzillaplugin.com/kb/shortcode-boxzilla-link/).
 
 
 #### 3.1.17 - August 30, 2017
@@ -688,7 +693,7 @@ Please make sure your [Boxzilla plugin license](https://my.boxzillaplugin.com/) 
 
 Initial release of [Boxzilla](https://boxzillaplugin.com/), formerly known as [Scroll Triggered Boxes](https://wordpress.org/plugins/scroll-triggered-boxes/).
 
-If you're upgrading from the old plugin, please check [updating to Boxzilla from Scroll Triggered Boxes](https://kb.boxzillaplugin.com/updating-from-scroll-triggered-boxes/) for a list of changes you should be aware of.
+If you're upgrading from the old plugin, please check [updating to Boxzilla from Scroll Triggered Boxes](https://boxzillaplugin.com/kb/updating-from-scroll-triggered-boxes/) for a list of changes you should be aware of.
 
 == Upgrade Notice ==
 
