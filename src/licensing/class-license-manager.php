@@ -2,10 +2,6 @@
 
 namespace Boxzilla\Licensing;
 
-use Boxzilla\Admin\Notices;
-use Boxzilla\Collection;
-use Exception;
-
 class LicenseManager
 {
     /**
@@ -190,6 +186,8 @@ class LicenseManager
     public function show_license_form()
     {
         $license = $this->license;
+        $extensions = $this->extensions;
+        $notices = $this->notices;
         require __DIR__ . '/views/license-form.php';
     }
 }

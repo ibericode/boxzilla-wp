@@ -111,7 +111,7 @@ class UpdateManager
     }
 
     /**
-     * @param object $updates
+     * @param null|object $updates
      * @return object
      */
     public function add_updates($updates)

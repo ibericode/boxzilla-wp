@@ -1,4 +1,11 @@
-<?php defined('ABSPATH') or exit; ?>
+<?php defined('ABSPATH') or exit;
+
+/**
+ * Settings page
+ *
+ * @var array $opts
+ */
+?>
 <div class="wrap" id="boxzilla-admin" class="boxzilla-settings">
 
     <div class="boxzilla-row">

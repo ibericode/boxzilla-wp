@@ -1,4 +1,12 @@
-<?php defined('ABSPATH') or exit; ?>
+<?php defined('ABSPATH') or exit;
+
+/**
+ * Box Appearance Controls
+ *
+ * @var \Boxzilla\Box $box
+ * @var array $opts
+ */
+?>
 <div id="notice-notinymce" class="error" style="display: none;"><p><?php esc_html_e('For the best experience when styling your box, please use the default WordPress visual editor.', 'boxzilla'); ?></p></div>
 
 <table class="form-table">

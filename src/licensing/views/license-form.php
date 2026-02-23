@@ -1,8 +1,13 @@
 <?php
+
 // prevent direct file access
 defined('ABSPATH') or exit;
 
-/** @var Boxzilla\Licensing\License $license */
+/**
+ * @var Boxzilla\Licensing\License $license
+ * @var array $notices
+ * @var array $extensions
+ */
 ?>
 
 <h2><?php esc_html_e('License & Plugin Updates', 'boxzilla'); ?></h2>
@@ -16,7 +21,7 @@ if (! $license->activated) {
         </p>
         <ul class="ul-square">
             <?php
-            foreach ($this->extensions as $p) {
+            foreach ($extensions as $p) {
                 echo '<li>', esc_html($p->name()), '</li>';
             }
             ?>
@@ -29,15 +34,11 @@ if (! $license->activated) {
 }
 ?>
 
-<?php
-foreach ($this->notices as $notice) {
-    ?>
-    <div class="notice notice-<?php echo $notice['type']; ?> inline">
-        <p><?php echo $notice['message']; ?></p>
-    </div>
-    <?php
-}
-?>
+<?php foreach ($notices as $notice) { ?>
+<div class="notice notice-<?php echo esc_attr($notice['type']); ?> inline">
+    <p><?php echo $notice['message']; ?></p>
+</div>
+<?php } ?>
 
 <form method="post">
     <table class="form-table">
@@ -49,12 +50,12 @@ foreach ($this->notices as $notice) {
                     size="40"
                     name="boxzilla_license_key"
                     placeholder="<?php esc_attr_e('Enter your license key..', 'boxzilla'); ?>"
-                    value="<?php echo esc_attr($this->license->key); ?>"
-                    <?php if ($this->license->activated) {
+                    value="<?php echo esc_attr($license->key); ?>"
+                    <?php if ($license->activated) {
                         echo 'readonly';
                     } ?>
                 />
-                <input class="button" type="submit" name="action" value="<?php echo ( $this->license->activated ) ? 'deactivate' : 'activate'; ?>" />
+                <input class="button" type="submit" name="action" value="<?php echo $license->activated ? 'deactivate' : 'activate'; ?>" />
                 <p class="help">
                     <?php
                     esc_html_e('The license key received when purchasing your premium Boxzilla plan.', 'bozilla');
@@ -80,10 +81,6 @@ foreach ($this->notices as $notice) {
             </td>
         </tr>
     </table>
-
-
-
-
     <p>
         <input type="submit" class="button button-primary" name="action" value="<?php esc_attr_e('Save Changes', 'boxzilla'); ?>" />
     </p>

@@ -7,7 +7,7 @@ $boxzilla = boxzilla();
 // Register custom post type
 add_action(
     'init',
-    function () use ($boxzilla) {
+    function () {
         $args = [
             'public'          => false,
             'labels'          => [
