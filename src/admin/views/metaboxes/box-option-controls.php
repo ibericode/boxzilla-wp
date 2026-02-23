@@ -76,7 +76,7 @@ $rule_options = apply_filters('boxzilla_rules_options', $rule_options);
                 <select class="boxzilla-rule-qualifier" name="boxzilla_box[rules][<?php echo $key; ?>][qualifier]" style="min-width: 135px;">
                     <option value="1" <?php selected(! isset($rule['qualifier']) || $rule['qualifier']); ?>><?php esc_html_e('is', 'boxzilla'); ?></option>
                     <option value="0" <?php selected(isset($rule['qualifier']) && ! $rule['qualifier']); ?>><?php esc_html_e('is not', 'boxzilla'); ?></option>
-                    <option value="contains" <?php selected(isset($rule['qualifier']) && $rule['qualifier'] === 'contains'); ?> style="display: none;"><?php esc_html_e('contains', 'boxzilla'); ?>
+                    <option value="contains" <?php selected(isset($rule['qualifier']) && $rule['qualifier'] === 'contains'); ?> style="display: none;"><?php esc_html_e('contains', 'boxzilla'); ?></option>
                     <option value="not_contains" <?php selected(isset($rule['qualifier']) && $rule['qualifier'] === 'not_contains'); ?> style="display: none;"><?php esc_html_e('does not contain', 'boxzilla'); ?></option>
                 </select>
 
