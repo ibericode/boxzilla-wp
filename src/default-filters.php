@@ -29,7 +29,7 @@ add_filter(
             return $atts;
         }
 
-        $id              = substr($atts['href'], strlen('#boxzilla-'));
+        $id              = (int) substr($atts['href'], strlen('#boxzilla-'));
         $atts['onclick'] = "Boxzilla.show({$id}); return false;";
         $atts['href']    = '';
         return $atts;
