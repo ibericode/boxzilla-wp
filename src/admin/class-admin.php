@@ -145,8 +145,6 @@ class Admin
 
     /**
      * Checks current version against stored version & runs necessary update routines.
-     *
-     * @return bool
      */
     protected function run_migrations()
     {
@@ -156,7 +154,7 @@ class Admin
         $current_version  = $this->plugin->version();
 
         if (version_compare($current_version, $previous_version, '<=')) {
-            return false;
+            return;
         }
 
         $upgrade_routines = new Migrations($previous_version, $current_version, __DIR__ . '/migrations');
@@ -381,13 +379,11 @@ class Admin
      * Register meta boxes
      *
      * @param string $post_type
-     *
-     * @return bool
      */
     public function add_meta_boxes($post_type)
     {
         if ($post_type !== 'boxzilla-box') {
-            return false;
+            return;
         }
 
         add_meta_box(
@@ -423,8 +419,6 @@ class Admin
             'boxzilla-box',
             'side'
         );
-
-        return true;
     }
 
     /**
@@ -489,30 +483,28 @@ class Admin
      * Saves box options and rules
      *
      * @param int $box_id
-     *
-     * @return bool
+     * @param \WP_Post $post
      */
     public function save_box_options($box_id, $post)
     {
-
         // Only act on our own post type
         if ($post->post_type !== 'boxzilla-box') {
-            return false;
+            return;
         }
 
         // is this a revision save?
         if (wp_is_post_revision($box_id) || ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE )) {
-            return false;
+            return;
         }
 
         // can user edit this post?
         if (! current_user_can('edit_post', $box_id)) {
-            return false;
+            return;
         }
 
         // make sure options array is set
         if (! isset($_POST['boxzilla_box']) || ! is_array($_POST['boxzilla_box'])) {
-            return false;
+            return;
         }
 
         // get new options from $_POST
@@ -535,8 +527,6 @@ class Admin
         }
 
         $this->flush_rules($box_id);
-
-        return true;
     }
 
     /**

@@ -34,36 +34,33 @@ class ReviewNotice
         update_user_meta($user->ID, $this->meta_key_dismissed, 1);
     }
 
-    /**
-     * @return bool
-     */
     public function show()
     {
         $screen = get_current_screen();
         if (! $screen instanceof WP_Screen) {
-            return false;
+            return;
         }
 
         // on some boxzilla screen?
         if ($screen->post_type !== 'boxzilla-box') {
-            return false;
+            return;
         }
 
         // authorized?
         if (! current_user_can('edit_posts')) {
-            return false;
+            return;
         }
 
         // only show if 2 weeks have passed since first use.
         $two_weeks_in_seconds = ( 60 * 60 * 24 * 14 );
         if ($this->time_since_first_use() <= $two_weeks_in_seconds) {
-            return false;
+            return;
         }
 
         // only show if user did not dismiss before
         $user = wp_get_current_user();
         if (get_user_meta($user->ID, $this->meta_key_dismissed, true)) {
-            return false;
+            return;
         }
 
         echo '<div class="notice notice-info boxzilla-is-dismissible">';
@@ -74,7 +71,6 @@ class ReviewNotice
         echo '</p>';
         echo '<form method="POST"><button type="submit" class="notice-dismiss"><span class="screen-reader-text">', esc_html__('Dismiss this notice.', 'boxzilla'), '</span></button><input type="hidden" name="_boxzilla_admin_action" value="dismiss_review_notice"/></form>';
         echo '</div>';
-        return true;
     }
 
     /**

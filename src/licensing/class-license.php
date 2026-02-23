@@ -109,8 +109,6 @@ class License
 
     /**
      * Save the license in the database
-     *
-     * @return License
      */
     public function save()
     {

@@ -1,7 +1,7 @@
 <?php
 // phpcs:ignoreFile
 /*
- * This file is part of Pimple.
+ * This is a modified version of Pimple, a dependency injection container for PHP originally developed by Fabien Potencier.
  *
  * Copyright (c) 2009 Fabien Potencier
  *
@@ -252,23 +252,5 @@ class Container implements \ArrayAccess {
 	 */
 	public function keys() {
 		return array_keys( $this->values );
-	}
-
-	/**
-	 * Registers a service provider.
-	 *
-	 * @param ServiceProviderInterface $provider A ServiceProviderInterface instance
-	 * @param array                    $values   An array of values that customizes the provider
-	 *
-	 * @return static
-	 */
-	public function register( ServiceProviderInterface $provider, array $values = array() ) {
-		$provider->register( $this );
-
-		foreach ( $values as $key => $value ) {
-			$this[ $key ] = $value;
-		}
-
-		return $this;
 	}
 }

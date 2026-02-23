@@ -1,4 +1,4 @@
-name: Check PHP syntax
+name: Lint, analyse and test on highest supported PHP version
 
 on: [ push, pull_request ]
 
