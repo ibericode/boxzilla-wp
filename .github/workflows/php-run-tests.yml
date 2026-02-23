@@ -5,22 +5,16 @@ on: [ push, pull_request ]
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        php-versions: ['8.3']
     steps:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php-versions }}
+          php-version: 'highest'
           tools: composer
 
-      - name: checkout repo
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v6
       - run: composer install --no-progress
-
-      - name: PHPCodeSniffer
-        run: ./vendor/bin/phpcs -ns
-
-      - name: PHPUnit
-        run: ./vendor/bin/phpunit
+      - run: composer run check-syntax
+      - run: composer run check-codestyle
+      - run: composer run static-analysis
+      - run: composer run test

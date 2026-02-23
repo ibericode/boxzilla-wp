@@ -1,30 +1,45 @@
 {
-	"name": "ibericode/boxzilla-wp",
-	"description": "The best non-obtrusive call-to-actions: Boxzilla. A WordPress plugin.",
-	"keywords": ["wordpress", "scroll triggered", "call to action"],
-	"homepage": "https://wordpress.org/plugins/boxzilla/",
-	"license": "GPL-2.0+",
-	"authors": [
-		{
-			"name": "Danny van Kooten",
-			"email": "hi@dannyvankooten.com",
-			"homepage": "https://dannyvankooten.com"
-		}
-	],
-  "support": {
-    "issues": "https://github.com/ibericode/boxzilla-wp/issues",
-    "forum": "https://wordpress.org/support/plugin/boxzilla",
-    "source": "https://github.com/ibericode/boxzilla-wp"
-  },
-	"type": "wordpress-plugin",
-	"require": {
-		"php": ">=7.4"
-	},
-	"require-dev": {
-		"phpunit/phpunit": "^10.5.40",
-		"squizlabs/php_codesniffer": "^3.11"
-	},
-	"scripts": {
-  	"check-syntax": "find . -name '*.php' -not -path './vendor/*' -not -path './node_modules/*' -print0 | xargs -0 -n1 php -l"
-  }
+    "name": "ibericode/boxzilla-wp",
+    "description": "The best non-obtrusive call-to-actions: Boxzilla. A WordPress plugin.",
+    "keywords": [
+        "wordpress",
+        "scroll triggered",
+        "call to action"
+    ],
+    "homepage": "https://wordpress.org/plugins/boxzilla/",
+    "license": "GPL-2.0+",
+    "authors": [
+        {
+            "name": "Danny van Kooten",
+            "email": "hi@dannyvankooten.com",
+            "homepage": "https://dannyvankooten.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/ibericode/boxzilla-wp/issues",
+        "forum": "https://wordpress.org/support/plugin/boxzilla",
+        "source": "https://github.com/ibericode/boxzilla-wp"
+    },
+    "type": "wordpress-plugin",
+    "require": {
+        "php": ">=7.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.5.40",
+        "squizlabs/php_codesniffer": "^3.11",
+        "phpstan/phpstan": "^2.1",
+        "szepeviktor/phpstan-wordpress": "^2.0",
+        "phpstan/extension-installer": "^1.4"
+    },
+    "scripts": {
+        "check-syntax": "find . -name '*.php' -not -path './vendor/*' -not -path './node_modules/*' -print0 | xargs -0 -n1 php -l",
+        "check-codestyle": "vendor/bin/phpcs -sn",
+        "static-analysis": "vendor/bin/phpstan analyse",
+        "test": "vendor/bin/phpunit"
+    },
+    "config": {
+        "allow-plugins": {
+            "phpstan/extension-installer": true
+        }
+    }
 }
