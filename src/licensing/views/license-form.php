@@ -58,7 +58,7 @@ if (! $license->activated) {
                 <input class="button" type="submit" name="action" value="<?php echo $license->activated ? 'deactivate' : 'activate'; ?>" />
                 <p class="help">
                     <?php
-                    esc_html_e('The license key received when purchasing your premium Boxzilla plan.', 'bozilla');
+                    esc_html_e('The license key received when purchasing your premium Boxzilla plan.', 'boxzilla');
                     echo ' <a href="https://my.boxzillaplugin.com/">', esc_html__('You can find it here.', 'boxzilla'), '</a>';
                     ?>
                 </p>
