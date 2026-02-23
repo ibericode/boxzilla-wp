@@ -41,10 +41,13 @@ class Box
      */
     public function __construct($post)
     {
-
         // fetch post if it hasn't been fetched yet
         if (! $post instanceof WP_Post) {
             $post = get_post($post);
+
+            if ($post === null) {
+                throw new \InvalidArgumentException('No post found with ID ' . $post);
+            }
         }
 
         // store ref to post

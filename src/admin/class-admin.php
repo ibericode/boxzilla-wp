@@ -734,6 +734,9 @@ class Admin
             foreach ($boxes as $box) {
                 // get box meta data
                 $box_meta = get_post_meta($box->ID, 'boxzilla_options', true);
+                if (! $box_meta || ! is_array($box_meta) || empty($box_meta['rules'])) {
+                    continue;
+                }
 
                 // add box rules to all rules
                 $rules[ $box->ID ]                = (array) $box_meta['rules'];

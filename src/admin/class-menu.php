@@ -2,13 +2,9 @@
 
 namespace Boxzilla\Admin;
 
-use Boxzilla\Plugin;
-use Boxzilla\Box;
-use Boxzilla\Boxzilla;
-
 class Menu
 {
-    public function init()
+    public function init(): void
     {
         add_action('admin_head-nav-menus.php', [ $this, 'add_nav_menu_meta_boxes' ]);
 
@@ -48,6 +44,9 @@ class Menu
     public function nav_menu_links()
     {
         $posts = $this->get_boxes();
+        if (count($posts) === 0) {
+            return;
+        }
 
         ?>
         <div id="posttype-boxzilla-boxes" class="posttypediv">
