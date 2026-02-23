@@ -4,15 +4,15 @@ namespace Boxzilla\Filter;
 
 class Autocomplete
 {
-    public function init()
+    public function init(): void
     {
-        add_action('wp_ajax_boxzilla_autocomplete', [ $this, 'ajax' ]);
+        add_action('wp_ajax_boxzilla_autocomplete', [ $this, 'ajax' ], 10, 0);
     }
 
     /**
      * AJAX listener for autocomplete
      */
-    public function ajax()
+    public function ajax(): void
     {
         $q    = ( isset($_GET['q']) ) ? sanitize_text_field($_GET['q']) : '';
         $type = ( isset($_GET['type']) && in_array($_GET['type'], [ 'page', 'post', 'category', 'post_type', 'post_tag' ], true) ) ? $_GET['type'] : 'post';
@@ -67,14 +67,12 @@ class Autocomplete
      */
     protected function list_categories($query)
     {
-        $terms = get_terms(
-            'category',
-            [
-                'name__like' => $query,
-                'fields'     => 'names',
-                'hide_empty' => false,
-            ]
-        );
+        $terms = get_terms([
+            'taxonomy' => 'category',
+            'name__like' => $query,
+            'fields'     => 'names',
+            'hide_empty' => false,
+        ]);
         return join(PHP_EOL, $terms);
     }
 
@@ -85,14 +83,12 @@ class Autocomplete
      */
     protected function list_tags($query)
     {
-        $terms = get_terms(
-            'post_tag',
-            [
-                'name__like' => $query,
-                'fields'     => 'names',
-                'hide_empty' => false,
-            ]
-        );
+        $terms = get_terms([
+            'taxonomy' => 'post_tag',
+            'name__like' => $query,
+            'fields'     => 'names',
+            'hide_empty' => false,
+        ]);
         return join(PHP_EOL, $terms);
     }
 
