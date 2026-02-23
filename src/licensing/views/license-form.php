@@ -36,7 +36,7 @@ if (! $license->activated) {
 
 <?php foreach ($notices as $notice) { ?>
 <div class="notice notice-<?php echo esc_attr($notice['type']); ?> inline">
-    <p><?php echo $notice['message']; ?></p>
+    <p><?php echo wp_kses($notice['message'], ['strong' => [], 'em' => [], 'a' => ['href' => []]]); ?></p>
 </div>
 <?php } ?>
 

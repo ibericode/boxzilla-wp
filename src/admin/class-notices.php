@@ -14,7 +14,7 @@ class Notices
      */
     public function __construct()
     {
-        add_action('admin_notices', [ $this, 'show' ]);
+        add_action('admin_notices', [ $this, 'action_admin_notices' ], 10, 0);
     }
 
     /**
@@ -36,10 +36,11 @@ class Notices
     /**
      * Output the registered notices
      */
-    public function show()
+    public function admin_notices(): void
     {
+        $allowed_html = [ 'strong' => [], 'em' => [], 'a' => [ 'href' => [] ] ];
         foreach ($this->notices as $notice) {
-            echo "<div class=\"notice notice-{$notice['type']}\"><p>{$notice['message']}</p></div>";
+            echo "<div class=\"notice notice-", esc_attr($notice['type']), "><p>", wp_kses($notice['message'], $allowed_html), "</p></div>";
         }
     }
 }
