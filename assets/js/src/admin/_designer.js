@@ -10,7 +10,7 @@ var Designer = function ($, Option, events) {
   var $appearanceControls = $('#boxzilla-box-appearance-controls')
 
   // functions
-  function init () {
+  function init() {
     // Only run if TinyMCE has actually inited
     if (typeof (window.tinyMCE) !== 'object' || window.tinyMCE.get('content') === null) {
       return
@@ -21,7 +21,7 @@ var Designer = function ($, Option, events) {
     options.borderWidth = new Option('border-width')
     options.borderStyle = new Option('border-style')
     options.backgroundColor = new Option('background-color')
-    options.width = new Option('width')
+    options.width = new Option('box-width')
     options.color = new Option('color')
 
     // add classes to TinyMCE <html>
@@ -55,7 +55,7 @@ var Designer = function ($, Option, events) {
    *
    * @return bool
    */
-  function applyStyles () {
+  function applyStyles() {
     if (!visualEditorInitialised) {
       return false
     }
@@ -79,7 +79,7 @@ var Designer = function ($, Option, events) {
     return true
   }
 
-  function resetStyles () {
+  function resetStyles() {
     for (var key in options) {
       if (key.substring(0, 5) === 'theme') {
         continue
