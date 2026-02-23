@@ -30,9 +30,9 @@ class Plugin
     protected $slug = '';
 
     /**
-     * @var int
+     * @var string
      */
-    protected $id = 0;
+    protected $id = '';
 
     /**
      * Constructor
