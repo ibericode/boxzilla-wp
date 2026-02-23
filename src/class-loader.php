@@ -39,7 +39,7 @@ class BoxLoader
         $this->box_ids_to_load = $this->filter_boxes();
 
         // Only add other hooks if necessary
-        add_action('wp_head', [$this, 'print_preload_js']);
+        add_action('wp_head', [$this, 'print_preload_js'], 10, 0);
         if (count($this->box_ids_to_load) > 0) {
             add_action('wp_footer', [ $this, 'print_boxes_content' ], 1);
             add_action('wp_enqueue_scripts', [ $this, 'load_assets' ], 90);
@@ -50,10 +50,10 @@ class BoxLoader
      * Prints the preload API so that the Boxzilla JS API can be used before Boxzilla itself is loaded
      * This allows us to defer the Boxzilla script itself.
      */
-    public function print_preload_js()
+    public function print_preload_js(): void
     {
         echo '<script>';
-        echo file_get_contents(BOXZILLA_DIR . '/assets/js/preload.js');
+        include BOXZILLA_DIR . '/assets/js/preload.js';
         echo '</script>';
     }
 
@@ -62,7 +62,7 @@ class BoxLoader
      *
      * @return array
      */
-    protected function get_filter_rules()
+    protected function get_filter_rules(): array
     {
         $rules = get_option('boxzilla_rules', []);
         return is_array($rules) ? $rules : [];
@@ -74,8 +74,8 @@ class BoxLoader
      *
      * @param string $string
      * @param array $patterns
-     * @param boolean $contains
-     * @return boolean
+     * @param bool $contains
+     * @return bool
      */
     protected function match_patterns($string, array $patterns, $contains = false)
     {
