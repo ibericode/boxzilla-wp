@@ -518,11 +518,14 @@ class Admin
 
         // update global settings if given
         if (! empty($_POST['boxzilla_global_settings'])) {
+            $raw_global_settings = $_POST['boxzilla_global_settings'];
             $global_settings = get_option('boxzilla_settings', []);
             if (! is_array($global_settings)) {
                 $global_settings = [];
             }
-            $global_settings = array_merge($global_settings, $_POST['boxzilla_global_settings']);
+            if (isset($raw_global_settings['test_mode'])) {
+                $global_settings['test_mode'] = absint($raw_global_settings['test_mode']);
+            }
             update_option('boxzilla_settings', $global_settings);
         }
 
