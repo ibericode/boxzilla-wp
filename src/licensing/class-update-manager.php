@@ -22,7 +22,7 @@ class UpdateManager
     protected $license;
 
     /**
-     * @var
+     * @var array
      */
     protected $available_updates;
 
@@ -91,11 +91,11 @@ class UpdateManager
     /**
      * @param        $result
      * @param string $action
-     * @param null   $args
+     * @param object   $args
      *
-     * @return object
+     * @return object|null
      */
-    public function get_plugin_info($result, $action = '', $args = null)
+    public function get_plugin_info($result, $action, $args)
     {
         // do nothing for unrelated requests
         if ($action !== 'plugin_information' || ! isset($args->slug)) {
@@ -221,7 +221,7 @@ class UpdateManager
     /**
      * @param string $slug
      *
-     * @return null
+     * @return object|null
      */
     public function get_update_info($slug)
     {

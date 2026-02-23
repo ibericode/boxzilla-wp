@@ -3,7 +3,6 @@
 namespace Boxzilla\Licensing;
 
 use Boxzilla\Plugin;
-use Exception;
 use WP_Error;
 
 class API
@@ -31,7 +30,7 @@ class API
     protected $error_message = '';
 
     /**
-    * @var
+    * @var object|array
     */
     protected $last_response;
 
