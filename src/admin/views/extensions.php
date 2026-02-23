@@ -1,5 +1,5 @@
 <?php defined('ABSPATH') or exit; ?>
-<div class="wrap" id="boxzilla-admin" class="boxzilla-extensions">
+<div class="wrap boxzilla-extensions" id="boxzilla-admin">
 
     <h2>Available Add-On Plugins</h2>
     <p>There are various add-ons available for Boxzilla which further enhance the functionality of the core plugin.</p>
