@@ -32,6 +32,12 @@
         "phpstan/extension-installer": "^1.4"
     },
     "scripts": {
+        "all-checks": [
+            "@check-syntax",
+            "@check-codestyle",
+            "@static-analysis",
+            "@test"
+        ],
         "check-syntax": "find . -name '*.php' -not -path './vendor/*' -not -path './node_modules/*' -print0 | xargs -0 -n1 php -l",
         "check-codestyle": "vendor/bin/phpcs -sn",
         "static-analysis": "vendor/bin/phpstan analyse",
