@@ -208,7 +208,7 @@ class BoxLoader
             // loop through all rules for all boxes
             foreach ($box_rules as $rule) {
                 // skip faulty values (and comparision rule)
-                if (empty($rule['condition'])) {
+                if (! is_array($rule) || empty($rule['condition'])) {
                     continue;
                 }
 
