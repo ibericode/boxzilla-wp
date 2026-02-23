@@ -21,8 +21,8 @@
             <input id="boxzilla-color" name="boxzilla_box[css][color]" type="text" class="boxzilla-color-field" value="<?php echo esc_attr($opts['css']['color']); ?>" />
         </td>
         <td>
-            <label class="boxzilla-label" for="boxzilla-width"><?php esc_html_e('Box width', 'boxzilla'); ?></label>
-            <input id="boxzilla-width" name="boxzilla_box[css][width]" id="boxzilla-box-width" min="0" max="3200" type="number" step="1" value="<?php echo esc_attr($opts['css']['width']); ?>" />
+            <label class="boxzilla-label" for="boxzilla-box-width"><?php esc_html_e('Box width', 'boxzilla'); ?></label>
+            <input id="boxzilla-box-width" name="boxzilla_box[css][width]" min="0" max="3200" type="number" step="1" value="<?php echo esc_attr($opts['css']['width']); ?>" />
             <p class="help"><?php esc_html_e('Width in px', 'boxzilla'); ?></p>
         </td>
     </tr>
