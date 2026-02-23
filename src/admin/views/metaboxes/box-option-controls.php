@@ -93,7 +93,7 @@ $rule_options = apply_filters('boxzilla_rules_options', $rule_options);
         <td><button type="button" class="button boxzilla-add-rule"><?php esc_html_e('Add another rule', 'boxzilla'); ?></button></td>
     </tr>
     <tr valign="top">
-        <th><label for="boxzilla_position"><?php esc_html_e('Box Position', 'boxzilla'); ?></label></th>
+        <th><label><?php esc_html_e('Box Position', 'boxzilla'); ?></label></th>
         <td>
             <table class="window-positions">
                 <tr>
@@ -153,7 +153,7 @@ $rule_options = apply_filters('boxzilla_rules_options', $rule_options);
         </td>
     </tr>
     <tr valign="top">
-        <th><label for="boxzilla_trigger"><?php esc_html_e('Auto-show box?', 'boxzilla'); ?></label></th>
+        <th><label><?php esc_html_e('Auto-show box?', 'boxzilla'); ?></label></th>
         <td>
             <label><input type="radio" class="boxzilla-auto-show-trigger" name="boxzilla_box[trigger]" value="" <?php checked($opts['trigger'], ''); ?> /> <?php esc_html_e('Never', 'boxzilla'); ?></label><br />
             <label><input type="radio" class="boxzilla-auto-show-trigger" name="boxzilla_box[trigger]" value="time_on_page" <?php checked($opts['trigger'], 'time_on_page'); ?> /> <?php printf(esc_html__('Yes, after %s seconds on the page.', 'boxzilla'), '<input type="number" name="boxzilla_box[trigger_time_on_page]" min="0" value="' . esc_attr($opts['trigger_time_on_page']) . '" />'); ?></label><br />
@@ -164,7 +164,7 @@ $rule_options = apply_filters('boxzilla_rules_options', $rule_options);
     </tr>
     <tbody class="boxzilla-trigger-options" style="display: <?php echo ( $opts['trigger'] === '' ) ? 'none' : 'table-row-group'; ?>;">
     <tr valign="top">
-        <th><label for="boxzilla_cookie"><?php esc_html_e('Cookie expiration', 'boxzilla'); ?></label></th>
+        <th><label><?php esc_html_e('Cookie expiration', 'boxzilla'); ?></label></th>
         <td>
             <div style="display: inline-block; margin-right: 20px;">
                 <label for="boxzilla_cookie_triggered" style="font-weight: bold; display: block;"><?php esc_html_e('Triggered', 'boxzilla'); ?></label>
@@ -196,7 +196,7 @@ $rule_options = apply_filters('boxzilla_rules_options', $rule_options);
     </tr>
     <?php if (in_array($opts['trigger'], [ 'element', 'percentage' ])) { ?>
     <tr valign="top">
-        <th><label for="boxzilla_auto_hide"><?php esc_html_e('Auto-hide?', 'boxzilla'); ?></label></th>
+        <th><label><?php esc_html_e('Auto-hide?', 'boxzilla'); ?></label></th>
         <td>
             <label><input type="radio" name="boxzilla_box[auto_hide]" value="1" <?php checked($opts['auto_hide'], 1); ?> /> <?php esc_html_e('Yes', 'boxzilla'); ?></label> &nbsp;
             <label><input type="radio" name="boxzilla_box[auto_hide]" value="0" <?php checked($opts['auto_hide'], 0); ?> /> <?php esc_html_e('No', 'boxzilla'); ?></label> &nbsp;
@@ -207,7 +207,7 @@ $rule_options = apply_filters('boxzilla_rules_options', $rule_options);
     </tbody>
     <tbody>
     <tr valign="top">
-        <th><label for="boxzilla_closable"><?php esc_html_e('Show close icon?', 'boxzilla'); ?></label></th>
+        <th><label><?php esc_html_e('Show close icon?', 'boxzilla'); ?></label></th>
         <td>
             <label><input type="radio" id="boxzilla_closable_1" name="boxzilla_box[show_close_icon]" value="1" <?php checked($opts['show_close_icon'], 1); ?> /> <?php esc_html_e('Yes', 'boxzilla'); ?></label> &nbsp;
             <label><input type="radio" id="boxzilla_closable_0" name="boxzilla_box[show_close_icon]" value="0" <?php checked($opts['show_close_icon'], 0); ?> /> <?php esc_html_e('No', 'boxzilla'); ?></label> &nbsp;
@@ -218,7 +218,7 @@ $rule_options = apply_filters('boxzilla_rules_options', $rule_options);
         </td>
     </tr>
     <tr valign="top">
-        <th><label for="boxzilla_test_mode"><?php esc_html_e('Enable test mode?', 'boxzilla'); ?></label></th>
+        <th><label><?php esc_html_e('Enable test mode?', 'boxzilla'); ?></label></th>
         <td>
             <label><input type="radio" id="boxzilla_test_mode_1" name="boxzilla_global_settings[test_mode]" value="1" <?php checked($global_opts['test_mode'], 1); ?> /> <?php esc_html_e('Yes', 'boxzilla'); ?></label> &nbsp;
             <label><input type="radio" id="boxzilla_test_mode_0" name="boxzilla_global_settings[test_mode]" value="0" <?php checked($global_opts['test_mode'], 0); ?> /> <?php esc_html_e('No', 'boxzilla'); ?></label> &nbsp;
