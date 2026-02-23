@@ -4,3 +4,4 @@ parameters:
       - boxzilla.php
       - autoload.php
       - src/
+      - uninstall.php
