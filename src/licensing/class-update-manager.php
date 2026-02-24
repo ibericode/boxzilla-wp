@@ -76,18 +76,6 @@ class UpdateManager
         return $args;
     }
 
-    private function get_plugin_by_slug($slug)
-    {
-        foreach ($this->extensions as $p) {
-            // find plugin by slug
-            if (dirname($p->slug()) === $slug) {
-                return $p;
-            }
-        }
-
-        return null;
-    }
-
     /**
      * @param        $result
      * @param string $action

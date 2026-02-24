@@ -1,7 +1,11 @@
 parameters:
-    level: 3
+    level: 4
+    treatPhpDocTypesAsCertain: false
     paths:
       - boxzilla.php
       - autoload.php
       - src/
       - uninstall.php
+    ignoreErrors:
+        - identifier: function.impossibleType
+          path: src/default-filters.php
