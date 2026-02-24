@@ -58,12 +58,12 @@ class Menu
                         ?>
                         <li>
                             <label class="menu-item-title">
-                                <input type="checkbox" class="menu-item-checkbox" name="menu-item[<?php echo esc_attr($i); ?>][menu-item-object-id]" value="<?php echo esc_attr($i); ?>" /> <?php echo esc_html($post->post_title); ?>
+                                <input type="checkbox" class="menu-item-checkbox" name="menu-item[<?php echo $i; ?>][menu-item-object-id]" value="<?php echo $i; ?>" /> <?php echo esc_html($post->post_title); ?>
                             </label>
-                            <input type="hidden" class="menu-item-type" name="menu-item[<?php echo esc_attr($i); ?>][menu-item-type]" value="custom" />
-                            <input type="hidden" class="menu-item-title" name="menu-item[<?php echo esc_attr($i); ?>][menu-item-title]" value="<?php echo esc_attr($post->post_title); ?>" />
-                            <input type="hidden" class="menu-item-url" name="menu-item[<?php echo esc_attr($i); ?>][menu-item-url]" value="<?php echo "#boxzilla-{$post->ID}"; ?>" />
-                            <input type="hidden" class="menu-item-classes" name="menu-item[<?php echo esc_attr($i); ?>][menu-item-classes]" />
+                            <input type="hidden" class="menu-item-type" name="menu-item[<?php echo $i; ?>][menu-item-type]" value="custom" />
+                            <input type="hidden" class="menu-item-title" name="menu-item[<?php echo $i; ?>][menu-item-title]" value="<?php echo esc_attr($post->post_title); ?>" />
+                            <input type="hidden" class="menu-item-url" name="menu-item[<?php echo $i; ?>][menu-item-url]" value="<?php echo "#boxzilla-{$post->ID}"; ?>" />
+                            <input type="hidden" class="menu-item-classes" name="menu-item[<?php echo $i; ?>][menu-item-classes]" />
                         </li>
                         <?php
                         $i--;

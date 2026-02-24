@@ -10,23 +10,23 @@ use Exception;
 class Migrations
 {
     /**
-     * @var float
+     * @var string
      */
-    protected $version_from = 0;
-
-    /**
-     * @var float
-     */
-    protected $version_to = 0;
+    protected $version_from;
 
     /**
      * @var string
      */
-    protected $migrations_dir = '';
+    protected $version_to;
 
     /**
-     * @param float $from
-     * @param float $to
+     * @var string
+     */
+    protected $migrations_dir;
+
+    /**
+     * @param string $from
+     * @param string $to
      * @param string $migrations_dir
      */
     public function __construct($from, $to, $migrations_dir)
