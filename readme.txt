@@ -4,7 +4,7 @@ Donate link: https://boxzillaplugin.com/#utm_source=wp-plugin-repo&utm_medium=bo
 Tags: pop-up, pop-ups, modal, call to action
 Requires at least: 4.6
 Tested up to: 6.9
-Stable tag: 3.4.6
+Stable tag: 3.4.7
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -127,6 +127,16 @@ Have a look at the [frequently asked questions](https://wordpress.org/plugins/bo
 4. Screenshot of the page to manage a Boxzilla pop-up.
 
 == Changelog ==
+
+
+### 3.4.7 - Mar 9, 2026
+
+- Add uninstall script to clean up all database entries from the plugin
+- Fix missing closing element in box rule settings
+- Fix duplicate class attribute on wrapper element on settings page
+- Fix duplicate id attribute on box width input field
+- Fix deprecation in call to get_terms()
+- Various other type fixes, PHPDoc improvements or removal of unused code.
 
 
 ### 3.4.6 - Feb 10, 2026
