@@ -1,6 +1,16 @@
 Changelog
 ==========
 
+### 3.4.7 - Mar 9, 2026
+
+- Add uninstall script to clean up all database entries from the plugin
+- Fix missing closing element in box rule settings
+- Fix duplicate class attribute on wrapper element on settings page
+- Fix duplicate id attribute on box width input field
+- Fix deprecation in call to get_terms()
+- Various other type fixes, PHPDoc improvements or removal of unused code.
+
+
 ### 3.4.6 - Feb 10, 2026
 
 - Bugfix: fire box.interactions.link event for `<img>` clicks inside an `<a>` element (or any nested element inside a hyperlink).
