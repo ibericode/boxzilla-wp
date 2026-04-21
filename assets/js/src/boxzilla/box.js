@@ -98,7 +98,7 @@ Box.prototype.events = function () {
   }, false)
 
   this.element.addEventListener('submit', (evt) => {
-    box.setCookie()
+    box.setCookie(this.config.cookie.dismissed)
     box.fireEvent('box.interactions.form', [box, evt.target])
   }, false)
 
