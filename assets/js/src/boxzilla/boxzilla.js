@@ -49,10 +49,6 @@ function on (event, fn) {
   listeners[event].push(fn)
 }
 
-function off (event, fn) {
-  listeners[event] && listeners[event].filter(f => f !== fn)
-}
-
 // initialise & add event listeners
 function init () {
   if (initialised) {
@@ -134,7 +130,7 @@ function toggle (id, animate) {
 }
 
 // expose boxzilla object
-const Boxzilla = { off, on, get, init, create, trigger, show, hide, dismiss, toggle, boxes }
+const Boxzilla = { on, get, init, create, trigger, show, hide, dismiss, toggle, boxes }
 window.Boxzilla = Boxzilla
 
 if (typeof module !== 'undefined' && module.exports) {
