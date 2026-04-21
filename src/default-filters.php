@@ -25,7 +25,11 @@ if (class_exists(Image_CDN::class) && method_exists(Image_CDN::class, 'filter_th
 add_filter(
     'nav_menu_link_attributes',
     function ($atts) {
-        if (isset($atts['href']) && strpos($atts['href'], '#boxzilla-') !== 0) {
+        if (empty($atts['href'])) {
+            return $atts;
+        }
+
+        if (strpos($atts['href'], '#boxzilla-') !== 0) {
             return $atts;
         }
 
