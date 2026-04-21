@@ -4,7 +4,7 @@ Donate link: https://boxzillaplugin.com/#utm_source=wp-plugin-repo&utm_medium=bo
 Tags: pop-up, pop-ups, modal, call to action
 Requires at least: 4.6
 Tested up to: 6.9
-Stable tag: 3.4.7
+Stable tag: 3.4.8
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -127,6 +127,15 @@ Have a look at the [frequently asked questions](https://wordpress.org/plugins/bo
 4. Screenshot of the page to manage a Boxzilla pop-up.
 
 == Changelog ==
+
+
+
+### 3.4.8 - Apr 21, 2026
+
+- Ensure nav links has href attribute before filtering.
+- Normalize request URL's for URL matching. Ensures consistent trailing slash and strips tracking query parameters.
+- Set cookie with expiration time matching the one for dismissing the box whenever a form inside a box is submitted.
+- Remove `Boxzilla.off` from the JS API as it was a no-op and no one is using ut,
 
 
 ### 3.4.7 - Mar 9, 2026
