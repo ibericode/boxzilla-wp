@@ -108,7 +108,7 @@ class BoxLoader
      */
     protected function get_request_url()
     {
-        return rtrim($_SERVER['REQUEST_URI'], '/');
+        return \boxzilla_normalize_relative_url(isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '/');
     }
 
     /**
