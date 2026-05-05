@@ -8,6 +8,8 @@ if (! defined('ABSPATH')) {
 
 class Poller
 {
+    public const HOOK = 'boxzilla_check_license_status';
+
     /**
      * @var API
      */
@@ -35,11 +37,16 @@ class Poller
      */
     public function init()
     {
-        if (! wp_next_scheduled('boxzilla_check_license_status')) {
-            wp_schedule_event(time(), 'daily', 'boxzilla_check_license_status');
+        if (! wp_next_scheduled(self::HOOK)) {
+            wp_schedule_event(time(), 'daily', self::HOOK);
         }
 
-        add_action('boxzilla_check_license_status', [ $this, 'run' ]);
+        add_action(self::HOOK, [ $this, 'run' ]);
+    }
+
+    public static function deactivate()
+    {
+        wp_clear_scheduled_hook(self::HOOK);
     }
 
     /**

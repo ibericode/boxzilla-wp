@@ -46,6 +46,7 @@ require __DIR__ . '/src/licensing/services.php';
 
 // register activation hook
 register_activation_hook(__FILE__, [ 'Boxzilla\\Admin\\Installer', 'run' ]);
+register_deactivation_hook(__FILE__, [ 'Boxzilla\\Licensing\\Poller', 'deactivate' ]);
 
 // Bootstrap plugin at later action hook
 add_action(

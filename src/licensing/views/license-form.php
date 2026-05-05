@@ -41,6 +41,7 @@ if (! $license->activated) {
 <?php } ?>
 
 <form method="post">
+    <?php wp_nonce_field('boxzilla_license_form_action', 'boxzilla_license_nonce'); ?>
     <table class="form-table">
         <tr valign="top">
             <th><?php esc_html_e('License Key', 'boxzilla'); ?></th>

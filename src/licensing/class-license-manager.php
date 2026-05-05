@@ -108,11 +108,20 @@ class LicenseManager
             return;
         }
 
-        $action      = isset($_POST['action']) ? $_POST['action'] : 'activate';
+        $nonce = isset($_POST['boxzilla_license_nonce']) ? sanitize_text_field(wp_unslash($_POST['boxzilla_license_nonce'])) : '';
+        if (! wp_verify_nonce($nonce, 'boxzilla_license_form_action')) {
+            $this->notices[] = [
+                'type'    => 'warning',
+                'message' => esc_html__('Security check failed. Please refresh the page and try again.', 'boxzilla'),
+            ];
+            return;
+        }
+
+        $action      = isset($_POST['action']) ? sanitize_text_field(wp_unslash($_POST['action'])) : 'activate';
         $key_changed = false;
 
         // did key change or was "activate" button pressed?
-        $new_license_key = sanitize_text_field($_POST['boxzilla_license_key']);
+        $new_license_key = isset($_POST['boxzilla_license_key']) ? sanitize_text_field(wp_unslash($_POST['boxzilla_license_key'])) : '';
         if ($new_license_key !== $this->license->key) {
             $this->license->key = $new_license_key;
             $key_changed        = true;
