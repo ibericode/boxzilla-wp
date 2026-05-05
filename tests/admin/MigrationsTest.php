@@ -18,6 +18,7 @@ class MigrationsTest extends \PHPUnit\Framework\TestCase {
 	 */
 	public function setUp() : void {
 		if( ! file_exists( $this->dir ) ) {
+			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_mkdir -- Test fixture setup.
 			mkdir( $this->dir, 0700, true );
 		}
 	}
@@ -46,6 +47,7 @@ class MigrationsTest extends \PHPUnit\Framework\TestCase {
 	public function tearDown() : void {
 		array_map( 'unlink', glob( $this->dir . '/*.php' ) );
 		if( file_exists( $this->dir ) ) {
+			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_rmdir -- Test fixture teardown.
 			rmdir( $this->dir );
 		}
 	}

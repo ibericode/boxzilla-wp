@@ -1,1 +1,5 @@
-<?php exit; ?>
+<?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}

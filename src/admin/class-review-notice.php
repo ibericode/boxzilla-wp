@@ -4,6 +4,10 @@ namespace Boxzilla\Admin;
 
 use WP_Screen;
 
+if (! defined('ABSPATH')) {
+    exit;
+}
+
 /**
  * Class ReviewNotice
  *

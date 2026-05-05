@@ -37,6 +37,7 @@
         ],
         "check-syntax": "find . -name '*.php' -not -path './vendor/*' -not -path './node_modules/*' -print0 | xargs -0 -n1 php -l",
         "check-codestyle": "vendor/bin/phpcs -sn",
+        "check-plugin": "wp plugin check boxzilla --mode=update --ignore-warnings --ignore-codes=hidden_files,application_detected",
         "static-analysis": "vendor/bin/phpstan analyse",
         "test": "vendor/bin/phpunit"
     },

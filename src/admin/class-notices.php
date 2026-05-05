@@ -2,6 +2,10 @@
 
 namespace Boxzilla\Admin;
 
+if (! defined('ABSPATH')) {
+    exit;
+}
+
 class Notices
 {
     /**

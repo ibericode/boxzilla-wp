@@ -2,6 +2,10 @@
 
 namespace Boxzilla\Licensing;
 
+if (! defined('ABSPATH')) {
+    exit;
+}
+
 class LicenseManager
 {
     /**
@@ -81,9 +85,11 @@ class LicenseManager
             return;
         }
 
-        $plugin  = $this->extensions[ array_rand($this->extensions) ];
-        $message = sprintf('Please <a href="%s">activate your Boxzilla license</a> to use %s.', admin_url('edit.php?post_type=boxzilla-box&page=boxzilla-settings'), '<strong>' . $plugin->name() . '</strong>');
-        echo sprintf('<div class="notice notice-%s"><p>%s</p></div>', 'warning', $message);
+        $plugin       = $this->extensions[ array_rand($this->extensions) ];
+        $settings_url = esc_url(admin_url('edit.php?post_type=boxzilla-box&page=boxzilla-settings'));
+        $plugin_name  = esc_html($plugin->name());
+        $message      = sprintf('Please <a href="%1$s">activate your Boxzilla license</a> to use <strong>%2$s</strong>.', $settings_url, $plugin_name);
+        echo '<div class="notice notice-warning"><p>' . wp_kses_post($message) . '</p></div>';
     }
 
     /**

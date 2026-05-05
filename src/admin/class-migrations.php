@@ -91,7 +91,7 @@ class Migrations
     protected function run_migration($file)
     {
         if (! file_exists($file)) {
-            throw new Exception("Migration file $file does not exist.");
+            throw new Exception(sprintf('Migration file %s does not exist.', esc_html(basename((string) $file))));
         }
 
         include $file;

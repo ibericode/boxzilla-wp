@@ -47,7 +47,7 @@ class Box
             $post = get_post($post_id);
 
             if ($post === null) {
-                throw new \InvalidArgumentException('No post found with ID ' . $post_id);
+                throw new \InvalidArgumentException(sprintf('No post found with ID %d.', (int) $post_id));
             }
         }
 

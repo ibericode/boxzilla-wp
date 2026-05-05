@@ -4,6 +4,10 @@ namespace Boxzilla\Licensing;
 
 use Boxzilla\Plugin;
 
+if (! defined('ABSPATH')) {
+    exit;
+}
+
 class UpdateManager
 {
     /**
@@ -43,9 +47,7 @@ class UpdateManager
      */
     public function init()
     {
-        add_filter('pre_set_site_transient_update_plugins', [ $this, 'add_updates' ]);
-        add_filter('plugins_api', [ $this, 'get_plugin_info' ], 20, 3);
-        add_filter('http_request_args', [ $this, 'add_auth_headers' ], 10, 2);
+        // Disabled for WordPress.org compliance.
     }
 
     /**

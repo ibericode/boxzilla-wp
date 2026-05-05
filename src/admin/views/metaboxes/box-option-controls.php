@@ -55,32 +55,31 @@ $rule_options = apply_filters('boxzilla_rules_options', $rule_options);
 
             echo '<tr>';
             echo '<th class="boxzilla-no-vpadding"></th>';
-            echo '<td class="boxzilla-no-vpadding"><span class="boxzilla-andor boxzilla-muted">', $text, '</span></td>';
+            echo '<td class="boxzilla-no-vpadding"><span class="boxzilla-andor boxzilla-muted">', esc_html($text), '</span></td>';
             echo '</tr>';
         }
         ?>
-        <tr valign="top" class="boxzilla-rule-row boxzilla-rule-row-<?php echo $key; ?>">
+        <tr valign="top" class="boxzilla-rule-row boxzilla-rule-row-<?php echo esc_attr($key); ?>">
             <th style="text-align: right; font-weight: normal;">
                 <span class="boxzilla-close boxzilla-remove-rule" title="<?php esc_attr_e('Remove rule', 'boxzilla'); ?>"><span class="dashicons dashicons-dismiss"></span></span>
             </th>
             <td>
-                <select class="boxzilla-rule-condition" name="boxzilla_box[rules][<?php echo $key; ?>][condition]">
+                <select class="boxzilla-rule-condition" name="boxzilla_box[rules][<?php echo esc_attr($key); ?>][condition]">
                     <?php
                     foreach ($rule_options as $value => $label) {
-                        $selected = selected($rule['condition'], $value, false);
-                        echo "<option value=\"{$value}\" {$selected}>{$label}</option>";
+                        echo '<option value="' . esc_attr($value) . '" ' . selected($rule['condition'], $value, false) . '>' . esc_html($label) . '</option>';
                     }
                     ?>
                 </select>
 
-                <select class="boxzilla-rule-qualifier" name="boxzilla_box[rules][<?php echo $key; ?>][qualifier]" style="min-width: 135px;">
+                <select class="boxzilla-rule-qualifier" name="boxzilla_box[rules][<?php echo esc_attr($key); ?>][qualifier]" style="min-width: 135px;">
                     <option value="1" <?php selected(! isset($rule['qualifier']) || $rule['qualifier']); ?>><?php esc_html_e('is', 'boxzilla'); ?></option>
                     <option value="0" <?php selected(isset($rule['qualifier']) && ! $rule['qualifier']); ?>><?php esc_html_e('is not', 'boxzilla'); ?></option>
                     <option value="contains" <?php selected(isset($rule['qualifier']) && $rule['qualifier'] === 'contains'); ?> style="display: none;"><?php esc_html_e('contains', 'boxzilla'); ?></option>
                     <option value="not_contains" <?php selected(isset($rule['qualifier']) && $rule['qualifier'] === 'not_contains'); ?> style="display: none;"><?php esc_html_e('does not contain', 'boxzilla'); ?></option>
                 </select>
 
-                <input class="boxzilla-rule-value regular-text" name="boxzilla_box[rules][<?php echo $key; ?>][value]" type="text" value="<?php echo esc_attr($rule['value']); ?>" placeholder="<?php esc_attr_e('Leave empty for any or enter (comma-separated) names or ID\'s', 'boxzilla'); ?>" <?php echo in_array($rule['condition'], [ '', 'everywhere' ], true) ? 'style="display: none;"' : ''; ?> />
+                <input class="boxzilla-rule-value regular-text" name="boxzilla_box[rules][<?php echo esc_attr($key); ?>][value]" type="text" value="<?php echo esc_attr($rule['value']); ?>" placeholder="<?php esc_attr_e('Leave empty for any or enter (comma-separated) names or ID\'s', 'boxzilla'); ?>" <?php echo in_array($rule['condition'], [ '', 'everywhere' ], true) ? 'style="display: none;"' : ''; ?> />
             </td>
         </tr>
         <?php
@@ -101,7 +100,7 @@ $rule_options = apply_filters('boxzilla_rules_options', $rule_options);
                         <?php
                         $value = 'top-left';
                         $label = esc_html__('Top Left', 'boxzilla');
-                        printf('<label><input type="radio" name="boxzilla_box[css][position]" value="%s" %s> &nbsp; %s</label>', $value, checked($opts['css']['position'], $value, false), $label);
+                        printf('<label><input type="radio" name="boxzilla_box[css][position]" value="%s" %s> &nbsp; %s</label>', esc_attr($value), checked($opts['css']['position'], $value, false), esc_html($label));
                         ?>
                     </td>
                     <td></td>
@@ -109,7 +108,7 @@ $rule_options = apply_filters('boxzilla_rules_options', $rule_options);
                         <?php
                         $value = 'top-right';
                         $label = esc_html__('Top Right', 'boxzilla');
-                        printf('<label><input type="radio" name="boxzilla_box[css][position]" value="%s" %s> &nbsp; %s</label>', $value, checked($opts['css']['position'], $value, false), $label);
+                        printf('<label><input type="radio" name="boxzilla_box[css][position]" value="%s" %s> &nbsp; %s</label>', esc_attr($value), checked($opts['css']['position'], $value, false), esc_html($label));
                         ?>
                     </td>
                 </tr>
@@ -119,7 +118,7 @@ $rule_options = apply_filters('boxzilla_rules_options', $rule_options);
                         <?php
                         $value = 'center';
                         $label = esc_html__('Center', 'boxzilla');
-                        printf('<label><input type="radio" name="boxzilla_box[css][position]" value="%s" %s> &nbsp; %s</label>', $value, checked($opts['css']['position'], $value, false), $label);
+                        printf('<label><input type="radio" name="boxzilla_box[css][position]" value="%s" %s> &nbsp; %s</label>', esc_attr($value), checked($opts['css']['position'], $value, false), esc_html($label));
                         ?>
                     </td>
                     <td></td>
@@ -129,7 +128,7 @@ $rule_options = apply_filters('boxzilla_rules_options', $rule_options);
                         <?php
                         $value = 'bottom-left';
                         $label = esc_html__('Bottom Left', 'boxzilla');
-                        printf('<label><input type="radio" name="boxzilla_box[css][position]" value="%s" %s> &nbsp; %s</label>', $value, checked($opts['css']['position'], $value, false), $label);
+                        printf('<label><input type="radio" name="boxzilla_box[css][position]" value="%s" %s> &nbsp; %s</label>', esc_attr($value), checked($opts['css']['position'], $value, false), esc_html($label));
                         ?>
                     </td>
                     <td></td>
@@ -137,7 +136,7 @@ $rule_options = apply_filters('boxzilla_rules_options', $rule_options);
                         <?php
                         $value = 'bottom-right';
                         $label = esc_html__('Bottom Right', 'boxzilla');
-                        printf('<label><input type="radio" name="boxzilla_box[css][position]" value="%s" %s> &nbsp; %s</label>', $value, checked($opts['css']['position'], $value, false), $label);
+                        printf('<label><input type="radio" name="boxzilla_box[css][position]" value="%s" %s> &nbsp; %s</label>', esc_attr($value), checked($opts['css']['position'], $value, false), esc_html($label));
                         ?>
                     </td>
                 </tr>
@@ -156,8 +155,11 @@ $rule_options = apply_filters('boxzilla_rules_options', $rule_options);
         <th><label><?php esc_html_e('Auto-show box?', 'boxzilla'); ?></label></th>
         <td>
             <label><input type="radio" class="boxzilla-auto-show-trigger" name="boxzilla_box[trigger]" value="" <?php checked($opts['trigger'], ''); ?> /> <?php esc_html_e('Never', 'boxzilla'); ?></label><br />
+            <?php /* translators: %s: Number input field for seconds on page. */ ?>
             <label><input type="radio" class="boxzilla-auto-show-trigger" name="boxzilla_box[trigger]" value="time_on_page" <?php checked($opts['trigger'], 'time_on_page'); ?> /> <?php printf(esc_html__('Yes, after %s seconds on the page.', 'boxzilla'), '<input type="number" name="boxzilla_box[trigger_time_on_page]" min="0" value="' . esc_attr($opts['trigger_time_on_page']) . '" />'); ?></label><br />
+            <?php /* translators: %s: Number input field for page scroll percentage. */ ?>
             <label><input type="radio" class="boxzilla-auto-show-trigger" name="boxzilla_box[trigger]" value="percentage" <?php checked($opts['trigger'], 'percentage'); ?> /> <?php printf(esc_html__('Yes, when at %s of page height', 'boxzilla'), '<input type="number" name="boxzilla_box[trigger_percentage]" min="0" max="100" value="' . esc_attr($opts['trigger_percentage']) . '" />%'); ?></label><br />
+            <?php /* translators: %s: Text input field for the CSS selector to trigger on. */ ?>
             <label><input type="radio" class="boxzilla-auto-show-trigger" name="boxzilla_box[trigger]" value="element" <?php checked($opts['trigger'], 'element'); ?> /> <?php printf(esc_html__('Yes, when at element %s', 'boxzilla'), '<input type="text" name="boxzilla_box[trigger_element]" value="' . esc_attr($opts['trigger_element']) . '" placeholder="' . esc_attr__('Example: #comments', 'boxzilla') . '" />'); ?></label><br />
             <?php do_action('boxzilla_output_auto_show_trigger_options', $opts); ?>
         </td>
@@ -187,9 +189,16 @@ $rule_options = apply_filters('boxzilla_rules_options', $rule_options);
             <?php
             $condition_type   = $opts['screen_size_condition']['condition'];
             $condition_value  = $opts['screen_size_condition']['value'];
-            $condition_select = '<select name="boxzilla_box[screen_size_condition][condition]"><option value="larger" ' . ( $condition_type === 'larger' ? 'selected' : '' ) . '>' . esc_html__('larger', 'boxzilla') . '</option><option value="smaller" ' . ( $condition_type === 'smaller' ? 'selected' : '' ) . '>' . esc_html__('smaller', 'boxzilla') . '</option></select>';
+            $condition_select = sprintf(
+                '<select name="boxzilla_box[screen_size_condition][condition]"><option value="larger" %1$s>%2$s</option><option value="smaller" %3$s>%4$s</option></select>',
+                selected($condition_type, 'larger', false),
+                esc_html__('larger', 'boxzilla'),
+                selected($condition_type, 'smaller', false),
+                esc_html__('smaller', 'boxzilla')
+            );
             ?>
-            <p><?php printf(esc_html__('Only show on screens %1$s than %2$s.', 'boxzilla'), $condition_select, '<input type="number" min="0" name="boxzilla_box[screen_size_condition][value]" value="' . esc_attr($condition_value) . '" style="max-width: 70px;" />px'); ?></p>
+            <?php /* translators: 1: Comparison selector (larger/smaller), 2: Number input field with px suffix. */ ?>
+            <p><?php printf(esc_html__('Only show on screens %1$s than %2$s.', 'boxzilla'), wp_kses($condition_select, [ 'select' => [ 'name' => true ], 'option' => [ 'value' => true, 'selected' => true ] ]), '<input type="number" min="0" name="boxzilla_box[screen_size_condition][value]" value="' . esc_attr($condition_value) . '" style="max-width: 70px;" />px'); ?></p>
             <p class="help"><?php esc_html_e('Leave empty if you want to show the box on all screen sizes.', 'boxzilla'); ?></p>
         </td>
 
@@ -245,8 +254,7 @@ $rule_options = apply_filters('boxzilla_rules_options', $rule_options);
             <select class="boxzilla-rule-condition" name="boxzilla_box[rules][{{{data.key}}}][condition]">
                 <?php
                 foreach ($rule_options as $value => $label) {
-                    $disabled = disabled($value, '', false);
-                    echo "<option value=\"{$value}\" {$disabled}>{$label}</option>";
+                    echo '<option value="' . esc_attr($value) . '" ' . disabled($value, '', false) . '>' . esc_html($label) . '</option>';
                 }
                 ?>
             </select>

@@ -2,6 +2,10 @@
 
 namespace Boxzilla;
 
+if (! defined('ABSPATH')) {
+    exit;
+}
+
 class BoxLoader
 {
     /**
@@ -299,7 +303,7 @@ class BoxLoader
 
         echo '<div style="display: none;">';
         foreach ($boxes as $box) {
-            echo "<div id=\"boxzilla-box-{$box->ID}-content\">", $box->get_content(), "</div>";
+            printf('<div id="boxzilla-box-%d-content">%s</div>', absint($box->ID), wp_kses_post($box->get_content()));
         }
         echo '</div>';
     }

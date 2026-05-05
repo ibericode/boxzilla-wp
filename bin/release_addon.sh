@@ -53,12 +53,16 @@ zip -r "$PACKAGE_FILE" "$PLUGIN_DIR" \
 	-x "$PLUGIN_DIR/.*" \
 	-x "$PLUGIN_DIR/vendor/*" \
 	-x "$PLUGIN_DIR/node_modules/*" \
+	-x "$PLUGIN_DIR/bin/*" \
     -x "$PLUGIN_DIR/gulpfile.js" \
-	-x "$PLUGIN_DIR/tests" \
+	-x "$PLUGIN_DIR/tests/*" \
 	-x "$PLUGIN_DIR/webpack.config*.js" \
-    -x "$PLUGIN_DIR/*.json" \
+	-x "$PLUGIN_DIR/*.json" \
 	-x "$PLUGIN_DIR/*.lock" \
+	-x "$PLUGIN_DIR/phpcs.xml.dist" \
+	-x "$PLUGIN_DIR/phpunit.xml.dist" \
 	-x "$PLUGIN_DIR/*.xml" \
+	-x "$PLUGIN_DIR/phpstan.neon.dist" \
 	-x "$PLUGIN_DIR/assets/src/*"
 
 SIZE=$(stat --printf="%s" "$PACKAGE_FILE")

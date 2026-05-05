@@ -8,6 +8,10 @@ use Boxzilla\Boxzilla;
 use WP_Post;
 use WP_Screen;
 
+if (! defined('ABSPATH')) {
+    exit;
+}
+
 class Admin
 {
     /**
@@ -184,7 +188,7 @@ class Admin
      */
     public function post_type_column_box_id_content($post_id)
     {
-        echo $post_id;
+        echo absint($post_id);
     }
 
     /**

@@ -2,6 +2,10 @@
 
 namespace Boxzilla\Licensing;
 
+if (! defined('ABSPATH')) {
+    exit;
+}
+
 class Poller
 {
     /**

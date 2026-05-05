@@ -35,16 +35,13 @@ class Installer
         global $wpdb;
 
         // transfer post types
-        $query = $wpdb->prepare("UPDATE {$wpdb->posts} SET post_type = %s WHERE  post_type = %s", 'boxzilla-box', 'scroll-triggered-box');
-        $wpdb->query($query);
+        $wpdb->query($wpdb->prepare("UPDATE {$wpdb->posts} SET post_type = %s WHERE  post_type = %s", 'boxzilla-box', 'scroll-triggered-box'));
 
         // transfer post meta
-        $query = $wpdb->prepare("UPDATE {$wpdb->postmeta} SET meta_key = %s WHERE meta_key = %s", 'boxzilla_options', 'stb_options');
-        $wpdb->query($query);
+        $wpdb->query($wpdb->prepare("UPDATE {$wpdb->postmeta} SET meta_key = %s WHERE meta_key = %s", 'boxzilla_options', 'stb_options'));
 
         // transfer rules
-        $query = $wpdb->prepare("UPDATE {$wpdb->options} SET option_name = %s WHERE option_name = %s", 'boxzilla_rules', 'stb_rules');
-        $wpdb->query($query);
+        $wpdb->query($wpdb->prepare("UPDATE {$wpdb->options} SET option_name = %s WHERE option_name = %s", 'boxzilla_rules', 'stb_rules'));
     }
 
     /**

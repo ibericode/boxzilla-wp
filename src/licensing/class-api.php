@@ -157,7 +157,7 @@ class API
     {
         // test for wp errors (request failures)
         if ($response instanceof WP_Error) {
-            throw new API_Exception($response->get_error_message());
+            throw new API_Exception(esc_html($response->get_error_message()));
         }
 
         // retrieve response body
@@ -173,7 +173,7 @@ class API
 
         // did request return an error response?
         if (wp_remote_retrieve_response_code($response) >= 400) {
-            throw new API_Exception($json->message, $json->code);
+            throw new API_Exception(esc_html((string) $json->message), absint($json->code));
         }
 
         // return actual response data

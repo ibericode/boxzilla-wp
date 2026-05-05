@@ -14,7 +14,7 @@
 
             <?php do_action('boxzilla_before_settings'); ?>
 
-            <form action="<?php echo admin_url('options.php'); ?>" method="post">
+            <form action="<?php echo esc_url(admin_url('options.php')); ?>" method="post">
 
                 <?php settings_fields('boxzilla_settings'); ?>
 
