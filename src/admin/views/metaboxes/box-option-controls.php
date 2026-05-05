@@ -59,12 +59,12 @@ $rule_options = apply_filters('boxzilla_rules_options', $rule_options);
             echo '</tr>';
         }
         ?>
-        <tr valign="top" class="boxzilla-rule-row boxzilla-rule-row-<?php echo esc_attr($key); ?>">
+        <tr valign="top" class="boxzilla-rule-row boxzilla-rule-row-<?php echo (int) $key; ?>">
             <th style="text-align: right; font-weight: normal;">
                 <span class="boxzilla-close boxzilla-remove-rule" title="<?php esc_attr_e('Remove rule', 'boxzilla'); ?>"><span class="dashicons dashicons-dismiss"></span></span>
             </th>
             <td>
-                <select class="boxzilla-rule-condition" name="boxzilla_box[rules][<?php echo esc_attr($key); ?>][condition]">
+                <select class="boxzilla-rule-condition" name="boxzilla_box[rules][<?php echo (int) $key; ?>][condition]">
                     <?php
                     foreach ($rule_options as $value => $label) {
                         echo '<option value="' . esc_attr($value) . '" ' . selected($rule['condition'], $value, false) . '>' . esc_html($label) . '</option>';
@@ -72,14 +72,14 @@ $rule_options = apply_filters('boxzilla_rules_options', $rule_options);
                     ?>
                 </select>
 
-                <select class="boxzilla-rule-qualifier" name="boxzilla_box[rules][<?php echo esc_attr($key); ?>][qualifier]" style="min-width: 135px;">
+                <select class="boxzilla-rule-qualifier" name="boxzilla_box[rules][<?php echo (int) $key; ?>][qualifier]" style="min-width: 135px;">
                     <option value="1" <?php selected(! isset($rule['qualifier']) || $rule['qualifier']); ?>><?php esc_html_e('is', 'boxzilla'); ?></option>
                     <option value="0" <?php selected(isset($rule['qualifier']) && ! $rule['qualifier']); ?>><?php esc_html_e('is not', 'boxzilla'); ?></option>
                     <option value="contains" <?php selected(isset($rule['qualifier']) && $rule['qualifier'] === 'contains'); ?> style="display: none;"><?php esc_html_e('contains', 'boxzilla'); ?></option>
                     <option value="not_contains" <?php selected(isset($rule['qualifier']) && $rule['qualifier'] === 'not_contains'); ?> style="display: none;"><?php esc_html_e('does not contain', 'boxzilla'); ?></option>
                 </select>
 
-                <input class="boxzilla-rule-value regular-text" name="boxzilla_box[rules][<?php echo esc_attr($key); ?>][value]" type="text" value="<?php echo esc_attr($rule['value']); ?>" placeholder="<?php esc_attr_e('Leave empty for any or enter (comma-separated) names or ID\'s', 'boxzilla'); ?>" <?php echo in_array($rule['condition'], [ '', 'everywhere' ], true) ? 'style="display: none;"' : ''; ?> />
+                <input class="boxzilla-rule-value regular-text" name="boxzilla_box[rules][<?php echo (int) $key; ?>][value]" type="text" value="<?php echo esc_attr($rule['value']); ?>" placeholder="<?php esc_attr_e('Leave empty for any or enter (comma-separated) names or ID\'s', 'boxzilla'); ?>" <?php echo in_array($rule['condition'], [ '', 'everywhere' ], true) ? 'style="display: none;"' : ''; ?> />
             </td>
         </tr>
         <?php

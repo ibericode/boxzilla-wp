@@ -15,7 +15,7 @@ class API_Exception extends Exception
      * API_Exception constructor.
      *
      * @param string $message
-     * @param string $api_code (optional)
+     * @param string|int $api_code (optional)
      */
     public function __construct($message, $api_code = '')
     {
