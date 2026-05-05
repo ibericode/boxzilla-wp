@@ -7,7 +7,7 @@ Changelog
 - Ensure nav links has href attribute before filtering.
 - Normalize request URL's for URL matching. Ensures consistent trailing slash and strips tracking query parameters.
 - Set cookie with expiration time matching the one for dismissing the box whenever a form inside a box is submitted.
-- Remove `Boxzilla.off` from the JS API as it was a no-op and no one is using ut,
+- Remove `Boxzilla.off` from the JS API as it was a no-op and no one is using it.
 
 
 ### 3.4.7 - Mar 9, 2026
