@@ -18,6 +18,10 @@ class Autocomplete
      */
     public function ajax(): void
     {
+        if (! current_user_can('edit_box')) {
+            wp_die('', '', [ 'response' => 403 ]);
+        }
+
         $q    = ( isset($_GET['q']) ) ? sanitize_text_field($_GET['q']) : '';
         $type = ( isset($_GET['type']) && in_array($_GET['type'], [ 'page', 'post', 'category', 'post_type', 'post_tag' ], true) ) ? $_GET['type'] : 'post';
 
