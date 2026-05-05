@@ -26,6 +26,16 @@ if [ -n "$(git status --porcelain)" ]; then
   exit 1
 fi
 
+# First, run some checks
+if [ ! -e "vendor/bin/phpstan" ]; then
+    composer install
+fi;
+composer run check-syntax
+composer run check-codestyle
+composer run static-analysis
+composer run check-plugin
+composer run test
+
 # Check if there is an existing file for this release already
 rm -f "$PACKAGE_FILE"
 
