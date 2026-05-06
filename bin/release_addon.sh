@@ -34,16 +34,18 @@ if [ -e "$PACKAGE_FILE" ]; then
 fi
 
 # Build JS & CSS assets
-if [[ -e "gulpfile.js" ]]; then
-    npx gulp
-else
-    npm run build
+if [[ -e "package.json" ]]; then 
+    if [[ -e "gulpfile.js" ]]; then
+        npx gulp
+    else
+        npm run build
+    fi
 fi
 
 # Update version numbers in code
 for FILE in "*.php"; do
     sed -i "s/^Version: .*$/Version: $VERSION/g" $FILE
-    sed -i "s/define('\(.*_VERSION\)', '.*');/define('\1', '$VERSION');/g" $FILE
+    sed -i "s/define(\s*'\(.*_VERSION\)', '.*'\s*);/define('\1', '$VERSION');/g" $FILE
 done
 
 # Move up one directory level because we need plugin directory in ZIP file
@@ -51,7 +53,6 @@ cd ..
 
 zip -r "$PACKAGE_FILE" "$PLUGIN_DIR" \
 	-x "$PLUGIN_DIR/.*" \
-	-x "$PLUGIN_DIR/vendor/*" \
 	-x "$PLUGIN_DIR/node_modules/*" \
 	-x "$PLUGIN_DIR/bin/*" \
     -x "$PLUGIN_DIR/gulpfile.js" \

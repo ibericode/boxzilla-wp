@@ -124,7 +124,7 @@ class API
             'method'  => $method,
             'headers' => [
                 'Content-Type' => 'application/json',
-                'Accepts'      => 'application/json',
+                'Accept'      => 'application/json',
             ],
             'timeout' => 10,
         ];
