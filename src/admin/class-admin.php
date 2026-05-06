@@ -57,7 +57,6 @@ class Admin
     {
         add_action('admin_init', [ $this, 'lazy_add_hooks' ]);
         add_action('admin_init', [ $this, 'register' ]);
-        add_action('init', [ $this, 'listen_for_actions' ]);
         add_action('admin_menu', [ $this, 'menu' ]);
         add_action('admin_notices', [ $this, 'notices' ]);
         add_action('save_post_boxzilla-box', [ $this, 'save_box_options' ], 20, 2);
@@ -65,29 +64,6 @@ class Admin
         add_action('untrashed_post', [ $this, 'flush_rules' ]);
         add_filter('bulk_actions-edit-boxzilla-box', [ $this, 'bulk_action_add' ]);
         add_filter('handle_bulk_actions-edit-boxzilla-box', [ $this, 'bulk_action_handle' ], 10, 3);
-    }
-
-    /**
-     * Listen for admin actions.
-     */
-    public function listen_for_actions()
-    {
-        // triggered?
-        $vars = array_merge($_POST, $_GET);
-        if (empty($vars['_boxzilla_admin_action'])) {
-            return false;
-        }
-
-        // authorized?
-        if (! current_user_can('edit_posts')) {
-            return false;
-        }
-
-        // fire action
-        $action = $vars['_boxzilla_admin_action'];
-        do_action('boxzilla_admin_' . $action);
-
-        return true;
     }
 
     public function bulk_action_add($bulk_actions)

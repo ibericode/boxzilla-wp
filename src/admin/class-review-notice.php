@@ -25,8 +25,38 @@ class ReviewNotice
      */
     public function init()
     {
+        add_action('admin_init', [ $this, 'listen_for_dismiss' ]);
         add_action('admin_notices', [ $this, 'show' ]);
-        add_action('boxzilla_admin_dismiss_review_notice', [ $this, 'dismiss' ]);
+    }
+
+    /**
+     * Listen for notice dismissal request.
+     */
+    public function listen_for_dismiss()
+    {
+        if (empty($_POST['_boxzilla_review_notice_action'])) {
+            return;
+        }
+
+        $action = sanitize_key(wp_unslash($_POST['_boxzilla_review_notice_action']));
+        if ($action !== 'dismiss_review_notice') {
+            return;
+        }
+
+        if (! current_user_can('edit_posts')) {
+            return;
+        }
+
+        if (empty($_POST['_boxzilla_review_notice_nonce'])) {
+            return;
+        }
+
+        $nonce = sanitize_text_field(wp_unslash($_POST['_boxzilla_review_notice_nonce']));
+        if (! wp_verify_nonce($nonce, 'boxzilla_dismiss_review_notice')) {
+            return;
+        }
+
+        $this->dismiss();
     }
 
     /**
@@ -56,7 +86,7 @@ class ReviewNotice
         }
 
         // only show if 2 weeks have passed since first use.
-        $two_weeks_in_seconds = ( 60 * 60 * 24 * 14 );
+        $two_weeks_in_seconds = 60 * 60 * 24 * 14;
         if ($this->time_since_first_use() <= $two_weeks_in_seconds) {
             return;
         }
@@ -69,11 +99,16 @@ class ReviewNotice
 
         echo '<div class="notice notice-info boxzilla-is-dismissible">';
         echo '<p>';
-        echo esc_html__('You\'ve been using Boxzilla for some time now; we hope you love it!', 'boxzilla'), ' <br />';
-        echo '<a href="https://wordpress.org/support/view/plugin-reviews/boxzilla?rate=5#new-post">', esc_html__('If you do, please leave us a nice plugin review on WordPress.org.', 'boxzilla'), '</a>';
-        echo esc_html__('It would be of great help to us.', 'boxzilla');
+        echo '<strong>';
+        echo esc_html__('Has Boxzilla been helpful on your site?', 'boxzilla'), ' <br />';
+        echo '</strong>';
+        echo esc_html__('Could you spare 60 seconds to leave a quick, honest review on WordPress.org?', 'boxzilla'), ' ';
+        echo '<a href="https://wordpress.org/support/plugin/boxzilla/reviews/?rate=5#new-post">', esc_html__('Leave a quick review', 'boxzilla'), '</a><br />';
+        echo esc_html__('Your review helps other site owners discover Boxzilla and helps us keep improving it.', 'boxzilla');
         echo '</p>';
-        echo '<form method="POST"><button type="submit" class="notice-dismiss"><span class="screen-reader-text">', esc_html__('Dismiss this notice.', 'boxzilla'), '</span></button><input type="hidden" name="_boxzilla_admin_action" value="dismiss_review_notice"/></form>';
+        echo '<form method="post"><button type="submit" class="notice-dismiss"><span class="screen-reader-text">', esc_html__('Dismiss this notice.', 'boxzilla'), '</span></button><input type="hidden" name="_boxzilla_review_notice_action" value="dismiss_review_notice"/>';
+        wp_nonce_field('boxzilla_dismiss_review_notice', '_boxzilla_review_notice_nonce', false);
+        echo '</form>';
         echo '</div>';
     }
 
