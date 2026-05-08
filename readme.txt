@@ -49,7 +49,7 @@ Please have a look at the [Boxzilla Knowledge Base](https://boxzillaplugin.com/k
 
 #### Demo
 
-There's a [Boxzilla demo site](https://demo.boxzillaplugin.com#utm_source=wp-plugin-repo&utm_medium=boxzilla&utm_campaign=description) with some examples.
+There's a [Boxzilla demo site](https://boxzillaplugin.com/demo/#utm_source=wp-plugin-repo&utm_medium=boxzilla&utm_campaign=description) with some examples.
 
 #### Support
 
@@ -61,7 +61,7 @@ If you're a [Boxzilla Premium customer](https://boxzillaplugin.com/pricing#utm_s
 
 = What does this plugin do? =
 
-Pop-ups. Have a look at the [Boxzilla demo site](https://demo.boxzillaplugin.com/#utm_source=wp-plugin-repo&utm_medium=boxzilla&utm_campaign=description).
+Pop-ups. Have a look at the [Boxzilla demo site](https://boxzillaplugin.com/demo/#utm_source=wp-plugin-repo&utm_medium=boxzilla&utm_campaign=description).
 
 = How to display a form in the box? =
 

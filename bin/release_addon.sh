@@ -92,5 +92,5 @@ git commit -m "v$VERSION"
 git tag "$VERSION"
 
 # Push to git remote
-git push origin master
+git push
 git push origin "tags/$VERSION"

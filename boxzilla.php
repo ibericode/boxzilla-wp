@@ -8,6 +8,7 @@ Description: Call-To-Action Boxes that display after visitors scroll down far en
 Author: ibericode
 Author URI: https://www.ibericode.com/
 Text Domain: boxzilla
+Requires at least: 4.6
 Requires PHP: 7.4
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
