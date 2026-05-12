@@ -95,12 +95,14 @@ Box.prototype.events = function () {
           break;
         }
       }
-  }, false)
+  })
 
   this.element.addEventListener('submit', (evt) => {
-    box.setCookie(this.config.cookie.dismissed)
+    if (this.config.cookie && this.config.cookie.dismissed) {
+      box.setCookie(this.config.cookie.dismissed)
+    }
     box.fireEvent('box.interactions.form', [box, evt.target])
-  }, false)
+  })
 
   this.overlay.addEventListener('click', (evt) => {
     const x = evt.offsetX

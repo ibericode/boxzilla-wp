@@ -530,7 +530,21 @@ class Admin
      */
     public function sanitize_url($url_string)
     {
-        return \boxzilla_normalize_relative_url($url_string);
+        // if empty, just return a slash
+        if (empty($url_string)) {
+            return '/';
+        }
+
+        // if string looks like an absolute URL, extract just the path
+        if (preg_match('/^((https|http)?\:\/\/)?(\w+\.)?\w+\.\w+\.*/i', $url_string)) {
+            // make sure URL has scheme prepended, to make parse_url() understand..
+            $url_string = 'https://' . str_replace([ 'http://', 'https://' ], '', $url_string);
+
+            // get just the path
+            $url_string = parse_url($url_string, PHP_URL_PATH);
+        }
+
+        return $url_string;
     }
 
     /**
