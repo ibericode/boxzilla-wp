@@ -303,7 +303,7 @@ class BoxLoader
 
         echo '<div style="display: none;">';
         foreach ($boxes as $box) {
-            printf('<div id="boxzilla-box-%d-content">%s</div>', absint($box->ID), wp_kses_post($box->get_content()));
+            printf('<div id="boxzilla-box-%d-content">%s</div>', absint($box->ID), $box->get_content());
         }
         echo '</div>';
     }

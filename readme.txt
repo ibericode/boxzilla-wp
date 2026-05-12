@@ -74,7 +74,7 @@ Boxzilla lets you create popup, slide-in, modal, and call-to-action boxes for Wo
 
 = Can I show a form inside a Boxzilla popup? =
 
-Yes. Boxzilla works with shortcode-based form plugins, including [Mailchimp for WordPress](https://wordpress.org/plugins/mailchimp-for-wp/) and [HTML Forms](https://wordpress.org/plugins/html-forms/). Add the form shortcode to the box content and publish the box.
+Yes. Boxzilla works with shortcode-based form plugins, including [Mailchimp for WordPress](https://wordpress.org/plugins/mailchimp-for-wp/). Add the form shortcode to the box content and publish the box.
 
 = Can I open a popup after someone clicks a link or button? =
 
@@ -146,7 +146,3 @@ remove_filter( 'boxzilla_box_content', 'shortcode_unautop' );
 = 3.4.4 =
 * Enhancement: Run a periodic compatibility check with WordPress nightly.
 
-== Upgrade Notice ==
-
-= 3.4.8 =
-Improves URL matching and form-submission dismissal behavior. Update for the latest fixes and compatibility improvements.
