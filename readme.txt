@@ -3,7 +3,7 @@ Contributors: Ibericode, DvanKooten, hchouhan, lapzor
 Donate link: https://boxzillaplugin.com/#utm_source=wp-plugin-repo&utm_medium=boxzilla&utm_campaign=donate-link
 Tags: popup builder, popups, slide-in, call to action, modal
 Requires at least: 4.6
-Tested up to: 6.9
+Tested up to: 7.0
 Stable tag: 3.4.8
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
