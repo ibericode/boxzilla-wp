@@ -1,6 +1,13 @@
 Changelog
 ==========
 
+= 3.4.9 - May 20, 2026 =
+
+Release date: May 20, 2026
+
+- Fix URL matching when expected URL is just a single slash.
+- Fix script contents showing up as text in box content.
+
 
 = 3.4.8 =
 
