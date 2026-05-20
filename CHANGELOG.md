@@ -1,7 +1,7 @@
 Changelog
 ==========
 
-= 3.4.9 - May 20, 2026 =
+= 3.4.9 =
 
 Release date: May 20, 2026
 
