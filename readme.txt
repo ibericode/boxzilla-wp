@@ -4,7 +4,7 @@ Donate link: https://boxzillaplugin.com/#utm_source=wp-plugin-repo&utm_medium=bo
 Tags: popup builder, popups, slide-in, call to action, modal
 Requires at least: 4.6
 Tested up to: 7.0
-Stable tag: 3.4.8
+Stable tag: 3.4.9
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -122,6 +122,14 @@ remove_filter( 'boxzilla_box_content', 'shortcode_unautop' );
 
 == Changelog ==
 
+= 3.4.9 - May 20, 2026 =
+
+Release date: May 20, 2026
+
+- Fix URL matching when expected URL is just a single slash.
+- Fix script contents showing up as text in box content.
+
+
 = 3.4.8 =
 
 Release date: Apr 21, 2026
@@ -157,12 +165,5 @@ Release date: Sep 25, 2025
 
 - Mark option as autoloaded for a minor performance gain.
 - Replace `strtotime('now')` with simpler `time()` 
-
-
-= 3.4.4 =
-
-Release date: Aug 07, 2025
-
-Periodic compatibility check with WordPress nightly.
 
 [View the full changelog on GitHub](https://github.com/ibericode/boxzilla-wp/blob/main/CHANGELOG.md)
