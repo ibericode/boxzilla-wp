@@ -2,7 +2,9 @@ Changelog
 ==========
 
 
-### 3.4.8 - Apr 21, 2026
+= 3.4.8 =
+
+Release date: Apr 21, 2026
 
 - Ensure nav links has href attribute before filtering.
 - Normalize request URL's for URL matching. Ensures consistent trailing slash and strips tracking query parameters.
@@ -10,7 +12,9 @@ Changelog
 - Remove `Boxzilla.off` from the JS API as it was a no-op and no one is using it.
 
 
-### 3.4.7 - Mar 9, 2026
+= 3.4.7 =
+
+Release date: Mar 9, 2026
 
 - Add uninstall script to clean up all database entries from the plugin
 - Fix missing closing element in box rule settings
@@ -20,55 +24,73 @@ Changelog
 - Various other type fixes, PHPDoc improvements or removal of unused code.
 
 
-### 3.4.6 - Feb 10, 2026
+= 3.4.6 =
+
+Release date: Feb 10, 2026
 
 - Bugfix: fire box.interactions.link event for `<img>` clicks inside an `<a>` element (or any nested element inside a hyperlink).
     
 
-### 3.4.5 - Sep 25, 2025
+= 3.4.5 =
+
+Release date: Sep 25, 2025
 
 - Mark option as autoloaded for a minor performance gain.
 - Replace `strtotime('now')` with simpler `time()` 
 
 
-#### 3.4.4 - Aug 07, 2025
+= 3.4.4 =
+
+Release date: Aug 07, 2025
 
 Periodic compatibility check with WordPress nightly.
 
 
-#### 3.4.3 - Jun 24, 2025
+= 3.4.3 =
+
+Release date: Jun 24, 2025
 
 - Rebuild client-side assets with latest Browserslist.
 - Optimize SVG icon for admin menu.
 - Remove newsletter sign-up section from admin pages.
 
 
-#### 3.4.2 - Apr 29, 2025
+= 3.4.2 =
+
+Release date: Apr 29, 2025
 
 - Fix HTML showing because of escaped translation text.
 
 
-### 3.4.1 - Mar 24, 2025
+= 3.4.1 =
+
+Release date: Mar 24, 2025
 
 - Bump required PHP version to 7.4 or higher.
 - Initialize boxes at document.DOMContentLoaded instead of window.load event.
 
 
-#### 3.4.0 - Jan 03, 2025 
+= 3.4.0 =
+
+Release date: Jan 03, 2025 
 
 - Remove deprecated Bootstrapper class.
 - Add link to https://my.boxzillaplugin.com when trying to activate an expired license.
 - Bump tested WordPress version.
 
 
-#### 3.3.3 - Oct 07, 2024
+= 3.3.3 =
+
+Release date: Oct 07, 2024
 
 - Fix unclosed element on plugins overview page, breaking the table layout.
 - Bump license to GPL v3 or higher.
 - Bump required PHP version to 7.2 or higher.
 
 
-#### 3.3.2 - Oct 02, 2024
+= 3.3.2 =
+
+Release date: Oct 02, 2024
 
 - The Boxzilla script itself is now deferred for improved client-side performance.
 - You can now use the Boxzilla JS API before the script has fully loaded. 
@@ -77,7 +99,9 @@ Periodic compatibility check with WordPress nightly.
 - Verify `Jetpack::is_module_active` exists before method is called.
 
 
-#### 3.3.1 - May 17, 2024
+= 3.3.1 =
+
+Release date: May 17, 2024
 
 - Minor performance improvements to plugin bootstrapping and autoloader implementation.
 - Fix link in license key form.
@@ -86,48 +110,64 @@ Periodic compatibility check with WordPress nightly.
 - Bump required PHP version to 7.0 or later.
 
 
-#### 3.2.27 - Mar 28, 2023
+= 3.2.27 =
+
+Release date: Mar 28, 2023
 
 - Fix scroll based trigger regression introduced in previous version.
 
 
-#### 3.2.26 - Mar 21, 2023 
+= 3.2.26 =
+
+Release date: Mar 21, 2023 
 
 - Check if `administrator` role exists before adding capabilities to it. Thanks [Jaime Martínez](https://jaimemartinez.nl/).
 - Fix "undefined array key href" warning on PHP8.
 - Fix PHP8.1 deprecation warnings.
 
 
-#### 3.2.25 - Apr 20, 2021
+= 3.2.25 =
+
+Release date: Apr 20, 2021
 
 - Change usage of deprecated jQuery.load method.
 - Add `aria-modal="true"` to overlay element.
 
 
-#### 3.2.24 - Nov 3, 2020
+= 3.2.24 =
+
+Release date: Nov 3, 2020
 
 - Allow for `#boxzilla-ID` links in `<area>` elements.
 - Show certain settings even if no trigger is chosen.
 - Only show auto-hide setting if trigger is set to element or percentage (ie trigger condition can revert).
 
 
-#### 3.2.23 - Jul 13, 2020
+= 3.2.23 =
+
+Release date: Jul 13, 2020
 
 - Add `aria-label` to close icon to help screen readers.
 
 
-#### 3.2.22 - Mar 19, 2020
+= 3.2.22 =
+
+Release date: Mar 19, 2020
 
 - Minor code improvements
 - Check if body element exists before updating class attribute, fixes an issue with some page builders.
 
 
-#### 3.2.21 - Feb 18, 2020
+= 3.2.21 =
+
+Release date: Feb 18, 2020
 
 - "If post category" or "if post tag" conditionals now apply to any post-type using built-in WP categories or tags.
 
 
-#### 3.2.20 - Jan 20, 2020
+= 3.2.20 =
+
+Release date: Jan 20, 2020
 
 **Fixes**
 
@@ -138,7 +178,9 @@ Periodic compatibility check with WordPress nightly.
 - Prepare for upcoming [Mailchimp for WordPress](https://wordpress.org/plugins/mailchimp-for-wp/) plugin update which changes the name of the JS object when a form is submitted without AJAX.
 
 
-#### 3.2.19 - Dec 30, 2019
+= 3.2.19 =
+
+Release date: Dec 30, 2019
 
 **Fixes**
 
@@ -149,14 +191,18 @@ Periodic compatibility check with WordPress nightly.
 - Use a dedicated overlay element per box to prevent issues with multiple boxs showing on a page. Thanks Jason Maurer!
 
 
-#### 3.2.18 - Dec 2, 2019
+= 3.2.18 =
+
+Release date: Dec 2, 2019
 
 **Fixes**
 
 - Missing quotes in HTML attribute on "edit box" page.
 
 
-#### 3.2.17 - Nov 18, 2019
+= 3.2.17 =
+
+Release date: Nov 18, 2019
 
 **Fixes**
 
@@ -164,7 +210,9 @@ Periodic compatibility check with WordPress nightly.
 
 
 
-#### 3.2.16 - Nov 15, 2019
+= 3.2.16 =
+
+Release date: Nov 15, 2019
 
 **Improvements**
 
@@ -173,7 +221,9 @@ Roll-back a change in version 3.2.15 that caused an issue with Boxzilla Theme Pa
 Please make sure your [Boxzilla plugin license](https://my.boxzillaplugin.com/) is activated and then update Boxzilla Theme Pack and Boxzilla WooCommerce to the latest version.
 
 
-#### 3.2.15 - Nov 6, 2019
+= 3.2.15 =
+
+Release date: Nov 6, 2019
 
 **Improvements**
 
@@ -184,14 +234,18 @@ Please make sure your [Boxzilla plugin license](https://my.boxzillaplugin.com/) 
 - Add link to [Koko Analytics](https://wordpress.org/plugins/koko-analytics/)
 
 
-#### 3.2.14 - Aug 7, 2019
+= 3.2.14 =
+
+Release date: Aug 7, 2019
 
 **Fixes**
 
 - Issue with incorrect argument count for some sites with custom menu's.
 
 
-#### 3.2.13 - Aug 5, 2019
+= 3.2.13 =
+
+Release date: Aug 5, 2019
 
 **Improvements**
 
@@ -203,7 +257,9 @@ Please make sure your [Boxzilla plugin license](https://my.boxzillaplugin.com/) 
 - Easily link to boxes from WP Menu's.
 
 
-#### 3.2.12 - June 7, 2019
+= 3.2.12 =
+
+Release date: June 7, 2019
 
 **Improvements**
 
@@ -211,7 +267,9 @@ Please make sure your [Boxzilla plugin license](https://my.boxzillaplugin.com/) 
 - Check for empty box content after running filter hooks, instead of before.
 
 
-#### 3.2.11 - May 8, 2019
+= 3.2.11 =
+
+Release date: May 8, 2019
 
 **Improvements**
 
@@ -219,7 +277,9 @@ Please make sure your [Boxzilla plugin license](https://my.boxzillaplugin.com/) 
 - Accept query parameters in URL hash for opening a box through a link click or on loading a page.
 
 
-#### 3.2.10 - February 15, 2019
+= 3.2.10 =
+
+Release date: February 15, 2019
 
 **Improvements**
 
@@ -230,7 +290,9 @@ Please make sure your [Boxzilla plugin license](https://my.boxzillaplugin.com/) 
 - New bulk action to quickly duplicate a box with all of its settings.
 
 
-#### 3.2.9 - December 5, 2018
+= 3.2.9 =
+
+Release date: December 5, 2018
 
 **Improvements**
 
@@ -238,14 +300,18 @@ Please make sure your [Boxzilla plugin license](https://my.boxzillaplugin.com/) 
 - Use small margin of error to prevent iOS scroll bounce from closing box again.
 
 
-#### 3.2.7 - July 31, 2018
+= 3.2.7 =
+
+Release date: July 31, 2018
 
 **Fixes**
 
 - Issue with boxes with only an iframe, image or video and no text not being loaded.
 
 
-#### 3.2.6 - June 27, 2018
+= 3.2.6 =
+
+Release date: June 27, 2018
 
 **Improvements**
 
@@ -253,7 +319,9 @@ Please make sure your [Boxzilla plugin license](https://my.boxzillaplugin.com/) 
 - Consistent line endings in main plugin file.
 
 
-#### 3.2.5 - June 6, 2018
+= 3.2.5 =
+
+Release date: June 6, 2018
 
 **Fixes**
 
@@ -265,14 +333,18 @@ Please make sure your [Boxzilla plugin license](https://my.boxzillaplugin.com/) 
 
 
 
-#### 3.2.4 - May 31, 2018
+= 3.2.4 =
+
+Release date: May 31, 2018
 
 **Fixes**
 
 - Boxzilla content replicating parts of the page if other plugins "incorrectly" use `the_content` filter.
 
 
-#### 3.2.3 - May 29, 2018
+= 3.2.3 =
+
+Release date: May 29, 2018
 
 **Improvements**
 
@@ -285,14 +357,18 @@ Please make sure your [Boxzilla plugin license](https://my.boxzillaplugin.com/) 
 - Improvements to licensing related code for [Boxzilla Premium](https://boxzillaplugin.com/pricing/) users.
 
 
-#### 3.2.2 - March 12, 2018
+= 3.2.2 =
+
+Release date: March 12, 2018
 
 **Improvements**
 
 - Print box contents at an earlier footer hook, so it works with "smart enqueue" methods in other plugins like Mailchimp for WordPress or Maxbuttons.
 
 
-#### 3.2.1 - March 5, 2018
+= 3.2.1 =
+
+Release date: March 5, 2018
 
 **Fixes**
 
@@ -300,7 +376,9 @@ Please make sure your [Boxzilla plugin license](https://my.boxzillaplugin.com/) 
 
 
 
-#### 3.2 - March 5, 2018
+= 3.2 =
+
+Release date: March 5, 2018
 
 **Fixes**
 
@@ -311,14 +389,18 @@ Please make sure your [Boxzilla plugin license](https://my.boxzillaplugin.com/) 
 - Skip boxes with empty content.
 
 
-#### 3.1.23 - December 13, 2017
+= 3.1.23 =
+
+Release date: December 13, 2017
 
 **Fixes**
 
 - Event listener for hyperlinks referencing `#boxzilla-123`. We recommend using `[boxzilla_link]to generate your links though[/boxzilla_link]`. [Here's how that works](https://boxzillaplugin.com/kb/shortcode-boxzilla-link/).
 
 
-#### 3.1.22 - November 20, 2017
+= 3.1.22 =
+
+Release date: November 20, 2017
 
 **Fixes**
 
@@ -329,14 +411,18 @@ Please make sure your [Boxzilla plugin license](https://my.boxzillaplugin.com/) 
 - Load `<script>` in box content synchronously so libraries get a chance to load before they're used.
 
 
-#### 3.1.21 - October 10, 2017
+= 3.1.21 =
+
+Release date: October 10, 2017
 
 **Fixes**
 
 - Ensure that administrators can always edit boxes.
 
 
-#### 3.1.20 - October 9, 2017
+= 3.1.20 =
+
+Release date: October 9, 2017
 
 **Fixes**
 
@@ -347,35 +433,45 @@ Please make sure your [Boxzilla plugin license](https://my.boxzillaplugin.com/) 
 - Use custom capability type so access to Boxzilla boxes can be modified using a role manager plugin.
 
 
-#### 3.1.19 - September 20, 2017
+= 3.1.19 =
+
+Release date: September 20, 2017
 
 **Improvements**
 
 - Trigger points based on height (scroll %, element) will now be recalculated when the page height changes.
 
 
-#### 3.1.18 - September 7, 2017
+= 3.1.18 =
+
+Release date: September 7, 2017
 
 **Additions**
 
 - Added [`[boxzilla_link]` shortcode to generate the correct HTML for a link to show/toggle/hide/dismiss a box](https://boxzillaplugin.com/kb/shortcode-boxzilla-link/).
 
 
-#### 3.1.17 - August 30, 2017
+= 3.1.17 =
+
+Release date: August 30, 2017
 
 **Fixes**
 
 - IE11 issue with scroll triggered pop-ups never showing up.
 
 
-#### 3.1.16 - August 2, 2017
+= 3.1.16 =
+
+Release date: August 2, 2017
 
 **Fixes**
 
 - JavaScript error when clicking `<a>` elements without `href` attributes.
 
 
-#### 3.1.15 - July 26, 2017
+= 3.1.15 =
+
+Release date: July 26, 2017
 
 **Additions**
 
@@ -384,7 +480,9 @@ Please make sure your [Boxzilla plugin license](https://my.boxzillaplugin.com/) 
 - Added setting to hide or show box for logged-in users.
 
 
-#### 3.1.14 - July 13, 2017
+= 3.1.14 =
+
+Release date: July 13, 2017
 
 **Fixes**
 
@@ -395,7 +493,9 @@ Please make sure your [Boxzilla plugin license](https://my.boxzillaplugin.com/) 
 - Don't wait for document.ready event to initialise boxes. Fixes issues with plugins not delegaging AJAX event listeners.
 
 
-#### 3.1.13 - May 11, 2017
+= 3.1.13 =
+
+Release date: May 11, 2017
 
 **Improvements**
 
@@ -403,14 +503,18 @@ Please make sure your [Boxzilla plugin license](https://my.boxzillaplugin.com/) 
 - Reset box content when box is dismissed, eg to stop YouTube video's from playing.
 
 
-#### 3.1.12 - April 24, 2017
+= 3.1.12 =
+
+Release date: April 24, 2017
 
 **Improvements**
 
 - Update endpoint URL for license API requests.
 
 
-#### 3.1.11 - March 22, 2017
+= 3.1.11 =
+
+Release date: March 22, 2017
 
 **Fixes**
 
@@ -422,7 +526,9 @@ Please make sure your [Boxzilla plugin license](https://my.boxzillaplugin.com/) 
 - Improved URL matching for "is url" rule.
 
 
-#### 3.1.10 - March 8, 2017
+= 3.1.10 =
+
+Release date: March 8, 2017
 
 **Fixes**
 
@@ -434,7 +540,9 @@ Please make sure your [Boxzilla plugin license](https://my.boxzillaplugin.com/) 
 - Minor UX improvements for "edit box" screen.
 
 
-#### 3.1.9 - February 27, 2017
+= 3.1.9 =
+
+Release date: February 27, 2017
 
 **Fixes**
 
@@ -449,14 +557,18 @@ Please make sure your [Boxzilla plugin license](https://my.boxzillaplugin.com/) 
 - Added Romanian language files.
 
 
-#### 3.1.8 - November 8, 2016
+= 3.1.8 =
+
+Release date: November 8, 2016
 
 **Fixes**
 
 - JS error on sites running HTTPS, introduced by v3.1.7.
 
 
-#### 3.1.7 - November 8, 2016
+= 3.1.7 =
+
+Release date: November 8, 2016
 
 **Fixes**
 
@@ -469,14 +581,18 @@ Please make sure your [Boxzilla plugin license](https://my.boxzillaplugin.com/) 
 - Ask for [plugin review](https://wordpress.org/support/plugin/boxzilla/reviews/#new-post) after 2 weeks of usage.
 
 
-#### 3.1.6 - October 18, 2016
+= 3.1.6 =
+
+Release date: October 18, 2016
 
 **Improvements**
 
 - Failsafe against including the Boxzilla script twice, to prevent duplicate elements.
 
 
-#### 3.1.5 - September 6, 2016
+= 3.1.5 =
+
+Release date: September 6, 2016
 
 **Fixes**
 
@@ -489,14 +605,18 @@ Please make sure your [Boxzilla plugin license](https://my.boxzillaplugin.com/) 
 - Add helper classes for the [Boxzilla - Theme Pack add-on](https://boxzillaplugin.com/add-ons/theme-pack/).
 
 
-#### 3.1.4 - August 24, 2016
+= 3.1.4 =
+
+Release date: August 24, 2016
 
 **Fixes**
 
 - `Boxzilla.show(123)` no longer working in previous update.
 
 
-#### 3.1.3 - August 24, 2016
+= 3.1.3 =
+
+Release date: August 24, 2016
 
 **Improvements**
 
@@ -504,14 +624,18 @@ Please make sure your [Boxzilla plugin license](https://my.boxzillaplugin.com/) 
 - Fail gracefully when not running PHP 5.3 or higher.
 
 
-#### 3.1.2 - August 2, 2016
+= 3.1.2 =
+
+Release date: August 2, 2016
 
 **Fixes**
 
 - Exit-Intent not working in Safari & Firefox.
 
 
-#### 3.1.1 - August 1, 2016
+= 3.1.1 =
+
+Release date: August 1, 2016
 
 **Fixes**
 
@@ -523,7 +647,9 @@ Please make sure your [Boxzilla plugin license](https://my.boxzillaplugin.com/) 
 - Better page height detection.
 
 
-#### 3.1 - July 19, 2016
+= 3.1 =
+
+Release date: July 19, 2016
 
 **Improvements**
 
@@ -537,7 +663,9 @@ Please make sure your [Boxzilla plugin license](https://my.boxzillaplugin.com/) 
 - You can now set a cookie after the box is triggered, to prevent consecutively showing the box if a visitor does not explicitly dismiss it.
 
 
-#### 3.0.3 - July 5, 2016
+= 3.0.3 =
+
+Release date: July 5, 2016
 
 **Improvements**
 
@@ -550,7 +678,9 @@ Please make sure your [Boxzilla plugin license](https://my.boxzillaplugin.com/) 
 - When using [Mailchimp for WordPress](https://wordpress.org/plugins/mailchimp-for-wp/) without AJAX, the box will now automatically re-open after reloading the page.
 
 
-#### 3.0.2 - June 21, 2016
+= 3.0.2 =
+
+Release date: June 21, 2016
 
 **Fixes**
 
@@ -565,7 +695,9 @@ Please make sure your [Boxzilla plugin license](https://my.boxzillaplugin.com/) 
 - Added French translation files, thanks to Benoit Mercusot.
 
 
-#### 3.0.1 - May 23, 2016
+= 3.0.1 =
+
+Release date: May 23, 2016
 
 **Improvements**
 
@@ -580,7 +712,9 @@ Please make sure your [Boxzilla plugin license](https://my.boxzillaplugin.com/) 
 - Add-on: [Boxzilla WooCommerce](https://boxzillaplugin.com/add-ons/woocommerce/)
 
 
-#### 3.0 - May 11, 2016
+= 3.0 =
+
+Release date: May 11, 2016
 
 Initial release of [Boxzilla](https://boxzillaplugin.com/), formerly known as [Scroll Triggered Boxes](https://wordpress.org/plugins/scroll-triggered-boxes/).
 

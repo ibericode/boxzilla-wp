@@ -123,26 +123,46 @@ remove_filter( 'boxzilla_box_content', 'shortcode_unautop' );
 == Changelog ==
 
 = 3.4.8 =
-* Fix: Ensure navigation links have an `href` attribute before filtering.
-* Fix: Normalize request URLs for URL matching by keeping trailing slashes consistent and removing tracking query parameters.
-* Enhancement: Match the dismissal cookie expiration time when a form inside a box is submitted.
-* Deprecated: Remove `Boxzilla.off` from the JavaScript API because it was a no-op and unused.
+
+Release date: Apr 21, 2026
+
+- Ensure nav links has href attribute before filtering.
+- Normalize request URL's for URL matching. Ensures consistent trailing slash and strips tracking query parameters.
+- Set cookie with expiration time matching the one for dismissing the box whenever a form inside a box is submitted.
+- Remove `Boxzilla.off` from the JS API as it was a no-op and no one is using it.
+
 
 = 3.4.7 =
-* Enhancement: Add an uninstall script to clean up all database entries from the plugin.
-* Fix: Correct missing closing element in box rule settings.
-* Fix: Remove duplicate `class` attribute on the settings page wrapper element.
-* Fix: Remove duplicate `id` attribute on the box width input field.
-* Fix: Resolve a deprecation in the `get_terms()` call.
-* Enhancement: Improve types, PHPDoc, and unused code cleanup.
+
+Release date: Mar 9, 2026
+
+- Add uninstall script to clean up all database entries from the plugin
+- Fix missing closing element in box rule settings
+- Fix duplicate class attribute on wrapper element on settings page
+- Fix duplicate id attribute on box width input field
+- Fix deprecation in call to get_terms()
+- Various other type fixes, PHPDoc improvements or removal of unused code.
+
 
 = 3.4.6 =
-* Fix: Fire the `box.interactions.link` event for image clicks and nested elements inside links.
+
+Release date: Feb 10, 2026
+
+- Bugfix: fire box.interactions.link event for `<img>` clicks inside an `<a>` element (or any nested element inside a hyperlink).
+    
 
 = 3.4.5 =
-* Enhancement: Mark an option as autoloaded for a minor performance gain.
-* Enhancement: Replace `strtotime('now')` with `time()`.
+
+Release date: Sep 25, 2025
+
+- Mark option as autoloaded for a minor performance gain.
+- Replace `strtotime('now')` with simpler `time()` 
+
 
 = 3.4.4 =
-* Enhancement: Run a periodic compatibility check with WordPress nightly.
 
+Release date: Aug 07, 2025
+
+Periodic compatibility check with WordPress nightly.
+
+[View the full changelog on GitHub](https://github.com/ibericode/boxzilla-wp/blob/main/CHANGELOG.md)
