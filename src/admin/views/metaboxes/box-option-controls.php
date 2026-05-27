@@ -146,19 +146,21 @@ $rule_options = apply_filters('boxzilla_rules_options', $rule_options);
     <tr valign="top">
         <th><label><?php esc_html_e('Animation', 'boxzilla'); ?></label></th>
         <td>
-            <label><input type="radio" name="boxzilla_box[animation]" value="fade" <?php checked($opts['animation'], 'fade'); ?> /> <?php esc_html_e('Fade In', 'boxzilla'); ?></label> &nbsp;
-            <label><input type="radio" name="boxzilla_box[animation]" value="slide" <?php checked($opts['animation'], 'slide'); ?> /> <?php esc_html_e('Slide In', 'boxzilla'); ?></label>
-            <p class="help"><?php esc_html_e('Which animation type should be used to show the box when triggered?', 'boxzilla'); ?></p>
+            <label style="margin-right: 1rem;"><input type="radio" name="boxzilla_box[animation]" value="fade" <?php checked($opts['animation'], 'fade'); ?> /> <?php esc_html_e('Fade In', 'boxzilla'); ?></label>
+            <label style="margin-right: 1rem;"><input type="radio" name="boxzilla_box[animation]" value="slide" <?php checked($opts['animation'], 'slide'); ?> /> <?php esc_html_e('Slide In', 'boxzilla'); ?></label>
+            <label><input type="radio" name="boxzilla_box[animation]" value="shake" <?php checked($opts['animation'], 'shake'); ?> /> <?php esc_html_e('Shake', 'boxzilla'); ?></label>
+
+            <p class="help" style="margin-top: 1rem;"><?php esc_html_e('Which animation type should be used to show the box when triggered?', 'boxzilla'); ?></p>
         </td>
     </tr>
     <tr valign="top">
         <th><label><?php esc_html_e('Auto-show box?', 'boxzilla'); ?></label></th>
         <td>
-            <label><input type="radio" class="boxzilla-auto-show-trigger" name="boxzilla_box[trigger]" value="" <?php checked($opts['trigger'], ''); ?> /> <?php esc_html_e('Never', 'boxzilla'); ?></label><br />
+            <label style="display: block;"><input type="radio" class="boxzilla-auto-show-trigger" name="boxzilla_box[trigger]" value="" <?php checked($opts['trigger'], ''); ?> /> <?php esc_html_e('Never', 'boxzilla'); ?></label><br />
             <?php /* translators: %s: Number input field for seconds on page. */ ?>
-            <label><input type="radio" class="boxzilla-auto-show-trigger" name="boxzilla_box[trigger]" value="time_on_page" <?php checked($opts['trigger'], 'time_on_page'); ?> /> <?php printf(esc_html__('Yes, after %s seconds on the page.', 'boxzilla'), '<input type="number" name="boxzilla_box[trigger_time_on_page]" min="0" value="' . esc_attr($opts['trigger_time_on_page']) . '" />'); ?></label><br />
+            <label style="display: block;"><input type="radio" class="boxzilla-auto-show-trigger" name="boxzilla_box[trigger]" value="time_on_page" <?php checked($opts['trigger'], 'time_on_page'); ?> /> <?php printf(esc_html__('Yes, after %s seconds on the page.', 'boxzilla'), '<input type="number" name="boxzilla_box[trigger_time_on_page]" min="0" value="' . esc_attr($opts['trigger_time_on_page']) . '" />'); ?></label><br />
             <?php /* translators: %s: Number input field for page scroll percentage. */ ?>
-            <label><input type="radio" class="boxzilla-auto-show-trigger" name="boxzilla_box[trigger]" value="percentage" <?php checked($opts['trigger'], 'percentage'); ?> /> <?php printf(esc_html__('Yes, when at %s of page height', 'boxzilla'), '<input type="number" name="boxzilla_box[trigger_percentage]" min="0" max="100" value="' . esc_attr($opts['trigger_percentage']) . '" />%'); ?></label><br />
+            <label style="display: block;"><input type="radio" class="boxzilla-auto-show-trigger" name="boxzilla_box[trigger]" value="percentage" <?php checked($opts['trigger'], 'percentage'); ?> /> <?php printf(esc_html__('Yes, when at %s of page height', 'boxzilla'), '<input type="number" name="boxzilla_box[trigger_percentage]" min="0" max="100" value="' . esc_attr($opts['trigger_percentage']) . '" />%'); ?></label><br />
             <?php /* translators: %s: Text input field for the CSS selector to trigger on. */ ?>
             <label><input type="radio" class="boxzilla-auto-show-trigger" name="boxzilla_box[trigger]" value="element" <?php checked($opts['trigger'], 'element'); ?> /> <?php printf(esc_html__('Yes, when at element %s', 'boxzilla'), '<input type="text" name="boxzilla_box[trigger_element]" value="' . esc_attr($opts['trigger_element']) . '" placeholder="' . esc_attr__('Example: #comments', 'boxzilla') . '" />'); ?></label><br />
             <?php do_action('boxzilla_output_auto_show_trigger_options', $opts); ?>
@@ -169,18 +171,16 @@ $rule_options = apply_filters('boxzilla_rules_options', $rule_options);
         <th><label><?php esc_html_e('Cookie expiration', 'boxzilla'); ?></label></th>
         <td>
             <div style="display: inline-block; margin-right: 20px;">
-                <label for="boxzilla_cookie_triggered" style="font-weight: bold; display: block;"><?php esc_html_e('Triggered', 'boxzilla'); ?></label>
+                <label for="boxzilla_cookie_triggered" style="font-weight: bold; display: block; margin-bottom: 4px;"><?php esc_html_e('Triggered', 'boxzilla'); ?></label>
                 <input type="number" id="boxzilla_cookie_triggered" name="boxzilla_box[cookie][triggered]" min="0" step="1" value="<?php echo esc_attr($opts['cookie']['triggered']); ?>" />
                 <small><?php esc_html_e('hours', 'boxzilla'); ?></small>
             </div>
             <div style="display: inline-block;">
-                <label for="boxzilla_cookie_dismissed" style="font-weight: bold; display: block;"><?php esc_html_e('Dismissed', 'boxzilla'); ?></label>
+                <label for="boxzilla_cookie_dismissed" style="font-weight: bold; display: block; margin-bottom: 4px;"><?php esc_html_e('Dismissed', 'boxzilla'); ?></label>
                 <input type="number" id="boxzilla_cookie_dismissed" name="boxzilla_box[cookie][dismissed]" min="0" step="1" value="<?php echo esc_attr($opts['cookie']['dismissed']); ?>" />
                 <small><?php esc_html_e('hours', 'boxzilla'); ?></small>
             </div>
-            <br />
-
-            <p class="help"><?php esc_html_e('After this box is triggered or dismissed, how many hours should it stay hidden?', 'boxzilla'); ?></p>
+            <p class="help" style="margin-top: 1rem;"><?php esc_html_e('After this box is triggered or dismissed, how many hours should it stay hidden?', 'boxzilla'); ?></p>
         </td>
     </tr>
     <tr valign="top">

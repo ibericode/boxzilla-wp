@@ -84,6 +84,7 @@ function toggle (element, animation, callbackFn) {
     element.style.overflowY = 'hidden'
     animate(element, nowVisible ? hiddenStyles : visibleStyles, cleanup)
   } else {
+    // default to fade in (potentially combined with shake, if selected)
     hiddenStyles = { opacity: 0 }
     visibleStyles = { opacity: 1 }
     if (!nowVisible) {

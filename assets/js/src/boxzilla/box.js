@@ -130,6 +130,9 @@ Box.prototype.dom = function () {
   const box = document.createElement('div')
   box.id = 'boxzilla-' + this.id
   box.className = 'boxzilla boxzilla-' + this.id + ' boxzilla-' + this.config.position
+  if (this.config.animation === 'shake') {
+    box.className += ' boxzilla-wobble';
+  }
   box.style.display = 'none'
   wrapper.appendChild(box)
 
