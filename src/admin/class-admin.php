@@ -736,24 +736,80 @@ class Admin
      */
     protected function fetch_extensions()
     {
-        $extensions = get_transient('boxzilla_remote_extensions');
-        if ($extensions) {
-            return $extensions;
-        }
-
-        $response = wp_remote_get('https://my.boxzillaplugin.com/api/v2/plugins');
-        if (is_wp_error($response) || wp_remote_retrieve_response_code($response) >= 400) {
-            return [];
-        }
-
-        $body = wp_remote_retrieve_body($response);
-        $data = json_decode($body);
-        if (is_array($data)) {
-            set_transient('boxzilla_remote_extensions', $data, 24 * HOUR_IN_SECONDS);
-            return $data;
-        }
-
-        return [];
+        return array (
+        0 =>
+        (object) array(
+            'name' => 'Theme Pack',
+            'description' => 'A beautiful set of eye-catching themes for your boxes',
+            'url' => 'https://boxzillaplugin.com/add-ons/theme-pack',
+            'image_url' => plugins_url("assets/img/theme-pack.png", BOXZILLA_FILE),
+            'page_url' => 'https://boxzillaplugin.com/add-ons/theme-pack',
+        ),
+        1 =>
+        (object) array(
+            'name' => 'MailChimp',
+            'description' => 'Hide boxes for MailChimp subscribers.',
+            'url' => 'https://boxzillaplugin.com/add-ons/mailchimp',
+            'image_url' => plugins_url("assets/img/mailchimp.png", BOXZILLA_FILE),
+            'page_url' => 'https://boxzillaplugin.com/add-ons/mailchimp',
+        ),
+        2 =>
+        (object) array(
+            'name' => 'Google Analytics',
+            'description' => 'Track box events in Google Analytics.',
+            'url' => 'https://boxzillaplugin.com/add-ons/google-analytics',
+            'image_url' => plugins_url("assets/img/google-analytics.png", BOXZILLA_FILE),
+            'page_url' => 'https://boxzillaplugin.com/add-ons/google-analytics',
+        ),
+        3 =>
+        (object) array(
+            'name' => 'Exit Intent',
+            'description' => 'Trigger a box when a visitor intents to leave your webpage.',
+            'url' => 'https://boxzillaplugin.com/add-ons/exit-intent',
+            'image_url' => plugins_url("assets/img/exit-intent.png", BOXZILLA_FILE),
+            'page_url' => 'https://boxzillaplugin.com/add-ons/exit-intent',
+        ),
+        4 =>
+        (object) array(
+            'name' => 'Time on Site',
+            'description' => 'Trigger a box after a visitor spent an amount of time on your site.',
+            'url' => 'https://boxzillaplugin.com/add-ons/time-on-site',
+            'image_url' => plugins_url("assets/img/time-on-site.png", BOXZILLA_FILE),
+            'page_url' => 'https://boxzillaplugin.com/add-ons/time-on-site',
+        ),
+        5 =>
+        (object) array(
+            'name' => 'Pageviews',
+            'description' => 'Allows you to trigger a box after a certain number of pageviews.',
+            'url' => 'https://boxzillaplugin.com/add-ons/pageviews',
+            'image_url' => plugins_url("assets/img/pageviews.png", BOXZILLA_FILE),
+            'page_url' => 'https://boxzillaplugin.com/add-ons/pageviews',
+        ),
+        6 =>
+        (object) array(
+            'name' => 'WooCommerce',
+            'description' => 'Offers advanced integration with WooCommerce.',
+            'url' => 'https://boxzillaplugin.com/add-ons/woocommerce',
+            'image_url' => plugins_url("assets/img/woocommerce.png", BOXZILLA_FILE),
+            'page_url' => 'https://boxzillaplugin.com/add-ons/woocommerce',
+        ),
+        7 =>
+        (object) array(
+            'name' => 'Stats',
+            'description' => 'Measure how well your boxes are performing with simple statistics.',
+            'url' => 'https://boxzillaplugin.com/add-ons/stats',
+            'image_url' => plugins_url("assets/img/stats.png", BOXZILLA_FILE),
+            'page_url' => 'https://boxzillaplugin.com/add-ons/stats',
+        ),
+        8 =>
+        (object) array(
+            'name' => 'Date Range',
+            'description' => 'Only load a box when date is within a certain range of one or two dates.',
+            'url' => 'https://boxzillaplugin.com/add-ons/date-range/',
+            'image_url' => plugins_url("assets/img/date-range.png", BOXZILLA_FILE),
+            'page_url' => 'https://boxzillaplugin.com/add-ons/date-range/',
+        ),
+        );
     }
 
     /**
