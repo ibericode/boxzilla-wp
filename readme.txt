@@ -4,7 +4,7 @@ Donate link: https://boxzillaplugin.com/#utm_source=wp-plugin-repo&utm_medium=bo
 Tags: popup builder, popups, slide-in, call to action, modal
 Requires at least: 4.6
 Tested up to: 7.0
-Stable tag: 3.4.9
+Stable tag: 3.4.10
 License: GPL-3.0-or-later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP: 7.4
@@ -122,7 +122,16 @@ remove_filter( 'boxzilla_box_content', 'shortcode_unautop' );
 
 == Changelog ==
 
-= 3.4.9 - May 20, 2026 =
+= 3.4.10 =
+
+Release date: Jun 01, 2026
+
+- Add Shake animation option for boxes.
+- Bundle add-on images instead of fetching extension metadata remotely.
+- Prevent notices on new installations when plugin settings do not exist yet.
+
+
+= 3.4.9 =
 
 Release date: May 20, 2026
 
@@ -158,12 +167,5 @@ Release date: Feb 10, 2026
 
 - Bugfix: fire box.interactions.link event for `<img>` clicks inside an `<a>` element (or any nested element inside a hyperlink).
     
-
-= 3.4.5 =
-
-Release date: Sep 25, 2025
-
-- Mark option as autoloaded for a minor performance gain.
-- Replace `strtotime('now')` with simpler `time()` 
 
 [View the full changelog on GitHub](https://github.com/ibericode/boxzilla-wp/blob/main/CHANGELOG.md)
