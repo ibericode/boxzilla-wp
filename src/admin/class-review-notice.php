@@ -117,7 +117,7 @@ class ReviewNotice
      */
     private function time_since_first_use()
     {
-        $options = get_option('boxzilla_settings');
+        $options = (array) get_option('boxzilla_settings', []);
 
         // option was never added before, do it now.
         if (empty($options['first_activated_on'])) {

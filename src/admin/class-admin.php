@@ -519,7 +519,9 @@ class Admin
      */
     public function sanitize_settings($opts)
     {
-        $opts['test_mode'] = (int) $opts['test_mode'] ? 1 : 0;
+        if (isset($opts['test_mode'])) {
+            $opts['test_mode'] = (int) $opts['test_mode'] ? 1 : 0;
+        }
         return $opts;
     }
 
