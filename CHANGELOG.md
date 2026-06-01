@@ -1,6 +1,15 @@
 Changelog
 ==========
 
+= 3.4.10 =
+
+Release date: Jun 01, 2026
+
+- Add Shake animation option for boxes.
+- Bundle add-on images instead of fetching extension metadata remotely.
+- Prevent notices on new installations when plugin settings do not exist yet.
+
+
 = 3.4.9 =
 
 Release date: May 20, 2026
