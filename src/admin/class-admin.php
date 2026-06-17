@@ -482,13 +482,14 @@ class Admin
             return;
         }
 
+        // phpcs:disable WordPress.Security.NonceVerification
         // make sure options array is set
         if (! isset($_POST['boxzilla_box']) || ! is_array($_POST['boxzilla_box'])) {
             return;
         }
 
         // get new options from $_POST
-        $opts = $this->sanitize_box_options($_POST['boxzilla_box']);
+        $opts = $this->sanitize_box_options(wp_unslash($_POST['boxzilla_box']));
 
         // allow extensions to filter the saved options
         $opts = apply_filters('boxzilla_saved_options', $opts, $box_id);
@@ -498,7 +499,7 @@ class Admin
 
         // update global settings if given
         if (! empty($_POST['boxzilla_global_settings'])) {
-            $raw_global_settings = $_POST['boxzilla_global_settings'];
+            $raw_global_settings = wp_unslash($_POST['boxzilla_global_settings']);
             $global_settings = get_option('boxzilla_settings', []);
             if (! is_array($global_settings)) {
                 $global_settings = [];
@@ -510,6 +511,8 @@ class Admin
         }
 
         $this->flush_rules($box_id);
+
+        // phpcs:enable WordPress.Security.NonceVerification
     }
 
     /**

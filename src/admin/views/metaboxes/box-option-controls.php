@@ -20,6 +20,7 @@ $rule_options = [
 ];
 
 $rule_options = apply_filters('boxzilla_rules_options', $rule_options);
+
 ?>
 <table class="form-table">
     <?php
