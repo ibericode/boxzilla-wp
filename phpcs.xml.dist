@@ -2,9 +2,15 @@
 <ruleset name="rules">
 	<description>rules</description>
 	<arg name="colors"/>
-	<file>src/</file>
-	<file>boxzilla.php</file>
-	<exclude-pattern>*\.(html|css|js)</exclude-pattern>
+	<arg name="extensions" value="php"/>
+    <arg name="parallel" value="8"/>
+    <arg value="ns"/>
+
+	<file>.</file>
+    <exclude-pattern>vendor</exclude-pattern>
+    <exclude-pattern>node_modules</exclude-pattern>
+    <exclude-pattern>\.git</exclude-pattern>
+
 	<rule ref="Generic.Arrays.DisallowLongArraySyntax.Found"/>
 	<rule ref="PSR12">
 		<exclude name="Squiz.Classes.ValidClassName.NotCamelCaps" />

@@ -1,7 +1,7 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-    define( 'ABSPATH', dirname( __DIR__ ) . '/' );
+if (! defined('ABSPATH')) {
+    define('ABSPATH', dirname(__DIR__) . '/');
 }
 
 // load autoloader
