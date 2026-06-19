@@ -199,9 +199,6 @@ class Admin
         return $columns;
     }
 
-    /**
-     * Register stuffs
-     */
     public function register()
     {
 
@@ -293,7 +290,7 @@ class Admin
     }
 
     /**
-     * @param $args
+     * @param array $args
      *
      * @return mixed
      */
