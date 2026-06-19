@@ -287,9 +287,7 @@ class BoxLoader
                 $boxes
             ),
         ];
-
-        wp_localize_script('boxzilla', 'boxzilla_options', $data);
-
+        wp_add_inline_script('boxzilla', 'var boxzilla_options = ' . wp_json_encode($data) . ';', 'before');
         do_action('boxzilla_load_assets', $this);
     }
 
