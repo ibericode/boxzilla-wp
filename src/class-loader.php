@@ -272,7 +272,6 @@ class BoxLoader
         wp_enqueue_style('boxzilla', $this->plugin->url('/assets/css/styles.css'), [], $this->plugin->version());
         wp_enqueue_script('boxzilla', $this->plugin->url('/assets/js/script.js'), [], $this->plugin->version(), [
             'strategy' => 'defer',
-            'in_footer' => true,
         ]);
 
         // create boxzilla_Global_Options object
