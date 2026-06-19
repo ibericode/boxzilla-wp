@@ -272,7 +272,6 @@ class BoxLoader
         wp_enqueue_style('boxzilla', $this->plugin->url('/assets/css/styles.css'), [], $this->plugin->version());
         wp_enqueue_script('boxzilla', $this->plugin->url('/assets/js/script.js'), [], $this->plugin->version(), [
             'strategy' => 'defer',
-            'in_footer' => true,
         ]);
 
         // create boxzilla_Global_Options object
@@ -288,9 +287,7 @@ class BoxLoader
                 $boxes
             ),
         ];
-
-        wp_localize_script('boxzilla', 'boxzilla_options', $data);
-
+        wp_add_inline_script('boxzilla', 'var boxzilla_options = ' . wp_json_encode($data) . ';', 'before');
         do_action('boxzilla_load_assets', $this);
     }
 

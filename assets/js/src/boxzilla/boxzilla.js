@@ -20,9 +20,9 @@ function recalculateHeights () {
 }
 
 function onElementClick (evt) {
-  // bubble up to <a> or <area> element
+  // bubble up to <a> or <area> element, at most 16 levels
   let el = evt.target
-  for (let i = 0; i <= 3; i++) {
+  for (let i = 0; i <= 16; i++) {
     if (!el || el.tagName === 'A' || el.tagName === 'AREA') {
       break
     }
@@ -61,7 +61,7 @@ function init () {
   Scroll(boxes)
   Time(boxes)
 
-  document.body.addEventListener('click', onElementClick, true)
+  document.addEventListener('click', onElementClick, true)
   window.addEventListener('resize', throttle(recalculateHeights))
   window.addEventListener('load', recalculateHeights)
   document.addEventListener('keyup', onKeyUp)
