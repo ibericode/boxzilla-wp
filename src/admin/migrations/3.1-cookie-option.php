@@ -13,7 +13,7 @@ if (! empty($posts)) {
         }
 
         // translate from days to hours
-        $new_value = intval($settings['cookie']) * 24;
+        $new_value = ((int) $settings['cookie']) * 24;
 
         // store in new location
         $settings['cookie'] = [

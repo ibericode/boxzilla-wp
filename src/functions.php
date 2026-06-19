@@ -13,7 +13,7 @@ function boxzilla()
 {
     static $instance;
 
-    if (is_null($instance)) {
+    if ($instance === null) {
         $instance = new Boxzilla();
     }
 

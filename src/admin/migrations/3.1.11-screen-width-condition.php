@@ -19,7 +19,7 @@ if (! empty($posts)) {
         // set updated option
         $settings['screen_size_condition'] = [
             'condition' => 'larger',
-            'value'     => intval($settings['hide_on_screen_size']),
+            'value'     => (int) ($settings['hide_on_screen_size']),
         ];
 
         unset($settings['hide_on_screen_size']);

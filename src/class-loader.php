@@ -317,7 +317,7 @@ class BoxLoader
     {
         static $boxes;
 
-        if (is_null($boxes)) {
+        if ($boxes === null) {
             if (count($this->box_ids_to_load) === 0) {
                 return [];
             }

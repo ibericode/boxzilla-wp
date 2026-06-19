@@ -232,7 +232,7 @@ class Box
         if ($box->options['screen_size_condition']['value'] > 0) {
             $screen_width_condition = [
                 'condition' => $box->options['screen_size_condition']['condition'],
-                'value'     => intval($box->options['screen_size_condition']['value']),
+                'value'     => (int) ($box->options['screen_size_condition']['value']),
             ];
         }
 

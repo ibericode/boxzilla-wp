@@ -167,7 +167,7 @@ class API
         }
 
         $json = json_decode($body, false);
-        if (is_null($json)) {
+        if ($json === null) {
             throw new API_Exception(esc_html__('The Boxzilla server returned an invalid response.', 'boxzilla'));
         }
 
