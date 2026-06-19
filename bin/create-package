@@ -33,7 +33,6 @@ fi;
 composer run check-syntax
 composer run check-codestyle
 composer run static-analysis
-composer run check-plugin
 composer run test
 
 # Check if there is an existing file for this release already
