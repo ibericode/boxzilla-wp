@@ -1,6 +1,15 @@
 Changelog
 ==========
 
+= 3.4.11 =
+
+Release date: Jun 22, 2026
+
+- Prevent a JavaScript error when Boxzilla loads before the page body is available.
+- Support opening boxes from links with deeply nested content.
+- Add instructions for securely reporting plugin vulnerabilities through Patchstack.
+
+
 = 3.4.10 =
 
 Release date: Jun 01, 2026

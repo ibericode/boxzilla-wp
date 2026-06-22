@@ -655,9 +655,7 @@ class Admin
             return $links;
         }
 
-        $href = admin_url('edit.php?post_type=boxzilla-box');
-        $label = esc_html__('Boxes', 'boxzilla');
-        $settings_link = "<a href=\"{$href}\">{$label}</a>";
+        $settings_link = '<a href="' . esc_url(admin_url('edit.php?post_type=boxzilla-box')) . '">' . esc_html__('Boxes', 'boxzilla') . '</a>';
         array_unshift($links, $settings_link);
         return $links;
     }
