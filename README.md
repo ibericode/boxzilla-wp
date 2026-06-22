@@ -10,7 +10,7 @@ Requirements
 ------------
 
 - PHP version 7.4 or higher
-- WordPress version 4.6 or higher
+- WordPress version 6.0 or higher
 
 
 Installation
