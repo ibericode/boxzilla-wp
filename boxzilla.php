@@ -2,7 +2,7 @@
 
 /*
 Plugin Name: Boxzilla
-Version: 3.4.10
+Version: 3.4.11
 Plugin URI: https://www.boxzillaplugin.com/
 Description: Call-To-Action Boxes that display after visitors scroll down far enough. Unobtrusive, but highly conversing!
 Author: ibericode
@@ -39,7 +39,7 @@ PHP_VERSION_ID >= 70400 or exit;
 
 define('BOXZILLA_FILE', __FILE__);
 define('BOXZILLA_DIR', __DIR__);
-define('BOXZILLA_VERSION', '3.4.10');
+define('BOXZILLA_VERSION', '3.4.11');
 
 require __DIR__ . '/autoload.php';
 require __DIR__ . '/src/services.php';
