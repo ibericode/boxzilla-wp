@@ -7,12 +7,12 @@ REMOTE_APP_DIR="/var/www/my.boxzillaplugin.com"
 PACKAGE_FILE="$HOME/Downloads/$PLUGIN_DIR-$VERSION.zip"
 
 # Exit on errors
-set -e
+set -euo pipefail
 
 # Check if VERSION argument was supplied
 if [ "$#" -lt 1 ]; then
     echo "1 parameters expected, $# found"
-    echo "Usage: boxzilla_release <VERSION>"
+    echo "Usage: release_addon <VERSION>"
     exit 1
 fi
 
