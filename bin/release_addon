@@ -4,7 +4,8 @@ PLUGIN_DIR=$(basename $PWD)
 VERSION=$1
 REMOTE="danny@eu1.ibericode.com"
 REMOTE_APP_DIR="/var/www/my.boxzillaplugin.com"
-PACKAGE_FILE="$HOME/Downloads/$PLUGIN_DIR-$VERSION.zip"
+PACKAGE_NAME="$PLUGIN_DIR-$VERSION.zip"
+PACKAGE_FILE="$HOME/Downloads/$PACKAGE_NAME"
 
 # Exit on errors
 set -euo pipefail
@@ -72,7 +73,7 @@ echo "$PACKAGE_FILE created ($SIZE_KB KB)"
 
 # Go back into plugin directory
 cd "$PLUGIN_DIR"
-printf "Push $PACKAGE_NAME to production? [y/N] "
+printf "Push $PACKAGE_FILE to production? [y/N] "
 read CONFIRM
 if [[ "$CONFIRM" != "y" ]]; then
     exit 1;
